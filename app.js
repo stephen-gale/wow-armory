@@ -40,6 +40,18 @@ loadExampleBtn.addEventListener("click", () => {
     .catch((err) => alert("Couldn't load example data: " + err.message));
 });
 
+// Auto-load the published characters.json (if present) so the dashboard
+// works without a manual file pick. Silently falls back to the empty
+// state / manual load if it's missing or unreachable (e.g. running from
+// a local file:// URL).
+fetch("characters.json?t=" + Date.now())
+  .then((res) => {
+    if (!res.ok) throw new Error("characters.json not found");
+    return res.json();
+  })
+  .then(renderDashboard)
+  .catch(() => {});
+
 function renderDashboard(data) {
   const characters = data.characters || [];
 
@@ -126,7 +138,7 @@ function renderCharCard(c) {
     <div class="char-card__level">${c.level}</div>
     <div class="char-card__main">
       <p class="char-card__name" style="color:${classColor}">${escapeHtml(c.name)}</p>
-      <p class="char-card__meta">${escapeHtml(c.race_name)} ${escapeHtml(c.class_name)} · ${escapeHtml(c.account)}</p>
+      <p class="char-card__meta">${escapeHtml(c.race_name)} ${escapeHtml(c.class_name)}${c.account ? " · " + escapeHtml(c.account) : ""}</p>
     </div>
     <div class="char-card__stats">
       <span class="money">${formatMoneyHtml(c.money_copper)}</span>

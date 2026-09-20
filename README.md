@@ -13,11 +13,11 @@ reads a `characters.json` file and renders your roster grouped by faction
 (Alliance / Horde), with level, race/class, gold, achievement points, and
 played time.
 
-Right now it loads data via a file picker (`Load characters.json` button).
-There's also a `Load example data` button that pulls in
-`characters.example.json` so you can see the layout without real data.
-
-No data is ever uploaded — the JSON is parsed entirely in your browser.
+On load, it auto-fetches `characters.json` from this repo (see below), so
+once that's wired up the dashboard just works when you open the page — no
+manual step needed. There's also a `Load characters.json` file picker and a
+`Load example data` button as manual fallbacks (useful if the published
+file hasn't caught up yet, or you want to preview a file before pushing it).
 
 ### `characters.json` shape
 
@@ -48,20 +48,55 @@ Schema matches the achievement columns used by `wowbackup.sh`'s own progress
 report: `acore_characters.character_achievement_points(guid, total_points,
 total_achievements)`.
 
-## Producing `characters.json` on the server
+### Privacy note
+
+`wow-companion` is a **public** repo, and GitHub Pages serves it to anyone
+with the URL. The published `characters.json` (the copy this repo commits
+and the dashboard auto-fetches) intentionally **omits the `account`
+field** so real account usernames aren't exposed — everything else
+(character names, level, gold, playtime, achievement points) is visible to
+anyone who finds the site. If that's not okay, don't wire up the
+auto-push step below and stick to the manual file picker instead.
+
+## Producing and publishing `characters.json`
+
+### One-time setup on the Steam Deck
+
+1. Clone this repo to a stable path outside the timestamped backup dirs,
+   e.g.:
+   ```bash
+   git clone https://github.com/stephen-gale/wow-companion.git /home/deck/wow-companion-data
+   cd /home/deck/wow-companion-data
+   git config user.name "wowbackup"
+   git config user.email "wowbackup@localhost"
+   ```
+2. Store the `wow` personal access token so `wowbackup.sh` can push
+   unattended, scoped to just this clone (not your global git config):
+   ```bash
+   cd /home/deck/wow-companion-data
+   git config credential.helper store
+   echo "https://stephen-gale:<YOUR_PAT>@github.com" > ~/.git-credentials
+   chmod 600 ~/.git-credentials
+   ```
+   Swap in the real token for `<YOUR_PAT>`. This keeps the token out of the
+   backup script itself and out of `ps`/shell history.
+
+### The `wowbackup.sh` addition
 
 `wowbackup.sh` already builds a text progress report (`playtime_by_character.txt`)
 straight from `acore_characters.characters` / `acore_auth.account` /
-`character_achievement_points`. The block below is the same data reshaped as
-JSON, written to `$BACKUP_DIR/characters.json` — paste it into `wowbackup.sh`
-right after the existing "Saving progress report..." block (i.e. right after
-the `} > "$BACKUP_DIR/playtime_by_character.txt" || { ... }` line) and before
-the "Compressing..." step. It rides along with the rest of that run's backup
-and gets picked up by the existing `rclone copy "$BACKUP_DIR" ...` step
-automatically — no extra wiring needed.
+`character_achievement_points`. The block below reshapes the same data as
+JSON — writing a **full** copy (with `account`) to `$BACKUP_DIR/characters.json`
+so it rides along with the rest of that run's backup as before, and a
+**public** copy (without `account`) into the `wow-companion-data` clone,
+which it then commits and pushes to GitHub. Paste it into `wowbackup.sh`
+right after the existing "Saving progress report..." block (i.e. right
+after the `} > "$BACKUP_DIR/playtime_by_character.txt" || { ... }` line)
+and before the "Compressing..." step.
 
 ```bash
 echo "  Saving characters.json..."
+REPO_DATA_DIR="/home/deck/wow-companion-data"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT
     c.guid,
@@ -122,31 +157,47 @@ for line in sys.stdin:
         'played_time_seconds': int(played),
     })
 
-data = {
-    'generated_at': datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
-    'characters': characters,
-}
+generated_at = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 
 with open('$BACKUP_DIR/characters.json', 'w') as f:
-    json.dump(data, f, indent=2)
+    json.dump({'generated_at': generated_at, 'characters': characters}, f, indent=2)
+
+public_characters = [{k: v for k, v in c.items() if k != 'account'} for c in characters]
+with open('$REPO_DATA_DIR/characters.json', 'w') as f:
+    json.dump({'generated_at': generated_at, 'characters': public_characters}, f, indent=2)
 
 print(f'  characters.json: wrote {len(characters)} characters')
 " || { echo "Failed: characters.json export"; exit 1; }
+
+echo "  Publishing characters.json to GitHub..."
+(
+  cd "$REPO_DATA_DIR" \
+    && git add characters.json \
+    && if ! git diff --cached --quiet; then
+         git commit -m "Update character data $TIMESTAMP" \
+           && git push origin main
+       else
+         echo "  No character data changes to publish."
+       fi
+) || echo "  Warning: failed to publish characters.json to GitHub (non-fatal)"
 ```
 
 This reuses the same `-h 127.0.0.1 -u acore -pacore` credentials already in
-`wowbackup.sh` — if those ever change, update them here too.
+`wowbackup.sh` — if those ever change, update them here too. The publish
+step is wrapped so a network hiccup or GitHub being down doesn't fail the
+whole backup run (same pattern as the existing Drive-rotation warnings).
 
-Once it's in and you've run `wowbackup.sh` (or want to test standalone),
-`characters.json` will be at `$BACKUP_DIR/characters.json` for that run, and
-also synced to `wow-backup:wow-backup/backups/<timestamp>/` on Drive. Grab
-it from there onto whatever device you want to view the dashboard on, and
-load it with the file picker.
+Once this is wired in and `wowbackup.sh` runs, the dashboard picks up the
+new data automatically on next page load/refresh — no manual file step
+needed. The full copy (with `account`) still lands at
+`$BACKUP_DIR/characters.json` and gets synced to Drive as before, for your
+own records.
 
 `scripts/export-characters-json.sh` in this repo is the same query as a
 standalone script (with configurable `DB_HOST`/`DB_USER`/`OUTPUT_DIR` env
 vars), useful for regenerating `characters.json` on its own without running
-a full backup.
+a full backup. It still includes `account` — redact it yourself before
+publishing if you use it standalone for that purpose.
 
 ## GitHub Pages
 
@@ -161,7 +212,5 @@ build step. To turn it on (one-time):
 
 ## Roadmap
 
-- Auto-fetch `characters.json` directly from this repo (or a gist/Drive
-  link) instead of requiring a manual file pick.
 - Additional dashboard views (achievements, playtime trends over multiple
   backups, etc.).
