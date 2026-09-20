@@ -1,23 +1,18 @@
 #!/usr/bin/env bash
 # export-characters-json.sh
 #
-# Dumps AzerothCore character data to a structured characters.json file for
-# the wow-companion character dashboard. Same underlying data as the
-# existing text progress report in wowbackup.sh, just shaped as JSON.
+# Standalone/ad-hoc version of the characters.json export, matching the
+# schema used in wowbackup.sh's own progress report:
+# acore_characters.character_achievement_points(guid, total_points, total_achievements).
 #
-# Usage: call this from wowbackup.sh (source it, or just run it as a step)
-# after the acore_auth/acore_characters dumps and before the rclone sync,
-# so characters.json rides along with the rest of the backup.
+# For normal backups, prefer pasting the inline block from README.md
+# directly into wowbackup.sh (right after the progress-report step) so
+# characters.json lands in $BACKUP_DIR and rides along with the rest of
+# that backup's rclone sync. Use this script instead when you just want to
+# regenerate characters.json on its own, without running a full backup.
 #
 # Adjust DB_HOST / DB_PORT / DB_USER / DB_PASS / OUTPUT_DIR below (or export
-# them as env vars before calling this script) to match whatever variables
-# wowbackup.sh already uses for its mysqldump calls.
-#
-# NOTE: the achievement-points column name/table below assumes the
-# mod-achievement-tracker schema exposes acore_characters.character_achievement_points(guid, points).
-# If your column is named differently, check with:
-#   mysql -u <user> -p -e "DESCRIBE acore_characters.character_achievement_points;"
-# and adjust the `cap.points` reference in the query below.
+# them as env vars before calling this script) to match wowbackup.sh.
 
 set -euo pipefail
 
@@ -56,7 +51,8 @@ SELECT
   END AS faction,
   c.level,
   c.money,
-  COALESCE(cap.points, 0) AS achievement_points,
+  COALESCE(cap.total_points, 0) AS achievement_points,
+  COALESCE(cap.total_achievements, 0) AS achievement_count,
   c.totaltime AS played_time_seconds
 FROM acore_characters.characters c
 JOIN acore_auth.account a ON a.id = c.account
@@ -79,7 +75,7 @@ for line in sys.stdin:
         continue
     fields = line.split("\t")
     (guid, name, account, race, race_name, cls, class_name,
-     faction, level, money, ap, played) = fields
+     faction, level, money, ap, ac, played) = fields
     characters.append({
         "guid": int(guid),
         "name": name,
@@ -92,6 +88,7 @@ for line in sys.stdin:
         "level": int(level),
         "money_copper": int(money),
         "achievement_points": int(ap),
+        "achievement_count": int(ac),
         "played_time_seconds": int(played),
     })
 

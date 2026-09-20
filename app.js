@@ -130,7 +130,7 @@ function renderCharCard(c) {
     </div>
     <div class="char-card__stats">
       <span class="money">${formatMoneyHtml(c.money_copper)}</span>
-      <span>${formatNumber(c.achievement_points)} AP</span>
+      <span>${formatNumber(c.achievement_points)} AP (${formatNumber(c.achievement_count)})</span>
       <span>${formatPlayedTime(c.played_time_seconds)}</span>
     </div>
   `;

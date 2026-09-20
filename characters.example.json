@@ -13,7 +13,8 @@
       "level": 80,
       "money_copper": 4582311,
       "achievement_points": 3120,
-      "played_time_seconds": 1234567
+      "played_time_seconds": 1234567,
+      "achievement_count": 130
     },
     {
       "guid": 2,
@@ -27,7 +28,8 @@
       "level": 80,
       "money_copper": 1122334,
       "achievement_points": 2895,
-      "played_time_seconds": 987654
+      "played_time_seconds": 987654,
+      "achievement_count": 121
     },
     {
       "guid": 3,
@@ -41,7 +43,8 @@
       "level": 45,
       "money_copper": 355210,
       "achievement_points": 940,
-      "played_time_seconds": 213456
+      "played_time_seconds": 213456,
+      "achievement_count": 39
     },
     {
       "guid": 4,
@@ -55,7 +58,8 @@
       "level": 80,
       "money_copper": 6011234,
       "achievement_points": 3410,
-      "played_time_seconds": 1456789
+      "played_time_seconds": 1456789,
+      "achievement_count": 142
     },
     {
       "guid": 5,
@@ -69,7 +73,8 @@
       "level": 80,
       "money_copper": 2033445,
       "achievement_points": 2650,
-      "played_time_seconds": 876543
+      "played_time_seconds": 876543,
+      "achievement_count": 110
     },
     {
       "guid": 6,
@@ -83,7 +88,8 @@
       "level": 62,
       "money_copper": 812345,
       "achievement_points": 1180,
-      "played_time_seconds": 345678
+      "played_time_seconds": 345678,
+      "achievement_count": 49
     }
   ]
 }

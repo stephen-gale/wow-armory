@@ -37,43 +37,116 @@ No data is ever uploaded — the JSON is parsed entirely in your browser.
       "level": 80,
       "money_copper": 4582311,
       "achievement_points": 3120,
+      "achievement_count": 130,
       "played_time_seconds": 1234567
     }
   ]
 }
 ```
 
+Schema matches the achievement columns used by `wowbackup.sh`'s own progress
+report: `acore_characters.character_achievement_points(guid, total_points,
+total_achievements)`.
+
 ## Producing `characters.json` on the server
 
-`scripts/export-characters-json.sh` queries `acore_characters.characters`
-joined against `acore_auth.account` (filtering out Playerbots with
-`WHERE a.username NOT LIKE 'RNDBOT%'`) and left-joined against
-`acore_characters.character_achievement_points`, and writes the result as
-JSON via a small embedded Python step.
+`wowbackup.sh` already builds a text progress report (`playtime_by_character.txt`)
+straight from `acore_characters.characters` / `acore_auth.account` /
+`character_achievement_points`. The block below is the same data reshaped as
+JSON, written to `$BACKUP_DIR/characters.json` — paste it into `wowbackup.sh`
+right after the existing "Saving progress report..." block (i.e. right after
+the `} > "$BACKUP_DIR/playtime_by_character.txt" || { ... }` line) and before
+the "Compressing..." step. It rides along with the rest of that run's backup
+and gets picked up by the existing `rclone copy "$BACKUP_DIR" ...` step
+automatically — no extra wiring needed.
 
-To wire it into the existing `wowbackup.sh` on the Steam Deck:
+```bash
+echo "  Saving characters.json..."
+mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
+  SELECT
+    c.guid,
+    c.name,
+    a.username,
+    c.race,
+    CASE c.race
+      WHEN 1 THEN 'Human' WHEN 2 THEN 'Orc' WHEN 3 THEN 'Dwarf' WHEN 4 THEN 'Night Elf'
+      WHEN 5 THEN 'Undead' WHEN 6 THEN 'Tauren' WHEN 7 THEN 'Gnome' WHEN 8 THEN 'Troll'
+      WHEN 9 THEN 'Goblin' WHEN 10 THEN 'Blood Elf' WHEN 11 THEN 'Draenei'
+      ELSE 'Unknown'
+    END,
+    c.class,
+    CASE c.class
+      WHEN 1 THEN 'Warrior' WHEN 2 THEN 'Paladin' WHEN 3 THEN 'Hunter' WHEN 4 THEN 'Rogue'
+      WHEN 5 THEN 'Priest' WHEN 6 THEN 'Death Knight' WHEN 7 THEN 'Shaman' WHEN 8 THEN 'Mage'
+      WHEN 9 THEN 'Warlock' WHEN 11 THEN 'Druid'
+      ELSE 'Unknown'
+    END,
+    CASE
+      WHEN c.race IN (1,3,4,7,11) THEN 'Alliance'
+      WHEN c.race IN (2,5,6,8,9,10) THEN 'Horde'
+      ELSE 'Unknown'
+    END,
+    c.level,
+    c.money,
+    COALESCE(cap.total_points, 0),
+    COALESCE(cap.total_achievements, 0),
+    c.totaltime
+  FROM acore_characters.characters c
+  JOIN acore_auth.account a ON a.id = c.account
+  LEFT JOIN acore_characters.character_achievement_points cap ON cap.guid = c.guid
+  WHERE a.username NOT LIKE 'RNDBOT%'
+  ORDER BY c.totaltime DESC;
+" | python3 -c "
+import sys, json, datetime
 
-1. Copy `scripts/export-characters-json.sh` onto the Deck (e.g. next to
-   `wowbackup.sh`).
-2. At the top of the script, adjust `DB_HOST` / `DB_PORT` / `DB_USER` /
-   `DB_PASS` / `OUTPUT_DIR` to match whatever credentials and paths
-   `wowbackup.sh` already uses for its `mysqldump` calls.
-3. If `character_achievement_points` doesn't use a column named `points`,
-   update the `cap.points` reference in the query (check with
-   `DESCRIBE acore_characters.character_achievement_points;`).
-4. Call it from `wowbackup.sh`, after the `acore_auth`/`acore_characters`
-   dumps and before the rclone sync step, e.g.:
+characters = []
+for line in sys.stdin:
+    line = line.rstrip('\n')
+    if not line:
+        continue
+    (guid, name, account, race, race_name, cls, class_name,
+     faction, level, money, ap, ac, played) = line.split('\t')
+    characters.append({
+        'guid': int(guid),
+        'name': name,
+        'account': account,
+        'race_id': int(race),
+        'race_name': race_name,
+        'class_id': int(cls),
+        'class_name': class_name,
+        'faction': faction,
+        'level': int(level),
+        'money_copper': int(money),
+        'achievement_points': int(ap),
+        'achievement_count': int(ac),
+        'played_time_seconds': int(played),
+    })
 
-   ```bash
-   OUTPUT_DIR="$BACKUP_DIR" bash /home/deck/export-characters-json.sh
-   ```
+data = {
+    'generated_at': datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
+    'characters': characters,
+}
 
-   so `characters.json` rides along with the rest of the backup and gets
-   synced to Google Drive too.
-5. Run `wowbackup.sh` (or just the export script on its own) once to
-   confirm `characters.json` is produced correctly, then grab that file
-   (e.g. from the synced Google Drive folder) onto whatever device you
-   want to view the dashboard on, and load it with the file picker.
+with open('$BACKUP_DIR/characters.json', 'w') as f:
+    json.dump(data, f, indent=2)
+
+print(f'  characters.json: wrote {len(characters)} characters')
+" || { echo "Failed: characters.json export"; exit 1; }
+```
+
+This reuses the same `-h 127.0.0.1 -u acore -pacore` credentials already in
+`wowbackup.sh` — if those ever change, update them here too.
+
+Once it's in and you've run `wowbackup.sh` (or want to test standalone),
+`characters.json` will be at `$BACKUP_DIR/characters.json` for that run, and
+also synced to `wow-backup:wow-backup/backups/<timestamp>/` on Drive. Grab
+it from there onto whatever device you want to view the dashboard on, and
+load it with the file picker.
+
+`scripts/export-characters-json.sh` in this repo is the same query as a
+standalone script (with configurable `DB_HOST`/`DB_USER`/`OUTPUT_DIR` env
+vars), useful for regenerating `characters.json` on its own without running
+a full backup.
 
 ## GitHub Pages
 
