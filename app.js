@@ -1,0 +1,178 @@
+const CLASS_COLORS = {
+  Warrior: "#C79C6E",
+  Paladin: "#F58CBA",
+  Hunter: "#ABD473",
+  Rogue: "#FFF569",
+  Priest: "#FFFFFF",
+  "Death Knight": "#C41F3B",
+  Shaman: "#0070DE",
+  Mage: "#69CCF0",
+  Warlock: "#9482C9",
+  Druid: "#FF7D0A",
+};
+
+const fileInput = document.getElementById("file-input");
+const loadExampleBtn = document.getElementById("load-example-btn");
+const generatedAtEl = document.getElementById("generated-at");
+const emptyStateEl = document.getElementById("empty-state");
+const summaryBarEl = document.getElementById("summary-bar");
+const factionsEl = document.getElementById("factions");
+
+fileInput.addEventListener("change", (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const data = JSON.parse(reader.result);
+      renderDashboard(data);
+    } catch (err) {
+      alert("Couldn't parse that file as JSON: " + err.message);
+    }
+  };
+  reader.readAsText(file);
+});
+
+loadExampleBtn.addEventListener("click", () => {
+  fetch("characters.example.json")
+    .then((res) => res.json())
+    .then(renderDashboard)
+    .catch((err) => alert("Couldn't load example data: " + err.message));
+});
+
+function renderDashboard(data) {
+  const characters = data.characters || [];
+
+  emptyStateEl.hidden = true;
+  summaryBarEl.hidden = false;
+  factionsEl.hidden = false;
+
+  generatedAtEl.textContent = data.generated_at
+    ? "Generated " + new Date(data.generated_at).toLocaleString()
+    : "";
+
+  renderSummary(characters);
+  renderFactions(characters);
+}
+
+function renderSummary(characters) {
+  const totalPlayed = characters.reduce((sum, c) => sum + (c.played_time_seconds || 0), 0);
+  const totalMoney = characters.reduce((sum, c) => sum + (c.money_copper || 0), 0);
+  const totalAP = characters.reduce((sum, c) => sum + (c.achievement_points || 0), 0);
+  const avgLevel = characters.length
+    ? (characters.reduce((sum, c) => sum + (c.level || 0), 0) / characters.length).toFixed(1)
+    : "0";
+
+  summaryBarEl.innerHTML = "";
+  summaryBarEl.append(
+    statTile("Characters", characters.length),
+    statTile("Avg. Level", avgLevel),
+    statTile("Total Played", formatPlayedTime(totalPlayed)),
+    statTile("Achievement Pts", formatNumber(totalAP)),
+    statTile("Total Gold", formatMoneyPlain(totalMoney))
+  );
+}
+
+function statTile(label, value) {
+  const el = document.createElement("div");
+  el.className = "stat-tile";
+  el.innerHTML = `<p class="stat-tile__label">${label}</p><p class="stat-tile__value">${value}</p>`;
+  return el;
+}
+
+function renderFactions(characters) {
+  factionsEl.innerHTML = "";
+  factionsEl.append(
+    renderFactionPanel("Alliance", characters.filter((c) => c.faction === "Alliance")),
+    renderFactionPanel("Horde", characters.filter((c) => c.faction === "Horde"))
+  );
+}
+
+function renderFactionPanel(faction, characters) {
+  const sorted = [...characters].sort((a, b) => b.level - a.level || a.name.localeCompare(b.name));
+  const totalPlayed = characters.reduce((sum, c) => sum + (c.played_time_seconds || 0), 0);
+  const totalMoney = characters.reduce((sum, c) => sum + (c.money_copper || 0), 0);
+
+  const panel = document.createElement("section");
+  panel.className = "faction-panel faction-panel--" + faction.toLowerCase();
+
+  const header = document.createElement("div");
+  header.className = "faction-panel__header";
+  header.innerHTML = `<span>${faction}</span><span class="faction-panel__count">${characters.length} character${characters.length === 1 ? "" : "s"}</span>`;
+  panel.appendChild(header);
+
+  const stats = document.createElement("div");
+  stats.className = "faction-panel__stats";
+  stats.innerHTML = `<span>Played: ${formatPlayedTime(totalPlayed)}</span><span>Gold: ${formatMoneyPlain(totalMoney)}</span>`;
+  panel.appendChild(stats);
+
+  const list = document.createElement("ul");
+  list.className = "char-list";
+  for (const c of sorted) {
+    list.appendChild(renderCharCard(c));
+  }
+  panel.appendChild(list);
+
+  return panel;
+}
+
+function renderCharCard(c) {
+  const li = document.createElement("li");
+  li.className = "char-card";
+
+  const classColor = CLASS_COLORS[c.class_name] || "#e8e6e1";
+
+  li.innerHTML = `
+    <div class="char-card__level">${c.level}</div>
+    <div class="char-card__main">
+      <p class="char-card__name" style="color:${classColor}">${escapeHtml(c.name)}</p>
+      <p class="char-card__meta">${escapeHtml(c.race_name)} ${escapeHtml(c.class_name)} · ${escapeHtml(c.account)}</p>
+    </div>
+    <div class="char-card__stats">
+      <span class="money">${formatMoneyHtml(c.money_copper)}</span>
+      <span>${formatNumber(c.achievement_points)} AP</span>
+      <span>${formatPlayedTime(c.played_time_seconds)}</span>
+    </div>
+  `;
+  return li;
+}
+
+function formatPlayedTime(totalSeconds) {
+  totalSeconds = totalSeconds || 0;
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const parts = [];
+  if (days) parts.push(days + "d");
+  if (hours || days) parts.push(hours + "h");
+  parts.push(minutes + "m");
+  return parts.join(" ");
+}
+
+function formatNumber(n) {
+  return (n || 0).toLocaleString();
+}
+
+function moneyParts(copper) {
+  copper = copper || 0;
+  const gold = Math.floor(copper / 10000);
+  const silver = Math.floor((copper % 10000) / 100);
+  const bronze = copper % 100;
+  return { gold, silver, bronze };
+}
+
+function formatMoneyPlain(copper) {
+  const { gold, silver, bronze } = moneyParts(copper);
+  return `${formatNumber(gold)}g ${silver}s ${bronze}c`;
+}
+
+function formatMoneyHtml(copper) {
+  const { gold, silver, bronze } = moneyParts(copper);
+  return `<span class="g">${formatNumber(gold)}g</span> <span class="s">${silver}s</span> <span class="c">${bronze}c</span>`;
+}
+
+function escapeHtml(str) {
+  const div = document.createElement("div");
+  div.textContent = str == null ? "" : String(str);
+  return div.innerHTML;
+}

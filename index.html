@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WoW Companion — Character Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="app-header__title">
+      <h1>WoW Companion</h1>
+      <p class="app-header__subtitle">Character Dashboard</p>
+    </div>
+    <div class="app-header__controls">
+      <label class="file-picker-btn" for="file-input">Load characters.json</label>
+      <input type="file" id="file-input" accept="application/json,.json" hidden>
+      <button id="load-example-btn" class="ghost-btn" type="button">Load example data</button>
+      <span id="generated-at" class="generated-at"></span>
+    </div>
+  </header>
+
+  <main id="app-root">
+    <section id="empty-state" class="empty-state">
+      <p>No data loaded yet.</p>
+      <p>Click <strong>Load characters.json</strong> above and pick the file produced by your backup script, or try <strong>Load example data</strong> to see a demo.</p>
+    </section>
+
+    <section id="summary-bar" class="summary-bar" hidden></section>
+
+    <section id="factions" class="factions" hidden></section>
+  </main>
+
+  <footer class="app-footer">
+    <p>Data loaded locally in your browser — nothing is uploaded anywhere.</p>
+  </footer>
+
+<script src="app.js"></script>
+</body>
+</html>

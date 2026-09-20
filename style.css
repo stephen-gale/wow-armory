@@ -1,0 +1,252 @@
+:root {
+  --bg: #14171c;
+  --panel-bg: #1c2028;
+  --panel-border: #2c313b;
+  --text: #e8e6e1;
+  --text-dim: #9aa0ab;
+  --gold: #d4af37;
+  --alliance: #1e6fd9;
+  --alliance-bg: #131c2c;
+  --horde: #c41f3b;
+  --horde-bg: #2a1416;
+  --money-gold: #ffd700;
+  --money-silver: #c0c0c0;
+  --money-copper: #b87333;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  min-height: 100vh;
+}
+
+.app-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--panel-border);
+  background: linear-gradient(180deg, #1a1d24, #14171c);
+}
+
+.app-header__title h1 {
+  margin: 0;
+  font-size: 1.4rem;
+  letter-spacing: 0.02em;
+  color: var(--gold);
+}
+
+.app-header__subtitle {
+  margin: 0.15rem 0 0;
+  color: var(--text-dim);
+  font-size: 0.85rem;
+}
+
+.app-header__controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.file-picker-btn,
+.ghost-btn {
+  cursor: pointer;
+  border-radius: 6px;
+  padding: 0.5rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.file-picker-btn {
+  background: var(--gold);
+  color: #1a1a1a;
+  border: 1px solid var(--gold);
+}
+
+.ghost-btn {
+  background: transparent;
+  color: var(--text-dim);
+  border: 1px solid var(--panel-border);
+}
+
+.ghost-btn:hover {
+  color: var(--text);
+  border-color: var(--text-dim);
+}
+
+.generated-at {
+  color: var(--text-dim);
+  font-size: 0.78rem;
+}
+
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--text-dim);
+  padding: 4rem 1rem;
+  line-height: 1.6;
+}
+
+.summary-bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-tile {
+  background: var(--panel-bg);
+  border: 1px solid var(--panel-border);
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+}
+
+.stat-tile__label {
+  color: var(--text-dim);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0 0 0.3rem;
+}
+
+.stat-tile__value {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.factions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+@media (max-width: 760px) {
+  .factions {
+    grid-template-columns: 1fr;
+  }
+}
+
+.faction-panel {
+  border-radius: 10px;
+  border: 1px solid var(--panel-border);
+  overflow: hidden;
+}
+
+.faction-panel--alliance {
+  background: var(--alliance-bg);
+  border-color: #24406b;
+}
+
+.faction-panel--horde {
+  background: var(--horde-bg);
+  border-color: #5c2028;
+}
+
+.faction-panel__header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0.9rem 1.1rem;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.faction-panel--alliance .faction-panel__header { color: var(--alliance); }
+.faction-panel--horde .faction-panel__header { color: var(--horde); }
+
+.faction-panel__count {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  font-weight: 500;
+}
+
+.faction-panel__stats {
+  display: flex;
+  gap: 1.25rem;
+  padding: 0 1.1rem 0.9rem;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+}
+
+.char-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.char-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 1.1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.char-card__level {
+  flex: 0 0 auto;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.char-card__main {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.char-card__name {
+  font-weight: 700;
+  margin: 0;
+}
+
+.char-card__meta {
+  margin: 0.15rem 0 0;
+  color: var(--text-dim);
+  font-size: 0.78rem;
+}
+
+.char-card__stats {
+  flex: 0 0 auto;
+  text-align: right;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  white-space: nowrap;
+}
+
+.money {
+  font-variant-numeric: tabular-nums;
+}
+
+.money .g { color: var(--money-gold); }
+.money .s { color: var(--money-silver); }
+.money .c { color: var(--money-copper); }
+
+.app-footer {
+  text-align: center;
+  color: var(--text-dim);
+  font-size: 0.75rem;
+  padding: 2rem 1rem;
+}

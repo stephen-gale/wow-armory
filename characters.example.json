@@ -1,0 +1,89 @@
+{
+  "generated_at": "2026-09-20T04:00:00Z",
+  "characters": [
+    {
+      "guid": 1,
+      "name": "Brannthor",
+      "account": "steve",
+      "race_id": 3,
+      "race_name": "Dwarf",
+      "class_id": 1,
+      "class_name": "Warrior",
+      "faction": "Alliance",
+      "level": 80,
+      "money_copper": 4582311,
+      "achievement_points": 3120,
+      "played_time_seconds": 1234567
+    },
+    {
+      "guid": 2,
+      "name": "Lyriel",
+      "account": "steve",
+      "race_id": 4,
+      "race_name": "Night Elf",
+      "class_id": 11,
+      "class_name": "Druid",
+      "faction": "Alliance",
+      "level": 80,
+      "money_copper": 1122334,
+      "achievement_points": 2895,
+      "played_time_seconds": 987654
+    },
+    {
+      "guid": 3,
+      "name": "Pipwrench",
+      "account": "steve",
+      "race_id": 7,
+      "race_name": "Gnome",
+      "class_id": 8,
+      "class_name": "Mage",
+      "faction": "Alliance",
+      "level": 45,
+      "money_copper": 355210,
+      "achievement_points": 940,
+      "played_time_seconds": 213456
+    },
+    {
+      "guid": 4,
+      "name": "Grommash",
+      "account": "steve",
+      "race_id": 2,
+      "race_name": "Orc",
+      "class_id": 1,
+      "class_name": "Warrior",
+      "faction": "Horde",
+      "level": 80,
+      "money_copper": 6011234,
+      "achievement_points": 3410,
+      "played_time_seconds": 1456789
+    },
+    {
+      "guid": 5,
+      "name": "Sylvren",
+      "account": "steve",
+      "race_id": 5,
+      "race_name": "Undead",
+      "class_id": 9,
+      "class_name": "Warlock",
+      "faction": "Horde",
+      "level": 80,
+      "money_copper": 2033445,
+      "achievement_points": 2650,
+      "played_time_seconds": 876543
+    },
+    {
+      "guid": 6,
+      "name": "Zughakk",
+      "account": "steve",
+      "race_id": 6,
+      "race_name": "Tauren",
+      "class_id": 7,
+      "class_name": "Shaman",
+      "faction": "Horde",
+      "level": 62,
+      "money_copper": 812345,
+      "achievement_points": 1180,
+      "played_time_seconds": 345678
+    }
+  ]
+}
