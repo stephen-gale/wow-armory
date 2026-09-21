@@ -67,7 +67,7 @@ function statWithIcon(iconSrc, text, extraIconClass) {
 }
 
 // Fetched once, eagerly, so it's usually already resolved by the time
-// someone taps a character to expand their achievements.
+// someone taps a character to expand their achievements/collectables.
 let achievementDataPromise = null;
 
 function loadAchievementData() {
@@ -75,11 +75,11 @@ function loadAchievementData() {
     achievementDataPromise = Promise.all([
       fetch("assets/data/achievements.json").then((r) => r.json()),
       fetch("assets/data/achievement_categories.json").then((r) => r.json()),
-      fetch("assets/data/gear_set_achievements.json").then((r) => r.json()),
-    ]).then(([achievements, categories, gearSets]) => ({
+      fetch("assets/data/collectables/gear.json").then((r) => r.json()),
+    ]).then(([achievements, categories, collectableGear]) => ({
       achievementsById: new Map(achievements.map((a) => [a.id, a])),
       categoriesById: new Map(categories.map((c) => [c.id, c])),
-      gearSetsById: new Map(gearSets.map((g) => [g.id, g])),
+      collectableGearById: new Map(collectableGear.map((g) => [g.id, g])),
     }));
   }
   return achievementDataPromise;
@@ -251,36 +251,39 @@ function toggleAchievementsPanel(rowLi, c) {
 
   const placeholder = document.createElement("li");
   placeholder.className = "char-achievements";
-  placeholder.innerHTML = `<p class="char-achievements__empty">Loading achievements…</p>`;
+  placeholder.innerHTML = `<p class="char-achievements__empty">Loading…</p>`;
   rowLi.after(placeholder);
 
-  loadAchievementData().then(({ achievementsById, categoriesById, gearSetsById }) => {
-    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById, gearSetsById));
+  loadAchievementData().then(({ achievementsById, categoriesById, collectableGearById }) => {
+    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById, collectableGearById));
   });
 }
 
-// Groups the character's completed achievement IDs by whichever category
-// Blizzard's own data files directly tag them with — no re-grouping or
-// custom categorization on top. Gear-set achievements (custom,
-// companion-app-only) are grouped separately, by their own tier label,
-// and always shown first since that's usually what's most interesting.
-function buildAchievementsPanel(c, achievementsById, categoriesById, gearSetsById) {
+// Two separate, clearly-labeled systems in one expandable panel:
+// - Collectables: custom, companion-app-only tracking (currently just Gear —
+//   equipping a full named gear set — with Mounts/Pets/Tabards etc. planned
+//   as sibling categories later). Not real WoW achievements; never mixed
+//   into the Achievements totals or grouping below.
+// - Achievements: the character's real completed Blizzard achievements,
+//   grouped by whichever category Blizzard's own data files directly tag
+//   them with — no re-grouping or custom categorization on top.
+function buildAchievementsPanel(c, achievementsById, categoriesById, collectableGearById) {
   const li = document.createElement("li");
   li.className = "char-achievements";
 
-  const gearSetIds = c.gear_set_achievements || [];
+  const collectableGearIds = c.collectables?.gear || [];
   const byGearTier = new Map();
-  for (const id of gearSetIds) {
-    const gearSet = gearSetsById.get(id);
-    if (!gearSet) continue;
-    const list = byGearTier.get(gearSet.tier) || [];
-    list.push(gearSet);
-    byGearTier.set(gearSet.tier, list);
+  for (const id of collectableGearIds) {
+    const item = collectableGearById.get(id);
+    if (!item) continue;
+    const list = byGearTier.get(item.tier) || [];
+    list.push(item);
+    byGearTier.set(item.tier, list);
   }
-  const gearSetGroups = [...byGearTier.entries()]
-    .map(([tier, sets]) => ({
-      name: tier,
-      achievements: sets.sort((a, b) => a.name.localeCompare(b.name)),
+  const collectableGroups = [...byGearTier.entries()]
+    .map(([tier, items]) => ({
+      name: `Gear — ${tier}`,
+      achievements: items.sort((a, b) => a.name.localeCompare(b.name)),
     }))
     .sort((a, b) => a.name.localeCompare(b.name));
 
@@ -300,14 +303,14 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, gearSetsByI
     }))
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  if (gearSetGroups.length === 0 && categoryGroups.length === 0) {
-    li.innerHTML = `<p class="char-achievements__empty">No completed achievements recorded.</p>`;
+  if (collectableGroups.length === 0 && categoryGroups.length === 0) {
+    li.innerHTML = `<p class="char-achievements__empty">No collectables or achievements recorded.</p>`;
     return li;
   }
 
   li.innerHTML =
-    renderAchievementGroups(gearSetGroups, "Gear Sets", true) +
-    renderAchievementGroups(categoryGroups, null, false);
+    renderAchievementGroups(collectableGroups, "Collectables", true) +
+    renderAchievementGroups(categoryGroups, "Achievements", false);
 
   return li;
 }

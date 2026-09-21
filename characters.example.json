@@ -28,12 +28,14 @@
         621,
         927
       ],
-      "gear_set_achievements": [
-        "t0_warrior",
-        "t05_plate_a",
-        "t1_warrior",
-        "t2_warrior"
-      ]
+      "collectables": {
+        "gear": [
+          "t0_warrior",
+          "t05_plate_a",
+          "t1_warrior",
+          "t2_warrior"
+        ]
+      }
     },
     {
       "guid": 2,
@@ -60,10 +62,12 @@
         155,
         167
       ],
-      "gear_set_achievements": [
-        "t0_druid",
-        "t05_leather_b"
-      ]
+      "collectables": {
+        "gear": [
+          "t0_druid",
+          "t05_leather_b"
+        ]
+      }
     },
     {
       "guid": 3,
@@ -109,12 +113,14 @@
         556,
         557
       ],
-      "gear_set_achievements": [
-        "t0_warrior",
-        "t1_warrior",
-        "t2_warrior",
-        "aq40_warrior"
-      ]
+      "collectables": {
+        "gear": [
+          "t0_warrior",
+          "t1_warrior",
+          "t2_warrior",
+          "aq40_warrior"
+        ]
+      }
     },
     {
       "guid": 5,
@@ -139,9 +145,11 @@
         621,
         33
       ],
-      "gear_set_achievements": [
-        "t0_warlock"
-      ]
+      "collectables": {
+        "gear": [
+          "t0_warlock"
+        ]
+      }
     },
     {
       "guid": 6,
