@@ -19,25 +19,25 @@ manual step needed. A small `Load characters.json manually` link at the
 bottom of the page is kept as a fallback, in case the auto-publish step
 ever fails and you want to load a file directly.
 
-Faction crests, class icons, and race icons are self-hosted at
-`assets/icons/` (originally sourced from Wowhead's icon CDN,
-`wow.zamimg.com`, via `scripts/download-icons.sh` — see below) rather than
-fetched live, so the dashboard has no runtime dependency on that CDN.
-Icon names are defined in `CLASS_ICON_SLUGS` / `FACTION_ICON_SLUGS` /
-`RACE_ICON_SLUGS` in `app.js`. If an icon file is missing, it's silently
-removed (logged to the browser console as `icon failed to load: ...`)
-rather than showing a broken-image box — falls back to the plain
-text/color layout.
+Faction crests, class icons, and race icons are bundled directly in this
+repo at `assets/icons/*.png` (originally sourced from
+[Gethe/wow-ui-textures](https://github.com/Gethe/wow-ui-textures), a
+GitHub mirror of Blizzard's UI texture files — `wow.zamimg.com`/
+`wowhead.com` turned out to be unreachable from the server this dashboard
+is maintained from, hence pulling from GitHub instead of hotlinking or
+downloading at deploy time). No runtime or build-time fetch of any kind —
+the PNGs just sit in the repo like any other static asset. Icon names are
+defined in `CLASS_ICON_SLUGS` / `FACTION_ICON_SLUGS` / `RACE_ICON_SLUGS`
+in `app.js`, mapped to lowercase filenames in `assets/icons/`. If an icon
+file is ever missing, it's silently removed (logged to the browser
+console as `icon failed to load: ...`) rather than showing a
+broken-image box — falls back to the plain text/color layout.
 
-### Updating the icon set
-
-If you add a class/race combo not already covered (shouldn't happen for
-a 3.3.5a server, but just in case), run `scripts/download-icons.sh` from
-a machine with normal internet access inside a clone of this repo (e.g.
-the Deck's `wow-companion-data` clone) after adding the new slug to both
-the script's `ICONS` list and the matching map in `app.js`. It downloads
-into `assets/icons/` and prints the `git add`/`commit`/`push` commands to
-run — it doesn't push automatically.
+To add a class/race combo not already covered (shouldn't happen for a
+3.3.5a server), grab the matching PNG from
+`Gethe/wow-ui-textures`'s `ICONS/` folder, drop it in `assets/icons/`
+under the naming convention above, and add the slug to the relevant map
+in `app.js`.
 
 ### `characters.json` shape
 
