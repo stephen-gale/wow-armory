@@ -19,13 +19,25 @@ manual step needed. A small `Load characters.json manually` link at the
 bottom of the page is kept as a fallback, in case the auto-publish step
 ever fails and you want to load a file directly.
 
-Faction crests and class icons are hotlinked from Wowhead's icon CDN
-(`wow.zamimg.com`) rather than bundled in this repo — icon names are
-defined in `CLASS_ICON_SLUGS`/`FACTION_ICON_SLUGS` in `app.js`. If an icon
-fails to load, it's silently removed rather than showing a broken-image
-box (falls back to the plain text/color layout). If that CDN ever goes
-away, the fix is to self-host the icon files in this repo and point those
-maps at local paths instead.
+Faction crests, class icons, and race icons are self-hosted at
+`assets/icons/` (originally sourced from Wowhead's icon CDN,
+`wow.zamimg.com`, via `scripts/download-icons.sh` — see below) rather than
+fetched live, so the dashboard has no runtime dependency on that CDN.
+Icon names are defined in `CLASS_ICON_SLUGS` / `FACTION_ICON_SLUGS` /
+`RACE_ICON_SLUGS` in `app.js`. If an icon file is missing, it's silently
+removed (logged to the browser console as `icon failed to load: ...`)
+rather than showing a broken-image box — falls back to the plain
+text/color layout.
+
+### Updating the icon set
+
+If you add a class/race combo not already covered (shouldn't happen for
+a 3.3.5a server, but just in case), run `scripts/download-icons.sh` from
+a machine with normal internet access inside a clone of this repo (e.g.
+the Deck's `wow-companion-data` clone) after adding the new slug to both
+the script's `ICONS` list and the matching map in `app.js`. It downloads
+into `assets/icons/` and prints the `git add`/`commit`/`push` commands to
+run — it doesn't push automatically.
 
 ### `characters.json` shape
 
