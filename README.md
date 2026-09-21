@@ -50,6 +50,25 @@ no standalone "time played" glyph — everything else in this app is a real
 game asset by design, this one icon is the deliberate exception. Both
 rows list stats in the same order: gold, achievements, played.
 
+### Achievement detail (tap a character)
+
+Tapping/clicking a character row expands a list of their completed
+achievements, grouped by category — using Blizzard's own category tree
+as-is, no custom grouping on top (so e.g. gear-related achievements show
+under the real nested "Gear" category rather than an invented bucket).
+
+This is powered by two bundled, static reference files, `assets/data/achievements.json`
+and `assets/data/achievement_categories.json` — id/name/category/points
+data for all 1,817 WotLK 3.3.5a (build 12340) achievements and their 86
+categories. Sourced from
+[r-o-b-o-t-o/azerothcore-armory](https://github.com/r-o-b-o-t-o/azerothcore-armory)
+(MIT licensed), which ships this as CSV exported from the same client
+build's `Achievement.dbc`/`Achievement_Category.dbc`. Like the icons, this
+is fetched once and committed — no runtime dependency. The per-character
+`achievements` array in `characters.json` (see below) is just a list of
+completed achievement IDs; the dashboard resolves names/categories/points
+against this bundled data at render time.
+
 ### `characters.json` shape
 
 ```json
@@ -69,11 +88,17 @@ rows list stats in the same order: gold, achievements, played.
       "money_copper": 4582311,
       "achievement_points": 3120,
       "achievement_count": 130,
-      "played_time_seconds": 1234567
+      "played_time_seconds": 1234567,
+      "achievements": [6, 42, 556]
     }
   ]
 }
 ```
+
+`achievements` is the character's completed achievement IDs, straight from
+`acore_characters.character_achievement` — no names/categories attached
+here. The dashboard resolves those client-side against the bundled
+reference data (see below).
 
 Schema matches the achievement columns used by `wowbackup.sh`'s own progress
 report: `acore_characters.character_achievement_points(guid, total_points,
@@ -128,6 +153,14 @@ and before the "Compressing..." step.
 ```bash
 echo "  Saving characters.json..."
 REPO_DATA_DIR="/home/deck/wow-companion-data"
+ACHIEVEMENTS_TMP="$(mktemp)"
+mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
+  SELECT ca.guid, ca.achievement
+  FROM acore_characters.character_achievement ca
+  JOIN acore_characters.characters c ON c.guid = ca.guid
+  JOIN acore_auth.account a ON a.id = c.account
+  WHERE a.username NOT LIKE 'RNDBOT%';
+" > "$ACHIEVEMENTS_TMP"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT
     c.guid,
@@ -164,6 +197,16 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   ORDER BY c.totaltime DESC;
 " | python3 -c "
 import sys, json, datetime
+from collections import defaultdict
+
+achievements_by_guid = defaultdict(list)
+with open('$ACHIEVEMENTS_TMP') as f:
+    for line in f:
+        line = line.rstrip('\n')
+        if not line:
+            continue
+        guid, achievement_id = line.split('\t')
+        achievements_by_guid[int(guid)].append(int(achievement_id))
 
 characters = []
 for line in sys.stdin:
@@ -172,8 +215,9 @@ for line in sys.stdin:
         continue
     (guid, name, account, race, race_name, cls, class_name,
      faction, level, money, ap, ac, played) = line.split('\t')
+    guid = int(guid)
     characters.append({
-        'guid': int(guid),
+        'guid': guid,
         'name': name,
         'account': account,
         'race_id': int(race),
@@ -186,6 +230,7 @@ for line in sys.stdin:
         'achievement_points': int(ap),
         'achievement_count': int(ac),
         'played_time_seconds': int(played),
+        'achievements': sorted(achievements_by_guid.get(guid, [])),
     })
 
 generated_at = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -199,6 +244,7 @@ with open('$REPO_DATA_DIR/characters.json', 'w') as f:
 
 print(f'  characters.json: wrote {len(characters)} characters')
 " || { echo "Failed: characters.json export"; exit 1; }
+rm -f "$ACHIEVEMENTS_TMP"
 
 echo "  Publishing characters.json to GitHub..."
 (

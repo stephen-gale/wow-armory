@@ -25,6 +25,17 @@ OUTPUT_FILE="${OUTPUT_FILE:-$OUTPUT_DIR/characters.json}"
 
 mkdir -p "$OUTPUT_DIR"
 
+ACHIEVEMENTS_TMP="$(mktemp)"
+trap 'rm -f "$ACHIEVEMENTS_TMP"' EXIT
+
+mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
+  SELECT ca.guid, ca.achievement
+  FROM acore_characters.character_achievement ca
+  JOIN acore_characters.characters c ON c.guid = ca.guid
+  JOIN acore_auth.account a ON a.id = c.account
+  WHERE a.username NOT LIKE 'RNDBOT%';
+" > "$ACHIEVEMENTS_TMP"
+
 read -r -d '' QUERY <<'SQL' || true
 SELECT
   c.guid,
@@ -61,12 +72,24 @@ WHERE a.username NOT LIKE 'RNDBOT%'
 ORDER BY faction, c.level DESC, c.name;
 SQL
 
-mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "$QUERY" | python3 - "$OUTPUT_FILE" <<'PYEOF'
+mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "$QUERY" | python3 - "$OUTPUT_FILE" "$ACHIEVEMENTS_TMP" <<'PYEOF'
 import sys
 import json
 import datetime
+from collections import defaultdict
 
 out_path = sys.argv[1]
+achievements_path = sys.argv[2]
+
+achievements_by_guid = defaultdict(list)
+with open(achievements_path) as f:
+    for line in f:
+        line = line.rstrip("\n")
+        if not line:
+            continue
+        guid, achievement_id = line.split("\t")
+        achievements_by_guid[int(guid)].append(int(achievement_id))
+
 characters = []
 
 for line in sys.stdin:
@@ -76,8 +99,9 @@ for line in sys.stdin:
     fields = line.split("\t")
     (guid, name, account, race, race_name, cls, class_name,
      faction, level, money, ap, ac, played) = fields
+    guid = int(guid)
     characters.append({
-        "guid": int(guid),
+        "guid": guid,
         "name": name,
         "account": account,
         "race_id": int(race),
@@ -90,6 +114,7 @@ for line in sys.stdin:
         "achievement_points": int(ap),
         "achievement_count": int(ac),
         "played_time_seconds": int(played),
+        "achievements": sorted(achievements_by_guid.get(guid, [])),
     })
 
 data = {

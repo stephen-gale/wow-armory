@@ -66,6 +66,24 @@ function statWithIcon(iconSrc, text, extraIconClass) {
   return `<span class="stat"><img class="${cls}" src="${iconSrc}" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">${text}</span>`;
 }
 
+// Fetched once, eagerly, so it's usually already resolved by the time
+// someone taps a character to expand their achievements.
+let achievementDataPromise = null;
+
+function loadAchievementData() {
+  if (!achievementDataPromise) {
+    achievementDataPromise = Promise.all([
+      fetch("assets/data/achievements.json").then((r) => r.json()),
+      fetch("assets/data/achievement_categories.json").then((r) => r.json()),
+    ]).then(([achievements, categories]) => ({
+      achievementsById: new Map(achievements.map((a) => [a.id, a])),
+      categoriesById: new Map(categories.map((c) => [c.id, c])),
+    }));
+  }
+  return achievementDataPromise;
+}
+loadAchievementData();
+
 const fileInput = document.getElementById("file-input");
 const generatedAtEl = document.getElementById("generated-at");
 const emptyStateEl = document.getElementById("empty-state");
@@ -183,6 +201,9 @@ function renderFactionPanel(faction, characters) {
 function renderCharCard(c) {
   const li = document.createElement("li");
   li.className = "char-card";
+  li.tabIndex = 0;
+  li.setAttribute("role", "button");
+  li.setAttribute("aria-expanded", "false");
 
   const classColor = CLASS_COLORS[c.class_name] || "#e8e6e1";
   const classIcon = iconImg(CLASS_ICON_SLUGS[c.class_name], "class-icon");
@@ -201,6 +222,86 @@ function renderCharCard(c) {
       ${statWithIcon(STAT_ICONS.gold, formatMoneyPlain(c.money_copper))}
     </div>
   `;
+
+  li.addEventListener("click", () => toggleAchievementsPanel(li, c));
+  li.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      toggleAchievementsPanel(li, c);
+    }
+  });
+
+  return li;
+}
+
+function toggleAchievementsPanel(rowLi, c) {
+  const next = rowLi.nextElementSibling;
+  if (next && next.classList.contains("char-achievements")) {
+    const nowHidden = !next.hidden;
+    next.hidden = nowHidden;
+    rowLi.setAttribute("aria-expanded", String(!nowHidden));
+    rowLi.classList.toggle("char-card--expanded", !nowHidden);
+    return;
+  }
+
+  rowLi.classList.add("char-card--expanded");
+  rowLi.setAttribute("aria-expanded", "true");
+
+  const placeholder = document.createElement("li");
+  placeholder.className = "char-achievements";
+  placeholder.innerHTML = `<p class="char-achievements__empty">Loading achievements…</p>`;
+  rowLi.after(placeholder);
+
+  loadAchievementData().then(({ achievementsById, categoriesById }) => {
+    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById));
+  });
+}
+
+// Groups the character's completed achievement IDs by whichever category
+// Blizzard's own data files directly tag them with — no re-grouping or
+// custom categorization on top.
+function buildAchievementsPanel(c, achievementsById, categoriesById) {
+  const li = document.createElement("li");
+  li.className = "char-achievements";
+
+  const ids = c.achievements || [];
+  const byCategory = new Map();
+  for (const id of ids) {
+    const achievement = achievementsById.get(id);
+    if (!achievement) continue;
+    const list = byCategory.get(achievement.category_id) || [];
+    list.push(achievement);
+    byCategory.set(achievement.category_id, list);
+  }
+
+  if (byCategory.size === 0) {
+    li.innerHTML = `<p class="char-achievements__empty">No completed achievements recorded.</p>`;
+    return li;
+  }
+
+  const categoryGroups = [...byCategory.entries()]
+    .map(([categoryId, achievements]) => ({
+      name: categoriesById.get(categoryId)?.name || "Other",
+      achievements: achievements.sort((a, b) => b.points - a.points || a.name.localeCompare(b.name)),
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  li.innerHTML = categoryGroups
+    .map((group) => `
+      <div class="achv-category">
+        <h4 class="achv-category__name">${escapeHtml(group.name)} <span class="achv-category__count">${group.achievements.length}</span></h4>
+        <ul class="achv-list">
+          ${group.achievements.map((a) => `
+            <li class="achv-list__item">
+              <span>${escapeHtml(a.name)}</span>
+              ${a.points ? `<span class="achv-list__points">${a.points}p</span>` : ""}
+            </li>
+          `).join("")}
+        </ul>
+      </div>
+    `)
+    .join("");
+
   return li;
 }
 

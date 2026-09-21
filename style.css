@@ -234,6 +234,17 @@ main {
   gap: 0.75rem;
   padding: 0.7rem 1.1rem;
   border-bottom: 1px solid rgba(255,255,255,0.05);
+  cursor: pointer;
+}
+
+.char-card:hover,
+.char-card--expanded {
+  background: rgba(255,255,255,0.03);
+}
+
+.char-card:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: -2px;
 }
 
 .char-card__level {
@@ -293,6 +304,57 @@ main {
 
 .char-card__stats .stat {
   justify-content: flex-end;
+}
+
+.char-achievements {
+  padding: 0.9rem 1.1rem 1.1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  background: rgba(0,0,0,0.15);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 0.9rem 1.5rem;
+}
+
+.char-achievements__empty {
+  margin: 0;
+  color: var(--text-dim);
+  font-size: 0.8rem;
+  grid-column: 1 / -1;
+}
+
+.achv-category__name {
+  margin: 0 0 0.35rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+}
+
+.achv-category__count {
+  color: var(--text-dim);
+  font-weight: 400;
+}
+
+.achv-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.achv-list__item {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.82rem;
+}
+
+.achv-list__points {
+  flex: 0 0 auto;
+  color: var(--text-dim);
+  font-variant-numeric: tabular-nums;
 }
 
 .app-footer {
