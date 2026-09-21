@@ -234,24 +234,7 @@ function renderCharCard(c) {
   return li;
 }
 
-// Only one character's achievement panel open at a time — opening a new
-// one collapses whichever was already open elsewhere in the list.
-function collapseOtherAchievementPanels(exceptRowLi) {
-  document.querySelectorAll(".char-achievements").forEach((panel) => {
-    if (panel.hidden) return;
-    const ownerRow = panel.previousElementSibling;
-    if (ownerRow === exceptRowLi) return;
-    panel.hidden = true;
-    if (ownerRow) {
-      ownerRow.classList.remove("char-card--expanded");
-      ownerRow.setAttribute("aria-expanded", "false");
-    }
-  });
-}
-
 function toggleAchievementsPanel(rowLi, c) {
-  collapseOtherAchievementPanels(rowLi);
-
   const next = rowLi.nextElementSibling;
   if (next && next.classList.contains("char-achievements")) {
     const nowHidden = !next.hidden;
