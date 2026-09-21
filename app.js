@@ -123,7 +123,7 @@ function renderSummary(characters) {
   summaryBarEl.innerHTML = "";
   summaryBarEl.append(
     statTile(STAT_ICONS.played, formatPlayedTime(totalPlayed)),
-    statTile(STAT_ICONS.achievements, `${formatNumber(totalAP)} (${formatNumber(totalAchievementCount)})`, "stat-tile-icon--achievement"),
+    statTile(STAT_ICONS.achievements, formatAchievements(totalAP, totalAchievementCount), "stat-tile-icon--achievement"),
     statTile(STAT_ICONS.gold, formatMoneyPlain(totalMoney))
   );
 }
@@ -165,7 +165,7 @@ function renderFactionPanel(faction, characters) {
   stats.className = "faction-panel__stats";
   stats.innerHTML = [
     statWithIcon(STAT_ICONS.played, formatPlayedTime(totalPlayed)),
-    statWithIcon(STAT_ICONS.achievements, `${formatNumber(totalAP)} (${formatNumber(totalAchievementCount)})`, "stat-icon--achievement"),
+    statWithIcon(STAT_ICONS.achievements, formatAchievements(totalAP, totalAchievementCount), "stat-icon--achievement"),
     statWithIcon(STAT_ICONS.gold, formatMoneyPlain(totalMoney)),
   ].join("");
   panel.appendChild(stats);
@@ -197,7 +197,7 @@ function renderCharCard(c) {
     </div>
     <div class="char-card__stats">
       ${statWithIcon(STAT_ICONS.played, formatPlayedTime(c.played_time_seconds))}
-      ${statWithIcon(STAT_ICONS.achievements, `${formatNumber(c.achievement_points)} (${formatNumber(c.achievement_count)})`, "stat-icon--achievement")}
+      ${statWithIcon(STAT_ICONS.achievements, formatAchievements(c.achievement_points, c.achievement_count), "stat-icon--achievement")}
       ${statWithIcon(STAT_ICONS.gold, formatMoneyPlain(c.money_copper))}
     </div>
   `;
@@ -208,6 +208,10 @@ function formatPlayedTime(totalSeconds) {
   totalSeconds = totalSeconds || 0;
   const hours = Math.floor(totalSeconds / 3600);
   return formatNumber(hours) + "h";
+}
+
+function formatAchievements(points, count) {
+  return `${formatNumber(points)}pts (${formatNumber(count)})`;
 }
 
 function formatNumber(n) {
