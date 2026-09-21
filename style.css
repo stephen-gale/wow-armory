@@ -10,8 +10,6 @@
   --horde: #c41f3b;
   --horde-bg: #2a1416;
   --money-gold: #ffd700;
-  --money-silver: #c0c0c0;
-  --money-copper: #b87333;
 }
 
 * { box-sizing: border-box; }
@@ -236,8 +234,6 @@ main {
 }
 
 .money .g { color: var(--money-gold); }
-.money .s { color: var(--money-silver); }
-.money .c { color: var(--money-copper); }
 
 .app-footer {
   text-align: center;
