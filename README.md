@@ -1,10 +1,11 @@
-# wow-companion
+# WoW Armory
 
-A companion web app for a solo AzerothCore (3.3.5a) + Playerbots private
-server, hosted on GitHub Pages. Starts with a character dashboard; more
-tools can be added later.
+A character armory web app for a solo AzerothCore (3.3.5a) + Playerbots
+private server, hosted on GitHub Pages — named and styled after the same
+kind of "armory" sites/apps that exist for retail WoW. Starts with a
+character dashboard; more tools can be added later.
 
-Live app (once Pages is enabled): `https://stephen-gale.github.io/wow-companion/`
+Live app (once Pages is enabled): `https://stephen-gale.github.io/wow-armory/`
 
 ## Character Dashboard
 
@@ -50,17 +51,23 @@ no standalone "time played" glyph — everything else in this app is a real
 game asset by design, this one icon is the deliberate exception. Both
 rows list stats in the same order: gold, achievements, played.
 
-### Achievement detail (tap a character)
+### Achievement & Collections detail (tap a character)
 
-Tapping/clicking a character row expands a list of their completed
-achievements, grouped by category — using Blizzard's own category tree
-as-is, no custom grouping on top (so e.g. gear-related achievements show
-under the real nested "Gear" category rather than an invented bucket).
+Tapping/clicking a character row expands a panel with two separate,
+clearly-labeled systems:
 
-This is powered by two bundled, static reference files, `assets/data/achievements.json`
-and `assets/data/achievement_categories.json` — id/name/category/points
-data for all 1,817 WotLK 3.3.5a (build 12340) achievements and their 86
-categories. Sourced from
+- **Achievements** — the character's real completed Blizzard achievements,
+  grouped by category exactly as Blizzard's own category tree has them, no
+  custom grouping on top (so e.g. gear-related achievements show under the
+  real nested "Gear" category rather than an invented bucket).
+- **Collections** — a custom, companion-app-only tracking system (see
+  below) that is **not** part of Blizzard's achievement system at all —
+  a different concept, kept visually and structurally separate.
+
+Achievements are powered by two bundled, static reference files,
+`assets/data/achievements.json` and `assets/data/achievement_categories.json`
+— id/name/category/points data for all 1,817 WotLK 3.3.5a (build 12340)
+achievements and their 86 categories. Sourced from
 [r-o-b-o-t-o/azerothcore-armory](https://github.com/r-o-b-o-t-o/azerothcore-armory)
 (MIT licensed), which ships this as CSV exported from the same client
 build's `Achievement.dbc`/`Achievement_Category.dbc`. Like the icons, this
@@ -68,6 +75,48 @@ is fetched once and committed — no runtime dependency. The per-character
 `achievements` array in `characters.json` (see below) is just a list of
 completed achievement IDs; the dashboard resolves names/categories/points
 against this bundled data at render time.
+
+### Collections
+
+A custom tracking system for things worth showing off that aren't part of
+Blizzard's own achievement system — named and modeled after the
+"Collections" sections other WoW armory sites/apps have, for mounts,
+pets, toys, tabards, and so on. **Gear** is the first collection category
+built; more (Mounts, Pets, Tabards, etc.) can be added later as siblings
+without changing anything already here. Nothing about this touches the
+AzerothCore server, DBC files, or the live game — detection and storage
+both happen entirely in the export scripts and `characters.json`.
+
+#### Gear
+
+Equipping a full named gear set (raid tier sets, dungeon sets, and a
+handful of other notable sets), covering Classic through WotLK content.
+
+- **Data source**: `assets/data/collections/gear.json`, a static list of
+  every curated set — id, display name, category/tier, class or armor
+  type, and the item ids that make it up (grouped by equipment slot, since
+  a few sets have more than one valid item per slot — e.g. a
+  faction-specific pair sharing one display name). Generated from the
+  [nexus-devs/wow-classic-items](https://github.com/nexus-devs/wow-classic-items)
+  dataset, cross-checked item by item against real tooltip set groupings,
+  acquisition source, and item level banding.
+- **Detection**: the export scripts (`scripts/export-characters-json.sh`,
+  and the equivalent block in `wowbackup.sh`) query each character's
+  *currently equipped* items only (`character_inventory.bag = 0`, slot
+  0-18 — not bags or bank) and check them against every set's item ids. A
+  set is earned when every one of its slot groups has a match currently
+  equipped.
+- **Sticky, one-per-variant**: once earned, a Gear collection is
+  permanent — it's never re-derived from scratch, only added to. Each run
+  unions its freshly-detected sets into whatever was already recorded in
+  the previous `characters.json`, so swapping gear away later never
+  removes it. Each spec/faction/difficulty variant of a set (e.g. 10- and
+  25-player Wrath tier armor, or the Horde/Alliance names for Tier 9) is
+  its own separate collection.
+- Each is worth 10 points, shown under their own "Gear" grouping in the
+  detail panel's Collections section — kept entirely separate from the
+  real `achievement_points`/`achievement_count` totals, which only ever
+  reflect actual Blizzard achievements.
 
 ### `characters.json` shape
 
@@ -89,7 +138,10 @@ against this bundled data at render time.
       "achievement_points": 3120,
       "achievement_count": 130,
       "played_time_seconds": 1234567,
-      "achievements": [6, 42, 556]
+      "achievements": [6, 42, 556],
+      "collections": {
+        "gear": ["t0_warrior", "t1_warrior"]
+      }
     }
   ]
 }
@@ -104,9 +156,17 @@ Schema matches the achievement columns used by `wowbackup.sh`'s own progress
 report: `acore_characters.character_achievement_points(guid, total_points,
 total_achievements)`.
 
+`collections` is the custom, companion-app-only tracking system — see
+[Collections](#collections) above. `collections.gear` is the Gear
+category's earned ids; future categories (mounts, pets, tabards, etc.)
+would land as sibling keys alongside `gear`. Unlike `achievements`, these
+ids are never recomputed from scratch: once one appears here, the export
+scripts always carry it forward, even if the character no longer has the
+set equipped.
+
 ### Privacy note
 
-`wow-companion` is a **public** repo, and GitHub Pages serves it to anyone
+`wow-armory` is a **public** repo, and GitHub Pages serves it to anyone
 with the URL. The published `characters.json` (the copy this repo commits
 and the dashboard auto-fetches) intentionally **omits the `account`
 field** so real account usernames aren't exposed — everything else
@@ -121,15 +181,15 @@ auto-push step below and stick to the manual file picker instead.
 1. Clone this repo to a stable path outside the timestamped backup dirs,
    e.g.:
    ```bash
-   git clone https://github.com/stephen-gale/wow-companion.git /home/deck/wow-companion-data
-   cd /home/deck/wow-companion-data
+   git clone https://github.com/stephen-gale/wow-armory.git /home/deck/wow-armory-data
+   cd /home/deck/wow-armory-data
    git config user.name "wowbackup"
    git config user.email "wowbackup@localhost"
    ```
 2. Store the `wow` personal access token so `wowbackup.sh` can push
    unattended, scoped to just this clone (not your global git config):
    ```bash
-   cd /home/deck/wow-companion-data
+   cd /home/deck/wow-armory-data
    git config credential.helper store
    echo "https://stephen-gale:<YOUR_PAT>@github.com" > ~/.git-credentials
    chmod 600 ~/.git-credentials
@@ -144,16 +204,29 @@ straight from `acore_characters.characters` / `acore_auth.account` /
 `character_achievement_points`. The block below reshapes the same data as
 JSON — writing a **full** copy (with `account`) to `$BACKUP_DIR/characters.json`
 so it rides along with the rest of that run's backup as before, and a
-**public** copy (without `account`) into the `wow-companion-data` clone,
+**public** copy (without `account`) into the `wow-armory-data` clone,
 which it then commits and pushes to GitHub. Paste it into `wowbackup.sh`
 right after the existing "Saving progress report..." block (i.e. right
 after the `} > "$BACKUP_DIR/playtime_by_character.txt" || { ... }` line)
 and before the "Compressing..." step.
 
+It also detects the **Gear collection** (see [Collections](#collections)
+above): a second query pulls each character's currently-equipped items,
+checks them against `assets/data/collections/gear.json`, and unions any
+newly-earned set into whatever was already published to
+`wow-armory-data/characters.json` last run, so earned sets are never lost
+even after the gear is swapped away. This means `wow-armory-data` needs
+the repo's `assets/data/` folder present — since it's a full clone of this
+repo, a one-time `git pull` there after this feature first ships is enough
+to pick it up (and again any time `assets/data/collections/gear.json`
+changes).
+
 ```bash
 echo "  Saving characters.json..."
-REPO_DATA_DIR="/home/deck/wow-companion-data"
+REPO_DATA_DIR="/home/deck/wow-armory-data"
+COLLECTION_GEAR_DEFS="$REPO_DATA_DIR/assets/data/collections/gear.json"
 ACHIEVEMENTS_TMP="$(mktemp)"
+EQUIPPED_TMP="$(mktemp)"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT ca.guid, ca.achievement
   FROM acore_characters.character_achievement ca
@@ -161,6 +234,15 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   JOIN acore_auth.account a ON a.id = c.account
   WHERE a.username NOT LIKE 'RNDBOT%';
 " > "$ACHIEVEMENTS_TMP"
+mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
+  SELECT ci.guid, ii.itemEntry
+  FROM acore_characters.character_inventory ci
+  JOIN acore_characters.item_instance ii ON ii.guid = ci.item
+  JOIN acore_characters.characters c ON c.guid = ci.guid
+  JOIN acore_auth.account a ON a.id = c.account
+  WHERE ci.bag = 0 AND ci.slot BETWEEN 0 AND 18
+    AND a.username NOT LIKE 'RNDBOT%';
+" > "$EQUIPPED_TMP"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT
     c.guid,
@@ -196,7 +278,7 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   WHERE a.username NOT LIKE 'RNDBOT%'
   ORDER BY c.totaltime DESC;
 " | python3 -c "
-import sys, json, datetime
+import sys, json, datetime, os
 from collections import defaultdict
 
 achievements_by_guid = defaultdict(list)
@@ -208,6 +290,46 @@ with open('$ACHIEVEMENTS_TMP') as f:
         guid, achievement_id = line.split('\t')
         achievements_by_guid[int(guid)].append(int(achievement_id))
 
+# Currently-equipped item entries per character (bag=0, slot 0-18 — actual
+# gear, not bags/bank).
+equipped_by_guid = defaultdict(set)
+with open('$EQUIPPED_TMP') as f:
+    for line in f:
+        line = line.rstrip('\n')
+        if not line:
+            continue
+        guid, item_entry = line.split('\t')
+        equipped_by_guid[int(guid)].add(int(item_entry))
+
+with open('$COLLECTION_GEAR_DEFS') as f:
+    collection_gear_defs = json.load(f)
+
+def detect_collection_gear(equipped_ids):
+    # Earned when the character has at least one item from EVERY slot group
+    # equipped right now (each slot group lists interchangeable item ids for
+    # that slot — a 'Conquest'-suffixed variant and its plain counterpart, or
+    # a Horde/Alliance pair sharing one display name).
+    earned = []
+    for gs in collection_gear_defs:
+        if all(any(item_id in equipped_ids for item_id in group) for group in gs['slot_groups']):
+            earned.append(gs['id'])
+    return earned
+
+# Sticky: once earned, a collection is never removed, even after the gear
+# is swapped away. Union this run's live detection with whatever was
+# already published to the repo (the ongoing source of truth) last run.
+previous_collection_gear_by_guid = defaultdict(set)
+prev_path = '$REPO_DATA_DIR/characters.json'
+if os.path.exists(prev_path):
+    try:
+        with open(prev_path) as f:
+            previous_data = json.load(f)
+        for prev_char in previous_data.get('characters', []):
+            previous_gear = prev_char.get('collections', {}).get('gear', [])
+            previous_collection_gear_by_guid[prev_char['guid']] = set(previous_gear)
+    except (json.JSONDecodeError, OSError):
+        pass  # first run, or an unreadable/corrupt previous file — start fresh
+
 characters = []
 for line in sys.stdin:
     line = line.rstrip('\n')
@@ -216,6 +338,8 @@ for line in sys.stdin:
     (guid, name, account, race, race_name, cls, class_name,
      faction, level, money, ap, ac, played) = line.split('\t')
     guid = int(guid)
+    newly_detected = detect_collection_gear(equipped_by_guid.get(guid, set()))
+    collection_gear = sorted(previous_collection_gear_by_guid.get(guid, set()) | set(newly_detected))
     characters.append({
         'guid': guid,
         'name': name,
@@ -231,6 +355,9 @@ for line in sys.stdin:
         'achievement_count': int(ac),
         'played_time_seconds': int(played),
         'achievements': sorted(achievements_by_guid.get(guid, [])),
+        'collections': {
+            'gear': collection_gear,
+        },
     })
 
 generated_at = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -244,7 +371,7 @@ with open('$REPO_DATA_DIR/characters.json', 'w') as f:
 
 print(f'  characters.json: wrote {len(characters)} characters')
 " || { echo "Failed: characters.json export"; exit 1; }
-rm -f "$ACHIEVEMENTS_TMP"
+rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP"
 
 echo "  Publishing characters.json to GitHub..."
 (
@@ -285,7 +412,7 @@ build step. To turn it on (one-time):
 2. Under **Build and deployment**, set **Source** to `Deploy from a
    branch`, branch `main`, folder `/ (root)`.
 3. Save. The app will be live at
-   `https://stephen-gale.github.io/wow-companion/` shortly after.
+   `https://stephen-gale.github.io/wow-armory/` shortly after.
 
 ## Roadmap
 
