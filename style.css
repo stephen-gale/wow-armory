@@ -82,14 +82,21 @@ main {
   border: 1px solid var(--panel-border);
   border-radius: 8px;
   padding: 0.9rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
 }
 
-.stat-tile__label {
-  color: var(--text-dim);
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  margin: 0 0 0.3rem;
+.stat-tile-icon {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+}
+
+.stat-tile-icon--achievement {
+  width: 28px;
+  height: 28px;
 }
 
 .stat-tile__value {
