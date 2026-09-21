@@ -211,7 +211,7 @@ function formatPlayedTime(totalSeconds) {
 }
 
 function formatAchievements(points, count) {
-  return `${formatNumber(points)}pts (${formatNumber(count)})`;
+  return `${formatNumber(points)}p (${formatNumber(count)})`;
 }
 
 function formatNumber(n) {
