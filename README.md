@@ -19,6 +19,14 @@ manual step needed. A small `Load characters.json manually` link at the
 bottom of the page is kept as a fallback, in case the auto-publish step
 ever fails and you want to load a file directly.
 
+Faction crests and class icons are hotlinked from Wowhead's icon CDN
+(`wow.zamimg.com`) rather than bundled in this repo — icon names are
+defined in `CLASS_ICON_SLUGS`/`FACTION_ICON_SLUGS` in `app.js`. If an icon
+fails to load, it's silently removed rather than showing a broken-image
+box (falls back to the plain text/color layout). If that CDN ever goes
+away, the fix is to self-host the icon files in this repo and point those
+maps at local paths instead.
+
 ### `characters.json` shape
 
 ```json

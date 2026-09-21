@@ -131,7 +131,7 @@ main {
 
 .faction-panel__header {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   padding: 0.9rem 1.1rem;
   font-weight: 700;
@@ -140,6 +140,19 @@ main {
 
 .faction-panel--alliance .faction-panel__header { color: var(--alliance); }
 .faction-panel--horde .faction-panel__header { color: var(--horde); }
+
+.faction-panel__title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.faction-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
 
 .faction-panel__count {
   font-size: 0.78rem;
@@ -181,6 +194,14 @@ main {
   justify-content: center;
   font-weight: 700;
   font-size: 0.9rem;
+}
+
+.class-icon {
+  flex: 0 0 auto;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 5px;
+  border: 1px solid rgba(255,255,255,0.2);
 }
 
 .char-card__main {
