@@ -15,9 +15,9 @@ played time.
 
 On load, it auto-fetches `characters.json` from this repo (see below), so
 once that's wired up the dashboard just works when you open the page — no
-manual step needed. There's also a `Load characters.json` file picker and a
-`Load example data` button as manual fallbacks (useful if the published
-file hasn't caught up yet, or you want to preview a file before pushing it).
+manual step needed. A small `Load characters.json manually` link at the
+bottom of the page is kept as a fallback, in case the auto-publish step
+ever fails and you want to load a file directly.
 
 ### `characters.json` shape
 

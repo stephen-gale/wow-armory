@@ -13,9 +13,6 @@
       <p class="app-header__subtitle">Character Dashboard</p>
     </div>
     <div class="app-header__controls">
-      <label class="file-picker-btn" for="file-input">Load characters.json</label>
-      <input type="file" id="file-input" accept="application/json,.json" hidden>
-      <button id="load-example-btn" class="ghost-btn" type="button">Load example data</button>
       <span id="generated-at" class="generated-at"></span>
     </div>
   </header>
@@ -23,7 +20,7 @@
   <main id="app-root">
     <section id="empty-state" class="empty-state">
       <p>No data loaded yet.</p>
-      <p>Click <strong>Load characters.json</strong> above and pick the file produced by your backup script, or try <strong>Load example data</strong> to see a demo.</p>
+      <p>Waiting on characters.json from the repo — or load a file manually below.</p>
     </section>
 
     <section id="summary-bar" class="summary-bar" hidden></section>
@@ -33,6 +30,8 @@
 
   <footer class="app-footer">
     <p>Character data is fetched from this repo's characters.json and rendered entirely in your browser.</p>
+    <label class="file-picker-fallback" for="file-input">Load characters.json manually</label>
+    <input type="file" id="file-input" accept="application/json,.json" hidden>
   </footer>
 
 <script src="app.js"></script>
