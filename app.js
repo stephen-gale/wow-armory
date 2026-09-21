@@ -234,7 +234,24 @@ function renderCharCard(c) {
   return li;
 }
 
+// Only one character's achievement panel open at a time — opening a new
+// one collapses whichever was already open elsewhere in the list.
+function collapseOtherAchievementPanels(exceptRowLi) {
+  document.querySelectorAll(".char-achievements").forEach((panel) => {
+    if (panel.hidden) return;
+    const ownerRow = panel.previousElementSibling;
+    if (ownerRow === exceptRowLi) return;
+    panel.hidden = true;
+    if (ownerRow) {
+      ownerRow.classList.remove("char-card--expanded");
+      ownerRow.setAttribute("aria-expanded", "false");
+    }
+  });
+}
+
 function toggleAchievementsPanel(rowLi, c) {
+  collapseOtherAchievementPanels(rowLi);
+
   const next = rowLi.nextElementSibling;
   if (next && next.classList.contains("char-achievements")) {
     const nowHidden = !next.hidden;
@@ -282,20 +299,17 @@ function buildAchievementsPanel(c, achievementsById, categoriesById) {
   const categoryGroups = [...byCategory.entries()]
     .map(([categoryId, achievements]) => ({
       name: categoriesById.get(categoryId)?.name || "Other",
-      achievements: achievements.sort((a, b) => b.points - a.points || a.name.localeCompare(b.name)),
+      achievements: achievements.sort((a, b) => a.name.localeCompare(b.name)),
     }))
     .sort((a, b) => a.name.localeCompare(b.name));
 
   li.innerHTML = categoryGroups
     .map((group) => `
       <div class="achv-category">
-        <h4 class="achv-category__name">${escapeHtml(group.name)} <span class="achv-category__count">${group.achievements.length}</span></h4>
+        <h4 class="achv-category__name">${escapeHtml(group.name)} <span class="achv-category__count">(${group.achievements.length})</span></h4>
         <ul class="achv-list">
           ${group.achievements.map((a) => `
-            <li class="achv-list__item">
-              <span>${escapeHtml(a.name)}</span>
-              ${a.points ? `<span class="achv-list__points">${a.points}p</span>` : ""}
-            </li>
+            <li class="achv-list__item">${escapeHtml(a.name)}</li>
           `).join("")}
         </ul>
       </div>
@@ -312,7 +326,7 @@ function formatPlayedTime(totalSeconds) {
 }
 
 function formatAchievements(points, count) {
-  return `${formatNumber(points)}p (${formatNumber(count)})`;
+  return `${formatNumber(points)} (${formatNumber(count)})`;
 }
 
 function formatNumber(n) {
