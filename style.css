@@ -194,6 +194,13 @@ main {
   font-size: 0.9rem;
 }
 
+.char-card__icons {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 0.3rem;
+}
+
+.race-icon,
 .class-icon {
   flex: 0 0 auto;
   width: 1.9rem;
