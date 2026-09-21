@@ -43,7 +43,7 @@ const RACE_ICON_SLUGS = {
 };
 
 function iconUrl(slug) {
-  return `assets/icons/${slug}.jpg`;
+  return `assets/icons/${slug}.png`;
 }
 
 function iconImg(slug, className) {
