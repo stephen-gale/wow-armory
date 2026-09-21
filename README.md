@@ -39,6 +39,17 @@ To add a class/race combo not already covered (shouldn't happen for a
 under the naming convention above, and add the slug to the relevant map
 in `app.js`.
 
+Stat rows (gold, achievements, played time — both the per-faction summary
+and each character row) use icons instead of text labels: the gold coin
+(`assets/icons/ui_goldicon.png`, from `MONEYFRAME/UI-GoldIcon.PNG`) and
+the achievement badge (`assets/icons/ui_achievement_tinyshield.png`, from
+`ACHIEVEMENTFRAME/UI-Achievement-TinyShield.PNG`) are real assets from the
+same `Gethe/wow-ui-textures` mirror. The played-time clock
+(`assets/icons/clock.svg`) is a plain drawn icon, since WoW's own UI has
+no standalone "time played" glyph — everything else in this app is a real
+game asset by design, this one icon is the deliberate exception. Both
+rows list stats in the same order: gold, achievements, played.
+
 ### `characters.json` shape
 
 ```json

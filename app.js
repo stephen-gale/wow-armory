@@ -42,6 +42,12 @@ const RACE_ICON_SLUGS = {
   Draenei: "achievement_character_draenei_male",
 };
 
+const STAT_ICONS = {
+  gold: "assets/icons/ui_goldicon.png",
+  achievements: "assets/icons/ui_achievement_tinyshield.png",
+  played: "assets/icons/clock.svg",
+};
+
 function iconUrl(slug) {
   return `assets/icons/${slug}.png`;
 }
@@ -49,6 +55,14 @@ function iconUrl(slug) {
 function iconImg(slug, className) {
   if (!slug) return "";
   return `<img class="${className}" src="${iconUrl(slug)}" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">`;
+}
+
+// A stat value with its icon in front instead of a text label (e.g. gold
+// coin icon instead of the word "Gold"). Used for both the per-faction
+// summary row and each character row, in the same Gold/Achievements/Played
+// order, so the two stay visually consistent.
+function statWithIcon(iconSrc, text) {
+  return `<span class="stat"><img class="stat-icon" src="${iconSrc}" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">${text}</span>`;
 }
 
 const fileInput = document.getElementById("file-input");
@@ -136,6 +150,8 @@ function renderFactionPanel(faction, characters) {
   const sorted = [...characters].sort((a, b) => b.level - a.level || a.name.localeCompare(b.name));
   const totalPlayed = characters.reduce((sum, c) => sum + (c.played_time_seconds || 0), 0);
   const totalMoney = characters.reduce((sum, c) => sum + (c.money_copper || 0), 0);
+  const totalAP = characters.reduce((sum, c) => sum + (c.achievement_points || 0), 0);
+  const totalAchievementCount = characters.reduce((sum, c) => sum + (c.achievement_count || 0), 0);
 
   const panel = document.createElement("section");
   panel.className = "faction-panel faction-panel--" + faction.toLowerCase();
@@ -149,7 +165,11 @@ function renderFactionPanel(faction, characters) {
 
   const stats = document.createElement("div");
   stats.className = "faction-panel__stats";
-  stats.innerHTML = `<span>Played: ${formatPlayedTime(totalPlayed)}</span><span>Gold: ${formatMoneyPlain(totalMoney)}</span>`;
+  stats.innerHTML = [
+    statWithIcon(STAT_ICONS.gold, formatMoneyPlain(totalMoney)),
+    statWithIcon(STAT_ICONS.achievements, `${formatNumber(totalAP)} (${formatNumber(totalAchievementCount)})`),
+    statWithIcon(STAT_ICONS.played, formatPlayedTime(totalPlayed)),
+  ].join("");
   panel.appendChild(stats);
 
   const list = document.createElement("ul");
@@ -178,9 +198,9 @@ function renderCharCard(c) {
       <p class="char-card__meta">${escapeHtml(c.race_name)} ${escapeHtml(c.class_name)}${c.account ? " · " + escapeHtml(c.account) : ""}</p>
     </div>
     <div class="char-card__stats">
-      <span class="money">${formatMoneyHtml(c.money_copper)}</span>
-      <span>${formatNumber(c.achievement_points)} AP (${formatNumber(c.achievement_count)})</span>
-      <span>${formatPlayedTime(c.played_time_seconds)}</span>
+      ${statWithIcon(STAT_ICONS.gold, formatMoneyPlain(c.money_copper))}
+      ${statWithIcon(STAT_ICONS.achievements, `${formatNumber(c.achievement_points)} (${formatNumber(c.achievement_count)})`)}
+      ${statWithIcon(STAT_ICONS.played, formatPlayedTime(c.played_time_seconds))}
     </div>
   `;
   return li;
@@ -202,10 +222,6 @@ function goldAmount(copper) {
 
 function formatMoneyPlain(copper) {
   return `${formatNumber(goldAmount(copper))}g`;
-}
-
-function formatMoneyHtml(copper) {
-  return `<span class="g">${formatNumber(goldAmount(copper))}g</span>`;
 }
 
 function escapeHtml(str) {
