@@ -43,7 +43,7 @@ const RACE_ICON_SLUGS = {
 };
 
 function iconUrl(slug) {
-  return `https://wow.zamimg.com/images/wow/icons/medium/${slug}.jpg`;
+  return `assets/icons/${slug}.jpg`;
 }
 
 function iconImg(slug, className) {
