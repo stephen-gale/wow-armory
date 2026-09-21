@@ -27,6 +27,12 @@
         557,
         621,
         927
+      ],
+      "gear_set_achievements": [
+        "t0_warrior",
+        "t05_plate_a",
+        "t1_warrior",
+        "t2_warrior"
       ]
     },
     {
@@ -53,6 +59,10 @@
         621,
         155,
         167
+      ],
+      "gear_set_achievements": [
+        "t0_druid",
+        "t05_leather_b"
       ]
     },
     {
@@ -98,6 +108,12 @@
         45,
         556,
         557
+      ],
+      "gear_set_achievements": [
+        "t0_warrior",
+        "t1_warrior",
+        "t2_warrior",
+        "aq40_warrior"
       ]
     },
     {
@@ -122,6 +138,9 @@
         42,
         621,
         33
+      ],
+      "gear_set_achievements": [
+        "t0_warlock"
       ]
     },
     {

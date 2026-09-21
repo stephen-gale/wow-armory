@@ -69,6 +69,41 @@ is fetched once and committed — no runtime dependency. The per-character
 completed achievement IDs; the dashboard resolves names/categories/points
 against this bundled data at render time.
 
+### Gear-set achievements
+
+Custom, companion-app-only achievements for equipping a full named gear
+set (raid tier sets, dungeon sets, and a handful of other notable sets),
+covering Classic through WotLK content. These are **not** real Blizzard
+achievements — nothing about them touches the AzerothCore server, DBC
+files, or the live game; detection and storage both happen entirely in
+the export scripts and `characters.json`.
+
+- **Data source**: `assets/data/gear_set_achievements.json`, a static list
+  of every curated set — id, display name, category/tier, class or armor
+  type, and the item ids that make it up (grouped by equipment slot, since
+  a few sets have more than one valid item per slot — e.g. a
+  faction-specific pair sharing one display name). Generated from the
+  [nexus-devs/wow-classic-items](https://github.com/nexus-devs/wow-classic-items)
+  dataset, cross-checked item by item against real tooltip set groupings,
+  acquisition source, and item level banding.
+- **Detection**: the export scripts (`scripts/export-characters-json.sh`,
+  and the equivalent block in `wowbackup.sh`) query each character's
+  *currently equipped* items only (`character_inventory.bag = 0`, slot
+  0-18 — not bags or bank) and check them against every set's item ids. A
+  set is earned when every one of its slot groups has a match currently
+  equipped.
+- **Sticky, one-per-variant**: once earned, a gear-set achievement is
+  permanent — it's never re-derived from scratch, only added to. Each run
+  unions its freshly-detected sets into whatever was already recorded in
+  the previous `characters.json`, so swapping gear away later never
+  removes it. Each spec/faction/difficulty variant of a set (e.g. 10- and
+  25-player Wrath tier armor, or the Horde/Alliance names for Tier 9) is
+  its own separate achievement.
+- Each is worth 10 points, same as most minor Blizzard achievements, shown
+  under their own "Gear Sets" grouping in the achievement-detail panel —
+  kept separate from the real `achievement_points`/`achievement_count`
+  totals rather than folded into them.
+
 ### `characters.json` shape
 
 ```json
@@ -89,7 +124,8 @@ against this bundled data at render time.
       "achievement_points": 3120,
       "achievement_count": 130,
       "played_time_seconds": 1234567,
-      "achievements": [6, 42, 556]
+      "achievements": [6, 42, 556],
+      "gear_set_achievements": ["t0_warrior", "t1_warrior"]
     }
   ]
 }
@@ -103,6 +139,12 @@ reference data (see below).
 Schema matches the achievement columns used by `wowbackup.sh`'s own progress
 report: `acore_characters.character_achievement_points(guid, total_points,
 total_achievements)`.
+
+`gear_set_achievements` is a custom, companion-app-only achievement list —
+see [Gear-set achievements](#gear-set-achievements) below. Unlike
+`achievements`, these IDs are never recomputed from scratch: once one
+appears here, the export scripts always carry it forward, even if the
+character no longer has the set equipped.
 
 ### Privacy note
 
@@ -150,10 +192,23 @@ right after the existing "Saving progress report..." block (i.e. right
 after the `} > "$BACKUP_DIR/playtime_by_character.txt" || { ... }` line)
 and before the "Compressing..." step.
 
+It also detects **gear-set achievements** (see [Gear-set
+achievements](#gear-set-achievements) below): a second query pulls each
+character's currently-equipped items, checks them against
+`assets/data/gear_set_achievements.json`, and unions any newly-earned set
+into whatever was already published to `wow-companion-data/characters.json`
+last run, so earned sets are never lost even after the gear is swapped away.
+This means `wow-companion-data` needs the repo's `assets/data/` folder
+present — since it's a full clone of this repo, a one-time `git pull` there
+after this feature first ships is enough to pick it up (and again any time
+`assets/data/gear_set_achievements.json` changes).
+
 ```bash
 echo "  Saving characters.json..."
 REPO_DATA_DIR="/home/deck/wow-companion-data"
+GEAR_SET_DEFS="$REPO_DATA_DIR/assets/data/gear_set_achievements.json"
 ACHIEVEMENTS_TMP="$(mktemp)"
+EQUIPPED_TMP="$(mktemp)"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT ca.guid, ca.achievement
   FROM acore_characters.character_achievement ca
@@ -161,6 +216,15 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   JOIN acore_auth.account a ON a.id = c.account
   WHERE a.username NOT LIKE 'RNDBOT%';
 " > "$ACHIEVEMENTS_TMP"
+mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
+  SELECT ci.guid, ii.itemEntry
+  FROM acore_characters.character_inventory ci
+  JOIN acore_characters.item_instance ii ON ii.guid = ci.item
+  JOIN acore_characters.characters c ON c.guid = ci.guid
+  JOIN acore_auth.account a ON a.id = c.account
+  WHERE ci.bag = 0 AND ci.slot BETWEEN 0 AND 18
+    AND a.username NOT LIKE 'RNDBOT%';
+" > "$EQUIPPED_TMP"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT
     c.guid,
@@ -196,7 +260,7 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   WHERE a.username NOT LIKE 'RNDBOT%'
   ORDER BY c.totaltime DESC;
 " | python3 -c "
-import sys, json, datetime
+import sys, json, datetime, os
 from collections import defaultdict
 
 achievements_by_guid = defaultdict(list)
@@ -208,6 +272,45 @@ with open('$ACHIEVEMENTS_TMP') as f:
         guid, achievement_id = line.split('\t')
         achievements_by_guid[int(guid)].append(int(achievement_id))
 
+# Currently-equipped item entries per character (bag=0, slot 0-18 — actual
+# gear, not bags/bank).
+equipped_by_guid = defaultdict(set)
+with open('$EQUIPPED_TMP') as f:
+    for line in f:
+        line = line.rstrip('\n')
+        if not line:
+            continue
+        guid, item_entry = line.split('\t')
+        equipped_by_guid[int(guid)].add(int(item_entry))
+
+with open('$GEAR_SET_DEFS') as f:
+    gear_set_defs = json.load(f)
+
+def detect_gear_sets(equipped_ids):
+    # Earned when the character has at least one item from EVERY slot group
+    # equipped right now (each slot group lists interchangeable item ids for
+    # that slot — a 'Conquest'-suffixed variant and its plain counterpart, or
+    # a Horde/Alliance pair sharing one display name).
+    earned = []
+    for gs in gear_set_defs:
+        if all(any(item_id in equipped_ids for item_id in group) for group in gs['slot_groups']):
+            earned.append(gs['id'])
+    return earned
+
+# Sticky: once earned, a gear-set achievement is never removed, even after
+# the gear is swapped away. Union this run's live detection with whatever
+# was already published to the repo (the ongoing source of truth) last run.
+previous_gear_sets_by_guid = defaultdict(set)
+prev_path = '$REPO_DATA_DIR/characters.json'
+if os.path.exists(prev_path):
+    try:
+        with open(prev_path) as f:
+            previous_data = json.load(f)
+        for prev_char in previous_data.get('characters', []):
+            previous_gear_sets_by_guid[prev_char['guid']] = set(prev_char.get('gear_set_achievements', []))
+    except (json.JSONDecodeError, OSError):
+        pass  # first run, or an unreadable/corrupt previous file — start fresh
+
 characters = []
 for line in sys.stdin:
     line = line.rstrip('\n')
@@ -216,6 +319,8 @@ for line in sys.stdin:
     (guid, name, account, race, race_name, cls, class_name,
      faction, level, money, ap, ac, played) = line.split('\t')
     guid = int(guid)
+    newly_detected = detect_gear_sets(equipped_by_guid.get(guid, set()))
+    gear_set_achievements = sorted(previous_gear_sets_by_guid.get(guid, set()) | set(newly_detected))
     characters.append({
         'guid': guid,
         'name': name,
@@ -231,6 +336,7 @@ for line in sys.stdin:
         'achievement_count': int(ac),
         'played_time_seconds': int(played),
         'achievements': sorted(achievements_by_guid.get(guid, [])),
+        'gear_set_achievements': gear_set_achievements,
     })
 
 generated_at = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -244,7 +350,7 @@ with open('$REPO_DATA_DIR/characters.json', 'w') as f:
 
 print(f'  characters.json: wrote {len(characters)} characters')
 " || { echo "Failed: characters.json export"; exit 1; }
-rm -f "$ACHIEVEMENTS_TMP"
+rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP"
 
 echo "  Publishing characters.json to GitHub..."
 (

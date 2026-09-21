@@ -330,6 +330,23 @@ main {
   grid-column: 1 / -1;
 }
 
+.achv-section__name {
+  grid-column: 1 / -1;
+  margin: 0.2rem 0 -0.4rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 0.6rem;
+}
+
+.char-achievements > .achv-section__name:first-child {
+  border-top: none;
+  padding-top: 0;
+  margin-top: 0;
+}
+
 .achv-category__name {
   margin: 0 0 0.35rem;
   font-size: 0.72rem;
@@ -354,6 +371,11 @@ main {
 
 .achv-list__item {
   font-size: 0.82rem;
+}
+
+.achv-list__points {
+  color: var(--text-dim);
+  font-size: 0.72rem;
 }
 
 .app-footer {

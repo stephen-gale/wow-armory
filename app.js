@@ -75,9 +75,11 @@ function loadAchievementData() {
     achievementDataPromise = Promise.all([
       fetch("assets/data/achievements.json").then((r) => r.json()),
       fetch("assets/data/achievement_categories.json").then((r) => r.json()),
-    ]).then(([achievements, categories]) => ({
+      fetch("assets/data/gear_set_achievements.json").then((r) => r.json()),
+    ]).then(([achievements, categories, gearSets]) => ({
       achievementsById: new Map(achievements.map((a) => [a.id, a])),
       categoriesById: new Map(categories.map((c) => [c.id, c])),
+      gearSetsById: new Map(gearSets.map((g) => [g.id, g])),
     }));
   }
   return achievementDataPromise;
@@ -252,17 +254,35 @@ function toggleAchievementsPanel(rowLi, c) {
   placeholder.innerHTML = `<p class="char-achievements__empty">Loading achievements…</p>`;
   rowLi.after(placeholder);
 
-  loadAchievementData().then(({ achievementsById, categoriesById }) => {
-    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById));
+  loadAchievementData().then(({ achievementsById, categoriesById, gearSetsById }) => {
+    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById, gearSetsById));
   });
 }
 
 // Groups the character's completed achievement IDs by whichever category
 // Blizzard's own data files directly tag them with — no re-grouping or
-// custom categorization on top.
-function buildAchievementsPanel(c, achievementsById, categoriesById) {
+// custom categorization on top. Gear-set achievements (custom,
+// companion-app-only) are grouped separately, by their own tier label,
+// and always shown first since that's usually what's most interesting.
+function buildAchievementsPanel(c, achievementsById, categoriesById, gearSetsById) {
   const li = document.createElement("li");
   li.className = "char-achievements";
+
+  const gearSetIds = c.gear_set_achievements || [];
+  const byGearTier = new Map();
+  for (const id of gearSetIds) {
+    const gearSet = gearSetsById.get(id);
+    if (!gearSet) continue;
+    const list = byGearTier.get(gearSet.tier) || [];
+    list.push(gearSet);
+    byGearTier.set(gearSet.tier, list);
+  }
+  const gearSetGroups = [...byGearTier.entries()]
+    .map(([tier, sets]) => ({
+      name: tier,
+      achievements: sets.sort((a, b) => a.name.localeCompare(b.name)),
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   const ids = c.achievements || [];
   const byCategory = new Map();
@@ -273,12 +293,6 @@ function buildAchievementsPanel(c, achievementsById, categoriesById) {
     list.push(achievement);
     byCategory.set(achievement.category_id, list);
   }
-
-  if (byCategory.size === 0) {
-    li.innerHTML = `<p class="char-achievements__empty">No completed achievements recorded.</p>`;
-    return li;
-  }
-
   const categoryGroups = [...byCategory.entries()]
     .map(([categoryId, achievements]) => ({
       name: categoriesById.get(categoryId)?.name || "Other",
@@ -286,20 +300,40 @@ function buildAchievementsPanel(c, achievementsById, categoriesById) {
     }))
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  li.innerHTML = categoryGroups
+  if (gearSetGroups.length === 0 && categoryGroups.length === 0) {
+    li.innerHTML = `<p class="char-achievements__empty">No completed achievements recorded.</p>`;
+    return li;
+  }
+
+  li.innerHTML =
+    renderAchievementGroups(gearSetGroups, "Gear Sets", true) +
+    renderAchievementGroups(categoryGroups, null, false);
+
+  return li;
+}
+
+// Returns achv-category blocks as siblings (not wrapped in a container), so
+// they keep flowing into the same auto-fill grid as `.char-achievements`
+// uses for every category — an optional full-width heading is inserted
+// ahead of this group's own categories to label the section.
+function renderAchievementGroups(groups, sectionLabel, showPoints) {
+  if (groups.length === 0) return "";
+  const heading = sectionLabel
+    ? `<h3 class="achv-section__name">${escapeHtml(sectionLabel)}</h3>`
+    : "";
+  const categories = groups
     .map((group) => `
       <div class="achv-category">
         <h4 class="achv-category__name">${escapeHtml(group.name)} <span class="achv-category__count">(${group.achievements.length})</span></h4>
         <ul class="achv-list">
           ${group.achievements.map((a) => `
-            <li class="achv-list__item">${escapeHtml(a.name)}</li>
+            <li class="achv-list__item">${escapeHtml(a.name)}${showPoints ? ` <span class="achv-list__points">${a.points} pts</span>` : ""}</li>
           `).join("")}
         </ul>
       </div>
     `)
     .join("");
-
-  return li;
+  return heading + categories;
 }
 
 function formatPlayedTime(totalSeconds) {

@@ -13,6 +13,14 @@
 #
 # Adjust DB_HOST / DB_PORT / DB_USER / DB_PASS / OUTPUT_DIR below (or export
 # them as env vars before calling this script) to match wowbackup.sh.
+#
+# Gear-set achievements (see assets/data/gear_set_achievements.json) are
+# detected by checking each character's *currently equipped* items
+# (character_inventory.bag = 0, slot 0-18) against the item ids that make
+# up each named set. Once earned, a gear-set achievement is sticky: it
+# stays on the character permanently, even after the gear is swapped away,
+# by unioning this run's newly-detected ids with whatever was already
+# recorded in the existing OUTPUT_FILE (if present) before overwriting it.
 
 set -euo pipefail
 
@@ -22,11 +30,14 @@ DB_USER="${DB_USER:-acore}"
 DB_PASS="${DB_PASS:-acore}"
 OUTPUT_DIR="${OUTPUT_DIR:-$HOME/wow-backups}"
 OUTPUT_FILE="${OUTPUT_FILE:-$OUTPUT_DIR/characters.json}"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+GEAR_SET_DEFS="${GEAR_SET_DEFS:-$SCRIPT_DIR/../assets/data/gear_set_achievements.json}"
 
 mkdir -p "$OUTPUT_DIR"
 
 ACHIEVEMENTS_TMP="$(mktemp)"
-trap 'rm -f "$ACHIEVEMENTS_TMP"' EXIT
+EQUIPPED_TMP="$(mktemp)"
+trap 'rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP"' EXIT
 
 mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
   SELECT ca.guid, ca.achievement
@@ -35,6 +46,16 @@ mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
   JOIN acore_auth.account a ON a.id = c.account
   WHERE a.username NOT LIKE 'RNDBOT%';
 " > "$ACHIEVEMENTS_TMP"
+
+mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
+  SELECT ci.guid, ii.itemEntry
+  FROM acore_characters.character_inventory ci
+  JOIN acore_characters.item_instance ii ON ii.guid = ci.item
+  JOIN acore_characters.characters c ON c.guid = ci.guid
+  JOIN acore_auth.account a ON a.id = c.account
+  WHERE ci.bag = 0 AND ci.slot BETWEEN 0 AND 18
+    AND a.username NOT LIKE 'RNDBOT%';
+" > "$EQUIPPED_TMP"
 
 read -r -d '' QUERY <<'SQL' || true
 SELECT
@@ -72,14 +93,17 @@ WHERE a.username NOT LIKE 'RNDBOT%'
 ORDER BY faction, c.level DESC, c.name;
 SQL
 
-mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "$QUERY" | python3 - "$OUTPUT_FILE" "$ACHIEVEMENTS_TMP" <<'PYEOF'
+mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "$QUERY" | python3 - "$OUTPUT_FILE" "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$GEAR_SET_DEFS" <<'PYEOF'
 import sys
 import json
 import datetime
+import os
 from collections import defaultdict
 
 out_path = sys.argv[1]
 achievements_path = sys.argv[2]
+equipped_path = sys.argv[3]
+gear_set_defs_path = sys.argv[4]
 
 achievements_by_guid = defaultdict(list)
 with open(achievements_path) as f:
@@ -89,6 +113,45 @@ with open(achievements_path) as f:
             continue
         guid, achievement_id = line.split("\t")
         achievements_by_guid[int(guid)].append(int(achievement_id))
+
+# Currently-equipped item entries per character (bag=0, slot 0-18 only —
+# actual gear, not bags/bank/inventory).
+equipped_by_guid = defaultdict(set)
+with open(equipped_path) as f:
+    for line in f:
+        line = line.rstrip("\n")
+        if not line:
+            continue
+        guid, item_entry = line.split("\t")
+        equipped_by_guid[int(guid)].add(int(item_entry))
+
+with open(gear_set_defs_path) as f:
+    gear_set_defs = json.load(f)
+
+def detect_gear_sets(equipped_ids):
+    """A gear-set achievement is earned when the character currently has at
+    least one item from EVERY slot group equipped (each slot group is a list
+    of interchangeable item ids for that slot — e.g. a "Conquest"-suffixed
+    variant and its plain counterpart, or a Horde/Alliance pair that happens
+    to share a display name)."""
+    earned = []
+    for gs in gear_set_defs:
+        if all(any(item_id in equipped_ids for item_id in group) for group in gs["slot_groups"]):
+            earned.append(gs["id"])
+    return earned
+
+# Sticky achievements: once earned, a gear-set achievement is never removed,
+# even if the character later swaps the gear away. Read whatever was already
+# published last run (if any) and union it with this run's live detection.
+previous_gear_sets_by_guid = defaultdict(set)
+if os.path.exists(out_path):
+    try:
+        with open(out_path) as f:
+            previous_data = json.load(f)
+        for prev_char in previous_data.get("characters", []):
+            previous_gear_sets_by_guid[prev_char["guid"]] = set(prev_char.get("gear_set_achievements", []))
+    except (json.JSONDecodeError, OSError):
+        pass  # first run, or an unreadable/corrupt previous file — start fresh
 
 characters = []
 
@@ -100,6 +163,8 @@ for line in sys.stdin:
     (guid, name, account, race, race_name, cls, class_name,
      faction, level, money, ap, ac, played) = fields
     guid = int(guid)
+    newly_detected = detect_gear_sets(equipped_by_guid.get(guid, set()))
+    gear_set_achievements = sorted(previous_gear_sets_by_guid.get(guid, set()) | set(newly_detected))
     characters.append({
         "guid": guid,
         "name": name,
@@ -115,6 +180,7 @@ for line in sys.stdin:
         "achievement_count": int(ac),
         "played_time_seconds": int(played),
         "achievements": sorted(achievements_by_guid.get(guid, [])),
+        "gear_set_achievements": gear_set_achievements,
     })
 
 data = {
