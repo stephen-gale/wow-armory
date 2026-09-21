@@ -180,7 +180,7 @@ function formatPlayedTime(totalSeconds) {
 }
 
 function formatNumber(n) {
-  return (n || 0).toLocaleString();
+  return String(n || 0);
 }
 
 function goldAmount(copper) {
