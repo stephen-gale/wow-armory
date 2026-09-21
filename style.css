@@ -55,32 +55,6 @@ body {
   flex-wrap: wrap;
 }
 
-.file-picker-btn,
-.ghost-btn {
-  cursor: pointer;
-  border-radius: 6px;
-  padding: 0.5rem 0.9rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-}
-
-.file-picker-btn {
-  background: var(--gold);
-  color: #1a1a1a;
-  border: 1px solid var(--gold);
-}
-
-.ghost-btn {
-  background: transparent;
-  color: var(--text-dim);
-  border: 1px solid var(--panel-border);
-}
-
-.ghost-btn:hover {
-  color: var(--text);
-  border-color: var(--text-dim);
-}
-
 .generated-at {
   color: var(--text-dim);
   font-size: 0.78rem;
@@ -249,4 +223,18 @@ main {
   color: var(--text-dim);
   font-size: 0.75rem;
   padding: 2rem 1rem;
+}
+
+.file-picker-fallback {
+  display: inline-block;
+  margin-top: 0.75rem;
+  cursor: pointer;
+  color: var(--text-dim);
+  font-size: 0.72rem;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.file-picker-fallback:hover {
+  color: var(--text);
 }

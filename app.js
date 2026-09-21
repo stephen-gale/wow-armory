@@ -12,7 +12,6 @@ const CLASS_COLORS = {
 };
 
 const fileInput = document.getElementById("file-input");
-const loadExampleBtn = document.getElementById("load-example-btn");
 const generatedAtEl = document.getElementById("generated-at");
 const emptyStateEl = document.getElementById("empty-state");
 const summaryBarEl = document.getElementById("summary-bar");
@@ -31,13 +30,6 @@ fileInput.addEventListener("change", (event) => {
     }
   };
   reader.readAsText(file);
-});
-
-loadExampleBtn.addEventListener("click", () => {
-  fetch("characters.example.json")
-    .then((res) => res.json())
-    .then(renderDashboard)
-    .catch((err) => alert("Couldn't load example data: " + err.message));
 });
 
 // Auto-load the published characters.json (if present) so the dashboard
