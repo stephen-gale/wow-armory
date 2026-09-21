@@ -27,7 +27,15 @@
         557,
         621,
         927
-      ]
+      ],
+      "collections": {
+        "gear": [
+          "t0_warrior",
+          "t05_plate_a",
+          "t1_warrior",
+          "t2_warrior"
+        ]
+      }
     },
     {
       "guid": 2,
@@ -53,7 +61,13 @@
         621,
         155,
         167
-      ]
+      ],
+      "collections": {
+        "gear": [
+          "t0_druid",
+          "t05_leather_b"
+        ]
+      }
     },
     {
       "guid": 3,
@@ -98,7 +112,15 @@
         45,
         556,
         557
-      ]
+      ],
+      "collections": {
+        "gear": [
+          "t0_warrior",
+          "t1_warrior",
+          "t2_warrior",
+          "aq40_warrior"
+        ]
+      }
     },
     {
       "guid": 5,
@@ -122,7 +144,12 @@
         42,
         621,
         33
-      ]
+      ],
+      "collections": {
+        "gear": [
+          "t0_warlock"
+        ]
+      }
     },
     {
       "guid": 6,

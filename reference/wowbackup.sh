@@ -181,8 +181,10 @@ echo "  Saving progress report..."
 } > "$BACKUP_DIR/playtime_by_character.txt" || { echo "Failed: progress report export"; exit 1; }
 
 echo "  Saving characters.json..."
-REPO_DATA_DIR="/home/deck/wow-companion-data"
+REPO_DATA_DIR="/home/deck/wow-armory-data"
+COLLECTION_GEAR_DEFS="$REPO_DATA_DIR/assets/data/collections/gear.json"
 ACHIEVEMENTS_TMP="$(mktemp)"
+EQUIPPED_TMP="$(mktemp)"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT ca.guid, ca.achievement
   FROM acore_characters.character_achievement ca
@@ -190,6 +192,15 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   JOIN acore_auth.account a ON a.id = c.account
   WHERE a.username NOT LIKE 'RNDBOT%';
 " > "$ACHIEVEMENTS_TMP"
+mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
+  SELECT ci.guid, ii.itemEntry
+  FROM acore_characters.character_inventory ci
+  JOIN acore_characters.item_instance ii ON ii.guid = ci.item
+  JOIN acore_characters.characters c ON c.guid = ci.guid
+  JOIN acore_auth.account a ON a.id = c.account
+  WHERE ci.bag = 0 AND ci.slot BETWEEN 0 AND 18
+    AND a.username NOT LIKE 'RNDBOT%';
+" > "$EQUIPPED_TMP"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT
     c.guid,
@@ -225,7 +236,7 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   WHERE a.username NOT LIKE 'RNDBOT%'
   ORDER BY c.totaltime DESC;
 " | python3 -c "
-import sys, json, datetime
+import sys, json, datetime, os
 from collections import defaultdict
 
 achievements_by_guid = defaultdict(list)
@@ -237,6 +248,46 @@ with open('$ACHIEVEMENTS_TMP') as f:
         guid, achievement_id = line.split('\t')
         achievements_by_guid[int(guid)].append(int(achievement_id))
 
+# Currently-equipped item entries per character (bag=0, slot 0-18 — actual
+# gear, not bags/bank).
+equipped_by_guid = defaultdict(set)
+with open('$EQUIPPED_TMP') as f:
+    for line in f:
+        line = line.rstrip('\n')
+        if not line:
+            continue
+        guid, item_entry = line.split('\t')
+        equipped_by_guid[int(guid)].add(int(item_entry))
+
+with open('$COLLECTION_GEAR_DEFS') as f:
+    collection_gear_defs = json.load(f)
+
+def detect_collection_gear(equipped_ids):
+    # Earned when the character has at least one item from EVERY slot group
+    # equipped right now (each slot group lists interchangeable item ids for
+    # that slot — a 'Conquest'-suffixed variant and its plain counterpart, or
+    # a Horde/Alliance pair sharing one display name).
+    earned = []
+    for gs in collection_gear_defs:
+        if all(any(item_id in equipped_ids for item_id in group) for group in gs['slot_groups']):
+            earned.append(gs['id'])
+    return earned
+
+# Sticky: once earned, a collection is never removed, even after the gear
+# is swapped away. Union this run's live detection with whatever was
+# already published to the repo (the ongoing source of truth) last run.
+previous_collection_gear_by_guid = defaultdict(set)
+prev_path = '$REPO_DATA_DIR/characters.json'
+if os.path.exists(prev_path):
+    try:
+        with open(prev_path) as f:
+            previous_data = json.load(f)
+        for prev_char in previous_data.get('characters', []):
+            previous_gear = prev_char.get('collections', {}).get('gear', [])
+            previous_collection_gear_by_guid[prev_char['guid']] = set(previous_gear)
+    except (json.JSONDecodeError, OSError):
+        pass  # first run, or an unreadable/corrupt previous file — start fresh
+
 characters = []
 for line in sys.stdin:
     line = line.rstrip('\n')
@@ -245,6 +296,8 @@ for line in sys.stdin:
     (guid, name, account, race, race_name, cls, class_name,
      faction, level, money, ap, ac, played) = line.split('\t')
     guid = int(guid)
+    newly_detected = detect_collection_gear(equipped_by_guid.get(guid, set()))
+    collection_gear = sorted(previous_collection_gear_by_guid.get(guid, set()) | set(newly_detected))
     characters.append({
         'guid': guid,
         'name': name,
@@ -260,6 +313,9 @@ for line in sys.stdin:
         'achievement_count': int(ac),
         'played_time_seconds': int(played),
         'achievements': sorted(achievements_by_guid.get(guid, [])),
+        'collections': {
+            'gear': collection_gear,
+        },
     })
 
 generated_at = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
@@ -273,7 +329,7 @@ with open('$REPO_DATA_DIR/characters.json', 'w') as f:
 
 print(f'  characters.json: wrote {len(characters)} characters')
 " || { echo "Failed: characters.json export"; exit 1; }
-rm -f "$ACHIEVEMENTS_TMP"
+rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP"
 
 echo "  Publishing characters.json to GitHub..."
 (

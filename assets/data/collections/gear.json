@@ -1,0 +1,12522 @@
+[
+  {
+    "id": "t0_warrior",
+    "name": "Battlegear of Valor",
+    "category": "Classic Dungeon Sets",
+    "tier": "Tier 0",
+    "who": "Plate",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16730,
+      16731,
+      16732,
+      16733,
+      16734,
+      16735,
+      16736,
+      16737
+    ],
+    "slot_groups": [
+      [
+        16730
+      ],
+      [
+        16734
+      ],
+      [
+        16737
+      ],
+      [
+        16731
+      ],
+      [
+        16732
+      ],
+      [
+        16733
+      ],
+      [
+        16736
+      ],
+      [
+        16735
+      ]
+    ]
+  },
+  {
+    "id": "t0_paladin",
+    "name": "Lightforge Armor",
+    "category": "Classic Dungeon Sets",
+    "tier": "Tier 0",
+    "who": "Plate",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16722,
+      16723,
+      16724,
+      16725,
+      16726,
+      16727,
+      16728,
+      16729
+    ],
+    "slot_groups": [
+      [
+        16726
+      ],
+      [
+        16725
+      ],
+      [
+        16724
+      ],
+      [
+        16727
+      ],
+      [
+        16728
+      ],
+      [
+        16729
+      ],
+      [
+        16723
+      ],
+      [
+        16722
+      ]
+    ]
+  },
+  {
+    "id": "t0_hunter",
+    "name": "Beaststalker Armor",
+    "category": "Classic Dungeon Sets",
+    "tier": "Tier 0",
+    "who": "Mail",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16674,
+      16675,
+      16676,
+      16677,
+      16678,
+      16679,
+      16680,
+      16681
+    ],
+    "slot_groups": [
+      [
+        16674
+      ],
+      [
+        16675
+      ],
+      [
+        16676
+      ],
+      [
+        16677
+      ],
+      [
+        16678
+      ],
+      [
+        16679
+      ],
+      [
+        16680
+      ],
+      [
+        16681
+      ]
+    ]
+  },
+  {
+    "id": "t0_shaman",
+    "name": "The Elements",
+    "category": "Classic Dungeon Sets",
+    "tier": "Tier 0",
+    "who": "Mail",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16666,
+      16667,
+      16668,
+      16669,
+      16670,
+      16671,
+      16672,
+      16673
+    ],
+    "slot_groups": [
+      [
+        16666
+      ],
+      [
+        16670
+      ],
+      [
+        16672
+      ],
+      [
+        16667
+      ],
+      [
+        16668
+      ],
+      [
+        16669
+      ],
+      [
+        16673
+      ],
+      [
+        16671
+      ]
+    ]
+  },
+  {
+    "id": "t0_rogue",
+    "name": "Shadowcraft Armor",
+    "category": "Classic Dungeon Sets",
+    "tier": "Tier 0",
+    "who": "Leather",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16707,
+      16708,
+      16709,
+      16710,
+      16711,
+      16712,
+      16713,
+      16721
+    ],
+    "slot_groups": [
+      [
+        16721
+      ],
+      [
+        16711
+      ],
+      [
+        16712
+      ],
+      [
+        16707
+      ],
+      [
+        16709
+      ],
+      [
+        16708
+      ],
+      [
+        16713
+      ],
+      [
+        16710
+      ]
+    ]
+  },
+  {
+    "id": "t0_druid",
+    "name": "Wildheart Raiment",
+    "category": "Classic Dungeon Sets",
+    "tier": "Tier 0",
+    "who": "Leather",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16706,
+      16714,
+      16715,
+      16716,
+      16717,
+      16718,
+      16719,
+      16720
+    ],
+    "slot_groups": [
+      [
+        16706
+      ],
+      [
+        16715
+      ],
+      [
+        16717
+      ],
+      [
+        16720
+      ],
+      [
+        16719
+      ],
+      [
+        16718
+      ],
+      [
+        16716
+      ],
+      [
+        16714
+      ]
+    ]
+  },
+  {
+    "id": "t0_priest",
+    "name": "Vestments of the Devout",
+    "category": "Classic Dungeon Sets",
+    "tier": "Tier 0",
+    "who": "Cloth",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16690,
+      16691,
+      16692,
+      16693,
+      16694,
+      16695,
+      16696,
+      16697
+    ],
+    "slot_groups": [
+      [
+        16690
+      ],
+      [
+        16691
+      ],
+      [
+        16692
+      ],
+      [
+        16693
+      ],
+      [
+        16694
+      ],
+      [
+        16695
+      ],
+      [
+        16696
+      ],
+      [
+        16697
+      ]
+    ]
+  },
+  {
+    "id": "t0_mage",
+    "name": "Magister's Regalia",
+    "category": "Classic Dungeon Sets",
+    "tier": "Tier 0",
+    "who": "Cloth",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16682,
+      16683,
+      16684,
+      16685,
+      16686,
+      16687,
+      16688,
+      16689
+    ],
+    "slot_groups": [
+      [
+        16688
+      ],
+      [
+        16682
+      ],
+      [
+        16684
+      ],
+      [
+        16686
+      ],
+      [
+        16687
+      ],
+      [
+        16689
+      ],
+      [
+        16685
+      ],
+      [
+        16683
+      ]
+    ]
+  },
+  {
+    "id": "t0_warlock",
+    "name": "Dreadmist Raiment",
+    "category": "Classic Dungeon Sets",
+    "tier": "Tier 0",
+    "who": "Cloth",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16698,
+      16699,
+      16700,
+      16701,
+      16702,
+      16703,
+      16704,
+      16705
+    ],
+    "slot_groups": [
+      [
+        16700
+      ],
+      [
+        16704
+      ],
+      [
+        16705
+      ],
+      [
+        16698
+      ],
+      [
+        16699
+      ],
+      [
+        16701
+      ],
+      [
+        16702
+      ],
+      [
+        16703
+      ]
+    ]
+  },
+  {
+    "id": "lowlevel_viper",
+    "name": "Embrace of the Viper",
+    "category": "Classic Dungeon Sets",
+    "tier": "Low-level dungeon sets",
+    "who": "Leather",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      6473,
+      10410,
+      10411,
+      10412,
+      10413
+    ],
+    "slot_groups": [
+      [
+        6473
+      ],
+      [
+        10411
+      ],
+      [
+        10413
+      ],
+      [
+        10410
+      ],
+      [
+        10412
+      ]
+    ]
+  },
+  {
+    "id": "lowlevel_defias",
+    "name": "Defias Leather",
+    "category": "Classic Dungeon Sets",
+    "tier": "Low-level dungeon sets",
+    "who": "Leather",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      10399,
+      10400,
+      10401,
+      10402,
+      10403
+    ],
+    "slot_groups": [
+      [
+        10399
+      ],
+      [
+        10402
+      ],
+      [
+        10401
+      ],
+      [
+        10400
+      ],
+      [
+        10403
+      ]
+    ]
+  },
+  {
+    "id": "lowlevel_scarlet",
+    "name": "Chain of the Scarlet Crusade",
+    "category": "Classic Dungeon Sets",
+    "tier": "Low-level dungeon sets",
+    "who": "Mail",
+    "points": 10,
+    "pieces": 6,
+    "item_ids": [
+      10328,
+      10329,
+      10330,
+      10331,
+      10332,
+      10333
+    ],
+    "slot_groups": [
+      [
+        10328
+      ],
+      [
+        10332
+      ],
+      [
+        10331
+      ],
+      [
+        10330
+      ],
+      [
+        10329
+      ],
+      [
+        10333
+      ]
+    ]
+  },
+  {
+    "id": "lowlevel_postmaster",
+    "name": "The Postmaster",
+    "category": "Classic Dungeon Sets",
+    "tier": "Low-level dungeon sets",
+    "who": "Cloth",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      13388,
+      13389,
+      13390,
+      13391,
+      13392
+    ],
+    "slot_groups": [
+      [
+        13388
+      ],
+      [
+        13391
+      ],
+      [
+        13392
+      ],
+      [
+        13390
+      ],
+      [
+        13389
+      ]
+    ]
+  },
+  {
+    "id": "t05_plate_a",
+    "name": "Battlegear of Heroism",
+    "category": "Classic Dungeon Sets",
+    "tier": "Tier 0.5",
+    "who": "Plate",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      21994,
+      21995,
+      21996,
+      21997,
+      21998,
+      21999,
+      22000,
+      22001
+    ],
+    "slot_groups": [
+      [
+        21997
+      ],
+      [
+        21995
+      ],
+      [
+        21998
+      ],
+      [
+        21999
+      ],
+      [
+        22000
+      ],
+      [
+        22001
+      ],
+      [
+        21994
+      ],
+      [
+        21996
+      ]
+    ]
+  },
+  {
+    "id": "t05_plate_b",
+    "name": "Soulforge Armor",
+    "category": "Classic Dungeon Sets",
+    "tier": "Tier 0.5",
+    "who": "Plate",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      22086,
+      22087,
+      22088,
+      22089,
+      22090,
+      22091,
+      22092,
+      22093
+    ],
+    "slot_groups": [
+      [
+        22089
+      ],
+      [
+        22087
+      ],
+      [
+        22090
+      ],
+      [
+        22091
+      ],
+      [
+        22092
+      ],
+      [
+        22093
+      ],
+      [
+        22086
+      ],
+      [
+        22088
+      ]
+    ]
+  },
+  {
+    "id": "t05_mail_a",
+    "name": "Beastmaster Armor",
+    "category": "Classic Dungeon Sets",
+    "tier": "Tier 0.5",
+    "who": "Mail",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      22010,
+      22011,
+      22013,
+      22015,
+      22016,
+      22017,
+      22060,
+      22061
+    ],
+    "slot_groups": [
+      [
+        22060
+      ],
+      [
+        22061
+      ],
+      [
+        22015
+      ],
+      [
+        22013
+      ],
+      [
+        22017
+      ],
+      [
+        22016
+      ],
+      [
+        22010
+      ],
+      [
+        22011
+      ]
+    ]
+  },
+  {
+    "id": "t05_mail_b",
+    "name": "The Five Thunders",
+    "category": "Classic Dungeon Sets",
+    "tier": "Tier 0.5",
+    "who": "Mail",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      22095,
+      22096,
+      22097,
+      22098,
+      22099,
+      22100,
+      22101,
+      22102
+    ],
+    "slot_groups": [
+      [
+        22102
+      ],
+      [
+        22096
+      ],
+      [
+        22099
+      ],
+      [
+        22097
+      ],
+      [
+        22100
+      ],
+      [
+        22101
+      ],
+      [
+        22098
+      ],
+      [
+        22095
+      ]
+    ]
+  },
+  {
+    "id": "t05_leather_a",
+    "name": "Darkmantle Armor",
+    "category": "Classic Dungeon Sets",
+    "tier": "Tier 0.5",
+    "who": "Leather",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      22002,
+      22003,
+      22004,
+      22005,
+      22006,
+      22007,
+      22008,
+      22009
+    ],
+    "slot_groups": [
+      [
+        22009
+      ],
+      [
+        22003
+      ],
+      [
+        22006
+      ],
+      [
+        22005
+      ],
+      [
+        22007
+      ],
+      [
+        22008
+      ],
+      [
+        22002
+      ],
+      [
+        22004
+      ]
+    ]
+  },
+  {
+    "id": "t05_leather_b",
+    "name": "Feralheart Raiment",
+    "category": "Classic Dungeon Sets",
+    "tier": "Tier 0.5",
+    "who": "Leather",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      22106,
+      22107,
+      22108,
+      22109,
+      22110,
+      22111,
+      22112,
+      22113
+    ],
+    "slot_groups": [
+      [
+        22113
+      ],
+      [
+        22107
+      ],
+      [
+        22110
+      ],
+      [
+        22109
+      ],
+      [
+        22111
+      ],
+      [
+        22112
+      ],
+      [
+        22106
+      ],
+      [
+        22108
+      ]
+    ]
+  },
+  {
+    "id": "t05_cloth_a",
+    "name": "Deathmist Raiment",
+    "category": "Classic Dungeon Sets",
+    "tier": "Tier 0.5",
+    "who": "Cloth",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      22070,
+      22071,
+      22072,
+      22073,
+      22074,
+      22075,
+      22076,
+      22077
+    ],
+    "slot_groups": [
+      [
+        22075
+      ],
+      [
+        22076
+      ],
+      [
+        22077
+      ],
+      [
+        22074
+      ],
+      [
+        22072
+      ],
+      [
+        22073
+      ],
+      [
+        22070
+      ],
+      [
+        22071
+      ]
+    ]
+  },
+  {
+    "id": "t05_cloth_b",
+    "name": "Sorcerer's Regalia",
+    "category": "Classic Dungeon Sets",
+    "tier": "Tier 0.5",
+    "who": "Cloth",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      22062,
+      22063,
+      22064,
+      22065,
+      22066,
+      22067,
+      22068,
+      22069
+    ],
+    "slot_groups": [
+      [
+        22069
+      ],
+      [
+        22064
+      ],
+      [
+        22066
+      ],
+      [
+        22065
+      ],
+      [
+        22067
+      ],
+      [
+        22068
+      ],
+      [
+        22062
+      ],
+      [
+        22063
+      ]
+    ]
+  },
+  {
+    "id": "t05_cloth_c",
+    "name": "Vestments of the Virtuous",
+    "category": "Classic Dungeon Sets",
+    "tier": "Tier 0.5",
+    "who": "Cloth",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      22078,
+      22079,
+      22080,
+      22081,
+      22082,
+      22083,
+      22084,
+      22085
+    ],
+    "slot_groups": [
+      [
+        22083
+      ],
+      [
+        22084
+      ],
+      [
+        22081
+      ],
+      [
+        22080
+      ],
+      [
+        22085
+      ],
+      [
+        22082
+      ],
+      [
+        22078
+      ],
+      [
+        22079
+      ]
+    ]
+  },
+  {
+    "id": "t1_warrior",
+    "name": "Battlegear of Might",
+    "category": "Classic Raid Tiers",
+    "tier": "Tier 1 (Molten Core)",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16861,
+      16862,
+      16863,
+      16864,
+      16865,
+      16866,
+      16867,
+      16868
+    ],
+    "slot_groups": [
+      [
+        16865
+      ],
+      [
+        16862
+      ],
+      [
+        16863
+      ],
+      [
+        16866
+      ],
+      [
+        16867
+      ],
+      [
+        16868
+      ],
+      [
+        16864
+      ],
+      [
+        16861
+      ]
+    ]
+  },
+  {
+    "id": "t1_paladin",
+    "name": "Lawbringer Armor",
+    "category": "Classic Raid Tiers",
+    "tier": "Tier 1 (Molten Core)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16853,
+      16854,
+      16855,
+      16856,
+      16857,
+      16858,
+      16859,
+      16860
+    ],
+    "slot_groups": [
+      [
+        16853
+      ],
+      [
+        16859
+      ],
+      [
+        16860
+      ],
+      [
+        16854
+      ],
+      [
+        16855
+      ],
+      [
+        16856
+      ],
+      [
+        16858
+      ],
+      [
+        16857
+      ]
+    ]
+  },
+  {
+    "id": "t1_hunter",
+    "name": "Giantstalker Armor",
+    "category": "Classic Raid Tiers",
+    "tier": "Tier 1 (Molten Core)",
+    "who": "Hunter",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16845,
+      16846,
+      16847,
+      16848,
+      16849,
+      16850,
+      16851,
+      16852
+    ],
+    "slot_groups": [
+      [
+        16845
+      ],
+      [
+        16849
+      ],
+      [
+        16852
+      ],
+      [
+        16846
+      ],
+      [
+        16847
+      ],
+      [
+        16848
+      ],
+      [
+        16851
+      ],
+      [
+        16850
+      ]
+    ]
+  },
+  {
+    "id": "t1_rogue",
+    "name": "Nightslayer Armor",
+    "category": "Classic Raid Tiers",
+    "tier": "Tier 1 (Molten Core)",
+    "who": "Rogue",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16820,
+      16821,
+      16822,
+      16823,
+      16824,
+      16825,
+      16826,
+      16827
+    ],
+    "slot_groups": [
+      [
+        16820
+      ],
+      [
+        16824
+      ],
+      [
+        16826
+      ],
+      [
+        16821
+      ],
+      [
+        16822
+      ],
+      [
+        16823
+      ],
+      [
+        16827
+      ],
+      [
+        16825
+      ]
+    ]
+  },
+  {
+    "id": "t1_priest",
+    "name": "Vestments of Prophecy",
+    "category": "Classic Raid Tiers",
+    "tier": "Tier 1 (Molten Core)",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16811,
+      16812,
+      16813,
+      16814,
+      16815,
+      16816,
+      16817,
+      16819
+    ],
+    "slot_groups": [
+      [
+        16815
+      ],
+      [
+        16811
+      ],
+      [
+        16812
+      ],
+      [
+        16813
+      ],
+      [
+        16814
+      ],
+      [
+        16816
+      ],
+      [
+        16817
+      ],
+      [
+        16819
+      ]
+    ]
+  },
+  {
+    "id": "t1_mage",
+    "name": "Arcanist Regalia",
+    "category": "Classic Raid Tiers",
+    "tier": "Tier 1 (Molten Core)",
+    "who": "Mage",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16795,
+      16796,
+      16797,
+      16798,
+      16799,
+      16800,
+      16801,
+      16802
+    ],
+    "slot_groups": [
+      [
+        16798
+      ],
+      [
+        16800
+      ],
+      [
+        16801
+      ],
+      [
+        16795
+      ],
+      [
+        16796
+      ],
+      [
+        16797
+      ],
+      [
+        16802
+      ],
+      [
+        16799
+      ]
+    ]
+  },
+  {
+    "id": "t1_warlock",
+    "name": "Felheart Raiment",
+    "category": "Classic Raid Tiers",
+    "tier": "Tier 1 (Molten Core)",
+    "who": "Warlock",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16803,
+      16804,
+      16805,
+      16806,
+      16807,
+      16808,
+      16809,
+      16810
+    ],
+    "slot_groups": [
+      [
+        16809
+      ],
+      [
+        16803
+      ],
+      [
+        16805
+      ],
+      [
+        16808
+      ],
+      [
+        16810
+      ],
+      [
+        16807
+      ],
+      [
+        16806
+      ],
+      [
+        16804
+      ]
+    ]
+  },
+  {
+    "id": "t1_druid",
+    "name": "Cenarion Raiment",
+    "category": "Classic Raid Tiers",
+    "tier": "Tier 1 (Molten Core)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16828,
+      16829,
+      16830,
+      16831,
+      16833,
+      16834,
+      16835,
+      16836
+    ],
+    "slot_groups": [
+      [
+        16833
+      ],
+      [
+        16829
+      ],
+      [
+        16831
+      ],
+      [
+        16834
+      ],
+      [
+        16835
+      ],
+      [
+        16836
+      ],
+      [
+        16828
+      ],
+      [
+        16830
+      ]
+    ]
+  },
+  {
+    "id": "t1_shaman",
+    "name": "The Earthfury",
+    "category": "Classic Raid Tiers",
+    "tier": "Tier 1 (Molten Core)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16837,
+      16838,
+      16839,
+      16840,
+      16841,
+      16842,
+      16843,
+      16844
+    ],
+    "slot_groups": [
+      [
+        16841
+      ],
+      [
+        16837
+      ],
+      [
+        16839
+      ],
+      [
+        16842
+      ],
+      [
+        16843
+      ],
+      [
+        16844
+      ],
+      [
+        16838
+      ],
+      [
+        16840
+      ]
+    ]
+  },
+  {
+    "id": "zg_warrior",
+    "name": "Vindicator's Battlegear",
+    "category": "Classic Raid Tiers",
+    "tier": "Zul'Gurub (Tier 1.5)",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      19577,
+      19822,
+      19823,
+      19824,
+      19951
+    ],
+    "slot_groups": [
+      [
+        19822
+      ],
+      [
+        19577
+      ],
+      [
+        19951
+      ],
+      [
+        19823
+      ],
+      [
+        19824
+      ]
+    ]
+  },
+  {
+    "id": "zg_paladin",
+    "name": "Freethinker's Armor",
+    "category": "Classic Raid Tiers",
+    "tier": "Zul'Gurub (Tier 1.5)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      19588,
+      19825,
+      19826,
+      19827,
+      19952
+    ],
+    "slot_groups": [
+      [
+        19825
+      ],
+      [
+        19588
+      ],
+      [
+        19952
+      ],
+      [
+        19826
+      ],
+      [
+        19827
+      ]
+    ]
+  },
+  {
+    "id": "zg_hunter",
+    "name": "Predator's Armor",
+    "category": "Classic Raid Tiers",
+    "tier": "Zul'Gurub (Tier 1.5)",
+    "who": "Hunter",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      19621,
+      19831,
+      19832,
+      19833,
+      19953
+    ],
+    "slot_groups": [
+      [
+        19621
+      ],
+      [
+        19831
+      ],
+      [
+        19953
+      ],
+      [
+        19832
+      ],
+      [
+        19833
+      ]
+    ]
+  },
+  {
+    "id": "zg_rogue",
+    "name": "Madcap's Outfit",
+    "category": "Classic Raid Tiers",
+    "tier": "Zul'Gurub (Tier 1.5)",
+    "who": "Rogue",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      19617,
+      19834,
+      19835,
+      19836,
+      19954
+    ],
+    "slot_groups": [
+      [
+        19834
+      ],
+      [
+        19617
+      ],
+      [
+        19835
+      ],
+      [
+        19954
+      ],
+      [
+        19836
+      ]
+    ]
+  },
+  {
+    "id": "zg_priest",
+    "name": "Confessor's Raiment",
+    "category": "Classic Raid Tiers",
+    "tier": "Zul'Gurub (Tier 1.5)",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      19594,
+      19841,
+      19842,
+      19843,
+      19958
+    ],
+    "slot_groups": [
+      [
+        19594
+      ],
+      [
+        19841
+      ],
+      [
+        19958
+      ],
+      [
+        19842
+      ],
+      [
+        19843
+      ]
+    ]
+  },
+  {
+    "id": "zg_mage",
+    "name": "Illusionist's Attire",
+    "category": "Classic Raid Tiers",
+    "tier": "Zul'Gurub (Tier 1.5)",
+    "who": "Mage",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      19601,
+      19845,
+      19846,
+      19959,
+      20034
+    ],
+    "slot_groups": [
+      [
+        20034
+      ],
+      [
+        19601
+      ],
+      [
+        19845
+      ],
+      [
+        19959
+      ],
+      [
+        19846
+      ]
+    ]
+  },
+  {
+    "id": "zg_warlock",
+    "name": "Demoniac's Threads",
+    "category": "Classic Raid Tiers",
+    "tier": "Zul'Gurub (Tier 1.5)",
+    "who": "Warlock",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      19605,
+      19848,
+      19849,
+      19957,
+      20033
+    ],
+    "slot_groups": [
+      [
+        20033
+      ],
+      [
+        19605
+      ],
+      [
+        19849
+      ],
+      [
+        19957
+      ],
+      [
+        19848
+      ]
+    ]
+  },
+  {
+    "id": "zg_druid",
+    "name": "Haruspex's Garb",
+    "category": "Classic Raid Tiers",
+    "tier": "Zul'Gurub (Tier 1.5)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      19613,
+      19838,
+      19839,
+      19840,
+      19955
+    ],
+    "slot_groups": [
+      [
+        19838
+      ],
+      [
+        19613
+      ],
+      [
+        19955
+      ],
+      [
+        19839
+      ],
+      [
+        19840
+      ]
+    ]
+  },
+  {
+    "id": "zg_shaman",
+    "name": "Augur's Regalia",
+    "category": "Classic Raid Tiers",
+    "tier": "Zul'Gurub (Tier 1.5)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      19609,
+      19828,
+      19829,
+      19830,
+      19956
+    ],
+    "slot_groups": [
+      [
+        19828
+      ],
+      [
+        19609
+      ],
+      [
+        19956
+      ],
+      [
+        19829
+      ],
+      [
+        19830
+      ]
+    ]
+  },
+  {
+    "id": "t2_warrior",
+    "name": "Battlegear of Wrath",
+    "category": "Classic Raid Tiers",
+    "tier": "Tier 2 (Blackwing Lair)",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16959,
+      16960,
+      16961,
+      16962,
+      16963,
+      16964,
+      16965,
+      16966
+    ],
+    "slot_groups": [
+      [
+        16966
+      ],
+      [
+        16965
+      ],
+      [
+        16964
+      ],
+      [
+        16963
+      ],
+      [
+        16962
+      ],
+      [
+        16961
+      ],
+      [
+        16960
+      ],
+      [
+        16959
+      ]
+    ]
+  },
+  {
+    "id": "t2_paladin",
+    "name": "Judgement Armor",
+    "category": "Classic Raid Tiers",
+    "tier": "Tier 2 (Blackwing Lair)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16951,
+      16952,
+      16953,
+      16954,
+      16955,
+      16956,
+      16957,
+      16958
+    ],
+    "slot_groups": [
+      [
+        16958
+      ],
+      [
+        16957
+      ],
+      [
+        16956
+      ],
+      [
+        16955
+      ],
+      [
+        16954
+      ],
+      [
+        16953
+      ],
+      [
+        16952
+      ],
+      [
+        16951
+      ]
+    ]
+  },
+  {
+    "id": "t2_hunter",
+    "name": "Dragonstalker Armor",
+    "category": "Classic Raid Tiers",
+    "tier": "Tier 2 (Blackwing Lair)",
+    "who": "Hunter",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16935,
+      16936,
+      16937,
+      16938,
+      16939,
+      16940,
+      16941,
+      16942
+    ],
+    "slot_groups": [
+      [
+        16942
+      ],
+      [
+        16941
+      ],
+      [
+        16940
+      ],
+      [
+        16939
+      ],
+      [
+        16938
+      ],
+      [
+        16937
+      ],
+      [
+        16936
+      ],
+      [
+        16935
+      ]
+    ]
+  },
+  {
+    "id": "t2_rogue",
+    "name": "Bloodfang Armor",
+    "category": "Classic Raid Tiers",
+    "tier": "Tier 2 (Blackwing Lair)",
+    "who": "Rogue",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16832,
+      16905,
+      16906,
+      16907,
+      16908,
+      16909,
+      16910,
+      16911
+    ],
+    "slot_groups": [
+      [
+        16905
+      ],
+      [
+        16906
+      ],
+      [
+        16907
+      ],
+      [
+        16908
+      ],
+      [
+        16909
+      ],
+      [
+        16832
+      ],
+      [
+        16910
+      ],
+      [
+        16911
+      ]
+    ]
+  },
+  {
+    "id": "t2_priest",
+    "name": "Vestments of Transcendence",
+    "category": "Classic Raid Tiers",
+    "tier": "Tier 2 (Blackwing Lair)",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16919,
+      16920,
+      16921,
+      16922,
+      16923,
+      16924,
+      16925,
+      16926
+    ],
+    "slot_groups": [
+      [
+        16923
+      ],
+      [
+        16919
+      ],
+      [
+        16920
+      ],
+      [
+        16921
+      ],
+      [
+        16922
+      ],
+      [
+        16924
+      ],
+      [
+        16925
+      ],
+      [
+        16926
+      ]
+    ]
+  },
+  {
+    "id": "t2_mage",
+    "name": "Netherwind Regalia",
+    "category": "Classic Raid Tiers",
+    "tier": "Tier 2 (Blackwing Lair)",
+    "who": "Mage",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16818,
+      16912,
+      16913,
+      16914,
+      16915,
+      16916,
+      16917,
+      16918
+    ],
+    "slot_groups": [
+      [
+        16916
+      ],
+      [
+        16912
+      ],
+      [
+        16913
+      ],
+      [
+        16914
+      ],
+      [
+        16915
+      ],
+      [
+        16917
+      ],
+      [
+        16818
+      ],
+      [
+        16918
+      ]
+    ]
+  },
+  {
+    "id": "t2_warlock",
+    "name": "Nemesis Raiment",
+    "category": "Classic Raid Tiers",
+    "tier": "Tier 2 (Blackwing Lair)",
+    "who": "Warlock",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16927,
+      16928,
+      16929,
+      16930,
+      16931,
+      16932,
+      16933,
+      16934
+    ],
+    "slot_groups": [
+      [
+        16931
+      ],
+      [
+        16927
+      ],
+      [
+        16928
+      ],
+      [
+        16929
+      ],
+      [
+        16930
+      ],
+      [
+        16932
+      ],
+      [
+        16933
+      ],
+      [
+        16934
+      ]
+    ]
+  },
+  {
+    "id": "t2_druid",
+    "name": "Stormrage Raiment",
+    "category": "Classic Raid Tiers",
+    "tier": "Tier 2 (Blackwing Lair)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16897,
+      16898,
+      16899,
+      16900,
+      16901,
+      16902,
+      16903,
+      16904
+    ],
+    "slot_groups": [
+      [
+        16897
+      ],
+      [
+        16898
+      ],
+      [
+        16899
+      ],
+      [
+        16900
+      ],
+      [
+        16901
+      ],
+      [
+        16902
+      ],
+      [
+        16903
+      ],
+      [
+        16904
+      ]
+    ]
+  },
+  {
+    "id": "t2_shaman",
+    "name": "The Ten Storms",
+    "category": "Classic Raid Tiers",
+    "tier": "Tier 2 (Blackwing Lair)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      16943,
+      16944,
+      16945,
+      16946,
+      16947,
+      16948,
+      16949,
+      16950
+    ],
+    "slot_groups": [
+      [
+        16950
+      ],
+      [
+        16949
+      ],
+      [
+        16948
+      ],
+      [
+        16947
+      ],
+      [
+        16946
+      ],
+      [
+        16945
+      ],
+      [
+        16944
+      ],
+      [
+        16943
+      ]
+    ]
+  },
+  {
+    "id": "aq20_warrior",
+    "name": "Battlegear of Unyielding Strength",
+    "category": "Classic Raid Tiers",
+    "tier": "AQ20 (Ruins of Ahn'Qiraj)",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 3,
+    "item_ids": [
+      21392,
+      21393,
+      21394
+    ],
+    "slot_groups": [
+      [
+        21394
+      ],
+      [
+        21393
+      ],
+      [
+        21392
+      ]
+    ]
+  },
+  {
+    "id": "aq20_paladin",
+    "name": "Battlegear of Eternal Justice",
+    "category": "Classic Raid Tiers",
+    "tier": "AQ20 (Ruins of Ahn'Qiraj)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 3,
+    "item_ids": [
+      21395,
+      21396,
+      21397
+    ],
+    "slot_groups": [
+      [
+        21397
+      ],
+      [
+        21396
+      ],
+      [
+        21395
+      ]
+    ]
+  },
+  {
+    "id": "aq20_hunter",
+    "name": "Trappings of the Unseen Path",
+    "category": "Classic Raid Tiers",
+    "tier": "AQ20 (Ruins of Ahn'Qiraj)",
+    "who": "Hunter",
+    "points": 10,
+    "pieces": 3,
+    "item_ids": [
+      21401,
+      21402,
+      21403
+    ],
+    "slot_groups": [
+      [
+        21403
+      ],
+      [
+        21402
+      ],
+      [
+        21401
+      ]
+    ]
+  },
+  {
+    "id": "aq20_rogue",
+    "name": "Emblems of Veiled Shadows",
+    "category": "Classic Raid Tiers",
+    "tier": "AQ20 (Ruins of Ahn'Qiraj)",
+    "who": "Rogue",
+    "points": 10,
+    "pieces": 3,
+    "item_ids": [
+      21404,
+      21405,
+      21406
+    ],
+    "slot_groups": [
+      [
+        21406
+      ],
+      [
+        21405
+      ],
+      [
+        21404
+      ]
+    ]
+  },
+  {
+    "id": "aq20_priest",
+    "name": "Finery of Infinite Wisdom",
+    "category": "Classic Raid Tiers",
+    "tier": "AQ20 (Ruins of Ahn'Qiraj)",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 3,
+    "item_ids": [
+      21410,
+      21411,
+      21412
+    ],
+    "slot_groups": [
+      [
+        21412
+      ],
+      [
+        21411
+      ],
+      [
+        21410
+      ]
+    ]
+  },
+  {
+    "id": "aq20_mage",
+    "name": "Trappings of Vaulted Secrets",
+    "category": "Classic Raid Tiers",
+    "tier": "AQ20 (Ruins of Ahn'Qiraj)",
+    "who": "Mage",
+    "points": 10,
+    "pieces": 3,
+    "item_ids": [
+      21413,
+      21414,
+      21415
+    ],
+    "slot_groups": [
+      [
+        21415
+      ],
+      [
+        21414
+      ],
+      [
+        21413
+      ]
+    ]
+  },
+  {
+    "id": "aq20_warlock",
+    "name": "Implements of Unspoken Names",
+    "category": "Classic Raid Tiers",
+    "tier": "AQ20 (Ruins of Ahn'Qiraj)",
+    "who": "Warlock",
+    "points": 10,
+    "pieces": 3,
+    "item_ids": [
+      21416,
+      21417,
+      21418
+    ],
+    "slot_groups": [
+      [
+        21418
+      ],
+      [
+        21417
+      ],
+      [
+        21416
+      ]
+    ]
+  },
+  {
+    "id": "aq20_druid",
+    "name": "Symbols of Unending Life",
+    "category": "Classic Raid Tiers",
+    "tier": "AQ20 (Ruins of Ahn'Qiraj)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 3,
+    "item_ids": [
+      21407,
+      21408,
+      21409
+    ],
+    "slot_groups": [
+      [
+        21409
+      ],
+      [
+        21408
+      ],
+      [
+        21407
+      ]
+    ]
+  },
+  {
+    "id": "aq20_shaman",
+    "name": "Gift of the Gathering Storm",
+    "category": "Classic Raid Tiers",
+    "tier": "AQ20 (Ruins of Ahn'Qiraj)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 3,
+    "item_ids": [
+      21398,
+      21399,
+      21400
+    ],
+    "slot_groups": [
+      [
+        21400
+      ],
+      [
+        21399
+      ],
+      [
+        21398
+      ]
+    ]
+  },
+  {
+    "id": "aq40_warrior",
+    "name": "Conqueror's Battlegear",
+    "category": "Classic Raid Tiers",
+    "tier": "AQ40 (Tier 2.5)",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      21329,
+      21330,
+      21331,
+      21332,
+      21333
+    ],
+    "slot_groups": [
+      [
+        21331
+      ],
+      [
+        21333
+      ],
+      [
+        21329
+      ],
+      [
+        21332
+      ],
+      [
+        21330
+      ]
+    ]
+  },
+  {
+    "id": "aq40_paladin",
+    "name": "Avenger's Battlegear",
+    "category": "Classic Raid Tiers",
+    "tier": "AQ40 (Tier 2.5)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      21387,
+      21388,
+      21389,
+      21390,
+      21391
+    ],
+    "slot_groups": [
+      [
+        21389
+      ],
+      [
+        21388
+      ],
+      [
+        21387
+      ],
+      [
+        21390
+      ],
+      [
+        21391
+      ]
+    ]
+  },
+  {
+    "id": "aq40_hunter",
+    "name": "Striker's Garb",
+    "category": "Classic Raid Tiers",
+    "tier": "AQ40 (Tier 2.5)",
+    "who": "Hunter",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      21365,
+      21366,
+      21367,
+      21368,
+      21370
+    ],
+    "slot_groups": [
+      [
+        21370
+      ],
+      [
+        21365
+      ],
+      [
+        21366
+      ],
+      [
+        21368
+      ],
+      [
+        21367
+      ]
+    ]
+  },
+  {
+    "id": "aq40_rogue",
+    "name": "Deathdealer's Embrace",
+    "category": "Classic Raid Tiers",
+    "tier": "AQ40 (Tier 2.5)",
+    "who": "Rogue",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      21359,
+      21360,
+      21361,
+      21362,
+      21364
+    ],
+    "slot_groups": [
+      [
+        21364
+      ],
+      [
+        21359
+      ],
+      [
+        21360
+      ],
+      [
+        21362
+      ],
+      [
+        21361
+      ]
+    ]
+  },
+  {
+    "id": "aq40_priest",
+    "name": "Garments of the Oracle",
+    "category": "Classic Raid Tiers",
+    "tier": "AQ40 (Tier 2.5)",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      21348,
+      21349,
+      21350,
+      21351,
+      21352
+    ],
+    "slot_groups": [
+      [
+        21351
+      ],
+      [
+        21349
+      ],
+      [
+        21348
+      ],
+      [
+        21352
+      ],
+      [
+        21350
+      ]
+    ]
+  },
+  {
+    "id": "aq40_mage",
+    "name": "Enigma Vestments",
+    "category": "Classic Raid Tiers",
+    "tier": "AQ40 (Tier 2.5)",
+    "who": "Mage",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      21343,
+      21344,
+      21345,
+      21346,
+      21347
+    ],
+    "slot_groups": [
+      [
+        21343
+      ],
+      [
+        21344
+      ],
+      [
+        21347
+      ],
+      [
+        21346
+      ],
+      [
+        21345
+      ]
+    ]
+  },
+  {
+    "id": "aq40_warlock",
+    "name": "Doomcaller's Attire",
+    "category": "Classic Raid Tiers",
+    "tier": "AQ40 (Tier 2.5)",
+    "who": "Warlock",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      21334,
+      21335,
+      21336,
+      21337,
+      21338
+    ],
+    "slot_groups": [
+      [
+        21334
+      ],
+      [
+        21338
+      ],
+      [
+        21337
+      ],
+      [
+        21336
+      ],
+      [
+        21335
+      ]
+    ]
+  },
+  {
+    "id": "aq40_druid",
+    "name": "Genesis Raiment",
+    "category": "Classic Raid Tiers",
+    "tier": "AQ40 (Tier 2.5)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      21353,
+      21354,
+      21355,
+      21356,
+      21357
+    ],
+    "slot_groups": [
+      [
+        21357
+      ],
+      [
+        21355
+      ],
+      [
+        21353
+      ],
+      [
+        21356
+      ],
+      [
+        21354
+      ]
+    ]
+  },
+  {
+    "id": "aq40_shaman",
+    "name": "Stormcaller's Garb",
+    "category": "Classic Raid Tiers",
+    "tier": "AQ40 (Tier 2.5)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      21372,
+      21373,
+      21374,
+      21375,
+      21376
+    ],
+    "slot_groups": [
+      [
+        21374
+      ],
+      [
+        21373
+      ],
+      [
+        21372
+      ],
+      [
+        21375
+      ],
+      [
+        21376
+      ]
+    ]
+  },
+  {
+    "id": "tbcheroic_rogue",
+    "name": "Assassination Armor",
+    "category": "TBC Heroic-Dungeon Sets",
+    "tier": "Heroic Badge Sets (class family)",
+    "who": "Leather",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      27509,
+      27776,
+      27908,
+      28204,
+      28414
+    ],
+    "slot_groups": [
+      [
+        28204
+      ],
+      [
+        27509
+      ],
+      [
+        28414
+      ],
+      [
+        27908
+      ],
+      [
+        27776
+      ]
+    ]
+  },
+  {
+    "id": "tbcheroic_hunter",
+    "name": "Beast Lord Armor",
+    "category": "TBC Heroic-Dungeon Sets",
+    "tier": "Heroic Badge Sets (class family)",
+    "who": "Mail",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      27474,
+      27801,
+      27874,
+      28228,
+      28275
+    ],
+    "slot_groups": [
+      [
+        28228
+      ],
+      [
+        27474
+      ],
+      [
+        28275
+      ],
+      [
+        27874
+      ],
+      [
+        27801
+      ]
+    ]
+  },
+  {
+    "id": "tbcheroic_warrior",
+    "name": "Bold Armor",
+    "category": "TBC Heroic-Dungeon Sets",
+    "tier": "Heroic Badge Sets (class family)",
+    "who": "Plate",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      27475,
+      27803,
+      27977,
+      28205,
+      28350
+    ],
+    "slot_groups": [
+      [
+        28205
+      ],
+      [
+        27475
+      ],
+      [
+        28350
+      ],
+      [
+        27977
+      ],
+      [
+        27803
+      ]
+    ]
+  },
+  {
+    "id": "tbcheroic_priest",
+    "name": "Hallowed Raiment",
+    "category": "TBC Heroic-Dungeon Sets",
+    "tier": "Heroic Badge Sets (class family)",
+    "who": "Cloth",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      27536,
+      27775,
+      27875,
+      28230,
+      28413
+    ],
+    "slot_groups": [
+      [
+        28230
+      ],
+      [
+        27536
+      ],
+      [
+        28413
+      ],
+      [
+        27875
+      ],
+      [
+        27775
+      ]
+    ]
+  },
+  {
+    "id": "tbcheroic_mage",
+    "name": "Incanter's Regalia",
+    "category": "TBC Heroic-Dungeon Sets",
+    "tier": "Heroic Badge Sets (class family)",
+    "who": "Cloth",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      27508,
+      27738,
+      27838,
+      28229,
+      28278
+    ],
+    "slot_groups": [
+      [
+        28229
+      ],
+      [
+        27508
+      ],
+      [
+        28278
+      ],
+      [
+        27838
+      ],
+      [
+        27738
+      ]
+    ]
+  },
+  {
+    "id": "tbcheroic_druid",
+    "name": "Moonglade Raiment",
+    "category": "TBC Heroic-Dungeon Sets",
+    "tier": "Heroic Badge Sets (class family)",
+    "who": "Leather",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      27468,
+      27737,
+      27873,
+      28202,
+      28348
+    ],
+    "slot_groups": [
+      [
+        28202
+      ],
+      [
+        27468
+      ],
+      [
+        28348
+      ],
+      [
+        27873
+      ],
+      [
+        27737
+      ]
+    ]
+  },
+  {
+    "id": "tbcheroic_warlock",
+    "name": "Oblivion Raiment",
+    "category": "TBC Heroic-Dungeon Sets",
+    "tier": "Heroic Badge Sets (class family)",
+    "who": "Cloth",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      27537,
+      27778,
+      27948,
+      28232,
+      28415
+    ],
+    "slot_groups": [
+      [
+        28232
+      ],
+      [
+        27537
+      ],
+      [
+        28415
+      ],
+      [
+        27948
+      ],
+      [
+        27778
+      ]
+    ]
+  },
+  {
+    "id": "tbcheroic_paladin",
+    "name": "Righteous Armor",
+    "category": "TBC Heroic-Dungeon Sets",
+    "tier": "Heroic Badge Sets (class family)",
+    "who": "Plate",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      27535,
+      27739,
+      27839,
+      28203,
+      28285
+    ],
+    "slot_groups": [
+      [
+        28203
+      ],
+      [
+        27535
+      ],
+      [
+        28285
+      ],
+      [
+        27839
+      ],
+      [
+        27739
+      ]
+    ]
+  },
+  {
+    "id": "tbcheroic_shaman",
+    "name": "Tidefury Raiment",
+    "category": "TBC Heroic-Dungeon Sets",
+    "tier": "Heroic Badge Sets (class family)",
+    "who": "Mail",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      27510,
+      27802,
+      27909,
+      28231,
+      28349
+    ],
+    "slot_groups": [
+      [
+        28231
+      ],
+      [
+        27510
+      ],
+      [
+        28349
+      ],
+      [
+        27909
+      ],
+      [
+        27802
+      ]
+    ]
+  },
+  {
+    "id": "tbcheroic_role_plate_a",
+    "name": "Desolation Battlegear",
+    "category": "TBC Heroic-Dungeon Sets",
+    "tier": "Heroic Badge Sets (role family)",
+    "who": "Plate",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      27528,
+      27713,
+      27936,
+      28192,
+      28401
+    ],
+    "slot_groups": [
+      [
+        28401
+      ],
+      [
+        27528
+      ],
+      [
+        28192
+      ],
+      [
+        27936
+      ],
+      [
+        27713
+      ]
+    ]
+  },
+  {
+    "id": "tbcheroic_role_plate_b",
+    "name": "Doomplate Battlegear",
+    "category": "TBC Heroic-Dungeon Sets",
+    "tier": "Heroic Badge Sets (role family)",
+    "who": "Plate",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      27497,
+      27771,
+      27870,
+      28225,
+      28403
+    ],
+    "slot_groups": [
+      [
+        28403
+      ],
+      [
+        27497
+      ],
+      [
+        28225
+      ],
+      [
+        27870
+      ],
+      [
+        27771
+      ]
+    ]
+  },
+  {
+    "id": "tbcheroic_role_cloth",
+    "name": "Mana-Etched Regalia",
+    "category": "TBC Heroic-Dungeon Sets",
+    "tier": "Heroic Badge Sets (role family)",
+    "who": "Cloth",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      27465,
+      27796,
+      27907,
+      28191,
+      28193
+    ],
+    "slot_groups": [
+      [
+        28191
+      ],
+      [
+        27465
+      ],
+      [
+        28193
+      ],
+      [
+        27907
+      ],
+      [
+        27796
+      ]
+    ]
+  },
+  {
+    "id": "tbcheroic_role_mail",
+    "name": "Wastewalker Armor",
+    "category": "TBC Heroic-Dungeon Sets",
+    "tier": "Heroic Badge Sets (role family)",
+    "who": "Mail",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      27531,
+      27797,
+      27837,
+      28224,
+      28264
+    ],
+    "slot_groups": [
+      [
+        28264
+      ],
+      [
+        27531
+      ],
+      [
+        28224
+      ],
+      [
+        27837
+      ],
+      [
+        27797
+      ]
+    ]
+  },
+  {
+    "id": "aldorscryer_hunter",
+    "name": "Stalker's Chain Battlegear",
+    "category": "TBC Raid Tiers",
+    "tier": "Aldor/Scryer Reputation Sets",
+    "who": "Hunter",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      35376,
+      35377,
+      35378,
+      35379,
+      35380,
+      35475
+    ],
+    "slot_groups": [
+      [
+        35376
+      ],
+      [
+        35377,
+        35475
+      ],
+      [
+        35378
+      ],
+      [
+        35379
+      ],
+      [
+        35380
+      ]
+    ]
+  },
+  {
+    "id": "aldorscryer_rogue",
+    "name": "Opportunist's Battlegear",
+    "category": "TBC Raid Tiers",
+    "tier": "Aldor/Scryer Reputation Sets",
+    "who": "Rogue",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      35366,
+      35367,
+      35368,
+      35369,
+      35370,
+      35468
+    ],
+    "slot_groups": [
+      [
+        35370
+      ],
+      [
+        35366,
+        35468
+      ],
+      [
+        35367
+      ],
+      [
+        35368
+      ],
+      [
+        35369
+      ]
+    ]
+  },
+  {
+    "id": "aldorscryer_priest_a",
+    "name": "Mooncloth Battlegear",
+    "category": "TBC Raid Tiers",
+    "tier": "Aldor/Scryer Reputation Sets",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      35333,
+      35334,
+      35335,
+      35336,
+      35337,
+      35467
+    ],
+    "slot_groups": [
+      [
+        35337,
+        35467
+      ],
+      [
+        35335
+      ],
+      [
+        35333
+      ],
+      [
+        35334
+      ],
+      [
+        35336
+      ]
+    ]
+  },
+  {
+    "id": "aldorscryer_priest_b",
+    "name": "Satin Battlegear",
+    "category": "TBC Raid Tiers",
+    "tier": "Aldor/Scryer Reputation Sets",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      35338,
+      35339,
+      35340,
+      35341,
+      35342,
+      35466
+    ],
+    "slot_groups": [
+      [
+        35342
+      ],
+      [
+        35338
+      ],
+      [
+        35339,
+        35466
+      ],
+      [
+        35340
+      ],
+      [
+        35341
+      ]
+    ]
+  },
+  {
+    "id": "aldorscryer_mage",
+    "name": "Evoker's Silk Battlegear",
+    "category": "TBC Raid Tiers",
+    "tier": "Aldor/Scryer Reputation Sets",
+    "who": "Mage",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      35343,
+      35344,
+      35345,
+      35346,
+      35347,
+      35465
+    ],
+    "slot_groups": [
+      [
+        35346
+      ],
+      [
+        35345
+      ],
+      [
+        35344
+      ],
+      [
+        35347
+      ],
+      [
+        35343,
+        35465
+      ]
+    ]
+  },
+  {
+    "id": "aldorscryer_warlock",
+    "name": "Dreadweave Battlegear",
+    "category": "TBC Raid Tiers",
+    "tier": "Aldor/Scryer Reputation Sets",
+    "who": "Warlock",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      35328,
+      35329,
+      35330,
+      35331,
+      35332,
+      35464
+    ],
+    "slot_groups": [
+      [
+        35332,
+        35464
+      ],
+      [
+        35328
+      ],
+      [
+        35329
+      ],
+      [
+        35330
+      ],
+      [
+        35331
+      ]
+    ]
+  },
+  {
+    "id": "aldorscryer_shaman_a",
+    "name": "Seer's Linked Battlegear",
+    "category": "TBC Raid Tiers",
+    "tier": "Aldor/Scryer Reputation Sets",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      35381,
+      35382,
+      35383,
+      35384,
+      35385,
+      35474
+    ],
+    "slot_groups": [
+      [
+        35381
+      ],
+      [
+        35382
+      ],
+      [
+        35383,
+        35474
+      ],
+      [
+        35384
+      ],
+      [
+        35385
+      ]
+    ]
+  },
+  {
+    "id": "aldorscryer_shaman_b",
+    "name": "Seer's Mail Battlegear",
+    "category": "TBC Raid Tiers",
+    "tier": "Aldor/Scryer Reputation Sets",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      35386,
+      35387,
+      35388,
+      35389,
+      35390,
+      35472
+    ],
+    "slot_groups": [
+      [
+        35386,
+        35472
+      ],
+      [
+        35387
+      ],
+      [
+        35388
+      ],
+      [
+        35389
+      ],
+      [
+        35390
+      ]
+    ]
+  },
+  {
+    "id": "aldorscryer_shaman_c",
+    "name": "Seer's Ringmail Battlegear",
+    "category": "TBC Raid Tiers",
+    "tier": "Aldor/Scryer Reputation Sets",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      35391,
+      35392,
+      35393,
+      35394,
+      35395,
+      35473
+    ],
+    "slot_groups": [
+      [
+        35391
+      ],
+      [
+        35392,
+        35473
+      ],
+      [
+        35393
+      ],
+      [
+        35394
+      ],
+      [
+        35395
+      ]
+    ]
+  },
+  {
+    "id": "t4_warrior_a",
+    "name": "Warbringer Armor",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 4 (Karazhan / Gruul / Magtheridon)",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      29011,
+      29012,
+      29015,
+      29016,
+      29017
+    ],
+    "slot_groups": [
+      [
+        29012
+      ],
+      [
+        29017
+      ],
+      [
+        29011
+      ],
+      [
+        29015
+      ],
+      [
+        29016
+      ]
+    ]
+  },
+  {
+    "id": "t4_warrior_b",
+    "name": "Warbringer Battlegear",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 4 (Karazhan / Gruul / Magtheridon)",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      29019,
+      29020,
+      29021,
+      29022,
+      29023
+    ],
+    "slot_groups": [
+      [
+        29019
+      ],
+      [
+        29020
+      ],
+      [
+        29021
+      ],
+      [
+        29022
+      ],
+      [
+        29023
+      ]
+    ]
+  },
+  {
+    "id": "t4_paladin_a",
+    "name": "Justicar Armor",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 4 (Karazhan / Gruul / Magtheridon)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      29066,
+      29067,
+      29068,
+      29069,
+      29070
+    ],
+    "slot_groups": [
+      [
+        29066
+      ],
+      [
+        29067
+      ],
+      [
+        29068
+      ],
+      [
+        29069
+      ],
+      [
+        29070
+      ]
+    ]
+  },
+  {
+    "id": "t4_paladin_b",
+    "name": "Justicar Battlegear",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 4 (Karazhan / Gruul / Magtheridon)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      29071,
+      29072,
+      29073,
+      29074,
+      29075
+    ],
+    "slot_groups": [
+      [
+        29071
+      ],
+      [
+        29072
+      ],
+      [
+        29073
+      ],
+      [
+        29074
+      ],
+      [
+        29075
+      ]
+    ]
+  },
+  {
+    "id": "t4_paladin_c",
+    "name": "Justicar Raiment",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 4 (Karazhan / Gruul / Magtheridon)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      29061,
+      29062,
+      29063,
+      29064,
+      29065
+    ],
+    "slot_groups": [
+      [
+        29062
+      ],
+      [
+        29065
+      ],
+      [
+        29061
+      ],
+      [
+        29063
+      ],
+      [
+        29064
+      ]
+    ]
+  },
+  {
+    "id": "t4_hunter",
+    "name": "Demon Stalker Armor",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 4 (Karazhan / Gruul / Magtheridon)",
+    "who": "Hunter",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      29081,
+      29082,
+      29083,
+      29084,
+      29085
+    ],
+    "slot_groups": [
+      [
+        29082
+      ],
+      [
+        29085
+      ],
+      [
+        29081
+      ],
+      [
+        29083
+      ],
+      [
+        29084
+      ]
+    ]
+  },
+  {
+    "id": "t4_rogue",
+    "name": "Netherblade",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 4 (Karazhan / Gruul / Magtheridon)",
+    "who": "Rogue",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      29044,
+      29045,
+      29046,
+      29047,
+      29048
+    ],
+    "slot_groups": [
+      [
+        29045
+      ],
+      [
+        29048
+      ],
+      [
+        29044
+      ],
+      [
+        29046
+      ],
+      [
+        29047
+      ]
+    ]
+  },
+  {
+    "id": "t4_priest_a",
+    "name": "Incarnate Raiment",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 4 (Karazhan / Gruul / Magtheridon)",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      29049,
+      29050,
+      29053,
+      29054,
+      29055
+    ],
+    "slot_groups": [
+      [
+        29050
+      ],
+      [
+        29055
+      ],
+      [
+        29049
+      ],
+      [
+        29053
+      ],
+      [
+        29054
+      ]
+    ]
+  },
+  {
+    "id": "t4_priest_b",
+    "name": "Incarnate Regalia",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 4 (Karazhan / Gruul / Magtheridon)",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      29056,
+      29057,
+      29058,
+      29059,
+      29060
+    ],
+    "slot_groups": [
+      [
+        29056
+      ],
+      [
+        29057
+      ],
+      [
+        29058
+      ],
+      [
+        29059
+      ],
+      [
+        29060
+      ]
+    ]
+  },
+  {
+    "id": "t4_mage",
+    "name": "Aldor Regalia",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 4 (Karazhan / Gruul / Magtheridon)",
+    "who": "Mage",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      29076,
+      29077,
+      29078,
+      29079,
+      29080
+    ],
+    "slot_groups": [
+      [
+        29077
+      ],
+      [
+        29080
+      ],
+      [
+        29076
+      ],
+      [
+        29078
+      ],
+      [
+        29079
+      ]
+    ]
+  },
+  {
+    "id": "t4_warlock",
+    "name": "Voidheart Raiment",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 4 (Karazhan / Gruul / Magtheridon)",
+    "who": "Warlock",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      28963,
+      28964,
+      28966,
+      28967,
+      28968
+    ],
+    "slot_groups": [
+      [
+        28964
+      ],
+      [
+        28968
+      ],
+      [
+        28963
+      ],
+      [
+        28966
+      ],
+      [
+        28967
+      ]
+    ]
+  },
+  {
+    "id": "t4_druid_a",
+    "name": "Malorne Harness",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 4 (Karazhan / Gruul / Magtheridon)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      29096,
+      29097,
+      29098,
+      29099,
+      29100
+    ],
+    "slot_groups": [
+      [
+        29096
+      ],
+      [
+        29097
+      ],
+      [
+        29098
+      ],
+      [
+        29099
+      ],
+      [
+        29100
+      ]
+    ]
+  },
+  {
+    "id": "t4_druid_b",
+    "name": "Malorne Raiment",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 4 (Karazhan / Gruul / Magtheridon)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      29086,
+      29087,
+      29088,
+      29089,
+      29090
+    ],
+    "slot_groups": [
+      [
+        29087
+      ],
+      [
+        29090
+      ],
+      [
+        29086
+      ],
+      [
+        29088
+      ],
+      [
+        29089
+      ]
+    ]
+  },
+  {
+    "id": "t4_druid_c",
+    "name": "Malorne Regalia",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 4 (Karazhan / Gruul / Magtheridon)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      29091,
+      29092,
+      29093,
+      29094,
+      29095
+    ],
+    "slot_groups": [
+      [
+        29091
+      ],
+      [
+        29092
+      ],
+      [
+        29093
+      ],
+      [
+        29094
+      ],
+      [
+        29095
+      ]
+    ]
+  },
+  {
+    "id": "t4_shaman_a",
+    "name": "Cyclone Harness",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 4 (Karazhan / Gruul / Magtheridon)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      29038,
+      29039,
+      29040,
+      29042,
+      29043
+    ],
+    "slot_groups": [
+      [
+        29038
+      ],
+      [
+        29039
+      ],
+      [
+        29040
+      ],
+      [
+        29042
+      ],
+      [
+        29043
+      ]
+    ]
+  },
+  {
+    "id": "t4_shaman_b",
+    "name": "Cyclone Raiment",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 4 (Karazhan / Gruul / Magtheridon)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      29028,
+      29029,
+      29030,
+      29031,
+      29032
+    ],
+    "slot_groups": [
+      [
+        29029
+      ],
+      [
+        29032
+      ],
+      [
+        29028
+      ],
+      [
+        29030
+      ],
+      [
+        29031
+      ]
+    ]
+  },
+  {
+    "id": "t4_shaman_c",
+    "name": "Cyclone Regalia",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 4 (Karazhan / Gruul / Magtheridon)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      29033,
+      29034,
+      29035,
+      29036,
+      29037
+    ],
+    "slot_groups": [
+      [
+        29033
+      ],
+      [
+        29034
+      ],
+      [
+        29035
+      ],
+      [
+        29036
+      ],
+      [
+        29037
+      ]
+    ]
+  },
+  {
+    "id": "t5_warrior_a",
+    "name": "Destroyer Armor",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 5 (Serpentshrine Cavern / Tempest Keep)",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      30113,
+      30114,
+      30115,
+      30116,
+      30117
+    ],
+    "slot_groups": [
+      [
+        30113
+      ],
+      [
+        30114
+      ],
+      [
+        30115
+      ],
+      [
+        30116
+      ],
+      [
+        30117
+      ]
+    ]
+  },
+  {
+    "id": "t5_warrior_b",
+    "name": "Destroyer Battlegear",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 5 (Serpentshrine Cavern / Tempest Keep)",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      30118,
+      30119,
+      30120,
+      30121,
+      30122
+    ],
+    "slot_groups": [
+      [
+        30118
+      ],
+      [
+        30119
+      ],
+      [
+        30120
+      ],
+      [
+        30121
+      ],
+      [
+        30122
+      ]
+    ]
+  },
+  {
+    "id": "t5_paladin_a",
+    "name": "Crystalforge Armor",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 5 (Serpentshrine Cavern / Tempest Keep)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      30123,
+      30124,
+      30125,
+      30126,
+      30127
+    ],
+    "slot_groups": [
+      [
+        30123
+      ],
+      [
+        30124
+      ],
+      [
+        30125
+      ],
+      [
+        30126
+      ],
+      [
+        30127
+      ]
+    ]
+  },
+  {
+    "id": "t5_paladin_b",
+    "name": "Crystalforge Battlegear",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 5 (Serpentshrine Cavern / Tempest Keep)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      30129,
+      30130,
+      30131,
+      30132,
+      30133
+    ],
+    "slot_groups": [
+      [
+        30129
+      ],
+      [
+        30130
+      ],
+      [
+        30131
+      ],
+      [
+        30132
+      ],
+      [
+        30133
+      ]
+    ]
+  },
+  {
+    "id": "t5_paladin_c",
+    "name": "Crystalforge Raiment",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 5 (Serpentshrine Cavern / Tempest Keep)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      30134,
+      30135,
+      30136,
+      30137,
+      30138
+    ],
+    "slot_groups": [
+      [
+        30134
+      ],
+      [
+        30135
+      ],
+      [
+        30136
+      ],
+      [
+        30137
+      ],
+      [
+        30138
+      ]
+    ]
+  },
+  {
+    "id": "t5_hunter",
+    "name": "Rift Stalker Armor",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 5 (Serpentshrine Cavern / Tempest Keep)",
+    "who": "Hunter",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      30139,
+      30140,
+      30141,
+      30142,
+      30143
+    ],
+    "slot_groups": [
+      [
+        30139
+      ],
+      [
+        30140
+      ],
+      [
+        30141
+      ],
+      [
+        30142
+      ],
+      [
+        30143
+      ]
+    ]
+  },
+  {
+    "id": "t5_rogue",
+    "name": "Deathmantle",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 5 (Serpentshrine Cavern / Tempest Keep)",
+    "who": "Rogue",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      30144,
+      30145,
+      30146,
+      30148,
+      30149
+    ],
+    "slot_groups": [
+      [
+        30144
+      ],
+      [
+        30145
+      ],
+      [
+        30146
+      ],
+      [
+        30148
+      ],
+      [
+        30149
+      ]
+    ]
+  },
+  {
+    "id": "t5_priest_a",
+    "name": "Avatar Raiment",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 5 (Serpentshrine Cavern / Tempest Keep)",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      30150,
+      30151,
+      30152,
+      30153,
+      30154
+    ],
+    "slot_groups": [
+      [
+        30150
+      ],
+      [
+        30151
+      ],
+      [
+        30152
+      ],
+      [
+        30153
+      ],
+      [
+        30154
+      ]
+    ]
+  },
+  {
+    "id": "t5_priest_b",
+    "name": "Avatar Regalia",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 5 (Serpentshrine Cavern / Tempest Keep)",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      30159,
+      30160,
+      30161,
+      30162,
+      30163
+    ],
+    "slot_groups": [
+      [
+        30159
+      ],
+      [
+        30160
+      ],
+      [
+        30161
+      ],
+      [
+        30162
+      ],
+      [
+        30163
+      ]
+    ]
+  },
+  {
+    "id": "t5_mage",
+    "name": "Tirisfal Regalia",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 5 (Serpentshrine Cavern / Tempest Keep)",
+    "who": "Mage",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      30196,
+      30205,
+      30206,
+      30207,
+      30210
+    ],
+    "slot_groups": [
+      [
+        30196
+      ],
+      [
+        30205
+      ],
+      [
+        30206
+      ],
+      [
+        30207
+      ],
+      [
+        30210
+      ]
+    ]
+  },
+  {
+    "id": "t5_warlock",
+    "name": "Corruptor Raiment",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 5 (Serpentshrine Cavern / Tempest Keep)",
+    "who": "Warlock",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      30211,
+      30212,
+      30213,
+      30214,
+      30215
+    ],
+    "slot_groups": [
+      [
+        30214
+      ],
+      [
+        30211
+      ],
+      [
+        30212
+      ],
+      [
+        30213
+      ],
+      [
+        30215
+      ]
+    ]
+  },
+  {
+    "id": "t5_druid_a",
+    "name": "Nordrassil Harness",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 5 (Serpentshrine Cavern / Tempest Keep)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      30222,
+      30223,
+      30228,
+      30229,
+      30230
+    ],
+    "slot_groups": [
+      [
+        30222
+      ],
+      [
+        30223
+      ],
+      [
+        30228
+      ],
+      [
+        30229
+      ],
+      [
+        30230
+      ]
+    ]
+  },
+  {
+    "id": "t5_druid_b",
+    "name": "Nordrassil Raiment",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 5 (Serpentshrine Cavern / Tempest Keep)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      30216,
+      30217,
+      30219,
+      30220,
+      30221
+    ],
+    "slot_groups": [
+      [
+        30216
+      ],
+      [
+        30217
+      ],
+      [
+        30219
+      ],
+      [
+        30220
+      ],
+      [
+        30221
+      ]
+    ]
+  },
+  {
+    "id": "t5_druid_c",
+    "name": "Nordrassil Regalia",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 5 (Serpentshrine Cavern / Tempest Keep)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      30231,
+      30232,
+      30233,
+      30234,
+      30235
+    ],
+    "slot_groups": [
+      [
+        30231
+      ],
+      [
+        30232
+      ],
+      [
+        30233
+      ],
+      [
+        30234
+      ],
+      [
+        30235
+      ]
+    ]
+  },
+  {
+    "id": "t5_shaman_a",
+    "name": "Cataclysm Harness",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 5 (Serpentshrine Cavern / Tempest Keep)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      30185,
+      30189,
+      30190,
+      30192,
+      30194
+    ],
+    "slot_groups": [
+      [
+        30185
+      ],
+      [
+        30189
+      ],
+      [
+        30190
+      ],
+      [
+        30192
+      ],
+      [
+        30194
+      ]
+    ]
+  },
+  {
+    "id": "t5_shaman_b",
+    "name": "Cataclysm Raiment",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 5 (Serpentshrine Cavern / Tempest Keep)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      30164,
+      30165,
+      30166,
+      30167,
+      30168
+    ],
+    "slot_groups": [
+      [
+        30164
+      ],
+      [
+        30165
+      ],
+      [
+        30166
+      ],
+      [
+        30167
+      ],
+      [
+        30168
+      ]
+    ]
+  },
+  {
+    "id": "t5_shaman_c",
+    "name": "Cataclysm Regalia",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 5 (Serpentshrine Cavern / Tempest Keep)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      30169,
+      30170,
+      30171,
+      30172,
+      30173
+    ],
+    "slot_groups": [
+      [
+        30169
+      ],
+      [
+        30170
+      ],
+      [
+        30171
+      ],
+      [
+        30172
+      ],
+      [
+        30173
+      ]
+    ]
+  },
+  {
+    "id": "t6_warrior_a",
+    "name": "Onslaught Armor",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 6 (Black Temple / Hyjal / Sunwell Plateau)",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      30970,
+      30974,
+      30976,
+      30978,
+      30980,
+      34442,
+      34547,
+      34568
+    ],
+    "slot_groups": [
+      [
+        30976
+      ],
+      [
+        34568
+      ],
+      [
+        30970
+      ],
+      [
+        30974
+      ],
+      [
+        30978
+      ],
+      [
+        30980
+      ],
+      [
+        34547
+      ],
+      [
+        34442
+      ]
+    ]
+  },
+  {
+    "id": "t6_warrior_b",
+    "name": "Onslaught Battlegear",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 6 (Black Temple / Hyjal / Sunwell Plateau)",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      30969,
+      30972,
+      30975,
+      30977,
+      30979,
+      34441,
+      34546,
+      34569
+    ],
+    "slot_groups": [
+      [
+        30975
+      ],
+      [
+        34569
+      ],
+      [
+        30969
+      ],
+      [
+        30972
+      ],
+      [
+        30977
+      ],
+      [
+        30979
+      ],
+      [
+        34546
+      ],
+      [
+        34441
+      ]
+    ]
+  },
+  {
+    "id": "t6_paladin_a",
+    "name": "Lightbringer Armor",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 6 (Black Temple / Hyjal / Sunwell Plateau)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      30985,
+      30987,
+      30991,
+      30995,
+      30998,
+      34433,
+      34488,
+      34560
+    ],
+    "slot_groups": [
+      [
+        30991
+      ],
+      [
+        34560
+      ],
+      [
+        30985
+      ],
+      [
+        30987
+      ],
+      [
+        30995
+      ],
+      [
+        30998
+      ],
+      [
+        34488
+      ],
+      [
+        34433
+      ]
+    ]
+  },
+  {
+    "id": "t6_paladin_b",
+    "name": "Lightbringer Battlegear",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 6 (Black Temple / Hyjal / Sunwell Plateau)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      30982,
+      30989,
+      30990,
+      30993,
+      30997,
+      34431,
+      34485,
+      34561
+    ],
+    "slot_groups": [
+      [
+        30990
+      ],
+      [
+        34561
+      ],
+      [
+        30982
+      ],
+      [
+        30989
+      ],
+      [
+        30993
+      ],
+      [
+        30997
+      ],
+      [
+        34485
+      ],
+      [
+        34431
+      ]
+    ]
+  },
+  {
+    "id": "t6_paladin_c",
+    "name": "Lightbringer Raiment",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 6 (Black Temple / Hyjal / Sunwell Plateau)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      30983,
+      30988,
+      30992,
+      30994,
+      30996,
+      34432,
+      34487,
+      34559
+    ],
+    "slot_groups": [
+      [
+        30992
+      ],
+      [
+        34559
+      ],
+      [
+        30983
+      ],
+      [
+        30988
+      ],
+      [
+        30994
+      ],
+      [
+        30996
+      ],
+      [
+        34487
+      ],
+      [
+        34432
+      ]
+    ]
+  },
+  {
+    "id": "t6_hunter",
+    "name": "Gronnstalker's Armor",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 6 (Black Temple / Hyjal / Sunwell Plateau)",
+    "who": "Hunter",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      31001,
+      31003,
+      31004,
+      31005,
+      31006,
+      34443,
+      34549,
+      34570
+    ],
+    "slot_groups": [
+      [
+        31004
+      ],
+      [
+        34570
+      ],
+      [
+        31001
+      ],
+      [
+        31003
+      ],
+      [
+        31005
+      ],
+      [
+        31006
+      ],
+      [
+        34549
+      ],
+      [
+        34443
+      ]
+    ]
+  },
+  {
+    "id": "t6_rogue",
+    "name": "Slayer's Armor",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 6 (Black Temple / Hyjal / Sunwell Plateau)",
+    "who": "Rogue",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      31026,
+      31027,
+      31028,
+      31029,
+      31030,
+      34448,
+      34558,
+      34575
+    ],
+    "slot_groups": [
+      [
+        31028
+      ],
+      [
+        34575
+      ],
+      [
+        31026
+      ],
+      [
+        31027
+      ],
+      [
+        31029
+      ],
+      [
+        31030
+      ],
+      [
+        34558
+      ],
+      [
+        34448
+      ]
+    ]
+  },
+  {
+    "id": "t6_priest_a",
+    "name": "Absolution Regalia",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 6 (Black Temple / Hyjal / Sunwell Plateau)",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      31061,
+      31064,
+      31065,
+      31067,
+      31070,
+      34434,
+      34528,
+      34563
+    ],
+    "slot_groups": [
+      [
+        31065
+      ],
+      [
+        34563
+      ],
+      [
+        31061
+      ],
+      [
+        31064
+      ],
+      [
+        31067
+      ],
+      [
+        31070
+      ],
+      [
+        34528
+      ],
+      [
+        34434
+      ]
+    ]
+  },
+  {
+    "id": "t6_priest_b",
+    "name": "Vestments of Absolution",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 6 (Black Temple / Hyjal / Sunwell Plateau)",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      31060,
+      31063,
+      31066,
+      31068,
+      31069,
+      34435,
+      34527,
+      34562
+    ],
+    "slot_groups": [
+      [
+        31066
+      ],
+      [
+        34562
+      ],
+      [
+        31060
+      ],
+      [
+        31063
+      ],
+      [
+        31068
+      ],
+      [
+        31069
+      ],
+      [
+        34527
+      ],
+      [
+        34435
+      ]
+    ]
+  },
+  {
+    "id": "t6_mage",
+    "name": "Tempest Regalia",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 6 (Black Temple / Hyjal / Sunwell Plateau)",
+    "who": "Mage",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      31055,
+      31056,
+      31057,
+      31058,
+      31059,
+      34447,
+      34557,
+      34574
+    ],
+    "slot_groups": [
+      [
+        31057
+      ],
+      [
+        34574
+      ],
+      [
+        31055
+      ],
+      [
+        31056
+      ],
+      [
+        31058
+      ],
+      [
+        31059
+      ],
+      [
+        34557
+      ],
+      [
+        34447
+      ]
+    ]
+  },
+  {
+    "id": "t6_warlock",
+    "name": "Malefic Raiment",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 6 (Black Temple / Hyjal / Sunwell Plateau)",
+    "who": "Warlock",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      31050,
+      31051,
+      31052,
+      31053,
+      31054,
+      34436,
+      34541,
+      34564
+    ],
+    "slot_groups": [
+      [
+        31052
+      ],
+      [
+        34564
+      ],
+      [
+        31050
+      ],
+      [
+        31051
+      ],
+      [
+        31053
+      ],
+      [
+        31054
+      ],
+      [
+        34541
+      ],
+      [
+        34436
+      ]
+    ]
+  },
+  {
+    "id": "t6_druid_a",
+    "name": "Thunderheart Harness",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 6 (Black Temple / Hyjal / Sunwell Plateau)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      31034,
+      31039,
+      31042,
+      31044,
+      31048,
+      34444,
+      34556,
+      34573
+    ],
+    "slot_groups": [
+      [
+        31042
+      ],
+      [
+        34573
+      ],
+      [
+        31034
+      ],
+      [
+        31039
+      ],
+      [
+        31044
+      ],
+      [
+        31048
+      ],
+      [
+        34556
+      ],
+      [
+        34444
+      ]
+    ]
+  },
+  {
+    "id": "t6_druid_b",
+    "name": "Thunderheart Raiment",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 6 (Black Temple / Hyjal / Sunwell Plateau)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      31032,
+      31037,
+      31041,
+      31045,
+      31047,
+      34445,
+      34554,
+      34571
+    ],
+    "slot_groups": [
+      [
+        31041
+      ],
+      [
+        34571
+      ],
+      [
+        31032
+      ],
+      [
+        31037
+      ],
+      [
+        31045
+      ],
+      [
+        31047
+      ],
+      [
+        34554
+      ],
+      [
+        34445
+      ]
+    ]
+  },
+  {
+    "id": "t6_druid_c",
+    "name": "Thunderheart Regalia",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 6 (Black Temple / Hyjal / Sunwell Plateau)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      31035,
+      31040,
+      31043,
+      31046,
+      31049,
+      34446,
+      34555,
+      34572
+    ],
+    "slot_groups": [
+      [
+        31043
+      ],
+      [
+        34572
+      ],
+      [
+        31035
+      ],
+      [
+        31040
+      ],
+      [
+        31046
+      ],
+      [
+        31049
+      ],
+      [
+        34555
+      ],
+      [
+        34446
+      ]
+    ]
+  },
+  {
+    "id": "t6_shaman_a",
+    "name": "Skyshatter Harness",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 6 (Black Temple / Hyjal / Sunwell Plateau)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      31011,
+      31015,
+      31018,
+      31021,
+      31024,
+      34439,
+      34545,
+      34567
+    ],
+    "slot_groups": [
+      [
+        31018
+      ],
+      [
+        34567
+      ],
+      [
+        31011
+      ],
+      [
+        31015
+      ],
+      [
+        31021
+      ],
+      [
+        31024
+      ],
+      [
+        34545
+      ],
+      [
+        34439
+      ]
+    ]
+  },
+  {
+    "id": "t6_shaman_b",
+    "name": "Skyshatter Raiment",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 6 (Black Temple / Hyjal / Sunwell Plateau)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      31007,
+      31012,
+      31016,
+      31019,
+      31022,
+      34438,
+      34543,
+      34565
+    ],
+    "slot_groups": [
+      [
+        31016
+      ],
+      [
+        34565
+      ],
+      [
+        31007
+      ],
+      [
+        31012
+      ],
+      [
+        31019
+      ],
+      [
+        31022
+      ],
+      [
+        34543
+      ],
+      [
+        34438
+      ]
+    ]
+  },
+  {
+    "id": "t6_shaman_c",
+    "name": "Skyshatter Regalia",
+    "category": "TBC Raid Tiers",
+    "tier": "Tier 6 (Black Temple / Hyjal / Sunwell Plateau)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 8,
+    "item_ids": [
+      31008,
+      31014,
+      31017,
+      31020,
+      31023,
+      34437,
+      34542,
+      34566
+    ],
+    "slot_groups": [
+      [
+        31017
+      ],
+      [
+        34566
+      ],
+      [
+        31008
+      ],
+      [
+        31014
+      ],
+      [
+        31020
+      ],
+      [
+        31023
+      ],
+      [
+        34542
+      ],
+      [
+        34437
+      ]
+    ]
+  },
+  {
+    "id": "t7_10_rogue",
+    "name": "Heroes' Bonescythe Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 10-player (Naxxramas / OS / EoE)",
+    "who": "Rogue",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      39558,
+      39560,
+      39561,
+      39564,
+      39565
+    ],
+    "slot_groups": [
+      [
+        39558
+      ],
+      [
+        39560
+      ],
+      [
+        39561
+      ],
+      [
+        39564
+      ],
+      [
+        39565
+      ]
+    ]
+  },
+  {
+    "id": "t7_25_rogue",
+    "name": "Valorous Bonescythe Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 25-player (Naxxramas / OS / EoE)",
+    "who": "Rogue",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      40495,
+      40496,
+      40499,
+      40500,
+      40502
+    ],
+    "slot_groups": [
+      [
+        40495
+      ],
+      [
+        40496
+      ],
+      [
+        40499
+      ],
+      [
+        40500
+      ],
+      [
+        40502
+      ]
+    ]
+  },
+  {
+    "id": "t7_10_hunter",
+    "name": "Heroes' Cryptstalker Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 10-player (Naxxramas / OS / EoE)",
+    "who": "Hunter",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      39578,
+      39579,
+      39580,
+      39581,
+      39582
+    ],
+    "slot_groups": [
+      [
+        39579
+      ],
+      [
+        39582
+      ],
+      [
+        39578
+      ],
+      [
+        39580
+      ],
+      [
+        39581
+      ]
+    ]
+  },
+  {
+    "id": "t7_25_hunter",
+    "name": "Valorous Cryptstalker Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 25-player (Naxxramas / OS / EoE)",
+    "who": "Hunter",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      40503,
+      40504,
+      40505,
+      40506,
+      40507
+    ],
+    "slot_groups": [
+      [
+        40503
+      ],
+      [
+        40504
+      ],
+      [
+        40505
+      ],
+      [
+        40506
+      ],
+      [
+        40507
+      ]
+    ]
+  },
+  {
+    "id": "t7_10_warrior_0",
+    "name": "Heroes' Dreadnaught Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 10-player (Naxxramas / OS / EoE)",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      39605,
+      39606,
+      39607,
+      39608,
+      39609
+    ],
+    "slot_groups": [
+      [
+        39606
+      ],
+      [
+        39609
+      ],
+      [
+        39605
+      ],
+      [
+        39607
+      ],
+      [
+        39608
+      ]
+    ]
+  },
+  {
+    "id": "t7_25_warrior_0",
+    "name": "Valorous Dreadnaught Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 25-player (Naxxramas / OS / EoE)",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      40525,
+      40527,
+      40528,
+      40529,
+      40530
+    ],
+    "slot_groups": [
+      [
+        40525
+      ],
+      [
+        40527
+      ],
+      [
+        40528
+      ],
+      [
+        40529
+      ],
+      [
+        40530
+      ]
+    ]
+  },
+  {
+    "id": "t7_10_warrior_1",
+    "name": "Heroes' Dreadnaught Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 10-player (Naxxramas / OS / EoE)",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      39610,
+      39611,
+      39612,
+      39613,
+      39622
+    ],
+    "slot_groups": [
+      [
+        39611
+      ],
+      [
+        39622
+      ],
+      [
+        39610
+      ],
+      [
+        39612
+      ],
+      [
+        39613
+      ]
+    ]
+  },
+  {
+    "id": "t7_25_warrior_1",
+    "name": "Valorous Dreadnaught Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 25-player (Naxxramas / OS / EoE)",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      40544,
+      40545,
+      40546,
+      40547,
+      40548
+    ],
+    "slot_groups": [
+      [
+        40544
+      ],
+      [
+        40545
+      ],
+      [
+        40546
+      ],
+      [
+        40547
+      ],
+      [
+        40548
+      ]
+    ]
+  },
+  {
+    "id": "t7_10_druid_0",
+    "name": "Heroes' Dreamwalker Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 10-player (Naxxramas / OS / EoE)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      39553,
+      39554,
+      39555,
+      39556,
+      39557
+    ],
+    "slot_groups": [
+      [
+        39554
+      ],
+      [
+        39557
+      ],
+      [
+        39553
+      ],
+      [
+        39555
+      ],
+      [
+        39556
+      ]
+    ]
+  },
+  {
+    "id": "t7_25_druid_0",
+    "name": "Valorous Dreamwalker Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 25-player (Naxxramas / OS / EoE)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      40471,
+      40472,
+      40473,
+      40493,
+      40494
+    ],
+    "slot_groups": [
+      [
+        40471
+      ],
+      [
+        40472
+      ],
+      [
+        40473
+      ],
+      [
+        40493
+      ],
+      [
+        40494
+      ]
+    ]
+  },
+  {
+    "id": "t7_10_druid_1",
+    "name": "Heroes' Dreamwalker Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 10-player (Naxxramas / OS / EoE)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      39544,
+      39545,
+      39546,
+      39547,
+      39548
+    ],
+    "slot_groups": [
+      [
+        39547
+      ],
+      [
+        39544
+      ],
+      [
+        39545
+      ],
+      [
+        39546
+      ],
+      [
+        39548
+      ]
+    ]
+  },
+  {
+    "id": "t7_25_druid_1",
+    "name": "Valorous Dreamwalker Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 25-player (Naxxramas / OS / EoE)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      40466,
+      40467,
+      40468,
+      40469,
+      40470
+    ],
+    "slot_groups": [
+      [
+        40469
+      ],
+      [
+        40466
+      ],
+      [
+        40467
+      ],
+      [
+        40468
+      ],
+      [
+        40470
+      ]
+    ]
+  },
+  {
+    "id": "t7_10_druid_2",
+    "name": "Heroes' Dreamwalker Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 10-player (Naxxramas / OS / EoE)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      39531,
+      39538,
+      39539,
+      39542,
+      39543
+    ],
+    "slot_groups": [
+      [
+        39538
+      ],
+      [
+        39543
+      ],
+      [
+        39531
+      ],
+      [
+        39539
+      ],
+      [
+        39542
+      ]
+    ]
+  },
+  {
+    "id": "t7_25_druid_2",
+    "name": "Valorous Dreamwalker Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 25-player (Naxxramas / OS / EoE)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      40460,
+      40461,
+      40462,
+      40463,
+      40465
+    ],
+    "slot_groups": [
+      [
+        40463
+      ],
+      [
+        40460
+      ],
+      [
+        40461
+      ],
+      [
+        40462
+      ],
+      [
+        40465
+      ]
+    ]
+  },
+  {
+    "id": "t7_10_shaman_0",
+    "name": "Heroes' Earthshatter Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 10-player (Naxxramas / OS / EoE)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      39597,
+      39601,
+      39602,
+      39603,
+      39604
+    ],
+    "slot_groups": [
+      [
+        39597
+      ],
+      [
+        39601
+      ],
+      [
+        39602
+      ],
+      [
+        39603
+      ],
+      [
+        39604
+      ]
+    ]
+  },
+  {
+    "id": "t7_25_shaman_0",
+    "name": "Valorous Earthshatter Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 25-player (Naxxramas / OS / EoE)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      40520,
+      40521,
+      40522,
+      40523,
+      40524
+    ],
+    "slot_groups": [
+      [
+        40523
+      ],
+      [
+        40520
+      ],
+      [
+        40521
+      ],
+      [
+        40522
+      ],
+      [
+        40524
+      ]
+    ]
+  },
+  {
+    "id": "t7_10_shaman_1",
+    "name": "Heroes' Earthshatter Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 10-player (Naxxramas / OS / EoE)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      39592,
+      39593,
+      39594,
+      39595,
+      39596
+    ],
+    "slot_groups": [
+      [
+        39592
+      ],
+      [
+        39593
+      ],
+      [
+        39594
+      ],
+      [
+        39595
+      ],
+      [
+        39596
+      ]
+    ]
+  },
+  {
+    "id": "t7_25_shaman_1",
+    "name": "Valorous Earthshatter Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 25-player (Naxxramas / OS / EoE)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      40514,
+      40515,
+      40516,
+      40517,
+      40518
+    ],
+    "slot_groups": [
+      [
+        40514
+      ],
+      [
+        40515
+      ],
+      [
+        40516
+      ],
+      [
+        40517
+      ],
+      [
+        40518
+      ]
+    ]
+  },
+  {
+    "id": "t7_10_shaman_2",
+    "name": "Heroes' Earthshatter Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 10-player (Naxxramas / OS / EoE)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      39583,
+      39588,
+      39589,
+      39590,
+      39591
+    ],
+    "slot_groups": [
+      [
+        39588
+      ],
+      [
+        39591
+      ],
+      [
+        39583
+      ],
+      [
+        39589
+      ],
+      [
+        39590
+      ]
+    ]
+  },
+  {
+    "id": "t7_25_shaman_2",
+    "name": "Valorous Earthshatter Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 25-player (Naxxramas / OS / EoE)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      40508,
+      40509,
+      40510,
+      40512,
+      40513
+    ],
+    "slot_groups": [
+      [
+        40508
+      ],
+      [
+        40509
+      ],
+      [
+        40510
+      ],
+      [
+        40512
+      ],
+      [
+        40513
+      ]
+    ]
+  },
+  {
+    "id": "t7_10_mage",
+    "name": "Heroes' Frostfire Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 10-player (Naxxramas / OS / EoE)",
+    "who": "Mage",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      39491,
+      39492,
+      39493,
+      39494,
+      39495
+    ],
+    "slot_groups": [
+      [
+        39492
+      ],
+      [
+        39495
+      ],
+      [
+        39491
+      ],
+      [
+        39493
+      ],
+      [
+        39494
+      ]
+    ]
+  },
+  {
+    "id": "t7_25_mage",
+    "name": "Valorous Frostfire Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 25-player (Naxxramas / OS / EoE)",
+    "who": "Mage",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      40415,
+      40416,
+      40417,
+      40418,
+      40419
+    ],
+    "slot_groups": [
+      [
+        40418
+      ],
+      [
+        40415
+      ],
+      [
+        40416
+      ],
+      [
+        40417
+      ],
+      [
+        40419
+      ]
+    ]
+  },
+  {
+    "id": "t7_10_priest_0",
+    "name": "Heroes' Garb of Faith",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 10-player (Naxxramas / OS / EoE)",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      39521,
+      39523,
+      39528,
+      39529,
+      39530
+    ],
+    "slot_groups": [
+      [
+        39523
+      ],
+      [
+        39530
+      ],
+      [
+        39521
+      ],
+      [
+        39528
+      ],
+      [
+        39529
+      ]
+    ]
+  },
+  {
+    "id": "t7_25_priest_0",
+    "name": "Valorous Garb of Faith",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 25-player (Naxxramas / OS / EoE)",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      40454,
+      40456,
+      40457,
+      40458,
+      40459
+    ],
+    "slot_groups": [
+      [
+        40458
+      ],
+      [
+        40454
+      ],
+      [
+        40456
+      ],
+      [
+        40457
+      ],
+      [
+        40459
+      ]
+    ]
+  },
+  {
+    "id": "t7_10_priest_1",
+    "name": "Heroes' Regalia of Faith",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 10-player (Naxxramas / OS / EoE)",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      39514,
+      39515,
+      39517,
+      39518,
+      39519
+    ],
+    "slot_groups": [
+      [
+        39515
+      ],
+      [
+        39519
+      ],
+      [
+        39514
+      ],
+      [
+        39517
+      ],
+      [
+        39518
+      ]
+    ]
+  },
+  {
+    "id": "t7_25_priest_1",
+    "name": "Valorous Regalia of Faith",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 25-player (Naxxramas / OS / EoE)",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      40445,
+      40447,
+      40448,
+      40449,
+      40450
+    ],
+    "slot_groups": [
+      [
+        40449
+      ],
+      [
+        40445
+      ],
+      [
+        40447
+      ],
+      [
+        40448
+      ],
+      [
+        40450
+      ]
+    ]
+  },
+  {
+    "id": "t7_10_warlock",
+    "name": "Heroes' Plagueheart Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 10-player (Naxxramas / OS / EoE)",
+    "who": "Warlock",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      39496,
+      39497,
+      39498,
+      39499,
+      39500
+    ],
+    "slot_groups": [
+      [
+        39497
+      ],
+      [
+        39500
+      ],
+      [
+        39496
+      ],
+      [
+        39498
+      ],
+      [
+        39499
+      ]
+    ]
+  },
+  {
+    "id": "t7_25_warlock",
+    "name": "Valorous Plagueheart Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 25-player (Naxxramas / OS / EoE)",
+    "who": "Warlock",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      40420,
+      40421,
+      40422,
+      40423,
+      40424
+    ],
+    "slot_groups": [
+      [
+        40423
+      ],
+      [
+        40420
+      ],
+      [
+        40421
+      ],
+      [
+        40422
+      ],
+      [
+        40424
+      ]
+    ]
+  },
+  {
+    "id": "t7_10_paladin_0",
+    "name": "Heroes' Redemption Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 10-player (Naxxramas / OS / EoE)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      39633,
+      39634,
+      39635,
+      39636,
+      39637
+    ],
+    "slot_groups": [
+      [
+        39633
+      ],
+      [
+        39634
+      ],
+      [
+        39635
+      ],
+      [
+        39636
+      ],
+      [
+        39637
+      ]
+    ]
+  },
+  {
+    "id": "t7_25_paladin_0",
+    "name": "Valorous Redemption Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 25-player (Naxxramas / OS / EoE)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      40574,
+      40575,
+      40576,
+      40577,
+      40578
+    ],
+    "slot_groups": [
+      [
+        40574
+      ],
+      [
+        40575
+      ],
+      [
+        40576
+      ],
+      [
+        40577
+      ],
+      [
+        40578
+      ]
+    ]
+  },
+  {
+    "id": "t7_10_paladin_1",
+    "name": "Heroes' Redemption Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 10-player (Naxxramas / OS / EoE)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      39638,
+      39639,
+      39640,
+      39641,
+      39642
+    ],
+    "slot_groups": [
+      [
+        39638
+      ],
+      [
+        39639
+      ],
+      [
+        39640
+      ],
+      [
+        39641
+      ],
+      [
+        39642
+      ]
+    ]
+  },
+  {
+    "id": "t7_25_paladin_1",
+    "name": "Valorous Redemption Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 25-player (Naxxramas / OS / EoE)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      40579,
+      40580,
+      40581,
+      40583,
+      40584
+    ],
+    "slot_groups": [
+      [
+        40579
+      ],
+      [
+        40580
+      ],
+      [
+        40581
+      ],
+      [
+        40583
+      ],
+      [
+        40584
+      ]
+    ]
+  },
+  {
+    "id": "t7_10_paladin_2",
+    "name": "Heroes' Redemption Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 10-player (Naxxramas / OS / EoE)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      39628,
+      39629,
+      39630,
+      39631,
+      39632
+    ],
+    "slot_groups": [
+      [
+        39629
+      ],
+      [
+        39632
+      ],
+      [
+        39628
+      ],
+      [
+        39630
+      ],
+      [
+        39631
+      ]
+    ]
+  },
+  {
+    "id": "t7_25_paladin_2",
+    "name": "Valorous Redemption Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 25-player (Naxxramas / OS / EoE)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      40569,
+      40570,
+      40571,
+      40572,
+      40573
+    ],
+    "slot_groups": [
+      [
+        40569
+      ],
+      [
+        40570
+      ],
+      [
+        40571
+      ],
+      [
+        40572
+      ],
+      [
+        40573
+      ]
+    ]
+  },
+  {
+    "id": "t7_10_deathknight_0",
+    "name": "Heroes' Scourgeborne Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 10-player (Naxxramas / OS / EoE)",
+    "who": "Death Knight",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      39617,
+      39618,
+      39619,
+      39620,
+      39621
+    ],
+    "slot_groups": [
+      [
+        39617
+      ],
+      [
+        39618
+      ],
+      [
+        39619
+      ],
+      [
+        39620
+      ],
+      [
+        39621
+      ]
+    ]
+  },
+  {
+    "id": "t7_25_deathknight_0",
+    "name": "Valorous Scourgeborne Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 25-player (Naxxramas / OS / EoE)",
+    "who": "Death Knight",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      40550,
+      40552,
+      40554,
+      40556,
+      40557
+    ],
+    "slot_groups": [
+      [
+        40550
+      ],
+      [
+        40552
+      ],
+      [
+        40554
+      ],
+      [
+        40556
+      ],
+      [
+        40557
+      ]
+    ]
+  },
+  {
+    "id": "t7_10_deathknight_1",
+    "name": "Heroes' Scourgeborne Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 10-player (Naxxramas / OS / EoE)",
+    "who": "Death Knight",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      39623,
+      39624,
+      39625,
+      39626,
+      39627
+    ],
+    "slot_groups": [
+      [
+        39623
+      ],
+      [
+        39624
+      ],
+      [
+        39625
+      ],
+      [
+        39626
+      ],
+      [
+        39627
+      ]
+    ]
+  },
+  {
+    "id": "t7_25_deathknight_1",
+    "name": "Valorous Scourgeborne Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 7, 25-player (Naxxramas / OS / EoE)",
+    "who": "Death Knight",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      40559,
+      40563,
+      40565,
+      40567,
+      40568
+    ],
+    "slot_groups": [
+      [
+        40559
+      ],
+      [
+        40563
+      ],
+      [
+        40565
+      ],
+      [
+        40567
+      ],
+      [
+        40568
+      ]
+    ]
+  },
+  {
+    "id": "t8_10_paladin_0",
+    "name": "Valorous Aegis Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 10-player (Ulduar)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      45375,
+      45376,
+      45377,
+      45379,
+      45380
+    ],
+    "slot_groups": [
+      [
+        45375
+      ],
+      [
+        45376
+      ],
+      [
+        45377
+      ],
+      [
+        45379
+      ],
+      [
+        45380
+      ]
+    ]
+  },
+  {
+    "id": "t8_25_paladin_0",
+    "name": "Conqueror's Aegis Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 25-player (Ulduar)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      46152,
+      46153,
+      46154,
+      46155,
+      46156
+    ],
+    "slot_groups": [
+      [
+        46154
+      ],
+      [
+        46155
+      ],
+      [
+        46156
+      ],
+      [
+        46153
+      ],
+      [
+        46152
+      ]
+    ]
+  },
+  {
+    "id": "t8_10_paladin_1",
+    "name": "Valorous Aegis Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 10-player (Ulduar)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      45381,
+      45382,
+      45383,
+      45384,
+      45385
+    ],
+    "slot_groups": [
+      [
+        45381
+      ],
+      [
+        45383
+      ],
+      [
+        45382
+      ],
+      [
+        45384
+      ],
+      [
+        45385
+      ]
+    ]
+  },
+  {
+    "id": "t8_25_paladin_1",
+    "name": "Conqueror's Aegis Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 25-player (Ulduar)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      46173,
+      46174,
+      46175,
+      46176,
+      46177
+    ],
+    "slot_groups": [
+      [
+        46173
+      ],
+      [
+        46174
+      ],
+      [
+        46175
+      ],
+      [
+        46176
+      ],
+      [
+        46177
+      ]
+    ]
+  },
+  {
+    "id": "t8_10_paladin_2",
+    "name": "Valorous Aegis Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 10-player (Ulduar)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      45370,
+      45371,
+      45372,
+      45373,
+      45374
+    ],
+    "slot_groups": [
+      [
+        45374
+      ],
+      [
+        45370
+      ],
+      [
+        45372
+      ],
+      [
+        45371
+      ],
+      [
+        45373
+      ]
+    ]
+  },
+  {
+    "id": "t8_25_paladin_2",
+    "name": "Conqueror's Aegis Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 25-player (Ulduar)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      46178,
+      46179,
+      46180,
+      46181,
+      46182
+    ],
+    "slot_groups": [
+      [
+        46178
+      ],
+      [
+        46179
+      ],
+      [
+        46180
+      ],
+      [
+        46181
+      ],
+      [
+        46182
+      ]
+    ]
+  },
+  {
+    "id": "t8_10_deathknight_0",
+    "name": "Valorous Darkruned Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 10-player (Ulduar)",
+    "who": "Death Knight",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      45340,
+      45341,
+      45342,
+      45343,
+      45344
+    ],
+    "slot_groups": [
+      [
+        45340
+      ],
+      [
+        45341
+      ],
+      [
+        45342
+      ],
+      [
+        45343
+      ],
+      [
+        45344
+      ]
+    ]
+  },
+  {
+    "id": "t8_25_deathknight_0",
+    "name": "Conqueror's Darkruned Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 25-player (Ulduar)",
+    "who": "Death Knight",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      46111,
+      46113,
+      46115,
+      46116,
+      46117
+    ],
+    "slot_groups": [
+      [
+        46111
+      ],
+      [
+        46113
+      ],
+      [
+        46115
+      ],
+      [
+        46116
+      ],
+      [
+        46117
+      ]
+    ]
+  },
+  {
+    "id": "t8_10_deathknight_1",
+    "name": "Valorous Darkruned Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 10-player (Ulduar)",
+    "who": "Death Knight",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      45335,
+      45336,
+      45337,
+      45338,
+      45339
+    ],
+    "slot_groups": [
+      [
+        45335
+      ],
+      [
+        45337
+      ],
+      [
+        45336
+      ],
+      [
+        45338
+      ],
+      [
+        45339
+      ]
+    ]
+  },
+  {
+    "id": "t8_25_deathknight_1",
+    "name": "Conqueror's Darkruned Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 25-player (Ulduar)",
+    "who": "Death Knight",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      46118,
+      46119,
+      46120,
+      46121,
+      46122
+    ],
+    "slot_groups": [
+      [
+        46118
+      ],
+      [
+        46119
+      ],
+      [
+        46120
+      ],
+      [
+        46121
+      ],
+      [
+        46122
+      ]
+    ]
+  },
+  {
+    "id": "t8_10_druid_0",
+    "name": "Valorous Nightsong Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 10-player (Ulduar)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      45355,
+      45356,
+      45357,
+      45358,
+      45359
+    ],
+    "slot_groups": [
+      [
+        45358
+      ],
+      [
+        45355
+      ],
+      [
+        45356
+      ],
+      [
+        45357
+      ],
+      [
+        45359
+      ]
+    ]
+  },
+  {
+    "id": "t8_25_druid_0",
+    "name": "Conqueror's Nightsong Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 25-player (Ulduar)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      46157,
+      46158,
+      46159,
+      46160,
+      46161
+    ],
+    "slot_groups": [
+      [
+        46159
+      ],
+      [
+        46158
+      ],
+      [
+        46161
+      ],
+      [
+        46160
+      ],
+      [
+        46157
+      ]
+    ]
+  },
+  {
+    "id": "t8_10_druid_1",
+    "name": "Valorous Nightsong Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 10-player (Ulduar)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      45351,
+      45352,
+      45353,
+      45354,
+      46313
+    ],
+    "slot_groups": [
+      [
+        45354
+      ],
+      [
+        45351
+      ],
+      [
+        46313
+      ],
+      [
+        45353
+      ],
+      [
+        45352
+      ]
+    ]
+  },
+  {
+    "id": "t8_25_druid_1",
+    "name": "Conqueror's Nightsong Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 25-player (Ulduar)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      46189,
+      46191,
+      46192,
+      46194,
+      46196
+    ],
+    "slot_groups": [
+      [
+        46194
+      ],
+      [
+        46189
+      ],
+      [
+        46191
+      ],
+      [
+        46192
+      ],
+      [
+        46196
+      ]
+    ]
+  },
+  {
+    "id": "t8_10_druid_2",
+    "name": "Valorous Nightsong Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 10-player (Ulduar)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      45345,
+      45346,
+      45347,
+      45348,
+      45349
+    ],
+    "slot_groups": [
+      [
+        45348
+      ],
+      [
+        45345
+      ],
+      [
+        45346
+      ],
+      [
+        45347
+      ],
+      [
+        45349
+      ]
+    ]
+  },
+  {
+    "id": "t8_25_druid_2",
+    "name": "Conqueror's Nightsong Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 25-player (Ulduar)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      46183,
+      46184,
+      46185,
+      46186,
+      46187
+    ],
+    "slot_groups": [
+      [
+        46186
+      ],
+      [
+        46183
+      ],
+      [
+        46184
+      ],
+      [
+        46185
+      ],
+      [
+        46187
+      ]
+    ]
+  },
+  {
+    "id": "t8_10_priest_0",
+    "name": "Valorous Sanctification Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 10-player (Ulduar)",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      45391,
+      45392,
+      45393,
+      45394,
+      45395
+    ],
+    "slot_groups": [
+      [
+        45395
+      ],
+      [
+        45392
+      ],
+      [
+        45391
+      ],
+      [
+        45394
+      ],
+      [
+        45393
+      ]
+    ]
+  },
+  {
+    "id": "t8_25_priest_0",
+    "name": "Conqueror's Sanctification Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 25-player (Ulduar)",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      46163,
+      46165,
+      46168,
+      46170,
+      46172
+    ],
+    "slot_groups": [
+      [
+        46168
+      ],
+      [
+        46163
+      ],
+      [
+        46172
+      ],
+      [
+        46170
+      ],
+      [
+        46165
+      ]
+    ]
+  },
+  {
+    "id": "t8_10_priest_1",
+    "name": "Valorous Sanctification Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 10-player (Ulduar)",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      45386,
+      45387,
+      45388,
+      45389,
+      45390
+    ],
+    "slot_groups": [
+      [
+        45389
+      ],
+      [
+        45387
+      ],
+      [
+        45386
+      ],
+      [
+        45388
+      ],
+      [
+        45390
+      ]
+    ]
+  },
+  {
+    "id": "t8_25_priest_1",
+    "name": "Conqueror's Sanctification Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 25-player (Ulduar)",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      46188,
+      46190,
+      46193,
+      46195,
+      46197
+    ],
+    "slot_groups": [
+      [
+        46193
+      ],
+      [
+        46188
+      ],
+      [
+        46197
+      ],
+      [
+        46195
+      ],
+      [
+        46190
+      ]
+    ]
+  },
+  {
+    "id": "t8_10_warrior_0",
+    "name": "Valorous Siegebreaker Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 10-player (Ulduar)",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      45429,
+      45430,
+      45431,
+      45432,
+      45433
+    ],
+    "slot_groups": [
+      [
+        45429
+      ],
+      [
+        45430
+      ],
+      [
+        45431
+      ],
+      [
+        45432
+      ],
+      [
+        45433
+      ]
+    ]
+  },
+  {
+    "id": "t8_25_warrior_0",
+    "name": "Conqueror's Siegebreaker Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 25-player (Ulduar)",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      46146,
+      46148,
+      46149,
+      46150,
+      46151
+    ],
+    "slot_groups": [
+      [
+        46146
+      ],
+      [
+        46148
+      ],
+      [
+        46151
+      ],
+      [
+        46150
+      ],
+      [
+        46149
+      ]
+    ]
+  },
+  {
+    "id": "t8_10_warrior_1",
+    "name": "Valorous Siegebreaker Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 10-player (Ulduar)",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      45424,
+      45425,
+      45426,
+      45427,
+      45428
+    ],
+    "slot_groups": [
+      [
+        45424
+      ],
+      [
+        45426
+      ],
+      [
+        45425
+      ],
+      [
+        45427
+      ],
+      [
+        45428
+      ]
+    ]
+  },
+  {
+    "id": "t8_25_warrior_1",
+    "name": "Conqueror's Siegebreaker Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 25-player (Ulduar)",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      46162,
+      46164,
+      46166,
+      46167,
+      46169
+    ],
+    "slot_groups": [
+      [
+        46162
+      ],
+      [
+        46164
+      ],
+      [
+        46166
+      ],
+      [
+        46169
+      ],
+      [
+        46167
+      ]
+    ]
+  },
+  {
+    "id": "t8_10_rogue",
+    "name": "Valorous Terrorblade Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 10-player (Ulduar)",
+    "who": "Rogue",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      45396,
+      45397,
+      45398,
+      45399,
+      45400
+    ],
+    "slot_groups": [
+      [
+        45396
+      ],
+      [
+        45397
+      ],
+      [
+        45398
+      ],
+      [
+        45399
+      ],
+      [
+        45400
+      ]
+    ]
+  },
+  {
+    "id": "t8_25_rogue",
+    "name": "Conqueror's Terrorblade Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 25-player (Ulduar)",
+    "who": "Rogue",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      46123,
+      46124,
+      46125,
+      46126,
+      46127
+    ],
+    "slot_groups": [
+      [
+        46123
+      ],
+      [
+        46124
+      ],
+      [
+        46125
+      ],
+      [
+        46126
+      ],
+      [
+        46127
+      ]
+    ]
+  },
+  {
+    "id": "t8_10_shaman_0",
+    "name": "Valorous Worldbreaker Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 10-player (Ulduar)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      45412,
+      45413,
+      45414,
+      45415,
+      45416
+    ],
+    "slot_groups": [
+      [
+        45413
+      ],
+      [
+        45414
+      ],
+      [
+        45412
+      ],
+      [
+        45416
+      ],
+      [
+        45415
+      ]
+    ]
+  },
+  {
+    "id": "t8_25_shaman_0",
+    "name": "Conqueror's Worldbreaker Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 25-player (Ulduar)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      46200,
+      46203,
+      46205,
+      46208,
+      46212
+    ],
+    "slot_groups": [
+      [
+        46205
+      ],
+      [
+        46200
+      ],
+      [
+        46212
+      ],
+      [
+        46208
+      ],
+      [
+        46203
+      ]
+    ]
+  },
+  {
+    "id": "t8_10_shaman_1",
+    "name": "Valorous Worldbreaker Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 10-player (Ulduar)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      45406,
+      45408,
+      45409,
+      45410,
+      45411
+    ],
+    "slot_groups": [
+      [
+        45411
+      ],
+      [
+        45406
+      ],
+      [
+        45408
+      ],
+      [
+        45409
+      ],
+      [
+        45410
+      ]
+    ]
+  },
+  {
+    "id": "t8_25_shaman_1",
+    "name": "Conqueror's Worldbreaker Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 25-player (Ulduar)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      46206,
+      46207,
+      46209,
+      46210,
+      46211
+    ],
+    "slot_groups": [
+      [
+        46206
+      ],
+      [
+        46207
+      ],
+      [
+        46209
+      ],
+      [
+        46210
+      ],
+      [
+        46211
+      ]
+    ]
+  },
+  {
+    "id": "t8_10_shaman_2",
+    "name": "Valorous Worldbreaker Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 10-player (Ulduar)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      45401,
+      45402,
+      45403,
+      45404,
+      45405
+    ],
+    "slot_groups": [
+      [
+        45405
+      ],
+      [
+        45401
+      ],
+      [
+        45402
+      ],
+      [
+        45403
+      ],
+      [
+        45404
+      ]
+    ]
+  },
+  {
+    "id": "t8_25_shaman_2",
+    "name": "Conqueror's Worldbreaker Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 25-player (Ulduar)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      46198,
+      46199,
+      46201,
+      46202,
+      46204
+    ],
+    "slot_groups": [
+      [
+        46198
+      ],
+      [
+        46199
+      ],
+      [
+        46201
+      ],
+      [
+        46202
+      ],
+      [
+        46204
+      ]
+    ]
+  },
+  {
+    "id": "t8_10_mage",
+    "name": "Valorous Kirin'dor Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 10-player (Ulduar)",
+    "who": "Mage",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      45365,
+      45367,
+      45368,
+      45369,
+      46131
+    ],
+    "slot_groups": [
+      [
+        45368
+      ],
+      [
+        46131
+      ],
+      [
+        45365
+      ],
+      [
+        45367
+      ],
+      [
+        45369
+      ]
+    ]
+  },
+  {
+    "id": "t8_25_mage",
+    "name": "Conqueror's Kirin Tor Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 25-player (Ulduar)",
+    "who": "Mage",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      46129,
+      46130,
+      46132,
+      46133,
+      46134
+    ],
+    "slot_groups": [
+      [
+        46130
+      ],
+      [
+        46132
+      ],
+      [
+        46129
+      ],
+      [
+        46133
+      ],
+      [
+        46134
+      ]
+    ]
+  },
+  {
+    "id": "t8_25_hunter",
+    "name": "Conqueror's Scourgestalker Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 25-player (Ulduar)",
+    "who": "Hunter",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      46141,
+      46142,
+      46143,
+      46144,
+      46145
+    ],
+    "slot_groups": [
+      [
+        46141
+      ],
+      [
+        46142
+      ],
+      [
+        46143
+      ],
+      [
+        46144
+      ],
+      [
+        46145
+      ]
+    ]
+  },
+  {
+    "id": "t8_25_warlock",
+    "name": "Conqueror's Deathbringer Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 8, 25-player (Ulduar)",
+    "who": "Warlock",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      46135,
+      46136,
+      46137,
+      46139,
+      46140
+    ],
+    "slot_groups": [
+      [
+        46137
+      ],
+      [
+        46135
+      ],
+      [
+        46140
+      ],
+      [
+        46139
+      ],
+      [
+        46136
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_warrior_a_0",
+    "name": "Wrynn's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Alliance",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48371,
+      48372,
+      48373,
+      48374,
+      48375,
+      48865,
+      48866,
+      48867,
+      48868,
+      48869
+    ],
+    "slot_groups": [
+      [
+        48372,
+        48865
+      ],
+      [
+        48375,
+        48866
+      ],
+      [
+        48371,
+        48867
+      ],
+      [
+        48373,
+        48868
+      ],
+      [
+        48374,
+        48869
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_warrior_h_0",
+    "name": "Hellscream's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Horde",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48386,
+      48387,
+      48388,
+      48389,
+      48390,
+      48860,
+      48861,
+      48862,
+      48863,
+      48864
+    ],
+    "slot_groups": [
+      [
+        48386,
+        48860
+      ],
+      [
+        48387,
+        48861
+      ],
+      [
+        48388,
+        48862
+      ],
+      [
+        48389,
+        48863
+      ],
+      [
+        48390,
+        48864
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_warrior_a_0",
+    "name": "Triumphant Wrynn's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Alliance",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48376,
+      48377,
+      48378,
+      48379,
+      48380,
+      48381,
+      48382,
+      48383,
+      48384,
+      48385
+    ],
+    "slot_groups": [
+      [
+        48376,
+        48385
+      ],
+      [
+        48377,
+        48384
+      ],
+      [
+        48378,
+        48383
+      ],
+      [
+        48379,
+        48382
+      ],
+      [
+        48380,
+        48381
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_warrior_h_0",
+    "name": "Triumphant Hellscream's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Horde",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48391,
+      48392,
+      48393,
+      48394,
+      48395,
+      48396,
+      48397,
+      48398,
+      48399,
+      48400
+    ],
+    "slot_groups": [
+      [
+        48391,
+        48396
+      ],
+      [
+        48392,
+        48397
+      ],
+      [
+        48393,
+        48398
+      ],
+      [
+        48394,
+        48399
+      ],
+      [
+        48395,
+        48400
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_warrior_a_1",
+    "name": "Wrynn's Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Alliance",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48429,
+      48436,
+      48445,
+      48448,
+      48449,
+      48875,
+      48876,
+      48877,
+      48878,
+      48879
+    ],
+    "slot_groups": [
+      [
+        48436,
+        48875
+      ],
+      [
+        48449,
+        48877
+      ],
+      [
+        48429,
+        48876
+      ],
+      [
+        48445,
+        48878
+      ],
+      [
+        48448,
+        48879
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_warrior_h_1",
+    "name": "Hellscream's Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Horde",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48456,
+      48457,
+      48458,
+      48459,
+      48460,
+      48870,
+      48871,
+      48872,
+      48873,
+      48874
+    ],
+    "slot_groups": [
+      [
+        48456,
+        48870
+      ],
+      [
+        48457,
+        48872
+      ],
+      [
+        48458,
+        48871
+      ],
+      [
+        48459,
+        48873
+      ],
+      [
+        48460,
+        48874
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_warrior_a_1",
+    "name": "Triumphant Wrynn's Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Alliance",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48430,
+      48433,
+      48446,
+      48447,
+      48450,
+      48451,
+      48452,
+      48453,
+      48454,
+      48455
+    ],
+    "slot_groups": [
+      [
+        48450,
+        48451
+      ],
+      [
+        48452,
+        48453
+      ],
+      [
+        48430,
+        48433
+      ],
+      [
+        48446,
+        48447
+      ],
+      [
+        48454,
+        48455
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_warrior_h_1",
+    "name": "Triumphant Hellscream's Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Horde",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48461,
+      48462,
+      48463,
+      48464,
+      48465,
+      48466,
+      48467,
+      48468,
+      48469,
+      48470
+    ],
+    "slot_groups": [
+      [
+        48461,
+        48466
+      ],
+      [
+        48462,
+        48467
+      ],
+      [
+        48463,
+        48468
+      ],
+      [
+        48464,
+        48469
+      ],
+      [
+        48465,
+        48470
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_paladin_a_0",
+    "name": "Turalyon's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Alliance",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48602,
+      48603,
+      48604,
+      48605,
+      48606,
+      48915,
+      48916,
+      48917,
+      48918,
+      48919
+    ],
+    "slot_groups": [
+      [
+        48602,
+        48915
+      ],
+      [
+        48603,
+        48916
+      ],
+      [
+        48604,
+        48917
+      ],
+      [
+        48605,
+        48918
+      ],
+      [
+        48606,
+        48919
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_paladin_h_0",
+    "name": "Liadrin's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Horde",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48627,
+      48628,
+      48629,
+      48630,
+      48631,
+      48910,
+      48911,
+      48912,
+      48913,
+      48914
+    ],
+    "slot_groups": [
+      [
+        48631,
+        48910
+      ],
+      [
+        48630,
+        48911
+      ],
+      [
+        48629,
+        48912
+      ],
+      [
+        48628,
+        48913
+      ],
+      [
+        48627,
+        48914
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_paladin_a_0",
+    "name": "Triumphant Turalyon's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Alliance",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48607,
+      48608,
+      48609,
+      48610,
+      48611,
+      48612,
+      48613,
+      48614,
+      48615,
+      48616
+    ],
+    "slot_groups": [
+      [
+        48607,
+        48616
+      ],
+      [
+        48608,
+        48615
+      ],
+      [
+        48609,
+        48614
+      ],
+      [
+        48610,
+        48613
+      ],
+      [
+        48611,
+        48612
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_paladin_h_0",
+    "name": "Triumphant Liadrin's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Horde",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48617,
+      48618,
+      48619,
+      48620,
+      48621,
+      48622,
+      48623,
+      48624,
+      48625,
+      48626
+    ],
+    "slot_groups": [
+      [
+        48617,
+        48626
+      ],
+      [
+        48618,
+        48625
+      ],
+      [
+        48619,
+        48624
+      ],
+      [
+        48620,
+        48623
+      ],
+      [
+        48621,
+        48622
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_paladin_a_1",
+    "name": "Turalyon's Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Alliance",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48564,
+      48566,
+      48568,
+      48572,
+      48574,
+      48900,
+      48901,
+      48902,
+      48903,
+      48904
+    ],
+    "slot_groups": [
+      [
+        48566,
+        48900
+      ],
+      [
+        48574,
+        48904
+      ],
+      [
+        48564,
+        48902
+      ],
+      [
+        48568,
+        48903
+      ],
+      [
+        48572,
+        48901
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_paladin_h_1",
+    "name": "Liadrin's Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Horde",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48595,
+      48596,
+      48597,
+      48598,
+      48599,
+      48905,
+      48906,
+      48907,
+      48908,
+      48909
+    ],
+    "slot_groups": [
+      [
+        48599,
+        48905
+      ],
+      [
+        48598,
+        48909
+      ],
+      [
+        48597,
+        48907
+      ],
+      [
+        48596,
+        48908
+      ],
+      [
+        48595,
+        48906
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_paladin_a_1",
+    "name": "Triumphant Turalyon's Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Alliance",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48575,
+      48576,
+      48577,
+      48578,
+      48579,
+      48580,
+      48581,
+      48582,
+      48583,
+      48584
+    ],
+    "slot_groups": [
+      [
+        48575,
+        48584
+      ],
+      [
+        48576,
+        48583
+      ],
+      [
+        48577,
+        48582
+      ],
+      [
+        48578,
+        48581
+      ],
+      [
+        48579,
+        48580
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_paladin_h_1",
+    "name": "Triumphant Liadrin's Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Horde",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48585,
+      48586,
+      48587,
+      48588,
+      48589,
+      48590,
+      48591,
+      48592,
+      48593,
+      48594
+    ],
+    "slot_groups": [
+      [
+        48589,
+        48594
+      ],
+      [
+        48588,
+        48593
+      ],
+      [
+        48587,
+        48592
+      ],
+      [
+        48586,
+        48591
+      ],
+      [
+        48585,
+        48590
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_paladin_a_2",
+    "name": "Turalyon's Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Alliance",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48632,
+      48633,
+      48634,
+      48635,
+      48636,
+      48927,
+      48928,
+      48929,
+      48930,
+      48931
+    ],
+    "slot_groups": [
+      [
+        48632,
+        48927
+      ],
+      [
+        48633,
+        48929
+      ],
+      [
+        48634,
+        48928
+      ],
+      [
+        48635,
+        48930
+      ],
+      [
+        48636,
+        48931
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_paladin_h_2",
+    "name": "Liadrin's Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Horde",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48652,
+      48653,
+      48654,
+      48655,
+      48656,
+      48922,
+      48923,
+      48924,
+      48925,
+      48926
+    ],
+    "slot_groups": [
+      [
+        48652,
+        48922
+      ],
+      [
+        48653,
+        48924
+      ],
+      [
+        48654,
+        48923
+      ],
+      [
+        48655,
+        48925
+      ],
+      [
+        48656,
+        48926
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_paladin_a_2",
+    "name": "Triumphant Turalyon's Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Alliance",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48637,
+      48638,
+      48639,
+      48640,
+      48641,
+      48642,
+      48643,
+      48644,
+      48645,
+      48646
+    ],
+    "slot_groups": [
+      [
+        48641,
+        48642
+      ],
+      [
+        48640,
+        48643
+      ],
+      [
+        48639,
+        48644
+      ],
+      [
+        48638,
+        48645
+      ],
+      [
+        48637,
+        48646
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_paladin_h_2",
+    "name": "Triumphant Liadrin's Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Horde",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48647,
+      48648,
+      48649,
+      48650,
+      48651,
+      48657,
+      48658,
+      48659,
+      48660,
+      48661
+    ],
+    "slot_groups": [
+      [
+        48651,
+        48657
+      ],
+      [
+        48650,
+        48658
+      ],
+      [
+        48649,
+        48659
+      ],
+      [
+        48648,
+        48660
+      ],
+      [
+        48647,
+        48661
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_deathknight_a_0",
+    "name": "Thassarian's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Alliance",
+    "who": "Death Knight",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48472,
+      48474,
+      48476,
+      48478,
+      48480,
+      48885,
+      48886,
+      48887,
+      48888,
+      48889
+    ],
+    "slot_groups": [
+      [
+        48474,
+        48885
+      ],
+      [
+        48480,
+        48886
+      ],
+      [
+        48472,
+        48887
+      ],
+      [
+        48476,
+        48888
+      ],
+      [
+        48478,
+        48889
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_deathknight_h_0",
+    "name": "Koltira's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Horde",
+    "who": "Death Knight",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48880,
+      48881,
+      48882,
+      48883,
+      48884
+    ],
+    "slot_groups": [
+      [
+        48880
+      ],
+      [
+        48881
+      ],
+      [
+        48882
+      ],
+      [
+        48883
+      ],
+      [
+        48884
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_deathknight_a_0",
+    "name": "Triumphant Thassarian's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Alliance",
+    "who": "Death Knight",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48481,
+      48482,
+      48483,
+      48484,
+      48485,
+      48486,
+      48487,
+      48488,
+      48489,
+      48490
+    ],
+    "slot_groups": [
+      [
+        48481,
+        48490
+      ],
+      [
+        48482,
+        48489
+      ],
+      [
+        48483,
+        48488
+      ],
+      [
+        48484,
+        48487
+      ],
+      [
+        48485,
+        48486
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_deathknight_h_0",
+    "name": "Triumphant Koltira's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Horde",
+    "who": "Death Knight",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48491,
+      48492,
+      48493,
+      48494,
+      48495,
+      48496,
+      48497,
+      48498,
+      48499,
+      48500
+    ],
+    "slot_groups": [
+      [
+        48491,
+        48500
+      ],
+      [
+        48492,
+        48499
+      ],
+      [
+        48493,
+        48498
+      ],
+      [
+        48494,
+        48497
+      ],
+      [
+        48495,
+        48496
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_deathknight_a_1",
+    "name": "Thassarian's Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Alliance",
+    "who": "Death Knight",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48529,
+      48531,
+      48533,
+      48535,
+      48537,
+      48895,
+      48896,
+      48897,
+      48898,
+      48899
+    ],
+    "slot_groups": [
+      [
+        48531,
+        48895
+      ],
+      [
+        48537,
+        48897
+      ],
+      [
+        48529,
+        48896
+      ],
+      [
+        48533,
+        48898
+      ],
+      [
+        48535,
+        48899
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_deathknight_h_1",
+    "name": "Koltira's Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Horde",
+    "who": "Death Knight",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48890,
+      48891,
+      48892,
+      48893,
+      48894
+    ],
+    "slot_groups": [
+      [
+        48890
+      ],
+      [
+        48892
+      ],
+      [
+        48891
+      ],
+      [
+        48893
+      ],
+      [
+        48894
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_deathknight_a_1",
+    "name": "Triumphant Thassarian's Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Alliance",
+    "who": "Death Knight",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48538,
+      48539,
+      48540,
+      48541,
+      48542,
+      48543,
+      48544,
+      48545,
+      48546,
+      48547
+    ],
+    "slot_groups": [
+      [
+        48538,
+        48547
+      ],
+      [
+        48539,
+        48546
+      ],
+      [
+        48540,
+        48545
+      ],
+      [
+        48541,
+        48544
+      ],
+      [
+        48542,
+        48543
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_deathknight_h_1",
+    "name": "Triumphant Koltira's Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Horde",
+    "who": "Death Knight",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48548,
+      48549,
+      48550,
+      48551,
+      48552,
+      48553,
+      48554,
+      48555,
+      48556,
+      48557
+    ],
+    "slot_groups": [
+      [
+        48548,
+        48557
+      ],
+      [
+        48549,
+        48556
+      ],
+      [
+        48550,
+        48555
+      ],
+      [
+        48551,
+        48554
+      ],
+      [
+        48552,
+        48553
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_rogue_a",
+    "name": "VanCleef's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Alliance",
+    "who": "Rogue",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48218,
+      48219,
+      48220,
+      48221,
+      48222,
+      48809,
+      48810,
+      48811,
+      48812,
+      48813
+    ],
+    "slot_groups": [
+      [
+        48219,
+        48809
+      ],
+      [
+        48222,
+        48810
+      ],
+      [
+        48218,
+        48811
+      ],
+      [
+        48220,
+        48812
+      ],
+      [
+        48221,
+        48813
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_rogue_h",
+    "name": "Garona's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Horde",
+    "who": "Rogue",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48243,
+      48244,
+      48245,
+      48246,
+      48247,
+      48804,
+      48805,
+      48806,
+      48807,
+      48808
+    ],
+    "slot_groups": [
+      [
+        48243,
+        48804
+      ],
+      [
+        48244,
+        48805
+      ],
+      [
+        48245,
+        48806
+      ],
+      [
+        48246,
+        48807
+      ],
+      [
+        48247,
+        48808
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_rogue_a",
+    "name": "Triumphant VanCleef's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Alliance",
+    "who": "Rogue",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48223,
+      48224,
+      48225,
+      48226,
+      48227,
+      48228,
+      48229,
+      48230,
+      48231,
+      48232
+    ],
+    "slot_groups": [
+      [
+        48223,
+        48232
+      ],
+      [
+        48224,
+        48231
+      ],
+      [
+        48225,
+        48230
+      ],
+      [
+        48226,
+        48229
+      ],
+      [
+        48227,
+        48228
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_rogue_h",
+    "name": "Triumphant Garona's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Horde",
+    "who": "Rogue",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48233,
+      48234,
+      48235,
+      48236,
+      48237,
+      48238,
+      48239,
+      48240,
+      48241,
+      48242
+    ],
+    "slot_groups": [
+      [
+        48233,
+        48242
+      ],
+      [
+        48234,
+        48241
+      ],
+      [
+        48235,
+        48240
+      ],
+      [
+        48236,
+        48239
+      ],
+      [
+        48237,
+        48238
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_priest_a_0",
+    "name": "Velen's Raiment",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Alliance",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      47914,
+      47936,
+      47980,
+      47981,
+      47982,
+      48745,
+      48746,
+      48747,
+      48748,
+      48749
+    ],
+    "slot_groups": [
+      [
+        47936,
+        48748
+      ],
+      [
+        47982,
+        48746
+      ],
+      [
+        47914,
+        48745
+      ],
+      [
+        47980,
+        48747
+      ],
+      [
+        47981,
+        48749
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_priest_h_0",
+    "name": "Zabra's Raiment",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Horde",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48067,
+      48068,
+      48069,
+      48070,
+      48071,
+      48750,
+      48751,
+      48752,
+      48753,
+      48754
+    ],
+    "slot_groups": [
+      [
+        48070,
+        48753
+      ],
+      [
+        48067,
+        48751
+      ],
+      [
+        48068,
+        48750
+      ],
+      [
+        48069,
+        48752
+      ],
+      [
+        48071,
+        48754
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_priest_a_0",
+    "name": "Triumphant Velen's Raiment",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Alliance",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      47983,
+      47984,
+      47985,
+      47986,
+      47987,
+      48029,
+      48031,
+      48033,
+      48035,
+      48037
+    ],
+    "slot_groups": [
+      [
+        47986,
+        48031
+      ],
+      [
+        47983,
+        48037
+      ],
+      [
+        47984,
+        48035
+      ],
+      [
+        47985,
+        48033
+      ],
+      [
+        47987,
+        48029
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_priest_h_0",
+    "name": "Triumphant Zabra's Raiment",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Horde",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48057,
+      48058,
+      48059,
+      48060,
+      48061,
+      48062,
+      48063,
+      48064,
+      48065,
+      48066
+    ],
+    "slot_groups": [
+      [
+        48060,
+        48063
+      ],
+      [
+        48057,
+        48066
+      ],
+      [
+        48058,
+        48065
+      ],
+      [
+        48059,
+        48064
+      ],
+      [
+        48061,
+        48062
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_priest_a_1",
+    "name": "Velen's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Alliance",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48072,
+      48073,
+      48074,
+      48075,
+      48076,
+      48755,
+      48756,
+      48757,
+      48758,
+      48759
+    ],
+    "slot_groups": [
+      [
+        48075,
+        48759
+      ],
+      [
+        48072,
+        48756
+      ],
+      [
+        48073,
+        48755
+      ],
+      [
+        48074,
+        48758
+      ],
+      [
+        48076,
+        48757
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_priest_h_1",
+    "name": "Zabra's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Horde",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48097,
+      48098,
+      48099,
+      48100,
+      48101,
+      48760,
+      48761,
+      48762,
+      48763,
+      48764
+    ],
+    "slot_groups": [
+      [
+        48100,
+        48764
+      ],
+      [
+        48097,
+        48761
+      ],
+      [
+        48098,
+        48760
+      ],
+      [
+        48099,
+        48763
+      ],
+      [
+        48101,
+        48762
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_priest_a_1",
+    "name": "Triumphant Velen's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Alliance",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48077,
+      48078,
+      48079,
+      48080,
+      48081,
+      48082,
+      48083,
+      48084,
+      48085,
+      48086
+    ],
+    "slot_groups": [
+      [
+        48080,
+        48083
+      ],
+      [
+        48077,
+        48086
+      ],
+      [
+        48078,
+        48085
+      ],
+      [
+        48079,
+        48084
+      ],
+      [
+        48081,
+        48082
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_priest_h_1",
+    "name": "Triumphant Zabra's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Horde",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48087,
+      48088,
+      48089,
+      48090,
+      48091,
+      48092,
+      48093,
+      48094,
+      48095,
+      48096
+    ],
+    "slot_groups": [
+      [
+        48090,
+        48093
+      ],
+      [
+        48087,
+        48096
+      ],
+      [
+        48088,
+        48095
+      ],
+      [
+        48089,
+        48094
+      ],
+      [
+        48091,
+        48092
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_druid_a_0",
+    "name": "Malfurion's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Alliance",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48213,
+      48214,
+      48215,
+      48216,
+      48217,
+      48799,
+      48800,
+      48801,
+      48802,
+      48803
+    ],
+    "slot_groups": [
+      [
+        48216,
+        48802
+      ],
+      [
+        48213,
+        48799
+      ],
+      [
+        48214,
+        48800
+      ],
+      [
+        48215,
+        48801
+      ],
+      [
+        48217,
+        48803
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_druid_h_0",
+    "name": "Runetotem's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Horde",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48188,
+      48189,
+      48190,
+      48191,
+      48192,
+      48794,
+      48795,
+      48796,
+      48797,
+      48798
+    ],
+    "slot_groups": [
+      [
+        48189,
+        48797
+      ],
+      [
+        48192,
+        48794
+      ],
+      [
+        48188,
+        48795
+      ],
+      [
+        48190,
+        48796
+      ],
+      [
+        48191,
+        48798
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_druid_a_0",
+    "name": "Triumphant Malfurion's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Alliance",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48203,
+      48204,
+      48205,
+      48206,
+      48207,
+      48208,
+      48209,
+      48210,
+      48211,
+      48212
+    ],
+    "slot_groups": [
+      [
+        48206,
+        48209
+      ],
+      [
+        48203,
+        48212
+      ],
+      [
+        48204,
+        48211
+      ],
+      [
+        48205,
+        48210
+      ],
+      [
+        48207,
+        48208
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_druid_h_0",
+    "name": "Triumphant Runetotem's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Horde",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48193,
+      48194,
+      48195,
+      48196,
+      48197,
+      48198,
+      48199,
+      48200,
+      48201,
+      48202
+    ],
+    "slot_groups": [
+      [
+        48196,
+        48199
+      ],
+      [
+        48193,
+        48202
+      ],
+      [
+        48194,
+        48201
+      ],
+      [
+        48195,
+        48200
+      ],
+      [
+        48197,
+        48198
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_druid_a_1",
+    "name": "Malfurion's Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Alliance",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48102,
+      48129,
+      48130,
+      48131,
+      48132,
+      48774,
+      48775,
+      48776,
+      48777,
+      48778
+    ],
+    "slot_groups": [
+      [
+        48129,
+        48777
+      ],
+      [
+        48132,
+        48774
+      ],
+      [
+        48102,
+        48775
+      ],
+      [
+        48130,
+        48776
+      ],
+      [
+        48131,
+        48778
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_druid_h_1",
+    "name": "Runetotem's Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Horde",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48153,
+      48154,
+      48155,
+      48156,
+      48157,
+      48769,
+      48770,
+      48771,
+      48772,
+      48773
+    ],
+    "slot_groups": [
+      [
+        48156,
+        48772
+      ],
+      [
+        48153,
+        48769
+      ],
+      [
+        48154,
+        48770
+      ],
+      [
+        48155,
+        48771
+      ],
+      [
+        48157,
+        48773
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_druid_a_1",
+    "name": "Triumphant Malfurion's Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Alliance",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48133,
+      48134,
+      48135,
+      48136,
+      48137,
+      48138,
+      48139,
+      48140,
+      48141,
+      48142
+    ],
+    "slot_groups": [
+      [
+        48136,
+        48139
+      ],
+      [
+        48133,
+        48142
+      ],
+      [
+        48134,
+        48141
+      ],
+      [
+        48135,
+        48140
+      ],
+      [
+        48137,
+        48138
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_druid_h_1",
+    "name": "Triumphant Runetotem's Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Horde",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48143,
+      48144,
+      48145,
+      48146,
+      48147,
+      48148,
+      48149,
+      48150,
+      48151,
+      48152
+    ],
+    "slot_groups": [
+      [
+        48146,
+        48149
+      ],
+      [
+        48143,
+        48152
+      ],
+      [
+        48144,
+        48151
+      ],
+      [
+        48145,
+        48150
+      ],
+      [
+        48147,
+        48148
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_druid_a_2",
+    "name": "Malfurion's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Alliance",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48786,
+      48787,
+      48788,
+      48789,
+      48790
+    ],
+    "slot_groups": [
+      [
+        48790
+      ],
+      [
+        48787
+      ],
+      [
+        48786
+      ],
+      [
+        48789
+      ],
+      [
+        48788
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_druid_h_2",
+    "name": "Runetotem's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Horde",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48183,
+      48184,
+      48185,
+      48186,
+      48187,
+      48781,
+      48782,
+      48783,
+      48784,
+      48785
+    ],
+    "slot_groups": [
+      [
+        48186,
+        48785
+      ],
+      [
+        48183,
+        48782
+      ],
+      [
+        48184,
+        48781
+      ],
+      [
+        48185,
+        48784
+      ],
+      [
+        48187,
+        48783
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_druid_a_2",
+    "name": "Triumphant Malfurion's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Alliance",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48163,
+      48164,
+      48165,
+      48166,
+      48167,
+      48168,
+      48169,
+      48170,
+      48171,
+      48172
+    ],
+    "slot_groups": [
+      [
+        48166,
+        48169
+      ],
+      [
+        48163,
+        48172
+      ],
+      [
+        48164,
+        48171
+      ],
+      [
+        48165,
+        48170
+      ],
+      [
+        48167,
+        48168
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_druid_h_2",
+    "name": "Triumphant Runetotem's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Horde",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48173,
+      48174,
+      48175,
+      48176,
+      48177,
+      48178,
+      48179,
+      48180,
+      48181,
+      48182
+    ],
+    "slot_groups": [
+      [
+        48176,
+        48179
+      ],
+      [
+        48173,
+        48182
+      ],
+      [
+        48174,
+        48181
+      ],
+      [
+        48175,
+        48180
+      ],
+      [
+        48177,
+        48178
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_shaman_a_0",
+    "name": "Nobundo's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Alliance",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48341,
+      48342,
+      48343,
+      48344,
+      48345,
+      48846,
+      48847,
+      48848,
+      48849,
+      48850
+    ],
+    "slot_groups": [
+      [
+        48341,
+        48846
+      ],
+      [
+        48342,
+        48848
+      ],
+      [
+        48343,
+        48847
+      ],
+      [
+        48344,
+        48850
+      ],
+      [
+        48345,
+        48849
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_shaman_h_0",
+    "name": "Thrall's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Horde",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48366,
+      48367,
+      48368,
+      48369,
+      48370,
+      48851,
+      48852,
+      48853,
+      48854,
+      48855
+    ],
+    "slot_groups": [
+      [
+        48366,
+        48851
+      ],
+      [
+        48367,
+        48853
+      ],
+      [
+        48368,
+        48852
+      ],
+      [
+        48369,
+        48855
+      ],
+      [
+        48370,
+        48854
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_shaman_a_0",
+    "name": "Triumphant Nobundo's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Alliance",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48346,
+      48347,
+      48348,
+      48349,
+      48350,
+      48351,
+      48352,
+      48353,
+      48354,
+      48355
+    ],
+    "slot_groups": [
+      [
+        48346,
+        48355
+      ],
+      [
+        48347,
+        48354
+      ],
+      [
+        48348,
+        48353
+      ],
+      [
+        48349,
+        48352
+      ],
+      [
+        48350,
+        48351
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_shaman_h_0",
+    "name": "Triumphant Thrall's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Horde",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48356,
+      48357,
+      48358,
+      48359,
+      48360,
+      48361,
+      48362,
+      48363,
+      48364,
+      48365
+    ],
+    "slot_groups": [
+      [
+        48356,
+        48365
+      ],
+      [
+        48357,
+        48364
+      ],
+      [
+        48358,
+        48363
+      ],
+      [
+        48359,
+        48362
+      ],
+      [
+        48360,
+        48361
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_shaman_a_1",
+    "name": "Nobundo's Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Alliance",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48280,
+      48281,
+      48282,
+      48283,
+      48284,
+      48824,
+      48825,
+      48826,
+      48827,
+      48828
+    ],
+    "slot_groups": [
+      [
+        48281,
+        48828
+      ],
+      [
+        48284,
+        48824
+      ],
+      [
+        48280,
+        48825
+      ],
+      [
+        48282,
+        48826
+      ],
+      [
+        48283,
+        48827
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_shaman_h_1",
+    "name": "Thrall's Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Horde",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48295,
+      48296,
+      48297,
+      48298,
+      48299,
+      48829,
+      48830,
+      48831,
+      48832,
+      48833
+    ],
+    "slot_groups": [
+      [
+        48295,
+        48833
+      ],
+      [
+        48296,
+        48829
+      ],
+      [
+        48297,
+        48830
+      ],
+      [
+        48298,
+        48831
+      ],
+      [
+        48299,
+        48832
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_shaman_a_1",
+    "name": "Triumphant Nobundo's Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Alliance",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48285,
+      48286,
+      48287,
+      48288,
+      48289,
+      48290,
+      48291,
+      48292,
+      48293,
+      48294
+    ],
+    "slot_groups": [
+      [
+        48285,
+        48294
+      ],
+      [
+        48286,
+        48293
+      ],
+      [
+        48287,
+        48292
+      ],
+      [
+        48288,
+        48291
+      ],
+      [
+        48289,
+        48290
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_shaman_h_1",
+    "name": "Triumphant Thrall's Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Horde",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48300,
+      48301,
+      48302,
+      48303,
+      48304,
+      48305,
+      48306,
+      48307,
+      48308,
+      48309
+    ],
+    "slot_groups": [
+      [
+        48300,
+        48305
+      ],
+      [
+        48301,
+        48306
+      ],
+      [
+        48302,
+        48307
+      ],
+      [
+        48303,
+        48308
+      ],
+      [
+        48304,
+        48309
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_shaman_a_2",
+    "name": "Nobundo's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Alliance",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48310,
+      48312,
+      48313,
+      48314,
+      48315,
+      48836,
+      48837,
+      48838,
+      48839,
+      48840
+    ],
+    "slot_groups": [
+      [
+        48310,
+        48837
+      ],
+      [
+        48312,
+        48836
+      ],
+      [
+        48313,
+        48838
+      ],
+      [
+        48314,
+        48839
+      ],
+      [
+        48315,
+        48840
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_shaman_h_2",
+    "name": "Thrall's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Horde",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48336,
+      48337,
+      48338,
+      48339,
+      48340,
+      48841,
+      48842,
+      48843,
+      48844,
+      48845
+    ],
+    "slot_groups": [
+      [
+        48336,
+        48842
+      ],
+      [
+        48337,
+        48841
+      ],
+      [
+        48338,
+        48843
+      ],
+      [
+        48339,
+        48844
+      ],
+      [
+        48340,
+        48845
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_shaman_a_2",
+    "name": "Triumphant Nobundo's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Alliance",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48316,
+      48317,
+      48318,
+      48319,
+      48320,
+      48321,
+      48322,
+      48323,
+      48324,
+      48325
+    ],
+    "slot_groups": [
+      [
+        48316,
+        48325
+      ],
+      [
+        48317,
+        48324
+      ],
+      [
+        48318,
+        48323
+      ],
+      [
+        48319,
+        48322
+      ],
+      [
+        48320,
+        48321
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_shaman_h_2",
+    "name": "Triumphant Thrall's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Horde",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48326,
+      48327,
+      48328,
+      48329,
+      48330,
+      48331,
+      48332,
+      48333,
+      48334,
+      48335
+    ],
+    "slot_groups": [
+      [
+        48326,
+        48335
+      ],
+      [
+        48327,
+        48334
+      ],
+      [
+        48328,
+        48333
+      ],
+      [
+        48329,
+        48332
+      ],
+      [
+        48330,
+        48331
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_mage_a",
+    "name": "Khadgar's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Alliance",
+    "who": "Mage",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      47748,
+      47749,
+      47750,
+      47751,
+      47752,
+      48725,
+      48726,
+      48727,
+      48728,
+      48729
+    ],
+    "slot_groups": [
+      [
+        47749,
+        48728
+      ],
+      [
+        47752,
+        48725
+      ],
+      [
+        47748,
+        48726
+      ],
+      [
+        47750,
+        48727
+      ],
+      [
+        47751,
+        48729
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_mage_h",
+    "name": "Sunstrider's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Horde",
+    "who": "Mage",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      47773,
+      47774,
+      47775,
+      47776,
+      47777,
+      48730,
+      48731,
+      48732,
+      48733,
+      48734
+    ],
+    "slot_groups": [
+      [
+        47776,
+        48733
+      ],
+      [
+        47773,
+        48730
+      ],
+      [
+        47774,
+        48731
+      ],
+      [
+        47775,
+        48732
+      ],
+      [
+        47777,
+        48734
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_mage_a",
+    "name": "Triumphant Khadgar's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Alliance",
+    "who": "Mage",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      47753,
+      47754,
+      47755,
+      47756,
+      47757,
+      47758,
+      47759,
+      47760,
+      47761,
+      47762
+    ],
+    "slot_groups": [
+      [
+        47756,
+        47759
+      ],
+      [
+        47753,
+        47762
+      ],
+      [
+        47754,
+        47761
+      ],
+      [
+        47755,
+        47760
+      ],
+      [
+        47757,
+        47758
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_mage_h",
+    "name": "Triumphant Sunstrider's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Horde",
+    "who": "Mage",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      47763,
+      47764,
+      47765,
+      47766,
+      47767,
+      47768,
+      47769,
+      47770,
+      47771,
+      47772
+    ],
+    "slot_groups": [
+      [
+        47766,
+        47769
+      ],
+      [
+        47763,
+        47772
+      ],
+      [
+        47764,
+        47771
+      ],
+      [
+        47765,
+        47770
+      ],
+      [
+        47767,
+        47768
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_warlock_a",
+    "name": "Kel'Thuzad's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Alliance",
+    "who": "Warlock",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      47783,
+      47784,
+      47785,
+      47786,
+      47787,
+      48740,
+      48741,
+      48742,
+      48743,
+      48744
+    ],
+    "slot_groups": [
+      [
+        47786,
+        48743
+      ],
+      [
+        47783,
+        48740
+      ],
+      [
+        47784,
+        48741
+      ],
+      [
+        47785,
+        48742
+      ],
+      [
+        47787,
+        48744
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_warlock_h",
+    "name": "Gul'dan's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader) \u2014 Horde",
+    "who": "Warlock",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      47798,
+      47799,
+      47800,
+      47801,
+      47802,
+      48735,
+      48736,
+      48737,
+      48738,
+      48739
+    ],
+    "slot_groups": [
+      [
+        47799,
+        48738
+      ],
+      [
+        47802,
+        48735
+      ],
+      [
+        47801,
+        48736
+      ],
+      [
+        47800,
+        48737
+      ],
+      [
+        47798,
+        48739
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_warlock_a",
+    "name": "Triumphant Kel'Thuzad's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Alliance",
+    "who": "Warlock",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      47778,
+      47779,
+      47780,
+      47781,
+      47782,
+      47788,
+      47789,
+      47790,
+      47791,
+      47792
+    ],
+    "slot_groups": [
+      [
+        47779,
+        47791
+      ],
+      [
+        47782,
+        47788
+      ],
+      [
+        47778,
+        47789
+      ],
+      [
+        47780,
+        47790
+      ],
+      [
+        47781,
+        47792
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_warlock_h",
+    "name": "Triumphant Gul'dan's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader) \u2014 Horde",
+    "who": "Warlock",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      47793,
+      47794,
+      47795,
+      47796,
+      47797,
+      47803,
+      47804,
+      47805,
+      47806,
+      47807
+    ],
+    "slot_groups": [
+      [
+        47794,
+        47806
+      ],
+      [
+        47797,
+        47803
+      ],
+      [
+        47796,
+        47804
+      ],
+      [
+        47795,
+        47805
+      ],
+      [
+        47793,
+        47807
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_hunter_0",
+    "name": "Windrunner's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader)",
+    "who": "Hunter",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48250,
+      48251,
+      48252,
+      48253,
+      48254,
+      48819,
+      48820,
+      48821,
+      48822,
+      48823
+    ],
+    "slot_groups": [
+      [
+        48251,
+        48823
+      ],
+      [
+        48254,
+        48819
+      ],
+      [
+        48250,
+        48820
+      ],
+      [
+        48252,
+        48821
+      ],
+      [
+        48253,
+        48822
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_hunter_0",
+    "name": "Triumphant Windrunner's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader)",
+    "who": "Hunter",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48255,
+      48256,
+      48257,
+      48258,
+      48259,
+      48260,
+      48261,
+      48262,
+      48263,
+      48264
+    ],
+    "slot_groups": [
+      [
+        48255,
+        48264
+      ],
+      [
+        48256,
+        48263
+      ],
+      [
+        48257,
+        48262
+      ],
+      [
+        48258,
+        48261
+      ],
+      [
+        48259,
+        48260
+      ]
+    ]
+  },
+  {
+    "id": "t9_10_hunter_1",
+    "name": "Windrunner's Pursuit",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 10-player (Trial of the Crusader)",
+    "who": "Hunter",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48275,
+      48276,
+      48277,
+      48278,
+      48279,
+      48814,
+      48815,
+      48816,
+      48817,
+      48818
+    ],
+    "slot_groups": [
+      [
+        48275,
+        48818
+      ],
+      [
+        48276,
+        48814
+      ],
+      [
+        48277,
+        48815
+      ],
+      [
+        48278,
+        48816
+      ],
+      [
+        48279,
+        48817
+      ]
+    ]
+  },
+  {
+    "id": "t9_25_hunter_1",
+    "name": "Triumphant Windrunner's Pursuit",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 9, 25-player (Trial of the Grand Crusader)",
+    "who": "Hunter",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      48265,
+      48266,
+      48267,
+      48268,
+      48269,
+      48270,
+      48271,
+      48272,
+      48273,
+      48274
+    ],
+    "slot_groups": [
+      [
+        48265,
+        48274
+      ],
+      [
+        48266,
+        48273
+      ],
+      [
+        48267,
+        48272
+      ],
+      [
+        48268,
+        48271
+      ],
+      [
+        48269,
+        48270
+      ]
+    ]
+  },
+  {
+    "id": "t10_10_warrior_0",
+    "name": "Ymirjar Lord's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 10-player (Icecrown Citadel)",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      50078,
+      50079,
+      50080,
+      50081,
+      50082,
+      51767,
+      51768,
+      51769,
+      51770,
+      51771
+    ],
+    "slot_groups": [
+      [
+        50078,
+        51771
+      ],
+      [
+        50079,
+        51770
+      ],
+      [
+        50080,
+        51769
+      ],
+      [
+        50081,
+        51768
+      ],
+      [
+        50082,
+        51767
+      ]
+    ]
+  },
+  {
+    "id": "t10_25_warrior_0",
+    "name": "Sanctified Ymirjar Lord's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 25-player (Icecrown Citadel)",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      51210,
+      51211,
+      51212,
+      51213,
+      51214,
+      51225,
+      51226,
+      51227,
+      51228,
+      51229
+    ],
+    "slot_groups": [
+      [
+        51214,
+        51225
+      ],
+      [
+        51213,
+        51226
+      ],
+      [
+        51212,
+        51227
+      ],
+      [
+        51211,
+        51228
+      ],
+      [
+        51210,
+        51229
+      ]
+    ]
+  },
+  {
+    "id": "t10_10_warrior_1",
+    "name": "Ymirjar Lord's Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 10-player (Icecrown Citadel)",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      50846,
+      50847,
+      50848,
+      50849,
+      50850,
+      51772,
+      51773,
+      51774,
+      51775,
+      51776
+    ],
+    "slot_groups": [
+      [
+        50850,
+        51772
+      ],
+      [
+        50849,
+        51773
+      ],
+      [
+        50848,
+        51774
+      ],
+      [
+        50847,
+        51775
+      ],
+      [
+        50846,
+        51776
+      ]
+    ]
+  },
+  {
+    "id": "t10_25_warrior_1",
+    "name": "Sanctified Ymirjar Lord's Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 25-player (Icecrown Citadel)",
+    "who": "Warrior",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      51215,
+      51216,
+      51217,
+      51218,
+      51219,
+      51220,
+      51221,
+      51222,
+      51223,
+      51224
+    ],
+    "slot_groups": [
+      [
+        51219,
+        51220
+      ],
+      [
+        51217,
+        51222
+      ],
+      [
+        51218,
+        51221
+      ],
+      [
+        51216,
+        51223
+      ],
+      [
+        51215,
+        51224
+      ]
+    ]
+  },
+  {
+    "id": "t10_10_paladin_0",
+    "name": "Lightsworn Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 10-player (Icecrown Citadel)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      50324,
+      50325,
+      50326,
+      50327,
+      50328,
+      51717,
+      51718,
+      51719,
+      51720,
+      51721
+    ],
+    "slot_groups": [
+      [
+        50328,
+        51717
+      ],
+      [
+        50327,
+        51718
+      ],
+      [
+        50326,
+        51719
+      ],
+      [
+        50325,
+        51720
+      ],
+      [
+        50324,
+        51721
+      ]
+    ]
+  },
+  {
+    "id": "t10_25_paladin_0",
+    "name": "Sanctified Lightsworn Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 25-player (Icecrown Citadel)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      51160,
+      51161,
+      51162,
+      51163,
+      51164,
+      51275,
+      51276,
+      51277,
+      51278,
+      51279
+    ],
+    "slot_groups": [
+      [
+        51164,
+        51275
+      ],
+      [
+        51163,
+        51276
+      ],
+      [
+        51162,
+        51277
+      ],
+      [
+        51161,
+        51278
+      ],
+      [
+        51160,
+        51279
+      ]
+    ]
+  },
+  {
+    "id": "t10_10_paladin_1",
+    "name": "Lightsworn Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 10-player (Icecrown Citadel)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      50865,
+      50866,
+      50867,
+      50868,
+      50869,
+      51722,
+      51723,
+      51724,
+      51725,
+      51726
+    ],
+    "slot_groups": [
+      [
+        50869,
+        51722
+      ],
+      [
+        50868,
+        51723
+      ],
+      [
+        50867,
+        51724
+      ],
+      [
+        50866,
+        51725
+      ],
+      [
+        50865,
+        51726
+      ]
+    ]
+  },
+  {
+    "id": "t10_25_paladin_1",
+    "name": "Sanctified Lightsworn Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 25-player (Icecrown Citadel)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      51165,
+      51166,
+      51167,
+      51168,
+      51169,
+      51270,
+      51271,
+      51272,
+      51273,
+      51274
+    ],
+    "slot_groups": [
+      [
+        51165,
+        51274
+      ],
+      [
+        51169,
+        51270
+      ],
+      [
+        51167,
+        51272
+      ],
+      [
+        51168,
+        51271
+      ],
+      [
+        51166,
+        51273
+      ]
+    ]
+  },
+  {
+    "id": "t10_10_paladin_2",
+    "name": "Lightsworn Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 10-player (Icecrown Citadel)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      50860,
+      50861,
+      50862,
+      50863,
+      50864,
+      51727,
+      51728,
+      51729,
+      51730,
+      51731
+    ],
+    "slot_groups": [
+      [
+        50864,
+        51727
+      ],
+      [
+        50863,
+        51728
+      ],
+      [
+        50862,
+        51729
+      ],
+      [
+        50861,
+        51730
+      ],
+      [
+        50860,
+        51731
+      ]
+    ]
+  },
+  {
+    "id": "t10_25_paladin_2",
+    "name": "Sanctified Lightsworn Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 25-player (Icecrown Citadel)",
+    "who": "Paladin",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      51170,
+      51171,
+      51172,
+      51173,
+      51174,
+      51265,
+      51266,
+      51267,
+      51268,
+      51269
+    ],
+    "slot_groups": [
+      [
+        51174,
+        51265
+      ],
+      [
+        51172,
+        51267
+      ],
+      [
+        51173,
+        51266
+      ],
+      [
+        51171,
+        51268
+      ],
+      [
+        51170,
+        51269
+      ]
+    ]
+  },
+  {
+    "id": "t10_10_deathknight_0",
+    "name": "Scourgelord's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 10-player (Icecrown Citadel)",
+    "who": "Death Knight",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      50094,
+      50095,
+      50096,
+      50097,
+      50098,
+      51682,
+      51683,
+      51684,
+      51685,
+      51686
+    ],
+    "slot_groups": [
+      [
+        50094,
+        51686
+      ],
+      [
+        50095,
+        51685
+      ],
+      [
+        50096,
+        51684
+      ],
+      [
+        50097,
+        51683
+      ],
+      [
+        50098,
+        51682
+      ]
+    ]
+  },
+  {
+    "id": "t10_25_deathknight_0",
+    "name": "Sanctified Scourgelord's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 25-player (Icecrown Citadel)",
+    "who": "Death Knight",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      51125,
+      51126,
+      51127,
+      51128,
+      51129,
+      51310,
+      51311,
+      51312,
+      51313,
+      51314
+    ],
+    "slot_groups": [
+      [
+        51129,
+        51310
+      ],
+      [
+        51128,
+        51311
+      ],
+      [
+        51127,
+        51312
+      ],
+      [
+        51126,
+        51313
+      ],
+      [
+        51125,
+        51314
+      ]
+    ]
+  },
+  {
+    "id": "t10_10_deathknight_1",
+    "name": "Scourgelord's Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 10-player (Icecrown Citadel)",
+    "who": "Death Knight",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      50853,
+      50854,
+      50855,
+      50856,
+      50857,
+      51687,
+      51688,
+      51689,
+      51690,
+      51691
+    ],
+    "slot_groups": [
+      [
+        50857,
+        51687
+      ],
+      [
+        50856,
+        51688
+      ],
+      [
+        50855,
+        51689
+      ],
+      [
+        50854,
+        51690
+      ],
+      [
+        50853,
+        51691
+      ]
+    ]
+  },
+  {
+    "id": "t10_25_deathknight_1",
+    "name": "Sanctified Scourgelord's Plate",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 25-player (Icecrown Citadel)",
+    "who": "Death Knight",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      51130,
+      51131,
+      51132,
+      51133,
+      51134,
+      51305,
+      51306,
+      51307,
+      51308,
+      51309
+    ],
+    "slot_groups": [
+      [
+        51134,
+        51305
+      ],
+      [
+        51132,
+        51307
+      ],
+      [
+        51133,
+        51306
+      ],
+      [
+        51131,
+        51308
+      ],
+      [
+        51130,
+        51309
+      ]
+    ]
+  },
+  {
+    "id": "t10_10_rogue",
+    "name": "Shadowblade's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 10-player (Icecrown Citadel)",
+    "who": "Rogue",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      50087,
+      50088,
+      50089,
+      50090,
+      50105,
+      51742,
+      51743,
+      51744,
+      51745,
+      51746
+    ],
+    "slot_groups": [
+      [
+        50087,
+        51743
+      ],
+      [
+        50088,
+        51742
+      ],
+      [
+        50089,
+        51745
+      ],
+      [
+        50090,
+        51744
+      ],
+      [
+        50105,
+        51746
+      ]
+    ]
+  },
+  {
+    "id": "t10_25_rogue",
+    "name": "Sanctified Shadowblade's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 25-player (Icecrown Citadel)",
+    "who": "Rogue",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      51185,
+      51186,
+      51187,
+      51188,
+      51189,
+      51250,
+      51251,
+      51252,
+      51253,
+      51254
+    ],
+    "slot_groups": [
+      [
+        51189,
+        51250
+      ],
+      [
+        51188,
+        51251
+      ],
+      [
+        51187,
+        51252
+      ],
+      [
+        51186,
+        51253
+      ],
+      [
+        51185,
+        51254
+      ]
+    ]
+  },
+  {
+    "id": "t10_10_priest_0",
+    "name": "Crimson Acolyte's Raiment",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 10-player (Icecrown Citadel)",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      50765,
+      50766,
+      50767,
+      50768,
+      50769,
+      51732,
+      51733,
+      51734,
+      51735,
+      51736
+    ],
+    "slot_groups": [
+      [
+        50768,
+        51733
+      ],
+      [
+        50766,
+        51735
+      ],
+      [
+        50765,
+        51736
+      ],
+      [
+        50769,
+        51732
+      ],
+      [
+        50767,
+        51734
+      ]
+    ]
+  },
+  {
+    "id": "t10_25_priest_0",
+    "name": "Sanctified Crimson Acolyte's Raiment",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 25-player (Icecrown Citadel)",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      51175,
+      51176,
+      51177,
+      51178,
+      51179,
+      51260,
+      51261,
+      51262,
+      51263,
+      51264
+    ],
+    "slot_groups": [
+      [
+        51176,
+        51263
+      ],
+      [
+        51179,
+        51260
+      ],
+      [
+        51178,
+        51261
+      ],
+      [
+        51177,
+        51262
+      ],
+      [
+        51175,
+        51264
+      ]
+    ]
+  },
+  {
+    "id": "t10_10_priest_1",
+    "name": "Crimson Acolyte's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 10-player (Icecrown Citadel)",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      50391,
+      50392,
+      50393,
+      50394,
+      50396,
+      51737,
+      51738,
+      51739,
+      51740,
+      51741
+    ],
+    "slot_groups": [
+      [
+        50394,
+        51740
+      ],
+      [
+        50391,
+        51738
+      ],
+      [
+        50392,
+        51737
+      ],
+      [
+        50393,
+        51741
+      ],
+      [
+        50396,
+        51739
+      ]
+    ]
+  },
+  {
+    "id": "t10_25_priest_1",
+    "name": "Sanctified Crimson Acolyte's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 25-player (Icecrown Citadel)",
+    "who": "Priest",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      51180,
+      51181,
+      51182,
+      51183,
+      51184,
+      51255,
+      51256,
+      51257,
+      51258,
+      51259
+    ],
+    "slot_groups": [
+      [
+        51180,
+        51259
+      ],
+      [
+        51183,
+        51256
+      ],
+      [
+        51184,
+        51255
+      ],
+      [
+        51181,
+        51258
+      ],
+      [
+        51182,
+        51257
+      ]
+    ]
+  },
+  {
+    "id": "t10_10_druid_0",
+    "name": "Lasherweave Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 10-player (Icecrown Citadel)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      50824,
+      50825,
+      50826,
+      50827,
+      50828,
+      51697,
+      51698,
+      51699,
+      51700,
+      51701
+    ],
+    "slot_groups": [
+      [
+        50828,
+        51697
+      ],
+      [
+        50827,
+        51698
+      ],
+      [
+        50826,
+        51699
+      ],
+      [
+        50825,
+        51700
+      ],
+      [
+        50824,
+        51701
+      ]
+    ]
+  },
+  {
+    "id": "t10_25_druid_0",
+    "name": "Sanctified Lasherweave Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 25-player (Icecrown Citadel)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      51140,
+      51141,
+      51142,
+      51143,
+      51144,
+      51295,
+      51296,
+      51297,
+      51298,
+      51299
+    ],
+    "slot_groups": [
+      [
+        51141,
+        51298
+      ],
+      [
+        51144,
+        51295
+      ],
+      [
+        51143,
+        51296
+      ],
+      [
+        51142,
+        51297
+      ],
+      [
+        51140,
+        51299
+      ]
+    ]
+  },
+  {
+    "id": "t10_10_druid_1",
+    "name": "Lasherweave Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 10-player (Icecrown Citadel)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      50106,
+      50107,
+      50108,
+      50109,
+      50113,
+      51692,
+      51693,
+      51694,
+      51695,
+      51696
+    ],
+    "slot_groups": [
+      [
+        50106,
+        51696
+      ],
+      [
+        50107,
+        51695
+      ],
+      [
+        50108,
+        51694
+      ],
+      [
+        50109,
+        51693
+      ],
+      [
+        50113,
+        51692
+      ]
+    ]
+  },
+  {
+    "id": "t10_25_druid_1",
+    "name": "Sanctified Lasherweave Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 25-player (Icecrown Citadel)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      51135,
+      51136,
+      51137,
+      51138,
+      51139,
+      51300,
+      51301,
+      51302,
+      51303,
+      51304
+    ],
+    "slot_groups": [
+      [
+        51139,
+        51300
+      ],
+      [
+        51138,
+        51301
+      ],
+      [
+        51137,
+        51302
+      ],
+      [
+        51136,
+        51303
+      ],
+      [
+        51135,
+        51304
+      ]
+    ]
+  },
+  {
+    "id": "t10_10_druid_2",
+    "name": "Lasherweave Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 10-player (Icecrown Citadel)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      50819,
+      50820,
+      50821,
+      50822,
+      50823,
+      51702,
+      51703,
+      51704,
+      51705,
+      51706
+    ],
+    "slot_groups": [
+      [
+        50823,
+        51702
+      ],
+      [
+        50822,
+        51703
+      ],
+      [
+        50821,
+        51704
+      ],
+      [
+        50820,
+        51705
+      ],
+      [
+        50819,
+        51706
+      ]
+    ]
+  },
+  {
+    "id": "t10_25_druid_2",
+    "name": "Sanctified Lasherweave Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 25-player (Icecrown Citadel)",
+    "who": "Druid",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      51145,
+      51146,
+      51147,
+      51148,
+      51149,
+      51290,
+      51291,
+      51292,
+      51293,
+      51294
+    ],
+    "slot_groups": [
+      [
+        51145,
+        51294
+      ],
+      [
+        51148,
+        51291
+      ],
+      [
+        51149,
+        51290
+      ],
+      [
+        51146,
+        51293
+      ],
+      [
+        51147,
+        51292
+      ]
+    ]
+  },
+  {
+    "id": "t10_10_shaman_0",
+    "name": "Frost Witch's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 10-player (Icecrown Citadel)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      50830,
+      50831,
+      50832,
+      50833,
+      50834,
+      51752,
+      51753,
+      51754,
+      51755,
+      51756
+    ],
+    "slot_groups": [
+      [
+        50830,
+        51752
+      ],
+      [
+        50831,
+        51753
+      ],
+      [
+        50832,
+        51754
+      ],
+      [
+        50833,
+        51755
+      ],
+      [
+        50834,
+        51756
+      ]
+    ]
+  },
+  {
+    "id": "t10_25_shaman_0",
+    "name": "Sanctified Frost Witch's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 25-player (Icecrown Citadel)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      51195,
+      51196,
+      51197,
+      51198,
+      51199,
+      51240,
+      51241,
+      51242,
+      51243,
+      51244
+    ],
+    "slot_groups": [
+      [
+        51195,
+        51244
+      ],
+      [
+        51196,
+        51243
+      ],
+      [
+        51197,
+        51242
+      ],
+      [
+        51198,
+        51241
+      ],
+      [
+        51199,
+        51240
+      ]
+    ]
+  },
+  {
+    "id": "t10_10_shaman_1",
+    "name": "Frost Witch's Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 10-player (Icecrown Citadel)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      50835,
+      50836,
+      50837,
+      50838,
+      50839,
+      51747,
+      51748,
+      51749,
+      51750,
+      51751
+    ],
+    "slot_groups": [
+      [
+        50835,
+        51747
+      ],
+      [
+        50836,
+        51748
+      ],
+      [
+        50837,
+        51749
+      ],
+      [
+        50838,
+        51750
+      ],
+      [
+        50839,
+        51751
+      ]
+    ]
+  },
+  {
+    "id": "t10_25_shaman_1",
+    "name": "Sanctified Frost Witch's Garb",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 25-player (Icecrown Citadel)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      51190,
+      51191,
+      51192,
+      51193,
+      51194,
+      51245,
+      51246,
+      51247,
+      51248,
+      51249
+    ],
+    "slot_groups": [
+      [
+        51190,
+        51249
+      ],
+      [
+        51191,
+        51248
+      ],
+      [
+        51192,
+        51247
+      ],
+      [
+        51193,
+        51246
+      ],
+      [
+        51194,
+        51245
+      ]
+    ]
+  },
+  {
+    "id": "t10_10_shaman_2",
+    "name": "Frost Witch's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 10-player (Icecrown Citadel)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      50841,
+      50842,
+      50843,
+      50844,
+      50845,
+      51757,
+      51758,
+      51759,
+      51760,
+      51761
+    ],
+    "slot_groups": [
+      [
+        50841,
+        51757
+      ],
+      [
+        50842,
+        51758
+      ],
+      [
+        50843,
+        51759
+      ],
+      [
+        50844,
+        51760
+      ],
+      [
+        50845,
+        51761
+      ]
+    ]
+  },
+  {
+    "id": "t10_25_shaman_2",
+    "name": "Sanctified Frost Witch's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 25-player (Icecrown Citadel)",
+    "who": "Shaman",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      51200,
+      51201,
+      51202,
+      51203,
+      51204,
+      51235,
+      51236,
+      51237,
+      51238,
+      51239
+    ],
+    "slot_groups": [
+      [
+        51200,
+        51239
+      ],
+      [
+        51201,
+        51238
+      ],
+      [
+        51202,
+        51237
+      ],
+      [
+        51203,
+        51236
+      ],
+      [
+        51204,
+        51235
+      ]
+    ]
+  },
+  {
+    "id": "t10_10_mage",
+    "name": "Bloodmage's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 10-player (Icecrown Citadel)",
+    "who": "Mage",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      50275,
+      50276,
+      50277,
+      50278,
+      50279,
+      51712,
+      51713,
+      51714,
+      51715,
+      51716
+    ],
+    "slot_groups": [
+      [
+        50278,
+        51713
+      ],
+      [
+        50275,
+        51716
+      ],
+      [
+        50276,
+        51715
+      ],
+      [
+        50277,
+        51714
+      ],
+      [
+        50279,
+        51712
+      ]
+    ]
+  },
+  {
+    "id": "t10_25_mage",
+    "name": "Sanctified Bloodmage's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 25-player (Icecrown Citadel)",
+    "who": "Mage",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      51155,
+      51156,
+      51157,
+      51158,
+      51159,
+      51280,
+      51281,
+      51282,
+      51283,
+      51284
+    ],
+    "slot_groups": [
+      [
+        51156,
+        51283
+      ],
+      [
+        51159,
+        51280
+      ],
+      [
+        51158,
+        51281
+      ],
+      [
+        51157,
+        51282
+      ],
+      [
+        51155,
+        51284
+      ]
+    ]
+  },
+  {
+    "id": "t10_10_warlock",
+    "name": "Dark Coven's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 10-player (Icecrown Citadel)",
+    "who": "Warlock",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      50240,
+      50241,
+      50242,
+      50243,
+      50244,
+      51762,
+      51763,
+      51764,
+      51765,
+      51766
+    ],
+    "slot_groups": [
+      [
+        50243,
+        51763
+      ],
+      [
+        50240,
+        51766
+      ],
+      [
+        50241,
+        51765
+      ],
+      [
+        50242,
+        51764
+      ],
+      [
+        50244,
+        51762
+      ]
+    ]
+  },
+  {
+    "id": "t10_25_warlock",
+    "name": "Sanctified Dark Coven's Regalia",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 25-player (Icecrown Citadel)",
+    "who": "Warlock",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      51205,
+      51206,
+      51207,
+      51208,
+      51209,
+      51230,
+      51231,
+      51232,
+      51233,
+      51234
+    ],
+    "slot_groups": [
+      [
+        51206,
+        51233
+      ],
+      [
+        51209,
+        51230
+      ],
+      [
+        51208,
+        51231
+      ],
+      [
+        51207,
+        51232
+      ],
+      [
+        51205,
+        51234
+      ]
+    ]
+  },
+  {
+    "id": "t10_10_hunter",
+    "name": "Ahn'Kahar Blood Hunter's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 10-player (Icecrown Citadel)",
+    "who": "Hunter",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      50114,
+      50115,
+      50116,
+      50117,
+      50118,
+      51707,
+      51708,
+      51709,
+      51710,
+      51711
+    ],
+    "slot_groups": [
+      [
+        50118,
+        51707
+      ],
+      [
+        50114,
+        51711
+      ],
+      [
+        50115,
+        51710
+      ],
+      [
+        50116,
+        51709
+      ],
+      [
+        50117,
+        51708
+      ]
+    ]
+  },
+  {
+    "id": "t10_25_hunter",
+    "name": "Sanctified Ahn'Kahar Blood Hunter's Battlegear",
+    "category": "WotLK Raid Tiers",
+    "tier": "Tier 10, 25-player (Icecrown Citadel)",
+    "who": "Hunter",
+    "points": 10,
+    "pieces": 5,
+    "item_ids": [
+      51150,
+      51151,
+      51152,
+      51153,
+      51154,
+      51285,
+      51286,
+      51287,
+      51288,
+      51289
+    ],
+    "slot_groups": [
+      [
+        51150,
+        51289
+      ],
+      [
+        51154,
+        51285
+      ],
+      [
+        51153,
+        51286
+      ],
+      [
+        51152,
+        51287
+      ],
+      [
+        51151,
+        51288
+      ]
+    ]
+  }
+]

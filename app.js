@@ -67,7 +67,7 @@ function statWithIcon(iconSrc, text, extraIconClass) {
 }
 
 // Fetched once, eagerly, so it's usually already resolved by the time
-// someone taps a character to expand their achievements.
+// someone taps a character to expand their achievements/collections.
 let achievementDataPromise = null;
 
 function loadAchievementData() {
@@ -75,9 +75,11 @@ function loadAchievementData() {
     achievementDataPromise = Promise.all([
       fetch("assets/data/achievements.json").then((r) => r.json()),
       fetch("assets/data/achievement_categories.json").then((r) => r.json()),
-    ]).then(([achievements, categories]) => ({
+      fetch("assets/data/collections/gear.json").then((r) => r.json()),
+    ]).then(([achievements, categories, collectionGear]) => ({
       achievementsById: new Map(achievements.map((a) => [a.id, a])),
       categoriesById: new Map(categories.map((c) => [c.id, c])),
+      collectionGearById: new Map(collectionGear.map((g) => [g.id, g])),
     }));
   }
   return achievementDataPromise;
@@ -249,20 +251,41 @@ function toggleAchievementsPanel(rowLi, c) {
 
   const placeholder = document.createElement("li");
   placeholder.className = "char-achievements";
-  placeholder.innerHTML = `<p class="char-achievements__empty">Loading achievements…</p>`;
+  placeholder.innerHTML = `<p class="char-achievements__empty">Loading…</p>`;
   rowLi.after(placeholder);
 
-  loadAchievementData().then(({ achievementsById, categoriesById }) => {
-    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById));
+  loadAchievementData().then(({ achievementsById, categoriesById, collectionGearById }) => {
+    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById, collectionGearById));
   });
 }
 
-// Groups the character's completed achievement IDs by whichever category
-// Blizzard's own data files directly tag them with — no re-grouping or
-// custom categorization on top.
-function buildAchievementsPanel(c, achievementsById, categoriesById) {
+// Two separate, clearly-labeled systems in one expandable panel:
+// - Collections: custom, companion-app-only tracking (currently just Gear —
+//   equipping a full named gear set — with Mounts/Pets/Tabards etc. planned
+//   as sibling categories later). Not real WoW achievements; never mixed
+//   into the Achievements totals or grouping below.
+// - Achievements: the character's real completed Blizzard achievements,
+//   grouped by whichever category Blizzard's own data files directly tag
+//   them with — no re-grouping or custom categorization on top.
+function buildAchievementsPanel(c, achievementsById, categoriesById, collectionGearById) {
   const li = document.createElement("li");
   li.className = "char-achievements";
+
+  const collectionGearIds = c.collections?.gear || [];
+  const byGearTier = new Map();
+  for (const id of collectionGearIds) {
+    const item = collectionGearById.get(id);
+    if (!item) continue;
+    const list = byGearTier.get(item.tier) || [];
+    list.push(item);
+    byGearTier.set(item.tier, list);
+  }
+  const collectionGroups = [...byGearTier.entries()]
+    .map(([tier, items]) => ({
+      name: `Gear — ${tier}`,
+      achievements: items.sort((a, b) => a.name.localeCompare(b.name)),
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name));
 
   const ids = c.achievements || [];
   const byCategory = new Map();
@@ -273,36 +296,47 @@ function buildAchievementsPanel(c, achievementsById, categoriesById) {
     list.push(achievement);
     byCategory.set(achievement.category_id, list);
   }
-
-  if (byCategory.size === 0) {
-    li.innerHTML = `<p class="char-achievements__empty">No completed achievements recorded.</p>`;
-    return li;
-  }
-
   const categoryGroups = [...byCategory.entries()]
     .map(([categoryId, achievements]) => ({
       name: categoriesById.get(categoryId)?.name || "Other",
-      achievements: achievements.sort((a, b) => b.points - a.points || a.name.localeCompare(b.name)),
+      achievements: achievements.sort((a, b) => a.name.localeCompare(b.name)),
     }))
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  li.innerHTML = categoryGroups
+  if (collectionGroups.length === 0 && categoryGroups.length === 0) {
+    li.innerHTML = `<p class="char-achievements__empty">No collections or achievements recorded.</p>`;
+    return li;
+  }
+
+  li.innerHTML =
+    renderAchievementGroups(collectionGroups, "Collections", true) +
+    renderAchievementGroups(categoryGroups, "Achievements", false);
+
+  return li;
+}
+
+// Returns achv-category blocks as siblings (not wrapped in a container), so
+// they keep flowing into the same auto-fill grid as `.char-achievements`
+// uses for every category — an optional full-width heading is inserted
+// ahead of this group's own categories to label the section.
+function renderAchievementGroups(groups, sectionLabel, showPoints) {
+  if (groups.length === 0) return "";
+  const heading = sectionLabel
+    ? `<h3 class="achv-section__name">${escapeHtml(sectionLabel)}</h3>`
+    : "";
+  const categories = groups
     .map((group) => `
       <div class="achv-category">
-        <h4 class="achv-category__name">${escapeHtml(group.name)} <span class="achv-category__count">${group.achievements.length}</span></h4>
+        <h4 class="achv-category__name">${escapeHtml(group.name)} <span class="achv-category__count">(${group.achievements.length})</span></h4>
         <ul class="achv-list">
           ${group.achievements.map((a) => `
-            <li class="achv-list__item">
-              <span>${escapeHtml(a.name)}</span>
-              ${a.points ? `<span class="achv-list__points">${a.points}p</span>` : ""}
-            </li>
+            <li class="achv-list__item">${escapeHtml(a.name)}${showPoints ? ` <span class="achv-list__points">${a.points} pts</span>` : ""}</li>
           `).join("")}
         </ul>
       </div>
     `)
     .join("");
-
-  return li;
+  return heading + categories;
 }
 
 function formatPlayedTime(totalSeconds) {
@@ -312,7 +346,7 @@ function formatPlayedTime(totalSeconds) {
 }
 
 function formatAchievements(points, count) {
-  return `${formatNumber(points)}p (${formatNumber(count)})`;
+  return `${formatNumber(points)} (${formatNumber(count)})`;
 }
 
 function formatNumber(n) {
