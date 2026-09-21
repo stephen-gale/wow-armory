@@ -315,6 +315,14 @@ main {
   gap: 0.9rem 1.5rem;
 }
 
+/* `display: grid` above otherwise wins over the browser's built-in
+   [hidden] { display: none }, since same-specificity author CSS beats
+   the user-agent stylesheet — so the panel would stay visually visible
+   even after JS sets .hidden = true. */
+.char-achievements[hidden] {
+  display: none;
+}
+
 .char-achievements__empty {
   margin: 0;
   color: var(--text-dim);
