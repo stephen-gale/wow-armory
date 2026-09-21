@@ -61,8 +61,9 @@ function iconImg(slug, className) {
 // coin icon instead of the word "Gold"). Used for both the per-faction
 // summary row and each character row, in the same Gold/Achievements/Played
 // order, so the two stay visually consistent.
-function statWithIcon(iconSrc, text) {
-  return `<span class="stat"><img class="stat-icon" src="${iconSrc}" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">${text}</span>`;
+function statWithIcon(iconSrc, text, extraIconClass) {
+  const cls = extraIconClass ? `stat-icon ${extraIconClass}` : "stat-icon";
+  return `<span class="stat"><img class="${cls}" src="${iconSrc}" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">${text}</span>`;
 }
 
 const fileInput = document.getElementById("file-input");
@@ -167,7 +168,7 @@ function renderFactionPanel(faction, characters) {
   stats.className = "faction-panel__stats";
   stats.innerHTML = [
     statWithIcon(STAT_ICONS.gold, formatMoneyPlain(totalMoney)),
-    statWithIcon(STAT_ICONS.achievements, `${formatNumber(totalAP)} (${formatNumber(totalAchievementCount)})`),
+    statWithIcon(STAT_ICONS.achievements, `${formatNumber(totalAP)} (${formatNumber(totalAchievementCount)})`, "stat-icon--achievement"),
     statWithIcon(STAT_ICONS.played, formatPlayedTime(totalPlayed)),
   ].join("");
   panel.appendChild(stats);
@@ -199,7 +200,7 @@ function renderCharCard(c) {
     </div>
     <div class="char-card__stats">
       ${statWithIcon(STAT_ICONS.gold, formatMoneyPlain(c.money_copper))}
-      ${statWithIcon(STAT_ICONS.achievements, `${formatNumber(c.achievement_points)} (${formatNumber(c.achievement_count)})`)}
+      ${statWithIcon(STAT_ICONS.achievements, `${formatNumber(c.achievement_points)} (${formatNumber(c.achievement_count)})`, "stat-icon--achievement")}
       ${statWithIcon(STAT_ICONS.played, formatPlayedTime(c.played_time_seconds))}
     </div>
   `;

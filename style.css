@@ -178,6 +178,14 @@ main {
   object-fit: contain;
 }
 
+/* The achievement shield's own artwork tapers to a point and doesn't fill
+   its canvas as fully as the round coin icon, so it needs to render a
+   little larger to read as the same visual size. */
+.stat-icon--achievement {
+  width: 17px;
+  height: 17px;
+}
+
 .char-list {
   list-style: none;
   margin: 0;
