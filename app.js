@@ -183,22 +183,16 @@ function formatNumber(n) {
   return (n || 0).toLocaleString();
 }
 
-function moneyParts(copper) {
-  copper = copper || 0;
-  const gold = Math.floor(copper / 10000);
-  const silver = Math.floor((copper % 10000) / 100);
-  const bronze = copper % 100;
-  return { gold, silver, bronze };
+function goldAmount(copper) {
+  return Math.floor((copper || 0) / 10000);
 }
 
 function formatMoneyPlain(copper) {
-  const { gold, silver, bronze } = moneyParts(copper);
-  return `${formatNumber(gold)}g ${silver}s ${bronze}c`;
+  return `${formatNumber(goldAmount(copper))}g`;
 }
 
 function formatMoneyHtml(copper) {
-  const { gold, silver, bronze } = moneyParts(copper);
-  return `<span class="g">${formatNumber(gold)}g</span> <span class="s">${silver}s</span> <span class="c">${bronze}c</span>`;
+  return `<span class="g">${formatNumber(goldAmount(copper))}g</span>`;
 }
 
 function escapeHtml(str) {
