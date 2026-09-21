@@ -29,8 +29,26 @@ const FACTION_ICON_SLUGS = {
   Horde: "achievement_pvp_h_h",
 };
 
+const RACE_ICON_SLUGS = {
+  Human: "achievement_character_human_male",
+  Orc: "achievement_character_orc_male",
+  Dwarf: "achievement_character_dwarf_male",
+  "Night Elf": "achievement_character_nightelf_male",
+  Undead: "achievement_character_undead_male",
+  Tauren: "achievement_character_tauren_male",
+  Gnome: "achievement_character_gnome_male",
+  Troll: "achievement_character_troll_male",
+  "Blood Elf": "achievement_character_bloodelf_male",
+  Draenei: "achievement_character_draenei_male",
+};
+
 function iconUrl(slug) {
   return `https://wow.zamimg.com/images/wow/icons/medium/${slug}.jpg`;
+}
+
+function iconImg(slug, className) {
+  if (!slug) return "";
+  return `<img class="${className}" src="${iconUrl(slug)}" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">`;
 }
 
 const fileInput = document.getElementById("file-input");
@@ -122,10 +140,7 @@ function renderFactionPanel(faction, characters) {
   const panel = document.createElement("section");
   panel.className = "faction-panel faction-panel--" + faction.toLowerCase();
 
-  const factionIconSlug = FACTION_ICON_SLUGS[faction];
-  const factionIcon = factionIconSlug
-    ? `<img class="faction-icon" src="${iconUrl(factionIconSlug)}" alt="" onerror="this.remove()">`
-    : "";
+  const factionIcon = iconImg(FACTION_ICON_SLUGS[faction], "faction-icon");
 
   const header = document.createElement("div");
   header.className = "faction-panel__header";
@@ -152,14 +167,12 @@ function renderCharCard(c) {
   li.className = "char-card";
 
   const classColor = CLASS_COLORS[c.class_name] || "#e8e6e1";
-  const classIconSlug = CLASS_ICON_SLUGS[c.class_name];
-  const classIcon = classIconSlug
-    ? `<img class="class-icon" src="${iconUrl(classIconSlug)}" alt="" onerror="this.remove()">`
-    : "";
+  const classIcon = iconImg(CLASS_ICON_SLUGS[c.class_name], "class-icon");
+  const raceIcon = iconImg(RACE_ICON_SLUGS[c.race_name], "race-icon");
 
   li.innerHTML = `
     <div class="char-card__level">${c.level}</div>
-    ${classIcon}
+    <div class="char-card__icons">${raceIcon}${classIcon}</div>
     <div class="char-card__main">
       <p class="char-card__name" style="color:${classColor}">${escapeHtml(c.name)}</p>
       <p class="char-card__meta">${escapeHtml(c.race_name)} ${escapeHtml(c.class_name)}${c.account ? " · " + escapeHtml(c.account) : ""}</p>
