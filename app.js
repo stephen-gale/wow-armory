@@ -67,7 +67,7 @@ function statWithIcon(iconSrc, text, extraIconClass) {
 }
 
 // Fetched once, eagerly, so it's usually already resolved by the time
-// someone taps a character to expand their achievements/collectables.
+// someone taps a character to expand their achievements/collections.
 let achievementDataPromise = null;
 
 function loadAchievementData() {
@@ -75,11 +75,11 @@ function loadAchievementData() {
     achievementDataPromise = Promise.all([
       fetch("assets/data/achievements.json").then((r) => r.json()),
       fetch("assets/data/achievement_categories.json").then((r) => r.json()),
-      fetch("assets/data/collectables/gear.json").then((r) => r.json()),
-    ]).then(([achievements, categories, collectableGear]) => ({
+      fetch("assets/data/collections/gear.json").then((r) => r.json()),
+    ]).then(([achievements, categories, collectionGear]) => ({
       achievementsById: new Map(achievements.map((a) => [a.id, a])),
       categoriesById: new Map(categories.map((c) => [c.id, c])),
-      collectableGearById: new Map(collectableGear.map((g) => [g.id, g])),
+      collectionGearById: new Map(collectionGear.map((g) => [g.id, g])),
     }));
   }
   return achievementDataPromise;
@@ -254,33 +254,33 @@ function toggleAchievementsPanel(rowLi, c) {
   placeholder.innerHTML = `<p class="char-achievements__empty">Loading…</p>`;
   rowLi.after(placeholder);
 
-  loadAchievementData().then(({ achievementsById, categoriesById, collectableGearById }) => {
-    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById, collectableGearById));
+  loadAchievementData().then(({ achievementsById, categoriesById, collectionGearById }) => {
+    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById, collectionGearById));
   });
 }
 
 // Two separate, clearly-labeled systems in one expandable panel:
-// - Collectables: custom, companion-app-only tracking (currently just Gear —
+// - Collections: custom, companion-app-only tracking (currently just Gear —
 //   equipping a full named gear set — with Mounts/Pets/Tabards etc. planned
 //   as sibling categories later). Not real WoW achievements; never mixed
 //   into the Achievements totals or grouping below.
 // - Achievements: the character's real completed Blizzard achievements,
 //   grouped by whichever category Blizzard's own data files directly tag
 //   them with — no re-grouping or custom categorization on top.
-function buildAchievementsPanel(c, achievementsById, categoriesById, collectableGearById) {
+function buildAchievementsPanel(c, achievementsById, categoriesById, collectionGearById) {
   const li = document.createElement("li");
   li.className = "char-achievements";
 
-  const collectableGearIds = c.collectables?.gear || [];
+  const collectionGearIds = c.collections?.gear || [];
   const byGearTier = new Map();
-  for (const id of collectableGearIds) {
-    const item = collectableGearById.get(id);
+  for (const id of collectionGearIds) {
+    const item = collectionGearById.get(id);
     if (!item) continue;
     const list = byGearTier.get(item.tier) || [];
     list.push(item);
     byGearTier.set(item.tier, list);
   }
-  const collectableGroups = [...byGearTier.entries()]
+  const collectionGroups = [...byGearTier.entries()]
     .map(([tier, items]) => ({
       name: `Gear — ${tier}`,
       achievements: items.sort((a, b) => a.name.localeCompare(b.name)),
@@ -303,13 +303,13 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collectable
     }))
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  if (collectableGroups.length === 0 && categoryGroups.length === 0) {
-    li.innerHTML = `<p class="char-achievements__empty">No collectables or achievements recorded.</p>`;
+  if (collectionGroups.length === 0 && categoryGroups.length === 0) {
+    li.innerHTML = `<p class="char-achievements__empty">No collections or achievements recorded.</p>`;
     return li;
   }
 
   li.innerHTML =
-    renderAchievementGroups(collectableGroups, "Collectables", true) +
+    renderAchievementGroups(collectionGroups, "Collections", true) +
     renderAchievementGroups(categoryGroups, "Achievements", false);
 
   return li;

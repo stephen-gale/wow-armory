@@ -28,7 +28,7 @@
         621,
         927
       ],
-      "collectables": {
+      "collections": {
         "gear": [
           "t0_warrior",
           "t05_plate_a",
@@ -62,7 +62,7 @@
         155,
         167
       ],
-      "collectables": {
+      "collections": {
         "gear": [
           "t0_druid",
           "t05_leather_b"
@@ -113,7 +113,7 @@
         556,
         557
       ],
-      "collectables": {
+      "collections": {
         "gear": [
           "t0_warrior",
           "t1_warrior",
@@ -145,7 +145,7 @@
         621,
         33
       ],
-      "collectables": {
+      "collections": {
         "gear": [
           "t0_warlock"
         ]

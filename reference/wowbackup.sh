@@ -182,7 +182,7 @@ echo "  Saving progress report..."
 
 echo "  Saving characters.json..."
 REPO_DATA_DIR="/home/deck/wow-armory-data"
-COLLECTABLE_GEAR_DEFS="$REPO_DATA_DIR/assets/data/collectables/gear.json"
+COLLECTION_GEAR_DEFS="$REPO_DATA_DIR/assets/data/collections/gear.json"
 ACHIEVEMENTS_TMP="$(mktemp)"
 EQUIPPED_TMP="$(mktemp)"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
@@ -259,32 +259,32 @@ with open('$EQUIPPED_TMP') as f:
         guid, item_entry = line.split('\t')
         equipped_by_guid[int(guid)].add(int(item_entry))
 
-with open('$COLLECTABLE_GEAR_DEFS') as f:
-    collectable_gear_defs = json.load(f)
+with open('$COLLECTION_GEAR_DEFS') as f:
+    collection_gear_defs = json.load(f)
 
-def detect_collectable_gear(equipped_ids):
+def detect_collection_gear(equipped_ids):
     # Earned when the character has at least one item from EVERY slot group
     # equipped right now (each slot group lists interchangeable item ids for
     # that slot — a 'Conquest'-suffixed variant and its plain counterpart, or
     # a Horde/Alliance pair sharing one display name).
     earned = []
-    for gs in collectable_gear_defs:
+    for gs in collection_gear_defs:
         if all(any(item_id in equipped_ids for item_id in group) for group in gs['slot_groups']):
             earned.append(gs['id'])
     return earned
 
-# Sticky: once earned, a collectable is never removed, even after the gear
+# Sticky: once earned, a collection is never removed, even after the gear
 # is swapped away. Union this run's live detection with whatever was
 # already published to the repo (the ongoing source of truth) last run.
-previous_collectable_gear_by_guid = defaultdict(set)
+previous_collection_gear_by_guid = defaultdict(set)
 prev_path = '$REPO_DATA_DIR/characters.json'
 if os.path.exists(prev_path):
     try:
         with open(prev_path) as f:
             previous_data = json.load(f)
         for prev_char in previous_data.get('characters', []):
-            previous_gear = prev_char.get('collectables', {}).get('gear', [])
-            previous_collectable_gear_by_guid[prev_char['guid']] = set(previous_gear)
+            previous_gear = prev_char.get('collections', {}).get('gear', [])
+            previous_collection_gear_by_guid[prev_char['guid']] = set(previous_gear)
     except (json.JSONDecodeError, OSError):
         pass  # first run, or an unreadable/corrupt previous file — start fresh
 
@@ -296,8 +296,8 @@ for line in sys.stdin:
     (guid, name, account, race, race_name, cls, class_name,
      faction, level, money, ap, ac, played) = line.split('\t')
     guid = int(guid)
-    newly_detected = detect_collectable_gear(equipped_by_guid.get(guid, set()))
-    collectable_gear = sorted(previous_collectable_gear_by_guid.get(guid, set()) | set(newly_detected))
+    newly_detected = detect_collection_gear(equipped_by_guid.get(guid, set()))
+    collection_gear = sorted(previous_collection_gear_by_guid.get(guid, set()) | set(newly_detected))
     characters.append({
         'guid': guid,
         'name': name,
@@ -313,8 +313,8 @@ for line in sys.stdin:
         'achievement_count': int(ac),
         'played_time_seconds': int(played),
         'achievements': sorted(achievements_by_guid.get(guid, [])),
-        'collectables': {
-            'gear': collectable_gear,
+        'collections': {
+            'gear': collection_gear,
         },
     })
 
