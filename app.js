@@ -118,24 +118,21 @@ function renderSummary(characters) {
   const totalPlayed = characters.reduce((sum, c) => sum + (c.played_time_seconds || 0), 0);
   const totalMoney = characters.reduce((sum, c) => sum + (c.money_copper || 0), 0);
   const totalAP = characters.reduce((sum, c) => sum + (c.achievement_points || 0), 0);
-  const avgLevel = characters.length
-    ? (characters.reduce((sum, c) => sum + (c.level || 0), 0) / characters.length).toFixed(1)
-    : "0";
+  const totalAchievementCount = characters.reduce((sum, c) => sum + (c.achievement_count || 0), 0);
 
   summaryBarEl.innerHTML = "";
   summaryBarEl.append(
-    statTile("Characters", characters.length),
-    statTile("Avg. Level", avgLevel),
-    statTile("Total Played", formatPlayedTime(totalPlayed)),
-    statTile("Achievement Pts", formatNumber(totalAP)),
-    statTile("Total Gold", formatMoneyPlain(totalMoney))
+    statTile(STAT_ICONS.played, formatPlayedTime(totalPlayed)),
+    statTile(STAT_ICONS.achievements, `${formatNumber(totalAP)} (${formatNumber(totalAchievementCount)})`, "stat-tile-icon--achievement"),
+    statTile(STAT_ICONS.gold, formatMoneyPlain(totalMoney))
   );
 }
 
-function statTile(label, value) {
+function statTile(iconSrc, value, extraIconClass) {
+  const cls = extraIconClass ? `stat-tile-icon ${extraIconClass}` : "stat-tile-icon";
   const el = document.createElement("div");
   el.className = "stat-tile";
-  el.innerHTML = `<p class="stat-tile__label">${label}</p><p class="stat-tile__value">${value}</p>`;
+  el.innerHTML = `<img class="${cls}" src="${iconSrc}" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();"><p class="stat-tile__value">${value}</p>`;
   return el;
 }
 
@@ -167,9 +164,9 @@ function renderFactionPanel(faction, characters) {
   const stats = document.createElement("div");
   stats.className = "faction-panel__stats";
   stats.innerHTML = [
-    statWithIcon(STAT_ICONS.gold, formatMoneyPlain(totalMoney)),
-    statWithIcon(STAT_ICONS.achievements, `${formatNumber(totalAP)} (${formatNumber(totalAchievementCount)})`, "stat-icon--achievement"),
     statWithIcon(STAT_ICONS.played, formatPlayedTime(totalPlayed)),
+    statWithIcon(STAT_ICONS.achievements, `${formatNumber(totalAP)} (${formatNumber(totalAchievementCount)})`, "stat-icon--achievement"),
+    statWithIcon(STAT_ICONS.gold, formatMoneyPlain(totalMoney)),
   ].join("");
   panel.appendChild(stats);
 
@@ -199,9 +196,9 @@ function renderCharCard(c) {
       <p class="char-card__meta">${escapeHtml(c.race_name)} ${escapeHtml(c.class_name)}${c.account ? " · " + escapeHtml(c.account) : ""}</p>
     </div>
     <div class="char-card__stats">
-      ${statWithIcon(STAT_ICONS.gold, formatMoneyPlain(c.money_copper))}
-      ${statWithIcon(STAT_ICONS.achievements, `${formatNumber(c.achievement_points)} (${formatNumber(c.achievement_count)})`, "stat-icon--achievement")}
       ${statWithIcon(STAT_ICONS.played, formatPlayedTime(c.played_time_seconds))}
+      ${statWithIcon(STAT_ICONS.achievements, `${formatNumber(c.achievement_points)} (${formatNumber(c.achievement_count)})`, "stat-icon--achievement")}
+      ${statWithIcon(STAT_ICONS.gold, formatMoneyPlain(c.money_copper))}
     </div>
   `;
   return li;
