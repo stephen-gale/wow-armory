@@ -182,6 +182,18 @@ echo "  Saving progress report..."
 
 echo "  Saving characters.json..."
 REPO_DATA_DIR="/home/deck/wow-armory-data"
+
+# Sync the clone to the latest published state before touching anything in
+# it — both so the sticky-collectable merge below reads the true latest
+# characters.json (not a stale local copy), and so the commit+push at the
+# end of this step is always a clean fast-forward instead of colliding with
+# whatever else has been pushed to main since the last backup run (code
+# changes, a rename, etc. — this directory is purely an auto-managed
+# publish target, never hand-edited, so discarding any local state here is
+# always safe).
+(cd "$REPO_DATA_DIR" && git fetch origin main && git reset --hard origin/main) \
+  || echo "  Warning: failed to sync $REPO_DATA_DIR with origin/main before publishing (non-fatal)"
+
 COLLECTION_GEAR_DEFS="$REPO_DATA_DIR/assets/data/collections/gear.json"
 ACHIEVEMENTS_TMP="$(mktemp)"
 EQUIPPED_TMP="$(mktemp)"
