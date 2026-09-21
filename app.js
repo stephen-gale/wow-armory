@@ -1,3 +1,13 @@
+// Registered mainly for PWA installability (Chrome's "Install app" prompt
+// requires one); see sw.js for what it actually does.
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch((err) => {
+      console.warn("Service worker registration failed:", err);
+    });
+  });
+}
+
 const CLASS_COLORS = {
   Warrior: "#C79C6E",
   Paladin: "#F58CBA",
