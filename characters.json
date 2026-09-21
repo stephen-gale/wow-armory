@@ -1,0 +1,33 @@
+{
+  "generated_at": "2026-09-21T00:04:08Z",
+  "characters": [
+    {
+      "guid": 1006,
+      "name": "Rokhan",
+      "race_id": 8,
+      "race_name": "Troll",
+      "class_id": 3,
+      "class_name": "Hunter",
+      "faction": "Horde",
+      "level": 80,
+      "money_copper": 50365574,
+      "achievement_points": 550,
+      "achievement_count": 61,
+      "played_time_seconds": 611738
+    },
+    {
+      "guid": 1007,
+      "name": "Tirion",
+      "race_id": 1,
+      "race_name": "Human",
+      "class_id": 2,
+      "class_name": "Paladin",
+      "faction": "Alliance",
+      "level": 72,
+      "money_copper": 19552044,
+      "achievement_points": 500,
+      "achievement_count": 50,
+      "played_time_seconds": 403322
+    }
+  ]
+}
