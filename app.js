@@ -11,6 +11,28 @@ const CLASS_COLORS = {
   Druid: "#FF7D0A",
 };
 
+const CLASS_ICON_SLUGS = {
+  Warrior: "classicon_warrior",
+  Paladin: "classicon_paladin",
+  Hunter: "classicon_hunter",
+  Rogue: "classicon_rogue",
+  Priest: "classicon_priest",
+  "Death Knight": "classicon_deathknight",
+  Shaman: "classicon_shaman",
+  Mage: "classicon_mage",
+  Warlock: "classicon_warlock",
+  Druid: "classicon_druid",
+};
+
+const FACTION_ICON_SLUGS = {
+  Alliance: "achievement_pvp_a_a",
+  Horde: "achievement_pvp_h_h",
+};
+
+function iconUrl(slug) {
+  return `https://wow.zamimg.com/images/wow/icons/medium/${slug}.jpg`;
+}
+
 const fileInput = document.getElementById("file-input");
 const generatedAtEl = document.getElementById("generated-at");
 const emptyStateEl = document.getElementById("empty-state");
@@ -100,9 +122,14 @@ function renderFactionPanel(faction, characters) {
   const panel = document.createElement("section");
   panel.className = "faction-panel faction-panel--" + faction.toLowerCase();
 
+  const factionIconSlug = FACTION_ICON_SLUGS[faction];
+  const factionIcon = factionIconSlug
+    ? `<img class="faction-icon" src="${iconUrl(factionIconSlug)}" alt="" onerror="this.remove()">`
+    : "";
+
   const header = document.createElement("div");
   header.className = "faction-panel__header";
-  header.innerHTML = `<span>${faction}</span><span class="faction-panel__count">${characters.length} character${characters.length === 1 ? "" : "s"}</span>`;
+  header.innerHTML = `<span class="faction-panel__title">${factionIcon}${faction}</span><span class="faction-panel__count">${characters.length} character${characters.length === 1 ? "" : "s"}</span>`;
   panel.appendChild(header);
 
   const stats = document.createElement("div");
@@ -125,9 +152,14 @@ function renderCharCard(c) {
   li.className = "char-card";
 
   const classColor = CLASS_COLORS[c.class_name] || "#e8e6e1";
+  const classIconSlug = CLASS_ICON_SLUGS[c.class_name];
+  const classIcon = classIconSlug
+    ? `<img class="class-icon" src="${iconUrl(classIconSlug)}" alt="" onerror="this.remove()">`
+    : "";
 
   li.innerHTML = `
     <div class="char-card__level">${c.level}</div>
+    ${classIcon}
     <div class="char-card__main">
       <p class="char-card__name" style="color:${classColor}">${escapeHtml(c.name)}</p>
       <p class="char-card__meta">${escapeHtml(c.race_name)} ${escapeHtml(c.class_name)}${c.account ? " · " + escapeHtml(c.account) : ""}</p>
