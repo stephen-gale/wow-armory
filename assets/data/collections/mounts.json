@@ -2009,6 +2009,13 @@
     ]
   },
   {
+    "id": "spell_13819",
+    "name": "Warhorse",
+    "spell_ids": [
+      13819
+    ]
+  },
+  {
     "id": "item_18246",
     "name": "Whistle of the Black War Raptor",
     "spell_ids": [

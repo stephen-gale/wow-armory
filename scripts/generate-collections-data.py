@@ -61,6 +61,19 @@ does. Recipe items (Formula:/Pattern:/Plans:/Schematic:/Recipe:/Design:/
 Manual: prefixes) also use trigger=6 for unrelated reasons and are
 excluded by that prefix check before the list is even built.
 
+Class-trainer-taught mounts: a Paladin's Warhorse/Charger and a Warlock's
+Felsteed/Dreadsteed are learned directly as a spell from the class trainer
+- no item is ever involved, so item_template can never surface them no
+matter how the query is widened. spell_dbc (which would otherwise give a
+spell's name over SQL) is unpopulated for standard spells on this server
+(confirmed empirically - see the commit history), so these can't be found
+by query at all; they were instead confirmed in-game with `.lookup spell
+<name>` as a GM (which reads the client's loaded DBC data directly,
+sidestepping the SQL gap) - see TRAINER_TAUGHT_MOUNTS below. Each id is
+the base trainer spell itself (confirmed via the `[known]` tag against a
+character who has it), not the race-specific "Summon X" spell variant it
+grants - the base spell is the one stable id that works across every race.
+
 Usage:
   python3 generate-collections-data.py <dump-dir> <output-dir>
 
@@ -93,6 +106,12 @@ JUNK_BUCKET_UNCERTAIN_ENTRIES = {
     34955,  # Scorched Stone - unconfirmed, defaulted to companion below
     53641,  # Ice Chip - unconfirmed, defaulted to companion below
 }
+
+# See module docstring. Confirmed in-game via `.lookup spell <name>`, not
+# derivable from any SQL dump.
+TRAINER_TAUGHT_MOUNTS = [
+    {"id": "spell_13819", "name": "Warhorse", "spell_ids": [13819]},
+]
 
 
 def read_tsv(path):
@@ -229,7 +248,7 @@ def main():
     spell_fallbacks = load_spell_fallbacks(dp("null_spell_diagnosis.txt"))
     junk_mounts, junk_companions = load_junk_bucket_recoveries(dp("junk_bucket_strays.txt"))
 
-    mounts = generate_spell_category(dp("mounts_dump.txt"), spell_fallbacks) + junk_mounts
+    mounts = generate_spell_category(dp("mounts_dump.txt"), spell_fallbacks) + junk_mounts + TRAINER_TAUGHT_MOUNTS
     companions = generate_spell_category(dp("companions_dump.txt"), spell_fallbacks) + junk_companions
     mounts.sort(key=lambda e: e["name"])
     companions.sort(key=lambda e: e["name"])
