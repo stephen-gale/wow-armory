@@ -77,14 +77,13 @@ function statWithIcon(iconSrc, text, extraIconClass) {
 }
 
 // Each Collections category lives in its own data file (mirroring the SQL
-// export's characters.json shape) and groups its items by a category-
-// specific field — Gear by tier, Mounts/Pets by the expansion they're from.
-// Adding a future category (Tabards, ...) means one more entry here, no
-// other code changes.
+// export's characters.json shape) and renders as one flat section — no
+// sub-grouping by tier/expansion. Adding a future category (Tabards, ...)
+// means one more entry here, no other code changes.
 const COLLECTION_CATEGORIES = [
-  { key: "gear", file: "assets/data/collections/gear.json", groupLabel: (item) => `Gear — ${item.tier}` },
-  { key: "mounts", file: "assets/data/collections/mounts.json", groupLabel: (item) => `Mounts — ${item.expansion}` },
-  { key: "pets", file: "assets/data/collections/pets.json", groupLabel: (item) => `Pets — ${item.expansion}` },
+  { key: "gear", file: "assets/data/collections/gear.json", label: "Gear" },
+  { key: "mounts", file: "assets/data/collections/mounts.json", label: "Mounts" },
+  { key: "pets", file: "assets/data/collections/pets.json", label: "Pets" },
 ];
 
 // Fetched once, eagerly, so it's usually already resolved by the time
@@ -284,7 +283,7 @@ function toggleAchievementsPanel(rowLi, c) {
 
 // Two separate, clearly-labeled systems in one expandable panel:
 // - Collections: custom, companion-app-only tracking across categories
-//   (Gear, Mounts, with Pets/Tabards etc. planned as further sibling
+//   (Gear, Mounts, Pets, with Tabards etc. planned as further sibling
 //   categories later — see COLLECTION_CATEGORIES). Not real WoW
 //   achievements; never mixed into the Achievements totals or grouping
 //   below.
@@ -306,27 +305,24 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
   const li = document.createElement("li");
   li.className = "char-achievements";
 
+  // One flat section per category — no sub-grouping by tier/expansion — in
+  // COLLECTION_CATEGORIES' own declared order (Gear, Mounts, Pets, ...).
   const collectionGroups = [];
   for (const cat of COLLECTION_CATEGORIES) {
     const itemsById = collectionsByCategory.get(cat.key);
     const entries = (c.collections?.[cat.key] || []).map(normalizeEntry);
-    const byGroup = new Map();
-    for (const entry of entries) {
-      const item = itemsById.get(entry.id);
-      if (!item) continue;
-      const label = cat.groupLabel(item);
-      const list = byGroup.get(label) || [];
-      list.push({ ...item, earned_at: entry.earned_at });
-      byGroup.set(label, list);
-    }
-    for (const [label, items] of byGroup) {
-      collectionGroups.push({
-        name: label,
-        achievements: items.sort((a, b) => a.name.localeCompare(b.name)),
-      });
-    }
+    const items = entries
+      .map((entry) => {
+        const item = itemsById.get(entry.id);
+        return item && { ...item, earned_at: entry.earned_at };
+      })
+      .filter(Boolean);
+    if (items.length === 0) continue;
+    collectionGroups.push({
+      name: cat.label,
+      achievements: items.sort((a, b) => a.name.localeCompare(b.name)),
+    });
   }
-  collectionGroups.sort((a, b) => a.name.localeCompare(b.name));
 
   const achievementEntries = (c.achievements || []).map(normalizeEntry);
   const byCategory = new Map();
@@ -350,7 +346,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
   }
 
   li.innerHTML =
-    renderAchievementGroups(collectionGroups, "Collections", true) +
+    renderAchievementGroups(collectionGroups, "Collections", false) +
     renderAchievementGroups(categoryGroups, "Achievements", false);
 
   return li;
