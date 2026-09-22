@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-22T13:02:27Z",
+  "generated_at": "2026-09-22T13:47:01Z",
   "characters": [
     {
       "guid": 1006,
@@ -262,7 +262,13 @@
       ],
       "collections": {
         "gear": [],
-        "mounts": []
+        "mounts": [],
+        "pets": [
+          {
+            "id": "sprite_darter_hatchling",
+            "earned_at": "2026-09-22T13:47:01Z"
+          }
+        ]
       }
     },
     {
@@ -274,10 +280,10 @@
       "class_name": "Paladin",
       "faction": "Alliance",
       "level": 72,
-      "money_copper": 19999665,
+      "money_copper": 20303904,
       "achievement_points": 500,
       "achievement_count": 50,
-      "played_time_seconds": 404588,
+      "played_time_seconds": 405333,
       "achievements": [
         {
           "id": 6,
@@ -482,7 +488,8 @@
       ],
       "collections": {
         "gear": [],
-        "mounts": []
+        "mounts": [],
+        "pets": []
       }
     }
   ]
