@@ -1,0 +1,2 @@
+ID	Effect_1	EffectAura_1	Effect_2	EffectAura_2	Effect_3	EffectAura_3
+11202	0	0	0	0	0	0
