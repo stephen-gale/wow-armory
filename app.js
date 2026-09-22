@@ -367,8 +367,10 @@ function formatEarnedDate(earnedAt) {
   if (!earnedAt) return "";
   const date = new Date(earnedAt);
   if (Number.isNaN(date.getTime())) return "";
-  const formatted = date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
-  return ` <span class="achv-list__date">${escapeHtml(formatted)}</span>`;
+  const dd = String(date.getDate()).padStart(2, "0");
+  const mm = String(date.getMonth() + 1).padStart(2, "0");
+  const yy = String(date.getFullYear()).slice(-2);
+  return ` <span class="achv-list__date">${dd}/${mm}/${yy}</span>`;
 }
 
 function formatPlayedTime(totalSeconds) {
