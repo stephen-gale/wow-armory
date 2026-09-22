@@ -294,6 +294,13 @@
     ]
   },
   {
+    "id": "spell_23214",
+    "name": "Charger",
+    "spell_ids": [
+      23214
+    ]
+  },
+  {
     "id": "item_5655",
     "name": "Chestnut Mare Bridle",
     "spell_ids": [

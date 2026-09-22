@@ -28,11 +28,7 @@ import json
 
 # (character name, collection category key, item id, corrected earned_at) —
 # see the branch history / PR description for how each date and item id
-# was sourced. Tirion's Charger (the paladin's other class-trainer mount,
-# level 40) is still pending confirmation - see README.md's Mounts section
-# for how to look its spell id up in-game, then add it here and to
-# assets/data/collections/mounts.json (mirroring TRAINER_TAUGHT_MOUNTS in
-# generate-collections-data.py).
+# was sourced.
 CORRECTIONS = [
     ("Rokhan", "mounts", "item_25476", "2026-05-11T12:00:00Z"),      # Green Wind Rider
     ("Rokhan", "mounts", "item_18790", "2026-04-21T12:00:00Z"),      # Swift Orange Raptor
@@ -42,6 +38,7 @@ CORRECTIONS = [
     ("Rokhan", "companions", "item_11474", "2026-05-01T12:00:00Z"),  # Sprite Darter Egg
     ("Tirion", "mounts", "item_25470", "2026-08-24T12:00:00Z"),      # Golden Gryphon
     ("Tirion", "mounts", "spell_13819", "2026-07-03T12:00:00Z"),     # Warhorse
+    ("Tirion", "mounts", "spell_23214", "2026-07-31T12:00:00Z"),     # Charger
 ]
 
 

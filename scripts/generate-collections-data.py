@@ -111,6 +111,7 @@ JUNK_BUCKET_UNCERTAIN_ENTRIES = {
 # derivable from any SQL dump.
 TRAINER_TAUGHT_MOUNTS = [
     {"id": "spell_13819", "name": "Warhorse", "spell_ids": [13819]},
+    {"id": "spell_23214", "name": "Charger", "spell_ids": [23214]},
 ]
 
 

@@ -135,7 +135,9 @@ or noteworthy ones — spanning Classic through WotLK content.
   is never required. It also includes a short list of items Blizzard
   itself filed under the wrong item subclass (`Junk`, subclass 0) but
   which pass the exact same "genuine teach-spell" mechanical test as every
-  other entry — see the script's docstring for how those were found and
+  other entry, plus a short, separately-maintained list of class-trainer-
+  taught mounts (a Paladin's Warhorse/Charger, confirmed so far) that have
+  no item at all — see the script's docstring for how both were found and
   verified, not guessed from item names.
 - **Detection**: the export scripts query each character's *known spells*
   (`character_spell`, filtered server-side to just the mount-learn spell
@@ -147,11 +149,10 @@ or noteworthy ones — spanning Classic through WotLK content.
   union-with-previous-run pattern as Sets.
 - A small number of mounts predate this app and were backfilled once with
   their real acquisition dates (from memory/screenshots, not detection
-  time) — see `scripts/apply-date-corrections.py`. Not every mount can be
-  found this way: class-trainer-taught mounts (a Paladin's Warhorse/
-  Charger, a Warlock's Felsteed/Dreadsteed) are learned directly as a
-  spell with no item involved at all, so they don't exist in
-  `item_template` and this mechanism can't see them.
+  time) — see `scripts/apply-date-corrections.py`. A Warlock's
+  Felsteed/Dreadsteed (the other class-trainer-taught mounts, alongside
+  the now-resolved Paladin ones above) haven't been confirmed yet the
+  same way.
 
 #### Companions
 
