@@ -79,6 +79,20 @@
             "id": "t2_warrior",
             "earned_at": "2026-06-27T17:12:00Z"
           }
+        ],
+        "mounts": [
+          {
+            "id": "deathchargers_reins",
+            "earned_at": "2025-12-02T22:41:00Z"
+          },
+          {
+            "id": "invincibles_reins",
+            "earned_at": "2026-08-14T21:03:00Z"
+          },
+          {
+            "id": "grand_ice_mammoth",
+            "earned_at": "2026-05-09T19:27:00Z"
+          }
         ]
       }
     },
@@ -143,6 +157,16 @@
           {
             "id": "t05_leather_b",
             "earned_at": "2026-04-19T21:06:00Z"
+          }
+        ],
+        "mounts": [
+          {
+            "id": "netherwing_drake",
+            "earned_at": "2026-01-30T18:52:00Z"
+          },
+          {
+            "id": "raven_lord",
+            "earned_at": "2026-06-02T14:09:00Z"
           }
         ]
       }
@@ -242,6 +266,20 @@
             "id": "aq40_warrior",
             "earned_at": "2025-11-28T01:40:00Z"
           }
+        ],
+        "mounts": [
+          {
+            "id": "qiraji_battle_tank",
+            "earned_at": "2025-11-28T01:55:00Z"
+          },
+          {
+            "id": "black_war_kodo",
+            "earned_at": "2026-02-19T20:14:00Z"
+          },
+          {
+            "id": "ashes_of_alar",
+            "earned_at": "2026-07-22T22:38:00Z"
+          }
         ]
       }
     },
@@ -294,6 +332,12 @@
           {
             "id": "t0_warlock",
             "earned_at": "2026-05-25T19:28:00Z"
+          }
+        ],
+        "mounts": [
+          {
+            "id": "onyxian_drake",
+            "earned_at": "2026-03-08T23:17:00Z"
           }
         ]
       }

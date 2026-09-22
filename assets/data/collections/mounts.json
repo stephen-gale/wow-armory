@@ -1,0 +1,177 @@
+[
+  {
+    "id": "deathchargers_reins",
+    "name": "Deathcharger's Reins",
+    "expansion": "Classic",
+    "points": 10,
+    "spell_ids": [17481]
+  },
+  {
+    "id": "swift_razzashi_raptor",
+    "name": "Swift Razzashi Raptor",
+    "expansion": "Classic",
+    "points": 10,
+    "spell_ids": [24242]
+  },
+  {
+    "id": "swift_zulian_tiger",
+    "name": "Swift Zulian Tiger",
+    "expansion": "Classic",
+    "points": 10,
+    "spell_ids": [24252]
+  },
+  {
+    "id": "onyxian_drake",
+    "name": "Reins of the Onyxian Drake",
+    "expansion": "Classic",
+    "points": 10,
+    "spell_ids": [69395]
+  },
+  {
+    "id": "black_war_bear",
+    "name": "Black War Bear",
+    "expansion": "Classic",
+    "points": 10,
+    "spell_ids": [60118, 60119]
+  },
+  {
+    "id": "black_war_kodo",
+    "name": "Black War Kodo",
+    "expansion": "Classic",
+    "points": 10,
+    "spell_ids": [22718]
+  },
+  {
+    "id": "black_war_raptor",
+    "name": "Whistle of the Black War Raptor",
+    "expansion": "Classic",
+    "points": 10,
+    "spell_ids": [22721]
+  },
+  {
+    "id": "black_war_wolf",
+    "name": "Horn of the Black War Wolf",
+    "expansion": "Classic",
+    "points": 10,
+    "spell_ids": [22724]
+  },
+  {
+    "id": "black_war_steed",
+    "name": "Black War Steed Bridle",
+    "expansion": "Classic",
+    "points": 10,
+    "spell_ids": [22717]
+  },
+  {
+    "id": "black_war_tiger",
+    "name": "Reins of the Black War Tiger",
+    "expansion": "Classic",
+    "points": 10,
+    "spell_ids": [22723]
+  },
+  {
+    "id": "swift_brewfest_ram",
+    "name": "Swift Brewfest Ram",
+    "expansion": "Classic",
+    "points": 10,
+    "spell_ids": [43900]
+  },
+  {
+    "id": "great_brewfest_kodo",
+    "name": "Great Brewfest Kodo",
+    "expansion": "Classic",
+    "points": 10,
+    "spell_ids": [49379]
+  },
+  {
+    "id": "qiraji_battle_tank",
+    "name": "Qiraji Battle Tank (Red/Blue/Green/Yellow/Black)",
+    "expansion": "Classic",
+    "points": 10,
+    "spell_ids": [26054, 25953, 26056, 26055, 26656]
+  },
+  {
+    "id": "ashes_of_alar",
+    "name": "Ashes of Al'ar",
+    "expansion": "TBC",
+    "points": 10,
+    "spell_ids": [40192]
+  },
+  {
+    "id": "netherwing_drake",
+    "name": "Netherwing Drake",
+    "expansion": "TBC",
+    "points": 10,
+    "spell_ids": [41513, 41514, 41515, 41516, 41517, 41518]
+  },
+  {
+    "id": "raven_lord",
+    "name": "Raven Lord",
+    "expansion": "TBC",
+    "points": 10,
+    "spell_ids": [41252]
+  },
+  {
+    "id": "invincibles_reins",
+    "name": "Invincible's Reins",
+    "expansion": "WotLK",
+    "points": 10,
+    "spell_ids": [72286]
+  },
+  {
+    "id": "time_lost_proto_drake",
+    "name": "Reins of the Time-Lost Proto-Drake",
+    "expansion": "WotLK",
+    "points": 10,
+    "spell_ids": [60002]
+  },
+  {
+    "id": "ironbound_proto_drake",
+    "name": "Reins of the Ironbound Proto-Drake",
+    "expansion": "WotLK",
+    "points": 10,
+    "spell_ids": [63956]
+  },
+  {
+    "id": "rusted_proto_drake",
+    "name": "Reins of the Rusted Proto-Drake",
+    "expansion": "WotLK",
+    "points": 10,
+    "spell_ids": [63963]
+  },
+  {
+    "id": "red_proto_drake",
+    "name": "Reins of the Red Proto-Drake",
+    "expansion": "WotLK",
+    "points": 10,
+    "spell_ids": [59961]
+  },
+  {
+    "id": "violet_proto_drake",
+    "name": "Reins of the Violet Proto-Drake",
+    "expansion": "WotLK",
+    "points": 10,
+    "spell_ids": [60024]
+  },
+  {
+    "id": "mimirons_head",
+    "name": "Mimiron's Head",
+    "expansion": "WotLK",
+    "points": 10,
+    "spell_ids": [63796]
+  },
+  {
+    "id": "grand_ice_mammoth",
+    "name": "Reins of the Grand Ice Mammoth",
+    "expansion": "WotLK",
+    "points": 10,
+    "spell_ids": [61469, 61470]
+  },
+  {
+    "id": "travelers_tundra_mammoth",
+    "name": "Reins of the Traveler's Tundra Mammoth",
+    "expansion": "WotLK",
+    "points": 10,
+    "spell_ids": [61425, 61447]
+  }
+]

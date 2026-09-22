@@ -15,19 +15,26 @@
 # them as env vars before calling this script) to match wowbackup.sh.
 #
 # Collections (see assets/data/collections/) are a custom, companion-app-
-# only system — not real WoW achievements. The Gear collection (see
-# assets/data/collections/gear.json) is detected by checking each
-# character's *currently equipped* items (character_inventory.bag = 0, slot
-# 0-18) against the item ids that make up each named set. Once earned, a
-# collection is sticky: it stays on the character permanently, even after
-# the gear is swapped away, by unioning this run's newly-detected ids with
-# whatever was already recorded in the existing OUTPUT_FILE (if present)
-# before overwriting it. Both achievements and collections carry an
-# earned_at timestamp — achievements read theirs straight from
-# character_achievement.date (Blizzard's own record); collections have no
-# such record, so the first run that detects one stamps it with that run's
-# generated_at, and every later run preserves that original stamp rather
-# than overwriting it.
+# only system — not real WoW achievements. Each category is detected a
+# different way:
+# - Gear (assets/data/collections/gear.json): each character's *currently
+#   equipped* items (character_inventory.bag = 0, slot 0-18) against the
+#   item ids that make up each named set.
+# - Mounts (assets/data/collections/mounts.json): each character's *known
+#   spells* (character_spell) against the mount-learn spell ids for each
+#   mount — a mount is earned if the character knows ANY ONE of its
+#   spell_ids (so a multi-color mount like Netherwing Drake completes on
+#   any single color, never requiring every color).
+# Once earned, a collection is sticky: it stays on the character
+# permanently, even after the gear is swapped away, by unioning this run's
+# newly-detected ids with whatever was already recorded in the existing
+# OUTPUT_FILE (if present) before overwriting it. Both achievements and
+# collections carry an earned_at timestamp — achievements read theirs
+# straight from character_achievement.date (Blizzard's own record);
+# collections have no such record (character_spell in particular has no
+# timestamp column at all), so the first run that detects one stamps it
+# with that run's generated_at, and every later run preserves that
+# original stamp rather than overwriting it.
 
 set -euo pipefail
 
@@ -39,12 +46,14 @@ OUTPUT_DIR="${OUTPUT_DIR:-$HOME/wow-backups}"
 OUTPUT_FILE="${OUTPUT_FILE:-$OUTPUT_DIR/characters.json}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 COLLECTION_GEAR_DEFS="${COLLECTION_GEAR_DEFS:-$SCRIPT_DIR/../assets/data/collections/gear.json}"
+COLLECTION_MOUNTS_DEFS="${COLLECTION_MOUNTS_DEFS:-$SCRIPT_DIR/../assets/data/collections/mounts.json}"
 
 mkdir -p "$OUTPUT_DIR"
 
 ACHIEVEMENTS_TMP="$(mktemp)"
 EQUIPPED_TMP="$(mktemp)"
-trap 'rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP"' EXIT
+KNOWN_SPELLS_TMP="$(mktemp)"
+trap 'rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP"' EXIT
 
 mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
   SELECT ca.guid, ca.achievement, ca.date
@@ -63,6 +72,26 @@ mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
   WHERE ci.bag = 0 AND ci.slot BETWEEN 0 AND 18
     AND a.username NOT LIKE 'RNDBOT%';
 " > "$EQUIPPED_TMP"
+
+# Only the spell ids that actually matter for mount detection — a max-level
+# character can know thousands of spells, so filtering server-side (rather
+# than pulling every known spell and filtering in Python) keeps this cheap.
+MOUNT_SPELL_IDS="$(python3 -c "
+import json
+with open('$COLLECTION_MOUNTS_DEFS') as f:
+    defs = json.load(f)
+ids = sorted({str(s) for m in defs for s in m['spell_ids']})
+print(','.join(ids) if ids else '0')
+")"
+
+mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
+  SELECT cs.guid, cs.spell
+  FROM acore_characters.character_spell cs
+  JOIN acore_characters.characters c ON c.guid = cs.guid
+  JOIN acore_auth.account a ON a.id = c.account
+  WHERE cs.spell IN ($MOUNT_SPELL_IDS)
+    AND a.username NOT LIKE 'RNDBOT%';
+" > "$KNOWN_SPELLS_TMP"
 
 read -r -d '' QUERY <<'SQL' || true
 SELECT
@@ -100,7 +129,7 @@ WHERE a.username NOT LIKE 'RNDBOT%'
 ORDER BY faction, c.level DESC, c.name;
 SQL
 
-mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "$QUERY" | python3 - "$OUTPUT_FILE" "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$COLLECTION_GEAR_DEFS" <<'PYEOF'
+mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "$QUERY" | python3 - "$OUTPUT_FILE" "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$COLLECTION_GEAR_DEFS" "$KNOWN_SPELLS_TMP" "$COLLECTION_MOUNTS_DEFS" <<'PYEOF'
 import sys
 import json
 import datetime
@@ -111,6 +140,8 @@ out_path = sys.argv[1]
 achievements_path = sys.argv[2]
 equipped_path = sys.argv[3]
 collection_gear_defs_path = sys.argv[4]
+known_spells_path = sys.argv[5]
+collection_mounts_defs_path = sys.argv[6]
 
 def iso(unix_ts):
     try:
@@ -161,23 +192,54 @@ def detect_collection_gear(equipped_ids):
             earned.append(gs["id"])
     return earned
 
+# Known mount-learn spells per character (character_spell has no per-row
+# timestamp, unlike character_achievement — that's why mounts use the same
+# sticky-timestamp fallback as Gear below).
+known_spells_by_guid = defaultdict(set)
+with open(known_spells_path) as f:
+    for line in f:
+        line = line.rstrip("\n")
+        if not line:
+            continue
+        guid, spell_id = line.split("\t")
+        known_spells_by_guid[int(guid)].add(int(spell_id))
+
+with open(collection_mounts_defs_path) as f:
+    collection_mounts_defs = json.load(f)
+
+def detect_collection_mounts(known_spell_ids):
+    """A Mount collection is earned when the character knows ANY ONE of its
+    spell_ids — multi-color mounts (Netherwing Drake, Qiraji Battle Tank)
+    list every color's spell id and complete on any single color, never
+    requiring every color."""
+    earned = []
+    for mount in collection_mounts_defs:
+        if any(spell_id in known_spell_ids for spell_id in mount["spell_ids"]):
+            earned.append(mount["id"])
+    return earned
+
 # Sticky, with the original earned_at preserved: once earned, a collection
 # is never removed and its earned_at is never overwritten, even after the
 # gear is swapped away. Read whatever was already published last run (if
 # any) and carry its earned_at forward for anything still present.
+def _earned_at_map(entries):
+    # entries used to be bare ids (pre-earned_at); accept both
+    return {
+        (entry["id"] if isinstance(entry, dict) else entry):
+            (entry.get("earned_at") if isinstance(entry, dict) else None)
+        for entry in entries
+    }
+
 previous_collection_gear_by_guid = defaultdict(dict)
+previous_collection_mounts_by_guid = defaultdict(dict)
 if os.path.exists(out_path):
     try:
         with open(out_path) as f:
             previous_data = json.load(f)
         for prev_char in previous_data.get("characters", []):
-            previous_gear = prev_char.get("collections", {}).get("gear", [])
-            previous_collection_gear_by_guid[prev_char["guid"]] = {
-                # entries used to be bare ids (pre-earned_at); accept both
-                (entry["id"] if isinstance(entry, dict) else entry):
-                    (entry.get("earned_at") if isinstance(entry, dict) else None)
-                for entry in previous_gear
-            }
+            prev_collections = prev_char.get("collections", {})
+            previous_collection_gear_by_guid[prev_char["guid"]] = _earned_at_map(prev_collections.get("gear", []))
+            previous_collection_mounts_by_guid[prev_char["guid"]] = _earned_at_map(prev_collections.get("mounts", []))
     except (json.JSONDecodeError, OSError):
         pass  # first run, or an unreadable/corrupt previous file — start fresh
 
@@ -202,6 +264,14 @@ for line in sys.stdin:
         for gear_id, earned_at in sorted(gear_earned_at.items())
     ]
 
+    mounts_earned_at = dict(previous_collection_mounts_by_guid.get(guid, {}))
+    for mount_id in detect_collection_mounts(known_spells_by_guid.get(guid, set())):
+        mounts_earned_at.setdefault(mount_id, generated_at)
+    collection_mounts = [
+        {"id": mount_id, "earned_at": earned_at}
+        for mount_id, earned_at in sorted(mounts_earned_at.items())
+    ]
+
     characters.append({
         "guid": guid,
         "name": name,
@@ -219,6 +289,7 @@ for line in sys.stdin:
         "achievements": sorted(achievements_by_guid.get(guid, []), key=lambda a: a["id"]),
         "collections": {
             "gear": collection_gear,
+            "mounts": collection_mounts,
         },
     })
 
