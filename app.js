@@ -78,12 +78,23 @@ function statWithIcon(iconSrc, text, extraIconClass) {
 
 // Each Collections category lives in its own data file (mirroring the SQL
 // export's characters.json shape) and renders as one flat section — no
-// sub-grouping by tier/expansion. Adding a future category (Tabards, ...)
-// means one more entry here, no other code changes.
+// sub-grouping by tier/expansion. Adding a future category means one more
+// entry here, no other code changes.
+//
+// Heirlooms are marked factionLevel: still detected/stored per character
+// exactly like Legendaries (equipped-only, sticky), but since heirlooms
+// are Bind-on-Account and get mailed between characters, showing them
+// inside each character's own panel would make the same heirloom look
+// "earned" repeatedly. buildAchievementsPanel skips factionLevel
+// categories; renderFactionPanel renders their union instead, once per
+// faction (see buildFactionHeirloomsPanel).
 const COLLECTION_CATEGORIES = [
-  { key: "gear", file: "assets/data/collections/gear.json", label: "Gear" },
+  { key: "sets", file: "assets/data/collections/sets.json", label: "Sets" },
   { key: "mounts", file: "assets/data/collections/mounts.json", label: "Mounts" },
-  { key: "pets", file: "assets/data/collections/pets.json", label: "Pets" },
+  { key: "companions", file: "assets/data/collections/companions.json", label: "Companions" },
+  { key: "legendaries", file: "assets/data/collections/legendaries.json", label: "Legendaries" },
+  { key: "tabards", file: "assets/data/collections/tabards.json", label: "Tabards" },
+  { key: "heirlooms", file: "assets/data/collections/heirlooms.json", label: "Heirlooms", factionLevel: true },
 ];
 
 // Fetched once, eagerly, so it's usually already resolved by the time
@@ -219,7 +230,50 @@ function renderFactionPanel(faction, characters) {
   }
   panel.appendChild(list);
 
+  const heirloomsPlaceholder = document.createElement("div");
+  heirloomsPlaceholder.className = "char-achievements faction-heirlooms";
+  heirloomsPlaceholder.innerHTML = `<p class="char-achievements__empty">Loading…</p>`;
+  panel.appendChild(heirloomsPlaceholder);
+  loadAchievementData().then(({ collectionsByCategory }) => {
+    heirloomsPlaceholder.replaceWith(buildFactionHeirloomsPanel(characters, collectionsByCategory));
+  });
+
   return panel;
+}
+
+// Heirlooms are Bind-on-Account and get mailed between characters, so
+// per-character detection (see COLLECTION_CATEGORIES) would make the same
+// heirloom look "earned" over and over as it's handed around. This unions
+// every character's detections in the faction into one family-wide list,
+// keeping the earliest earned_at seen for each item (when the family
+// first had it) — always visible under the roster, not tucked inside any
+// one character's expandable panel.
+function buildFactionHeirloomsPanel(characters, collectionsByCategory) {
+  const heirloomsById = collectionsByCategory.get("heirlooms");
+  const earliestByItemId = new Map();
+  for (const c of characters) {
+    const entries = (c.collections?.heirlooms || []).map(normalizeEntry);
+    for (const entry of entries) {
+      const prev = earliestByItemId.get(entry.id);
+      if (prev === undefined || (entry.earned_at && (!prev || entry.earned_at < prev))) {
+        earliestByItemId.set(entry.id, entry.earned_at);
+      }
+    }
+  }
+  const items = [...earliestByItemId.entries()]
+    .map(([id, earned_at]) => {
+      const item = heirloomsById.get(id);
+      return item && { ...item, earned_at };
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  const div = document.createElement("div");
+  div.className = "char-achievements faction-heirlooms";
+  div.innerHTML = items.length === 0
+    ? `<p class="char-achievements__empty">No heirlooms recorded.</p>`
+    : renderAchievementGroups([{ name: "Heirlooms", achievements: items }], null, false);
+  return div;
 }
 
 function renderCharCard(c) {
@@ -283,10 +337,10 @@ function toggleAchievementsPanel(rowLi, c) {
 
 // Two separate, clearly-labeled systems in one expandable panel:
 // - Collections: custom, companion-app-only tracking across categories
-//   (Gear, Mounts, Pets, with Tabards etc. planned as further sibling
-//   categories later — see COLLECTION_CATEGORIES). Not real WoW
-//   achievements; never mixed into the Achievements totals or grouping
-//   below.
+//   (see COLLECTION_CATEGORIES). Not real WoW achievements; never mixed
+//   into the Achievements totals or grouping below. Heirlooms are left out
+//   here (factionLevel) — they render once per faction in
+//   renderFactionPanel instead, see buildFactionHeirloomsPanel.
 // - Achievements: the character's real completed Blizzard achievements,
 //   grouped by whichever category Blizzard's own data files directly tag
 //   them with — no re-grouping or custom categorization on top.
@@ -306,9 +360,11 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
   li.className = "char-achievements";
 
   // One flat section per category — no sub-grouping by tier/expansion — in
-  // COLLECTION_CATEGORIES' own declared order (Gear, Mounts, Pets, ...).
+  // COLLECTION_CATEGORIES' own declared order. factionLevel categories
+  // (Heirlooms) are skipped here; they render once per faction instead.
   const collectionGroups = [];
   for (const cat of COLLECTION_CATEGORIES) {
+    if (cat.factionLevel) continue;
     const itemsById = collectionsByCategory.get(cat.key);
     const entries = (c.collections?.[cat.key] || []).map(normalizeEntry);
     const items = entries

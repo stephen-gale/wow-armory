@@ -42,13 +42,32 @@ slot_group containing one item id) so detection code doesn't need a
 separate function per category — "equipped, all slot groups satisfied"
 means "equipped, this one item" when there's only one group of one.
 
+Junk-bucket recoveries: item_template's class=15 (Miscellaneous) subclass 0
+("Junk") holds ~2100 items, mostly genuine junk, but a handful are real
+mounts/companions that Blizzard itself filed under the wrong subclass (this
+is upstream game data, not a server-specific error - an independent,
+differently-sourced item dataset agrees with the same "wrong" subclass).
+Rather than guess from item names, this script applies the exact same
+trigger=6 "teaches you" rule used for the trusted subclass 2/5 items to
+this bucket too: of ~160 subclass-0 items carrying any spell at all, only
+those with a genuine trigger=6 slot pass - everything else only has an
+unrelated on-use/on-equip spell (a consumable, a quest item, a banner) and
+is correctly left out. That leaves a short, named list (see
+JUNK_BUCKET_RECOVERIES below) where the *mechanism* (trigger=6, dropping
+the subclass restriction) is fully mechanical; only the mount-vs-companion
+axis needs a human call, since subclass no longer disambiguates it once
+pulled from the Junk bucket, and item_template has no other field that
+does. Recipe items (Formula:/Pattern:/Plans:/Schematic:/Recipe:/Design:/
+Manual: prefixes) also use trigger=6 for unrelated reasons and are
+excluded by that prefix check before the list is even built.
+
 Usage:
   python3 generate-collections-data.py <dump-dir> <output-dir>
 
 <dump-dir> must contain: mounts_dump.txt, companions_dump.txt,
 null_spell_diagnosis.txt, sets_dump2.txt, legendaries_dump.txt,
-tabards_dump.txt, heirlooms_dump.txt (see README.md for the SQL that
-produces each).
+tabards_dump.txt, heirlooms_dump.txt, junk_bucket_strays.txt (see
+README.md for the SQL that produces each).
 """
 import sys
 import json
@@ -56,6 +75,24 @@ import os
 from collections import defaultdict
 
 GENERIC_PLACEHOLDER_SPELLS = {483, 55884}
+
+RECIPE_PREFIXES = ("Formula:", "Pattern:", "Plans:", "Schematic:", "Recipe:", "Design:", "Manual:")
+
+# Mount-vs-companion calls for the 14 recovered Junk-subclass items (see
+# module docstring). item_template gives no field to derive this once an
+# item is out of the trusted subclass 2/5 split, so each is a human read of
+# the item itself. Two are genuinely uncertain (flagged below) - default
+# to companion there since it's the majority pattern in this bucket, and
+# it's a one-line fix here if either turns out to be a mount instead.
+JUNK_BUCKET_MOUNT_ENTRIES = {
+    20221,  # Foror's Fabled Steed - promotional GM/event mount
+    23193,  # Naxxramas Deathcharger Reins - 40-man Naxx version of Deathcharger's Reins
+    23720,  # Riding Turtle - ridden turtle mount
+}
+JUNK_BUCKET_UNCERTAIN_ENTRIES = {
+    34955,  # Scorched Stone - unconfirmed, defaulted to companion below
+    53641,  # Ice Chip - unconfirmed, defaulted to companion below
+}
 
 
 def read_tsv(path):
@@ -82,6 +119,27 @@ def load_spell_fallbacks(diagnosis_path):
                 fallback[entry] = spellid
                 break
     return fallback
+
+
+def load_junk_bucket_recoveries(dump_path):
+    """Returns (mount_entries, companion_entries), each a list of
+    {"id", "name", "spell_ids"} dicts, for the Junk-subclass items that
+    genuinely have a trigger=6 learn spell (see module docstring)."""
+    mounts, companions = [], []
+    for row in read_tsv(dump_path):
+        spell_raw = row.get("learn_spell_id")
+        if not spell_raw or spell_raw == "NULL":
+            continue
+        name = row["name"].strip()
+        if name.startswith(RECIPE_PREFIXES):
+            continue
+        entry = int(row["entry"])
+        item = {"id": f"item_{entry}", "name": name, "spell_ids": [int(spell_raw)]}
+        if entry in JUNK_BUCKET_MOUNT_ENTRIES:
+            mounts.append(item)
+        else:
+            companions.append(item)
+    return mounts, companions
 
 
 def generate_spell_category(dump_path, spell_fallbacks):
@@ -169,10 +227,16 @@ def main():
         return os.path.join(dump_dir, name)
 
     spell_fallbacks = load_spell_fallbacks(dp("null_spell_diagnosis.txt"))
+    junk_mounts, junk_companions = load_junk_bucket_recoveries(dp("junk_bucket_strays.txt"))
+
+    mounts = generate_spell_category(dp("mounts_dump.txt"), spell_fallbacks) + junk_mounts
+    companions = generate_spell_category(dp("companions_dump.txt"), spell_fallbacks) + junk_companions
+    mounts.sort(key=lambda e: e["name"])
+    companions.sort(key=lambda e: e["name"])
 
     files = {
-        "mounts.json": generate_spell_category(dp("mounts_dump.txt"), spell_fallbacks),
-        "companions.json": generate_spell_category(dp("companions_dump.txt"), spell_fallbacks),
+        "mounts.json": mounts,
+        "companions.json": companions,
         "sets.json": generate_sets(dp("sets_dump2.txt")),
         "legendaries.json": generate_equipped_category(dp("legendaries_dump.txt")),
         "tabards.json": generate_equipped_category(dp("tabards_dump.txt"), require_inventory_type=False),

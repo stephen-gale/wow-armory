@@ -194,9 +194,12 @@ REPO_DATA_DIR="/home/deck/wow-armory-data"
 (cd "$REPO_DATA_DIR" && git fetch origin main && git reset --hard origin/main) \
   || echo "  Warning: failed to sync $REPO_DATA_DIR with origin/main before publishing (non-fatal)"
 
-COLLECTION_GEAR_DEFS="$REPO_DATA_DIR/assets/data/collections/gear.json"
+COLLECTION_SETS_DEFS="$REPO_DATA_DIR/assets/data/collections/sets.json"
 COLLECTION_MOUNTS_DEFS="$REPO_DATA_DIR/assets/data/collections/mounts.json"
-COLLECTION_PETS_DEFS="$REPO_DATA_DIR/assets/data/collections/pets.json"
+COLLECTION_COMPANIONS_DEFS="$REPO_DATA_DIR/assets/data/collections/companions.json"
+COLLECTION_LEGENDARIES_DEFS="$REPO_DATA_DIR/assets/data/collections/legendaries.json"
+COLLECTION_TABARDS_DEFS="$REPO_DATA_DIR/assets/data/collections/tabards.json"
+COLLECTION_HEIRLOOMS_DEFS="$REPO_DATA_DIR/assets/data/collections/heirlooms.json"
 ACHIEVEMENTS_TMP="$(mktemp)"
 EQUIPPED_TMP="$(mktemp)"
 KNOWN_SPELLS_TMP="$(mktemp)"
@@ -216,13 +219,13 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   WHERE ci.bag = 0 AND ci.slot BETWEEN 0 AND 18
     AND a.username NOT LIKE 'RNDBOT%';
 " > "$EQUIPPED_TMP"
-# Only the spell ids that actually matter for Mounts/Pets detection — a
-# max-level character can know thousands of spells, so filtering
+# Only the spell ids that actually matter for Mounts/Companions detection —
+# a max-level character can know thousands of spells, so filtering
 # server-side keeps this cheap. Both categories share this one query.
 SPELL_COLLECTION_IDS="$(python3 -c "
 import json
 ids = set()
-for path in ('$COLLECTION_MOUNTS_DEFS', '$COLLECTION_PETS_DEFS'):
+for path in ('$COLLECTION_MOUNTS_DEFS', '$COLLECTION_COMPANIONS_DEFS'):
     with open(path) as f:
         defs = json.load(f)
     ids.update(str(s) for d in defs for s in d['spell_ids'])
@@ -308,23 +311,9 @@ with open('$EQUIPPED_TMP') as f:
         guid, item_entry = line.split('\t')
         equipped_by_guid[int(guid)].add(int(item_entry))
 
-with open('$COLLECTION_GEAR_DEFS') as f:
-    collection_gear_defs = json.load(f)
-
-def detect_collection_gear(equipped_ids):
-    # Earned when the character has at least one item from EVERY slot group
-    # equipped right now (each slot group lists interchangeable item ids for
-    # that slot — a 'Conquest'-suffixed variant and its plain counterpart, or
-    # a Horde/Alliance pair sharing one display name).
-    earned = []
-    for gs in collection_gear_defs:
-        if all(any(item_id in equipped_ids for item_id in group) for group in gs['slot_groups']):
-            earned.append(gs['id'])
-    return earned
-
-# Known mount-learn spells per character (character_spell has no per-row
-# timestamp, unlike character_achievement — that's why mounts use the same
-# sticky-timestamp fallback as Gear below).
+# Known mount/companion-learn spells per character (character_spell has no
+# per-row timestamp, unlike character_achievement — that's why every
+# collection category uses the same sticky-timestamp fallback below).
 known_spells_by_guid = defaultdict(set)
 with open('$KNOWN_SPELLS_TMP') as f:
     for line in f:
@@ -334,22 +323,52 @@ with open('$KNOWN_SPELLS_TMP') as f:
         guid, spell_id = line.split('\t')
         known_spells_by_guid[int(guid)].add(int(spell_id))
 
-with open('$COLLECTION_MOUNTS_DEFS') as f:
-    collection_mounts_defs = json.load(f)
+# (json key, detection kind, defs path) — 'equip' entries have slot_groups
+# (matched against currently-equipped items), 'spell' entries have
+# spell_ids (matched against known character_spell rows). Heirlooms are
+# stored here exactly like Legendaries (per-character, equipped-only,
+# sticky) — the faction-level de-duplicated display (heirlooms are
+# Bind-on-Account and can be mailed between characters) is purely an
+# app.js rendering concern, not a detection/storage one.
+CATEGORIES = [
+    ('sets', 'equip', '$COLLECTION_SETS_DEFS'),
+    ('mounts', 'spell', '$COLLECTION_MOUNTS_DEFS'),
+    ('companions', 'spell', '$COLLECTION_COMPANIONS_DEFS'),
+    ('legendaries', 'equip', '$COLLECTION_LEGENDARIES_DEFS'),
+    ('tabards', 'equip', '$COLLECTION_TABARDS_DEFS'),
+    ('heirlooms', 'equip', '$COLLECTION_HEIRLOOMS_DEFS'),
+]
 
-with open('$COLLECTION_PETS_DEFS') as f:
-    collection_pets_defs = json.load(f)
+def detect_equip(equipped_ids, defs):
+    # Earned when the character has at least one item from EVERY slot group
+    # equipped right now (each slot group lists interchangeable item ids for
+    # that slot — a 10-/25-player token pair, or a Horde/Alliance pair
+    # sharing one display name). A single-item slot_groups entry ([[id]])
+    # reduces to 'is this exact item equipped' — how Legendaries/Tabards/
+    # Heirlooms use this same function.
+    earned = []
+    for entry in defs:
+        if all(any(item_id in equipped_ids for item_id in group) for group in entry['slot_groups']):
+            earned.append(entry['id'])
+    return earned
 
-def detect_by_known_spell(known_spell_ids, defs):
-    # Shared by Mounts and Pets: earned when the character knows ANY ONE of
-    # its spell_ids — multi-color mounts (Netherwing Drake, Qiraji Battle
-    # Tank) list every color's spell id and complete on any single color,
-    # never requiring every color.
+def detect_spell(known_spell_ids, defs):
+    # Shared by Mounts and Companions: earned when the character knows ANY
+    # ONE of its spell_ids — multi-color mounts (Netherwing Drake, Qiraji
+    # Battle Tank) list every color's spell id and complete on any single
+    # color, never requiring every color.
     earned = []
     for entry in defs:
         if any(spell_id in known_spell_ids for spell_id in entry['spell_ids']):
             earned.append(entry['id'])
     return earned
+
+DETECTORS = {'equip': detect_equip, 'spell': detect_spell}
+
+defs_by_key = {}
+for key, kind, defs_path in CATEGORIES:
+    with open(defs_path) as f:
+        defs_by_key[key] = json.load(f)
 
 # Sticky, with the original earned_at preserved: once earned, a collection
 # is never removed and its earned_at is never overwritten, even after the
@@ -363,9 +382,7 @@ def _earned_at_map(entries):
         for entry in entries
     }
 
-previous_collection_gear_by_guid = defaultdict(dict)
-previous_collection_mounts_by_guid = defaultdict(dict)
-previous_collection_pets_by_guid = defaultdict(dict)
+previous_by_key_by_guid = {key: defaultdict(dict) for key, _, _ in CATEGORIES}
 prev_path = '$REPO_DATA_DIR/characters.json'
 if os.path.exists(prev_path):
     try:
@@ -373,9 +390,8 @@ if os.path.exists(prev_path):
             previous_data = json.load(f)
         for prev_char in previous_data.get('characters', []):
             prev_collections = prev_char.get('collections', {})
-            previous_collection_gear_by_guid[prev_char['guid']] = _earned_at_map(prev_collections.get('gear', []))
-            previous_collection_mounts_by_guid[prev_char['guid']] = _earned_at_map(prev_collections.get('mounts', []))
-            previous_collection_pets_by_guid[prev_char['guid']] = _earned_at_map(prev_collections.get('pets', []))
+            for key, _, _ in CATEGORIES:
+                previous_by_key_by_guid[key][prev_char['guid']] = _earned_at_map(prev_collections.get(key, []))
     except (json.JSONDecodeError, OSError):
         pass  # first run, or an unreadable/corrupt previous file — start fresh
 
@@ -390,31 +406,20 @@ for line in sys.stdin:
      faction, level, money, ap, ac, played) = line.split('\t')
     guid = int(guid)
 
-    gear_earned_at = dict(previous_collection_gear_by_guid.get(guid, {}))
-    for gear_id in detect_collection_gear(equipped_by_guid.get(guid, set())):
-        gear_earned_at.setdefault(gear_id, generated_at)
-    collection_gear = [
-        {'id': gear_id, 'earned_at': earned_at}
-        for gear_id, earned_at in sorted(gear_earned_at.items())
-    ]
-
+    equipped_ids = equipped_by_guid.get(guid, set())
     known_spells = known_spells_by_guid.get(guid, set())
 
-    mounts_earned_at = dict(previous_collection_mounts_by_guid.get(guid, {}))
-    for mount_id in detect_by_known_spell(known_spells, collection_mounts_defs):
-        mounts_earned_at.setdefault(mount_id, generated_at)
-    collection_mounts = [
-        {'id': mount_id, 'earned_at': earned_at}
-        for mount_id, earned_at in sorted(mounts_earned_at.items())
-    ]
-
-    pets_earned_at = dict(previous_collection_pets_by_guid.get(guid, {}))
-    for pet_id in detect_by_known_spell(known_spells, collection_pets_defs):
-        pets_earned_at.setdefault(pet_id, generated_at)
-    collection_pets = [
-        {'id': pet_id, 'earned_at': earned_at}
-        for pet_id, earned_at in sorted(pets_earned_at.items())
-    ]
+    collections = {}
+    for key, kind, _ in CATEGORIES:
+        detector = DETECTORS[kind]
+        current_ids = detector(equipped_ids if kind == 'equip' else known_spells, defs_by_key[key])
+        earned_at_map = dict(previous_by_key_by_guid[key].get(guid, {}))
+        for entry_id in current_ids:
+            earned_at_map.setdefault(entry_id, generated_at)
+        collections[key] = [
+            {'id': entry_id, 'earned_at': earned_at}
+            for entry_id, earned_at in sorted(earned_at_map.items())
+        ]
 
     characters.append({
         'guid': guid,
@@ -431,11 +436,7 @@ for line in sys.stdin:
         'achievement_count': int(ac),
         'played_time_seconds': int(played),
         'achievements': sorted(achievements_by_guid.get(guid, []), key=lambda a: a['id']),
-        'collections': {
-            'gear': collection_gear,
-            'mounts': collection_mounts,
-            'pets': collection_pets,
-        },
+        'collections': collections,
     })
 
 with open('$BACKUP_DIR/characters.json', 'w') as f:

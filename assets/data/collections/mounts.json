@@ -1,177 +1,2172 @@
 [
   {
-    "id": "deathchargers_reins",
-    "name": "Deathcharger's Reins",
-    "expansion": "Classic",
-    "points": 10,
-    "spell_ids": [17481]
+    "id": "item_33809",
+    "name": "Amani War Bear",
+    "spell_ids": [
+      43688
+    ]
   },
   {
-    "id": "swift_razzashi_raptor",
-    "name": "Swift Razzashi Raptor",
-    "expansion": "Classic",
-    "points": 10,
-    "spell_ids": [24242]
+    "id": "item_47179",
+    "name": "Argent Charger",
+    "spell_ids": [
+      66906
+    ]
   },
   {
-    "id": "swift_zulian_tiger",
-    "name": "Swift Zulian Tiger",
-    "expansion": "Classic",
-    "points": 10,
-    "spell_ids": [24252]
+    "id": "item_45725",
+    "name": "Argent Hippogryph",
+    "spell_ids": [
+      63844
+    ]
   },
   {
-    "id": "onyxian_drake",
-    "name": "Reins of the Onyxian Drake",
-    "expansion": "Classic",
-    "points": 10,
-    "spell_ids": [69395]
+    "id": "item_47180",
+    "name": "Argent Warhorse",
+    "spell_ids": [
+      67466
+    ]
   },
   {
-    "id": "black_war_bear",
-    "name": "Black War Bear",
-    "expansion": "Classic",
-    "points": 10,
-    "spell_ids": [60118, 60119]
+    "id": "item_44690",
+    "name": "Armored Blue Wind Rider",
+    "spell_ids": [
+      61230
+    ]
   },
   {
-    "id": "black_war_kodo",
-    "name": "Black War Kodo",
-    "expansion": "Classic",
-    "points": 10,
-    "spell_ids": [22718]
+    "id": "item_44689",
+    "name": "Armored Snowy Gryphon",
+    "spell_ids": [
+      61229
+    ]
   },
   {
-    "id": "black_war_raptor",
-    "name": "Whistle of the Black War Raptor",
-    "expansion": "Classic",
-    "points": 10,
-    "spell_ids": [22721]
-  },
-  {
-    "id": "black_war_wolf",
-    "name": "Horn of the Black War Wolf",
-    "expansion": "Classic",
-    "points": 10,
-    "spell_ids": [22724]
-  },
-  {
-    "id": "black_war_steed",
-    "name": "Black War Steed Bridle",
-    "expansion": "Classic",
-    "points": 10,
-    "spell_ids": [22717]
-  },
-  {
-    "id": "black_war_tiger",
-    "name": "Reins of the Black War Tiger",
-    "expansion": "Classic",
-    "points": 10,
-    "spell_ids": [22723]
-  },
-  {
-    "id": "swift_brewfest_ram",
-    "name": "Swift Brewfest Ram",
-    "expansion": "Classic",
-    "points": 10,
-    "spell_ids": [43900]
-  },
-  {
-    "id": "great_brewfest_kodo",
-    "name": "Great Brewfest Kodo",
-    "expansion": "Classic",
-    "points": 10,
-    "spell_ids": [49379]
-  },
-  {
-    "id": "qiraji_battle_tank",
-    "name": "Qiraji Battle Tank (Red/Blue/Green/Yellow/Black)",
-    "expansion": "Classic",
-    "points": 10,
-    "spell_ids": [26054, 25953, 26056, 26055, 26656]
-  },
-  {
-    "id": "ashes_of_alar",
+    "id": "item_32458",
     "name": "Ashes of Al'ar",
-    "expansion": "TBC",
-    "points": 10,
-    "spell_ids": [40192]
+    "spell_ids": [
+      40192
+    ]
   },
   {
-    "id": "netherwing_drake",
-    "name": "Netherwing Drake",
-    "expansion": "TBC",
-    "points": 10,
-    "spell_ids": [41513, 41514, 41515, 41516, 41517, 41518]
+    "id": "item_38576",
+    "name": "Big Battle Bear",
+    "spell_ids": [
+      51412
+    ]
   },
   {
-    "id": "raven_lord",
-    "name": "Raven Lord",
-    "expansion": "TBC",
-    "points": 10,
-    "spell_ids": [41252]
+    "id": "item_49282",
+    "name": "Big Battle Bear",
+    "spell_ids": [
+      51412
+    ]
   },
   {
-    "id": "invincibles_reins",
+    "id": "item_43599",
+    "name": "Big Blizzard Bear",
+    "spell_ids": [
+      58983
+    ]
+  },
+  {
+    "id": "item_50250",
+    "name": "Big Love Rocket",
+    "spell_ids": [
+      71342
+    ]
+  },
+  {
+    "id": "item_18243",
+    "name": "Black Battlestrider",
+    "spell_ids": [
+      22719
+    ]
+  },
+  {
+    "id": "item_29465",
+    "name": "Black Battlestrider",
+    "spell_ids": [
+      22719
+    ]
+  },
+  {
+    "id": "item_29221",
+    "name": "Black Hawkstrider",
+    "spell_ids": [
+      35022
+    ]
+  },
+  {
+    "id": "item_21176",
+    "name": "Black Qiraji Resonating Crystal",
+    "spell_ids": [
+      26656
+    ]
+  },
+  {
+    "id": "item_13328",
+    "name": "Black Ram",
+    "spell_ids": [
+      17461
+    ]
+  },
+  {
+    "id": "item_46308",
+    "name": "Black Skeletal Horse",
+    "spell_ids": [
+      64977
+    ]
+  },
+  {
+    "id": "item_2411",
+    "name": "Black Stallion Bridle",
+    "spell_ids": [
+      470
+    ]
+  },
+  {
+    "id": "item_18247",
+    "name": "Black War Kodo",
+    "spell_ids": [
+      22718
+    ]
+  },
+  {
+    "id": "item_29466",
+    "name": "Black War Kodo",
+    "spell_ids": [
+      22718
+    ]
+  },
+  {
+    "id": "item_18244",
+    "name": "Black War Ram",
+    "spell_ids": [
+      22720
+    ]
+  },
+  {
+    "id": "item_29467",
+    "name": "Black War Ram",
+    "spell_ids": [
+      22720
+    ]
+  },
+  {
+    "id": "item_18241",
+    "name": "Black War Steed Bridle",
+    "spell_ids": [
+      22717
+    ]
+  },
+  {
+    "id": "item_29468",
+    "name": "Black War Steed Bridle",
+    "spell_ids": [
+      22717
+    ]
+  },
+  {
+    "id": "item_54069",
+    "name": "Blazing Hippogryph",
+    "spell_ids": [
+      74856
+    ]
+  },
+  {
+    "id": "item_44843",
+    "name": "Blue Dragonhawk Mount",
+    "spell_ids": [
+      61996
+    ]
+  },
+  {
+    "id": "item_29220",
+    "name": "Blue Hawkstrider",
+    "spell_ids": [
+      35020
+    ]
+  },
+  {
+    "id": "item_8595",
+    "name": "Blue Mechanostrider",
+    "spell_ids": [
+      10969
+    ]
+  },
+  {
+    "id": "item_21218",
+    "name": "Blue Qiraji Resonating Crystal",
+    "spell_ids": [
+      25953
+    ]
+  },
+  {
+    "id": "item_32319",
+    "name": "Blue Riding Nether Ray",
+    "spell_ids": [
+      39803
+    ]
+  },
+  {
+    "id": "item_13332",
+    "name": "Blue Skeletal Horse",
+    "spell_ids": [
+      17463
+    ]
+  },
+  {
+    "id": "item_25475",
+    "name": "Blue Wind Rider",
+    "spell_ids": [
+      32244
+    ]
+  },
+  {
+    "id": "item_37827",
+    "name": "Brewfest Kodo",
+    "spell_ids": [
+      49378
+    ]
+  },
+  {
+    "id": "item_33976",
+    "name": "Brewfest Ram",
+    "spell_ids": [
+      43899
+    ]
+  },
+  {
+    "id": "item_28481",
+    "name": "Brown Elekk",
+    "spell_ids": [
+      34406
+    ]
+  },
+  {
+    "id": "item_5656",
+    "name": "Brown Horse Bridle",
+    "spell_ids": [
+      458
+    ]
+  },
+  {
+    "id": "item_15290",
+    "name": "Brown Kodo",
+    "spell_ids": [
+      18990
+    ]
+  },
+  {
+    "id": "item_5872",
+    "name": "Brown Ram",
+    "spell_ids": [
+      6899
+    ]
+  },
+  {
+    "id": "item_13333",
+    "name": "Brown Skeletal Horse",
+    "spell_ids": [
+      17464
+    ]
+  },
+  {
+    "id": "item_43516",
+    "name": "Brutal Nether Drake",
+    "spell_ids": [
+      58615
+    ]
+  },
+  {
+    "id": "item_54811",
+    "name": "Celestial Steed",
+    "spell_ids": [
+      75614
+    ]
+  },
+  {
+    "id": "item_33999",
+    "name": "Cenarion War Hippogryph",
+    "spell_ids": [
+      43927
+    ]
+  },
+  {
+    "id": "item_5655",
+    "name": "Chestnut Mare Bridle",
+    "spell_ids": [
+      6648
+    ]
+  },
+  {
+    "id": "item_49098",
+    "name": "Crusader's Black Warhorse",
+    "spell_ids": [
+      68188
+    ]
+  },
+  {
+    "id": "item_49096",
+    "name": "Crusader's White Warhorse",
+    "spell_ids": [
+      68187
+    ]
+  },
+  {
+    "id": "item_45593",
+    "name": "Darkspear Raptor",
+    "spell_ids": [
+      63635
+    ]
+  },
+  {
+    "id": "item_45591",
+    "name": "Darnassian Nightsaber",
+    "spell_ids": [
+      63637
+    ]
+  },
+  {
+    "id": "item_46708",
+    "name": "Deadly Gladiator's Frost Wyrm",
+    "spell_ids": [
+      64927
+    ]
+  },
+  {
+    "id": "item_13335",
+    "name": "Deathcharger's Reins",
+    "spell_ids": [
+      17481
+    ]
+  },
+  {
+    "id": "item_25471",
+    "name": "Ebon Gryphon",
+    "spell_ids": [
+      32239
+    ]
+  },
+  {
+    "id": "item_45590",
+    "name": "Exodar Elekk",
+    "spell_ids": [
+      63639
+    ]
+  },
+  {
+    "id": "item_30480",
+    "name": "Fiery Warhorse's Reins",
+    "spell_ids": [
+      36702
+    ]
+  },
+  {
+    "id": "item_13325",
+    "name": "Fluorescent Green Mechanostrider",
+    "spell_ids": [
+      17458
+    ]
+  },
+  {
+    "id": "item_33176",
+    "name": "Flying Broom",
+    "spell_ids": [
+      42667
+    ]
+  },
+  {
+    "id": "item_44554",
+    "name": "Flying Carpet",
+    "spell_ids": [
+      61451
+    ]
+  },
+  {
+    "id": "item_34060",
+    "name": "Flying Machine Control",
+    "spell_ids": [
+      44153
+    ]
+  },
+  {
+    "id": "item_20221",
+    "name": "Foror's Fabled Steed",
+    "spell_ids": [
+      24576
+    ]
+  },
+  {
+    "id": "item_45597",
+    "name": "Forsaken Warhorse",
+    "spell_ids": [
+      63643
+    ]
+  },
+  {
+    "id": "item_13329",
+    "name": "Frost Ram",
+    "spell_ids": [
+      17460
+    ]
+  },
+  {
+    "id": "item_54797",
+    "name": "Frosty Flying Carpet",
+    "spell_ids": [
+      75596
+    ]
+  },
+  {
+    "id": "item_46171",
+    "name": "Furious Gladiator's Frost Wyrm",
+    "spell_ids": [
+      65439
+    ]
+  },
+  {
+    "id": "item_45589",
+    "name": "Gnomeregan Mechanostrider",
+    "spell_ids": [
+      63638
+    ]
+  },
+  {
+    "id": "item_25470",
+    "name": "Golden Gryphon",
+    "spell_ids": [
+      32235
+    ]
+  },
+  {
+    "id": "item_29744",
+    "name": "Gray Elekk",
+    "spell_ids": [
+      35710
+    ]
+  },
+  {
+    "id": "item_15277",
+    "name": "Gray Kodo",
+    "spell_ids": [
+      18989
+    ]
+  },
+  {
+    "id": "item_5864",
+    "name": "Gray Ram",
+    "spell_ids": [
+      6777
+    ]
+  },
+  {
+    "id": "item_29745",
+    "name": "Great Blue Elekk",
+    "spell_ids": [
+      35713
+    ]
+  },
+  {
+    "id": "item_37828",
+    "name": "Great Brewfest Kodo",
+    "spell_ids": [
+      49379
+    ]
+  },
+  {
+    "id": "item_18794",
+    "name": "Great Brown Kodo",
+    "spell_ids": [
+      23249
+    ]
+  },
+  {
+    "id": "item_28482",
+    "name": "Great Elite Elekk",
+    "spell_ids": [
+      34407
+    ]
+  },
+  {
+    "id": "item_46750",
+    "name": "Great Golden Kodo",
+    "spell_ids": [
+      65641
+    ]
+  },
+  {
+    "id": "item_46755",
+    "name": "Great Golden Kodo",
+    "spell_ids": [
+      65641
+    ]
+  },
+  {
+    "id": "item_18795",
+    "name": "Great Gray Kodo",
+    "spell_ids": [
+      23248
+    ]
+  },
+  {
+    "id": "item_29746",
+    "name": "Great Green Elekk",
+    "spell_ids": [
+      35712
+    ]
+  },
+  {
+    "id": "item_29747",
+    "name": "Great Purple Elekk",
+    "spell_ids": [
+      35714
+    ]
+  },
+  {
+    "id": "item_46745",
+    "name": "Great Red Elekk",
+    "spell_ids": [
+      65637
+    ]
+  },
+  {
+    "id": "item_46756",
+    "name": "Great Red Elekk",
+    "spell_ids": [
+      65637
+    ]
+  },
+  {
+    "id": "item_18793",
+    "name": "Great White Kodo",
+    "spell_ids": [
+      23247
+    ]
+  },
+  {
+    "id": "item_15292",
+    "name": "Green Kodo",
+    "spell_ids": [
+      18991
+    ]
+  },
+  {
+    "id": "item_13321",
+    "name": "Green Mechanostrider",
+    "spell_ids": [
+      17453
+    ]
+  },
+  {
+    "id": "item_21323",
+    "name": "Green Qiraji Resonating Crystal",
+    "spell_ids": [
+      26056
+    ]
+  },
+  {
+    "id": "item_32314",
+    "name": "Green Riding Nether Ray",
+    "spell_ids": [
+      39798
+    ]
+  },
+  {
+    "id": "item_13334",
+    "name": "Green Skeletal Warhorse",
+    "spell_ids": [
+      17465
+    ]
+  },
+  {
+    "id": "item_25476",
+    "name": "Green Wind Rider",
+    "spell_ids": [
+      32245
+    ]
+  },
+  {
+    "id": "item_12351",
+    "name": "Horn of the Arctic Wolf",
+    "spell_ids": [
+      16081
+    ]
+  },
+  {
+    "id": "item_18245",
+    "name": "Horn of the Black War Wolf",
+    "spell_ids": [
+      22724
+    ]
+  },
+  {
+    "id": "item_29469",
+    "name": "Horn of the Black War Wolf",
+    "spell_ids": [
+      22724
+    ]
+  },
+  {
+    "id": "item_46099",
+    "name": "Horn of the Black Wolf",
+    "spell_ids": [
+      64658
+    ]
+  },
+  {
+    "id": "item_5668",
+    "name": "Horn of the Brown Wolf",
+    "spell_ids": [
+      6654
+    ]
+  },
+  {
+    "id": "item_5665",
+    "name": "Horn of the Dire Wolf",
+    "spell_ids": [
+      6653
+    ]
+  },
+  {
+    "id": "item_19029",
+    "name": "Horn of the Frostwolf Howler",
+    "spell_ids": [
+      23509
+    ]
+  },
+  {
+    "id": "item_12330",
+    "name": "Horn of the Red Wolf",
+    "spell_ids": [
+      16080
+    ]
+  },
+  {
+    "id": "item_18796",
+    "name": "Horn of the Swift Brown Wolf",
+    "spell_ids": [
+      23250
+    ]
+  },
+  {
+    "id": "item_18798",
+    "name": "Horn of the Swift Gray Wolf",
+    "spell_ids": [
+      23252
+    ]
+  },
+  {
+    "id": "item_18797",
+    "name": "Horn of the Swift Timber Wolf",
+    "spell_ids": [
+      23251
+    ]
+  },
+  {
+    "id": "item_1132",
+    "name": "Horn of the Timber Wolf",
+    "spell_ids": [
+      580
+    ]
+  },
+  {
+    "id": "item_13327",
+    "name": "Icy Blue Mechanostrider Mod A",
+    "spell_ids": [
+      17459
+    ]
+  },
+  {
+    "id": "item_50818",
     "name": "Invincible's Reins",
-    "expansion": "WotLK",
-    "points": 10,
-    "spell_ids": [72286]
+    "spell_ids": [
+      72286
+    ]
   },
   {
-    "id": "time_lost_proto_drake",
-    "name": "Reins of the Time-Lost Proto-Drake",
-    "expansion": "WotLK",
-    "points": 10,
-    "spell_ids": [60002]
+    "id": "item_45586",
+    "name": "Ironforge Ram",
+    "spell_ids": [
+      63636
+    ]
   },
   {
-    "id": "ironbound_proto_drake",
-    "name": "Reins of the Ironbound Proto-Drake",
-    "expansion": "WotLK",
-    "points": 10,
-    "spell_ids": [63956]
+    "id": "item_44221",
+    "name": "Loaned Gryphon Reins",
+    "spell_ids": [
+      64749
+    ]
   },
   {
-    "id": "rusted_proto_drake",
-    "name": "Reins of the Rusted Proto-Drake",
-    "expansion": "WotLK",
-    "points": 10,
-    "spell_ids": [63963]
+    "id": "item_44229",
+    "name": "Loaned Wind Rider Reins",
+    "spell_ids": [
+      64762
+    ]
   },
   {
-    "id": "red_proto_drake",
-    "name": "Reins of the Red Proto-Drake",
-    "expansion": "WotLK",
-    "points": 10,
-    "spell_ids": [59961]
+    "id": "item_37011",
+    "name": "Magic Broom",
+    "spell_ids": [
+      47977
+    ]
   },
   {
-    "id": "violet_proto_drake",
-    "name": "Reins of the Violet Proto-Drake",
-    "expansion": "WotLK",
-    "points": 10,
-    "spell_ids": [60024]
+    "id": "item_46778",
+    "name": "Magic Rooster Egg",
+    "spell_ids": [
+      65917
+    ]
   },
   {
-    "id": "mimirons_head",
+    "id": "item_49290",
+    "name": "Magic Rooster Egg",
+    "spell_ids": [
+      65917
+    ]
+  },
+  {
+    "id": "item_44558",
+    "name": "Magnificent Flying Carpet",
+    "spell_ids": [
+      61309
+    ]
+  },
+  {
+    "id": "item_41508",
+    "name": "Mechano-hog",
+    "spell_ids": [
+      55531
+    ]
+  },
+  {
+    "id": "item_44413",
+    "name": "Mekgineer's Chopper",
+    "spell_ids": [
+      60424
+    ]
+  },
+  {
+    "id": "item_34092",
+    "name": "Merciless Nether Drake",
+    "spell_ids": [
+      44744
+    ]
+  },
+  {
+    "id": "item_45693",
     "name": "Mimiron's Head",
-    "expansion": "WotLK",
-    "points": 10,
-    "spell_ids": [63796]
+    "spell_ids": [
+      63796
+    ]
   },
   {
-    "id": "grand_ice_mammoth",
+    "id": "item_23193",
+    "name": "Naxxramas Deathcharger Reins",
+    "spell_ids": [
+      29059
+    ]
+  },
+  {
+    "id": "item_47101",
+    "name": "Ochre Skeletal Warhorse",
+    "spell_ids": [
+      66846
+    ]
+  },
+  {
+    "id": "item_33183",
+    "name": "Old Magic Broom",
+    "spell_ids": [
+      42680
+    ]
+  },
+  {
+    "id": "item_45595",
+    "name": "Orgrimmar Wolf",
+    "spell_ids": [
+      63640
+    ]
+  },
+  {
+    "id": "item_12354",
+    "name": "Palomino Bridle",
+    "spell_ids": [
+      16082
+    ]
+  },
+  {
+    "id": "item_2414",
+    "name": "Pinto Bridle",
+    "spell_ids": [
+      472
+    ]
+  },
+  {
+    "id": "item_40777",
+    "name": "Polar Bear Harness",
+    "spell_ids": [
+      54753
+    ]
+  },
+  {
+    "id": "item_29743",
+    "name": "Purple Elekk",
+    "spell_ids": [
+      35711
+    ]
+  },
+  {
+    "id": "item_29222",
+    "name": "Purple Hawkstrider",
+    "spell_ids": [
+      35018
+    ]
+  },
+  {
+    "id": "item_13323",
+    "name": "Purple Mechanostrider",
+    "spell_ids": [
+      17455
+    ]
+  },
+  {
+    "id": "item_32316",
+    "name": "Purple Riding Nether Ray",
+    "spell_ids": [
+      39801
+    ]
+  },
+  {
+    "id": "item_18791",
+    "name": "Purple Skeletal Warhorse",
+    "spell_ids": [
+      23246
+    ]
+  },
+  {
+    "id": "item_46815",
+    "name": "Quel'dorei Steed",
+    "spell_ids": [
+      66090
+    ]
+  },
+  {
+    "id": "item_44842",
+    "name": "Red Dragonhawk Mount",
+    "spell_ids": [
+      61997
+    ]
+  },
+  {
+    "id": "item_28927",
+    "name": "Red Hawkstrider",
+    "spell_ids": [
+      34795
+    ]
+  },
+  {
+    "id": "item_8563",
+    "name": "Red Mechanostrider",
+    "spell_ids": [
+      10873
+    ]
+  },
+  {
+    "id": "item_21321",
+    "name": "Red Qiraji Resonating Crystal",
+    "spell_ids": [
+      26054
+    ]
+  },
+  {
+    "id": "item_32317",
+    "name": "Red Riding Nether Ray",
+    "spell_ids": [
+      39800
+    ]
+  },
+  {
+    "id": "item_13331",
+    "name": "Red Skeletal Horse",
+    "spell_ids": [
+      17462
+    ]
+  },
+  {
+    "id": "item_18248",
+    "name": "Red Skeletal Warhorse",
+    "spell_ids": [
+      22722
+    ]
+  },
+  {
+    "id": "item_29470",
+    "name": "Red Skeletal Warhorse",
+    "spell_ids": [
+      22722
+    ]
+  },
+  {
+    "id": "item_13324",
+    "name": "Red and Blue Mechanostrider",
+    "spell_ids": [
+      17456
+    ]
+  },
+  {
+    "id": "item_44178",
+    "name": "Reins of the Albino Drake",
+    "spell_ids": [
+      60025
+    ]
+  },
+  {
+    "id": "item_12302",
+    "name": "Reins of the Ancient Frostsaber",
+    "spell_ids": [
+      16056
+    ]
+  },
+  {
+    "id": "item_44225",
+    "name": "Reins of the Armored Brown Bear",
+    "spell_ids": [
+      60114
+    ]
+  },
+  {
+    "id": "item_44226",
+    "name": "Reins of the Armored Brown Bear",
+    "spell_ids": [
+      60116
+    ]
+  },
+  {
+    "id": "item_43952",
+    "name": "Reins of the Azure Drake",
+    "spell_ids": [
+      59567
+    ]
+  },
+  {
+    "id": "item_32858",
+    "name": "Reins of the Azure Netherwing Drake",
+    "spell_ids": [
+      41514
+    ]
+  },
+  {
+    "id": "item_43986",
+    "name": "Reins of the Black Drake",
+    "spell_ids": [
+      59650
+    ]
+  },
+  {
+    "id": "item_43964",
+    "name": "Reins of the Black Polar Bear",
+    "spell_ids": [
+      59572
+    ]
+  },
+  {
+    "id": "item_44164",
+    "name": "Reins of the Black Proto-Drake",
+    "spell_ids": [
+      59976
+    ]
+  },
+  {
+    "id": "item_44223",
+    "name": "Reins of the Black War Bear",
+    "spell_ids": [
+      60118
+    ]
+  },
+  {
+    "id": "item_44224",
+    "name": "Reins of the Black War Bear",
+    "spell_ids": [
+      60119
+    ]
+  },
+  {
+    "id": "item_35906",
+    "name": "Reins of the Black War Elekk",
+    "spell_ids": [
+      48027
+    ]
+  },
+  {
+    "id": "item_43956",
+    "name": "Reins of the Black War Mammoth",
+    "spell_ids": [
+      59785
+    ]
+  },
+  {
+    "id": "item_44077",
+    "name": "Reins of the Black War Mammoth",
+    "spell_ids": [
+      59788
+    ]
+  },
+  {
+    "id": "item_18242",
+    "name": "Reins of the Black War Tiger",
+    "spell_ids": [
+      22723
+    ]
+  },
+  {
+    "id": "item_29471",
+    "name": "Reins of the Black War Tiger",
+    "spell_ids": [
+      22723
+    ]
+  },
+  {
+    "id": "item_51954",
+    "name": "Reins of the Bloodbathed Frostbrood Vanquisher",
+    "spell_ids": [
+      72808
+    ]
+  },
+  {
+    "id": "item_43953",
+    "name": "Reins of the Blue Drake",
+    "spell_ids": [
+      59568
+    ]
+  },
+  {
+    "id": "item_44151",
+    "name": "Reins of the Blue Proto-Drake",
+    "spell_ids": [
+      59996
+    ]
+  },
+  {
+    "id": "item_43951",
+    "name": "Reins of the Bronze Drake",
+    "spell_ids": [
+      59569
+    ]
+  },
+  {
+    "id": "item_43963",
+    "name": "Reins of the Brown Polar Bear",
+    "spell_ids": [
+      59573
+    ]
+  },
+  {
+    "id": "item_32859",
+    "name": "Reins of the Cobalt Netherwing Drake",
+    "spell_ids": [
+      41515
+    ]
+  },
+  {
+    "id": "item_31829",
+    "name": "Reins of the Cobalt Riding Talbuk",
+    "spell_ids": [
+      39315
+    ]
+  },
+  {
+    "id": "item_31830",
+    "name": "Reins of the Cobalt Riding Talbuk",
+    "spell_ids": [
+      39315
+    ]
+  },
+  {
+    "id": "item_29102",
+    "name": "Reins of the Cobalt War Talbuk",
+    "spell_ids": [
+      34896
+    ]
+  },
+  {
+    "id": "item_29227",
+    "name": "Reins of the Cobalt War Talbuk",
+    "spell_ids": [
+      34896
+    ]
+  },
+  {
+    "id": "item_52200",
+    "name": "Reins of the Crimson Deathcharger",
+    "spell_ids": [
+      73313
+    ]
+  },
+  {
+    "id": "item_28915",
+    "name": "Reins of the Dark Riding Talbuk",
+    "spell_ids": [
+      39316
+    ]
+  },
+  {
+    "id": "item_29228",
+    "name": "Reins of the Dark War Talbuk",
+    "spell_ids": [
+      34790
+    ]
+  },
+  {
+    "id": "item_12327",
+    "name": "Reins of the Golden Sabercat",
+    "spell_ids": [
+      16060
+    ]
+  },
+  {
+    "id": "item_43959",
+    "name": "Reins of the Grand Black War Mammoth",
+    "spell_ids": [
+      61465
+    ]
+  },
+  {
+    "id": "item_44083",
+    "name": "Reins of the Grand Black War Mammoth",
+    "spell_ids": [
+      61467
+    ]
+  },
+  {
+    "id": "item_43961",
     "name": "Reins of the Grand Ice Mammoth",
-    "expansion": "WotLK",
-    "points": 10,
-    "spell_ids": [61469, 61470]
+    "spell_ids": [
+      61470
+    ]
   },
   {
-    "id": "travelers_tundra_mammoth",
+    "id": "item_44086",
+    "name": "Reins of the Grand Ice Mammoth",
+    "spell_ids": [
+      61469
+    ]
+  },
+  {
+    "id": "item_44707",
+    "name": "Reins of the Green Proto-Drake",
+    "spell_ids": [
+      61294
+    ]
+  },
+  {
+    "id": "item_43958",
+    "name": "Reins of the Ice Mammoth",
+    "spell_ids": [
+      59799
+    ]
+  },
+  {
+    "id": "item_44080",
+    "name": "Reins of the Ice Mammoth",
+    "spell_ids": [
+      59797
+    ]
+  },
+  {
+    "id": "item_51955",
+    "name": "Reins of the Icebound Frostbrood Vanquisher",
+    "spell_ids": [
+      72807
+    ]
+  },
+  {
+    "id": "item_45801",
+    "name": "Reins of the Ironbound Proto-Drake",
+    "spell_ids": [
+      63956
+    ]
+  },
+  {
+    "id": "item_12303",
+    "name": "Reins of the Nightsaber",
+    "spell_ids": [
+      16055
+    ]
+  },
+  {
+    "id": "item_32857",
+    "name": "Reins of the Onyx Netherwing Drake",
+    "spell_ids": [
+      41513
+    ]
+  },
+  {
+    "id": "item_49636",
+    "name": "Reins of the Onyxian Drake",
+    "spell_ids": [
+      69395
+    ]
+  },
+  {
+    "id": "item_44175",
+    "name": "Reins of the Plagued Proto-Drake",
+    "spell_ids": [
+      60021
+    ]
+  },
+  {
+    "id": "item_12325",
+    "name": "Reins of the Primal Leopard",
+    "spell_ids": [
+      16058
+    ]
+  },
+  {
+    "id": "item_32860",
+    "name": "Reins of the Purple Netherwing Drake",
+    "spell_ids": [
+      41516
+    ]
+  },
+  {
+    "id": "item_32768",
+    "name": "Reins of the Raven Lord",
+    "spell_ids": [
+      41252
+    ]
+  },
+  {
+    "id": "item_43955",
+    "name": "Reins of the Red Drake",
+    "spell_ids": [
+      59570
+    ]
+  },
+  {
+    "id": "item_44160",
+    "name": "Reins of the Red Proto-Drake",
+    "spell_ids": [
+      59961
+    ]
+  },
+  {
+    "id": "item_45802",
+    "name": "Reins of the Rusted Proto-Drake",
+    "spell_ids": [
+      63963
+    ]
+  },
+  {
+    "id": "item_31831",
+    "name": "Reins of the Silver Riding Talbuk",
+    "spell_ids": [
+      39317
+    ]
+  },
+  {
+    "id": "item_31832",
+    "name": "Reins of the Silver Riding Talbuk",
+    "spell_ids": [
+      39317
+    ]
+  },
+  {
+    "id": "item_29104",
+    "name": "Reins of the Silver War Talbuk",
+    "spell_ids": [
+      34898
+    ]
+  },
+  {
+    "id": "item_29229",
+    "name": "Reins of the Silver War Talbuk",
+    "spell_ids": [
+      34898
+    ]
+  },
+  {
+    "id": "item_33224",
+    "name": "Reins of the Spectral Tiger",
+    "spell_ids": [
+      42776
+    ]
+  },
+  {
+    "id": "item_49283",
+    "name": "Reins of the Spectral Tiger",
+    "spell_ids": [
+      42776
+    ]
+  },
+  {
+    "id": "item_8632",
+    "name": "Reins of the Spotted Frostsaber",
+    "spell_ids": [
+      10789
+    ]
+  },
+  {
+    "id": "item_47100",
+    "name": "Reins of the Striped Dawnsaber",
+    "spell_ids": [
+      66847
+    ]
+  },
+  {
+    "id": "item_8631",
+    "name": "Reins of the Striped Frostsaber",
+    "spell_ids": [
+      8394
+    ]
+  },
+  {
+    "id": "item_8629",
+    "name": "Reins of the Striped Nightsaber",
+    "spell_ids": [
+      10793
+    ]
+  },
+  {
+    "id": "item_18768",
+    "name": "Reins of the Swift Dawnsaber",
+    "spell_ids": [
+      23220
+    ]
+  },
+  {
+    "id": "item_18766",
+    "name": "Reins of the Swift Frostsaber",
+    "spell_ids": [
+      23221
+    ]
+  },
+  {
+    "id": "item_18767",
+    "name": "Reins of the Swift Mistsaber",
+    "spell_ids": [
+      23219
+    ]
+  },
+  {
+    "id": "item_33225",
+    "name": "Reins of the Swift Spectral Tiger",
+    "spell_ids": [
+      42777
+    ]
+  },
+  {
+    "id": "item_49284",
+    "name": "Reins of the Swift Spectral Tiger",
+    "spell_ids": [
+      42777
+    ]
+  },
+  {
+    "id": "item_18902",
+    "name": "Reins of the Swift Stormsaber",
+    "spell_ids": [
+      23338
+    ]
+  },
+  {
+    "id": "item_31833",
+    "name": "Reins of the Tan Riding Talbuk",
+    "spell_ids": [
+      39318
+    ]
+  },
+  {
+    "id": "item_31834",
+    "name": "Reins of the Tan Riding Talbuk",
+    "spell_ids": [
+      39318
+    ]
+  },
+  {
+    "id": "item_29105",
+    "name": "Reins of the Tan War Talbuk",
+    "spell_ids": [
+      34899
+    ]
+  },
+  {
+    "id": "item_29230",
+    "name": "Reins of the Tan War Talbuk",
+    "spell_ids": [
+      34899
+    ]
+  },
+  {
+    "id": "item_12326",
+    "name": "Reins of the Tawny Sabercat",
+    "spell_ids": [
+      16059
+    ]
+  },
+  {
+    "id": "item_44168",
+    "name": "Reins of the Time-Lost Proto-Drake",
+    "spell_ids": [
+      60002
+    ]
+  },
+  {
+    "id": "item_44234",
     "name": "Reins of the Traveler's Tundra Mammoth",
-    "expansion": "WotLK",
-    "points": 10,
-    "spell_ids": [61425, 61447]
+    "spell_ids": [
+      61447
+    ]
+  },
+  {
+    "id": "item_44235",
+    "name": "Reins of the Traveler's Tundra Mammoth",
+    "spell_ids": [
+      61425
+    ]
+  },
+  {
+    "id": "item_43954",
+    "name": "Reins of the Twilight Drake",
+    "spell_ids": [
+      59571
+    ]
+  },
+  {
+    "id": "item_32861",
+    "name": "Reins of the Veridian Netherwing Drake",
+    "spell_ids": [
+      41517
+    ]
+  },
+  {
+    "id": "item_32862",
+    "name": "Reins of the Violet Netherwing Drake",
+    "spell_ids": [
+      41518
+    ]
+  },
+  {
+    "id": "item_44177",
+    "name": "Reins of the Violet Proto-Drake",
+    "spell_ids": [
+      60024
+    ]
+  },
+  {
+    "id": "item_43962",
+    "name": "Reins of the White Polar Bear",
+    "spell_ids": [
+      54753
+    ]
+  },
+  {
+    "id": "item_31835",
+    "name": "Reins of the White Riding Talbuk",
+    "spell_ids": [
+      39319
+    ]
+  },
+  {
+    "id": "item_31836",
+    "name": "Reins of the White Riding Talbuk",
+    "spell_ids": [
+      39319
+    ]
+  },
+  {
+    "id": "item_29103",
+    "name": "Reins of the White War Talbuk",
+    "spell_ids": [
+      34897
+    ]
+  },
+  {
+    "id": "item_29231",
+    "name": "Reins of the White War Talbuk",
+    "spell_ids": [
+      34897
+    ]
+  },
+  {
+    "id": "item_13086",
+    "name": "Reins of the Winterspring Frostsaber",
+    "spell_ids": [
+      17229
+    ]
+  },
+  {
+    "id": "item_44230",
+    "name": "Reins of the Wooly Mammoth",
+    "spell_ids": [
+      59791
+    ]
+  },
+  {
+    "id": "item_44231",
+    "name": "Reins of the Wooly Mammoth",
+    "spell_ids": [
+      59793
+    ]
+  },
+  {
+    "id": "item_47840",
+    "name": "Relentless Gladiator's Frost Wyrm",
+    "spell_ids": [
+      67336
+    ]
+  },
+  {
+    "id": "item_23720",
+    "name": "Riding Turtle",
+    "spell_ids": [
+      30174
+    ]
+  },
+  {
+    "id": "item_46109",
+    "name": "Sea Turtle",
+    "spell_ids": [
+      64731
+    ]
+  },
+  {
+    "id": "item_46813",
+    "name": "Silver Covenant Hippogryph",
+    "spell_ids": [
+      66087
+    ]
+  },
+  {
+    "id": "item_32318",
+    "name": "Silver Riding Nether Ray",
+    "spell_ids": [
+      39802
+    ]
+  },
+  {
+    "id": "item_45596",
+    "name": "Silvermoon Hawkstrider",
+    "spell_ids": [
+      63642
+    ]
+  },
+  {
+    "id": "item_25472",
+    "name": "Snowy Gryphon",
+    "spell_ids": [
+      32240
+    ]
+  },
+  {
+    "id": "item_19030",
+    "name": "Stormpike Battle Charger",
+    "spell_ids": [
+      23510
+    ]
+  },
+  {
+    "id": "item_45125",
+    "name": "Stormwind Steed",
+    "spell_ids": [
+      63232
+    ]
+  },
+  {
+    "id": "item_46814",
+    "name": "Sunreaver Dragonhawk",
+    "spell_ids": [
+      66088
+    ]
+  },
+  {
+    "id": "item_46816",
+    "name": "Sunreaver Hawkstrider",
+    "spell_ids": [
+      66091
+    ]
+  },
+  {
+    "id": "item_49044",
+    "name": "Swift Alliance Steed",
+    "spell_ids": [
+      68057
+    ]
+  },
+  {
+    "id": "item_25473",
+    "name": "Swift Blue Gryphon",
+    "spell_ids": [
+      32242
+    ]
+  },
+  {
+    "id": "item_18788",
+    "name": "Swift Blue Raptor",
+    "spell_ids": [
+      23241
+    ]
+  },
+  {
+    "id": "item_33977",
+    "name": "Swift Brewfest Ram",
+    "spell_ids": [
+      43900
+    ]
+  },
+  {
+    "id": "item_18786",
+    "name": "Swift Brown Ram",
+    "spell_ids": [
+      23238
+    ]
+  },
+  {
+    "id": "item_18777",
+    "name": "Swift Brown Steed",
+    "spell_ids": [
+      23229
+    ]
+  },
+  {
+    "id": "item_46749",
+    "name": "Swift Burgundy Wolf",
+    "spell_ids": [
+      65646
+    ]
+  },
+  {
+    "id": "item_46757",
+    "name": "Swift Burgundy Wolf",
+    "spell_ids": [
+      65646
+    ]
+  },
+  {
+    "id": "item_44557",
+    "name": "Swift Ebonweave Carpet",
+    "spell_ids": [
+      60975
+    ]
+  },
+  {
+    "id": "item_33182",
+    "name": "Swift Flying Broom",
+    "spell_ids": [
+      42668
+    ]
+  },
+  {
+    "id": "item_39303",
+    "name": "Swift Flying Carpet",
+    "spell_ids": [
+      60969
+    ]
+  },
+  {
+    "id": "item_18787",
+    "name": "Swift Gray Ram",
+    "spell_ids": [
+      23239
+    ]
+  },
+  {
+    "id": "item_46752",
+    "name": "Swift Gray Steed",
+    "spell_ids": [
+      65640
+    ]
+  },
+  {
+    "id": "item_46758",
+    "name": "Swift Gray Steed",
+    "spell_ids": [
+      65640
+    ]
+  },
+  {
+    "id": "item_25528",
+    "name": "Swift Green Gryphon",
+    "spell_ids": [
+      32290
+    ]
+  },
+  {
+    "id": "item_29223",
+    "name": "Swift Green Hawkstrider",
+    "spell_ids": [
+      35025
+    ]
+  },
+  {
+    "id": "item_18772",
+    "name": "Swift Green Mechanostrider",
+    "spell_ids": [
+      23225
+    ]
+  },
+  {
+    "id": "item_25531",
+    "name": "Swift Green Wind Rider",
+    "spell_ids": [
+      32295
+    ]
+  },
+  {
+    "id": "item_49046",
+    "name": "Swift Horde Wolf",
+    "spell_ids": [
+      68056
+    ]
+  },
+  {
+    "id": "item_33184",
+    "name": "Swift Magic Broom",
+    "spell_ids": [
+      42668
+    ]
+  },
+  {
+    "id": "item_44555",
+    "name": "Swift Mooncloth Carpet",
+    "spell_ids": [
+      61442
+    ]
+  },
+  {
+    "id": "item_46744",
+    "name": "Swift Moonsaber",
+    "spell_ids": [
+      65638
+    ]
+  },
+  {
+    "id": "item_46759",
+    "name": "Swift Moonsaber",
+    "spell_ids": [
+      65638
+    ]
+  },
+  {
+    "id": "item_30609",
+    "name": "Swift Nether Drake",
+    "spell_ids": [
+      37015
+    ]
+  },
+  {
+    "id": "item_18789",
+    "name": "Swift Olive Raptor",
+    "spell_ids": [
+      23242
+    ]
+  },
+  {
+    "id": "item_18790",
+    "name": "Swift Orange Raptor",
+    "spell_ids": [
+      23243
+    ]
+  },
+  {
+    "id": "item_18776",
+    "name": "Swift Palomino",
+    "spell_ids": [
+      23227
+    ]
+  },
+  {
+    "id": "item_28936",
+    "name": "Swift Pink Hawkstrider",
+    "spell_ids": [
+      33660
+    ]
+  },
+  {
+    "id": "item_25529",
+    "name": "Swift Purple Gryphon",
+    "spell_ids": [
+      32292
+    ]
+  },
+  {
+    "id": "item_29224",
+    "name": "Swift Purple Hawkstrider",
+    "spell_ids": [
+      35027
+    ]
+  },
+  {
+    "id": "item_46743",
+    "name": "Swift Purple Raptor",
+    "spell_ids": [
+      65644
+    ]
+  },
+  {
+    "id": "item_46760",
+    "name": "Swift Purple Raptor",
+    "spell_ids": [
+      65644
+    ]
+  },
+  {
+    "id": "item_25533",
+    "name": "Swift Purple Wind Rider",
+    "spell_ids": [
+      32297
+    ]
+  },
+  {
+    "id": "item_19872",
+    "name": "Swift Razzashi Raptor",
+    "spell_ids": [
+      24242
+    ]
+  },
+  {
+    "id": "item_25527",
+    "name": "Swift Red Gryphon",
+    "spell_ids": [
+      32289
+    ]
+  },
+  {
+    "id": "item_46751",
+    "name": "Swift Red Hawkstrider",
+    "spell_ids": [
+      65639
+    ]
+  },
+  {
+    "id": "item_46761",
+    "name": "Swift Red Hawkstrider",
+    "spell_ids": [
+      65639
+    ]
+  },
+  {
+    "id": "item_25477",
+    "name": "Swift Red Wind Rider",
+    "spell_ids": [
+      32246
+    ]
+  },
+  {
+    "id": "item_44556",
+    "name": "Swift Spellfire Carpet",
+    "spell_ids": [
+      61446
+    ]
+  },
+  {
+    "id": "item_46748",
+    "name": "Swift Violet Ram",
+    "spell_ids": [
+      65643
+    ]
+  },
+  {
+    "id": "item_46762",
+    "name": "Swift Violet Ram",
+    "spell_ids": [
+      65643
+    ]
+  },
+  {
+    "id": "item_34129",
+    "name": "Swift Warstrider",
+    "spell_ids": [
+      35028
+    ]
+  },
+  {
+    "id": "item_35513",
+    "name": "Swift White Hawkstrider",
+    "spell_ids": [
+      46628
+    ]
+  },
+  {
+    "id": "item_18773",
+    "name": "Swift White Mechanostrider",
+    "spell_ids": [
+      23223
+    ]
+  },
+  {
+    "id": "item_18785",
+    "name": "Swift White Ram",
+    "spell_ids": [
+      23240
+    ]
+  },
+  {
+    "id": "item_18778",
+    "name": "Swift White Steed",
+    "spell_ids": [
+      23228
+    ]
+  },
+  {
+    "id": "item_18774",
+    "name": "Swift Yellow Mechanostrider",
+    "spell_ids": [
+      23222
+    ]
+  },
+  {
+    "id": "item_25532",
+    "name": "Swift Yellow Wind Rider",
+    "spell_ids": [
+      32296
+    ]
+  },
+  {
+    "id": "item_37719",
+    "name": "Swift Zhevra",
+    "spell_ids": [
+      49322
+    ]
+  },
+  {
+    "id": "item_37598",
+    "name": "Swift Zhevra OLD",
+    "spell_ids": [
+      48954
+    ]
+  },
+  {
+    "id": "item_19902",
+    "name": "Swift Zulian Tiger",
+    "spell_ids": [
+      24252
+    ]
+  },
+  {
+    "id": "item_25474",
+    "name": "Tawny Wind Rider",
+    "spell_ids": [
+      32243
+    ]
+  },
+  {
+    "id": "item_15293",
+    "name": "Teal Kodo",
+    "spell_ids": [
+      18992
+    ]
+  },
+  {
+    "id": "item_37012",
+    "name": "The Horseman's Reins",
+    "spell_ids": [
+      48025
+    ]
+  },
+  {
+    "id": "item_45592",
+    "name": "Thunder Bluff Kodo",
+    "spell_ids": [
+      63641
+    ]
+  },
+  {
+    "id": "item_34061",
+    "name": "Turbo-Charged Flying Machine Control",
+    "spell_ids": [
+      44151
+    ]
+  },
+  {
+    "id": "item_46747",
+    "name": "Turbostrider",
+    "spell_ids": [
+      65642
+    ]
+  },
+  {
+    "id": "item_46763",
+    "name": "Turbostrider",
+    "spell_ids": [
+      65642
+    ]
+  },
+  {
+    "id": "item_13322",
+    "name": "Unpainted Mechanostrider",
+    "spell_ids": [
+      17454
+    ]
+  },
+  {
+    "id": "item_37676",
+    "name": "Vengeful Nether Drake",
+    "spell_ids": [
+      49193
+    ]
+  },
+  {
+    "id": "item_18246",
+    "name": "Whistle of the Black War Raptor",
+    "spell_ids": [
+      22721
+    ]
+  },
+  {
+    "id": "item_29472",
+    "name": "Whistle of the Black War Raptor",
+    "spell_ids": [
+      22721
+    ]
+  },
+  {
+    "id": "item_8588",
+    "name": "Whistle of the Emerald Raptor",
+    "spell_ids": [
+      8395
+    ]
+  },
+  {
+    "id": "item_13317",
+    "name": "Whistle of the Ivory Raptor",
+    "spell_ids": [
+      17450
+    ]
+  },
+  {
+    "id": "item_8586",
+    "name": "Whistle of the Mottled Red Raptor",
+    "spell_ids": [
+      16084
+    ]
+  },
+  {
+    "id": "item_8591",
+    "name": "Whistle of the Turquoise Raptor",
+    "spell_ids": [
+      10796
+    ]
+  },
+  {
+    "id": "item_46102",
+    "name": "Whistle of the Venomhide Ravasaur",
+    "spell_ids": [
+      64659
+    ]
+  },
+  {
+    "id": "item_8592",
+    "name": "Whistle of the Violet Raptor",
+    "spell_ids": [
+      10799
+    ]
+  },
+  {
+    "id": "item_46100",
+    "name": "White Kodo",
+    "spell_ids": [
+      64657
+    ]
+  },
+  {
+    "id": "item_13326",
+    "name": "White Mechanostrider Mod B",
+    "spell_ids": [
+      15779
+    ]
+  },
+  {
+    "id": "item_5873",
+    "name": "White Ram",
+    "spell_ids": [
+      6898
+    ]
+  },
+  {
+    "id": "item_46746",
+    "name": "White Skeletal Warhorse",
+    "spell_ids": [
+      65645
+    ]
+  },
+  {
+    "id": "item_46764",
+    "name": "White Skeletal Warhorse",
+    "spell_ids": [
+      65645
+    ]
+  },
+  {
+    "id": "item_12353",
+    "name": "White Stallion Bridle",
+    "spell_ids": [
+      16083
+    ]
+  },
+  {
+    "id": "item_40775",
+    "name": "Winged Steed of the Ebon Blade",
+    "spell_ids": [
+      54729
+    ]
+  },
+  {
+    "id": "item_54068",
+    "name": "Wooly White Rhino",
+    "spell_ids": [
+      74918
+    ]
+  },
+  {
+    "id": "item_50435",
+    "name": "Wrathful Gladiator's Frost Wyrm",
+    "spell_ids": [
+      71810
+    ]
+  },
+  {
+    "id": "item_35225",
+    "name": "X-51 Nether-Rocket",
+    "spell_ids": [
+      46197
+    ]
+  },
+  {
+    "id": "item_49285",
+    "name": "X-51 Nether-Rocket",
+    "spell_ids": [
+      46197
+    ]
+  },
+  {
+    "id": "item_35226",
+    "name": "X-51 Nether-Rocket X-TREME",
+    "spell_ids": [
+      46199
+    ]
+  },
+  {
+    "id": "item_49286",
+    "name": "X-51 Nether-Rocket X-TREME",
+    "spell_ids": [
+      46199
+    ]
+  },
+  {
+    "id": "item_54860",
+    "name": "X-53 Touring Rocket",
+    "spell_ids": [
+      75973
+    ]
+  },
+  {
+    "id": "item_21324",
+    "name": "Yellow Qiraji Resonating Crystal",
+    "spell_ids": [
+      26055
+    ]
   }
 ]
