@@ -93,6 +93,16 @@
             "id": "grand_ice_mammoth",
             "earned_at": "2026-05-09T19:27:00Z"
           }
+        ],
+        "pets": [
+          {
+            "id": "hyacinth_macaw",
+            "earned_at": "2025-12-20T17:44:00Z"
+          },
+          {
+            "id": "magical_crawdad",
+            "earned_at": "2026-04-03T20:11:00Z"
+          }
         ]
       }
     },
@@ -167,6 +177,16 @@
           {
             "id": "raven_lord",
             "earned_at": "2026-06-02T14:09:00Z"
+          }
+        ],
+        "pets": [
+          {
+            "id": "disgusting_oozeling",
+            "earned_at": "2026-02-14T22:07:00Z"
+          },
+          {
+            "id": "captured_firefly",
+            "earned_at": "2026-07-19T15:53:00Z"
           }
         ]
       }
@@ -280,6 +300,12 @@
             "id": "ashes_of_alar",
             "earned_at": "2026-07-22T22:38:00Z"
           }
+        ],
+        "pets": [
+          {
+            "id": "tiny_crimson_whelpling",
+            "earned_at": "2026-01-09T18:30:00Z"
+          }
         ]
       }
     },
@@ -338,6 +364,16 @@
           {
             "id": "onyxian_drake",
             "earned_at": "2026-03-08T23:17:00Z"
+          }
+        ],
+        "pets": [
+          {
+            "id": "dark_whelpling",
+            "earned_at": "2026-06-11T21:49:00Z"
+          },
+          {
+            "id": "sprite_darter_hatchling",
+            "earned_at": "2026-08-02T16:26:00Z"
           }
         ]
       }

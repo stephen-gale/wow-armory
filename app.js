@@ -78,12 +78,13 @@ function statWithIcon(iconSrc, text, extraIconClass) {
 
 // Each Collections category lives in its own data file (mirroring the SQL
 // export's characters.json shape) and groups its items by a category-
-// specific field — Gear by tier, Mounts by the expansion it's from. Adding
-// a future category (Pets, Tabards, ...) means one more entry here, no
+// specific field — Gear by tier, Mounts/Pets by the expansion they're from.
+// Adding a future category (Tabards, ...) means one more entry here, no
 // other code changes.
 const COLLECTION_CATEGORIES = [
   { key: "gear", file: "assets/data/collections/gear.json", groupLabel: (item) => `Gear — ${item.tier}` },
   { key: "mounts", file: "assets/data/collections/mounts.json", groupLabel: (item) => `Mounts — ${item.expansion}` },
+  { key: "pets", file: "assets/data/collections/pets.json", groupLabel: (item) => `Pets — ${item.expansion}` },
 ];
 
 // Fetched once, eagerly, so it's usually already resolved by the time

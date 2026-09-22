@@ -1,0 +1,58 @@
+[
+  {
+    "id": "hyacinth_macaw",
+    "name": "Parrot Cage (Hyacinth Macaw)",
+    "expansion": "Classic",
+    "points": 10,
+    "spell_ids": [10682]
+  },
+  {
+    "id": "disgusting_oozeling",
+    "name": "Disgusting Oozeling",
+    "expansion": "Classic",
+    "points": 10,
+    "spell_ids": [25162]
+  },
+  {
+    "id": "tiny_crimson_whelpling",
+    "name": "Tiny Crimson Whelpling",
+    "expansion": "Classic",
+    "points": 10,
+    "spell_ids": [10697]
+  },
+  {
+    "id": "tiny_emerald_whelpling",
+    "name": "Tiny Emerald Whelpling",
+    "expansion": "Classic",
+    "points": 10,
+    "spell_ids": [10698]
+  },
+  {
+    "id": "dark_whelpling",
+    "name": "Dark Whelpling",
+    "expansion": "Classic",
+    "points": 10,
+    "spell_ids": [10695]
+  },
+  {
+    "id": "sprite_darter_hatchling",
+    "name": "Sprite Darter Hatchling",
+    "expansion": "Classic",
+    "points": 10,
+    "spell_ids": [15067]
+  },
+  {
+    "id": "magical_crawdad",
+    "name": "Magical Crawdad",
+    "expansion": "TBC",
+    "points": 10,
+    "spell_ids": [33050]
+  },
+  {
+    "id": "captured_firefly",
+    "name": "Captured Firefly",
+    "expansion": "TBC",
+    "points": 10,
+    "spell_ids": [36034]
+  }
+]
