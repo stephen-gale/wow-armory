@@ -1,0 +1,161 @@
+entry	name	learn_spell_id	spellid_1	spelltrigger_1
+1041	Horn of the Black Wolf	NULL	578	0
+1133	Horn of the Winter Wolf	NULL	581	0
+1134	Horn of the Gray Wolf	NULL	459	0
+2413	Palomino	NULL	471	0
+2415	White Stallion	NULL	468	0
+3776	Crippling Poison II	NULL	11202	0
+5332	Glowing Cat Figurine	NULL	6084	0
+5417	Weapon of Massive Destruction (test)	NULL	265	0
+5418	Weapon of Mass Destruction (test)	NULL	5	0
+5663	Horn of the Red Wolf	NULL	579	0
+5874	Harness: Black Ram	NULL	6896	0
+5875	Harness: Blue Ram	NULL	6897	0
+6948	Hearthstone	NULL	8690	0
+7247	Chest of Containment Coffers	NULL	9082	0
+8583	Horn of the Skeletal Mount	NULL	8980	0
+8589	Old Whistle of the Ivory Raptor	NULL	10795	0
+8590	Old Whistle of the Obsidian Raptor	NULL	10798	0
+8627	Reins of the Night saber	NULL	10787	0
+8628	Reins of the Spotted Nightsaber	NULL	10792	0
+8630	Reins of the Bengal Tiger	NULL	10790	0
+8633	Reins of the Leopard	NULL	10788	0
+11582	Fel Salve	NULL	12938	0
+12264	Worg Carrier	15999	55884	0
+12529	Smolderweb Carrier	16450	55884	0
+12565	Winna's Kitten Carrier	NULL	15647	0
+14062	Kodo Mount	NULL	18363	0
+16339	Commander's Steed	NULL	16082	0
+17712	Winter Veil Disguise Kit	NULL	21848	0
+18597	Orcish Orphan Whistle	NULL	23012	0
+18598	Human Orphan Whistle	NULL	23013	0
+19782	Presence of Might	NULL	24149	0
+19783	Syncretist's Sigil	NULL	24160	0
+19784	Death's Embrace	NULL	24161	0
+19785	Falcon's Call	NULL	24162	0
+19786	Vodouisant's Vigilant Embrace	NULL	24163	0
+19787	Presence of Sight	NULL	24164	0
+19788	Hoodoo Hex	NULL	24165	0
+19789	Prophetic Aura	NULL	24167	0
+19790	Animist's Caress	NULL	24168	0
+20221	Foror's Fabled Steed	24576	55884	0
+20403	Proxy of Nozdormu	NULL	24726	0
+20464	Glyphs of Calling	NULL	24815	0
+20620	Holy Mightstone	NULL	24833	0
+21044	Reindeer Reins	NULL	25675	0
+21171	Filled Festive Mug	NULL	25851	0
+21174	Empty Festive Mug	NULL	25855	0
+21328	Wand of Holiday Cheer	NULL	26074	0
+21519	Mistletoe	NULL	26004	0
+21540	Elune's Lantern	NULL	26265	0
+21813	Bag of Heart Candies	NULL	26678	0
+22635	Savage Guard	NULL	28161	0
+22636	Ice Guard	NULL	28163	0
+22638	Shadow Guard	NULL	28165	0
+22726	Splinter of Atiesh	NULL	28324	0
+22737	Atiesh, Greatstaff of the Guardian	NULL	28354	0
+23193	Naxxramas Deathcharger Reins	29059	55884	0
+23247	Burning Blossom	NULL	28806	0
+23500	Saltheril's Haven Party Invitation	NULL	29451	0
+23501	Bloodthistle Petal	NULL	28273	0
+23720	Riding Turtle	30174	55884	0
+23792	Tree Disguise Kit	NULL	30298	0
+23818	Stillpine Furbolg Language Primer	NULL	30419	0
+24084	Draenei Banner	NULL	30988	0
+24278	Flare Gun	NULL	31333	0
+24287	Extinguishing Mixture	NULL	31497	0
+24335	Orb of Returning	NULL	31613	0
+24467	Living Fire	NULL	31927	0
+24501	Gordawg's Boulder	NULL	32001	0
+24502	Warmaul Skull	NULL	32036	0
+25458	Mag'har Battle Standard	NULL	32205	0
+25552	Warmaul Ogre Banner	NULL	32307	0
+25555	Kil'sorrow Banner	NULL	32314	0
+25596	Peep's Whistle	NULL	32345	0
+25604	Warmaul Prison Key	NULL	32347	0
+25658	Damp Woolen Blanket	NULL	32408	0
+25853	Pack of Incendiary Bombs	NULL	32744	0
+28106	Kingston's Primers	NULL	34387	0
+28478	To'arch's Primers	NULL	34387	0
+29473	Protectorate Igniter	NULL	35372	0
+30259	Voren'thal's Presence	NULL	36314	0
+30360	Lurky's Egg	24988	55884	0
+30436	Jagged Blue Crystal	NULL	36565	0
+30437	Jagged Red Crystal	NULL	36565	0
+30639	Blood Elf Disguise	NULL	37096	0
+31088	Tainted Core	NULL	38134	0
+31665	Toy RC Mortar Tank	NULL	38842	0
+31760	Miniwing	39181	55884	0
+31880	Blood Elf Orphan Whistle	NULL	39478	0
+31881	Draenei Orphan Whistle	NULL	39479	0
+32566	Picnic Basket	NULL	40530	0
+32578	Charged Crystal Focus	NULL	41237	0
+32616	Egbert's Egg	40614	55884	0
+32617	Sleepy Willy	40613	55884	0
+32622	Elekk Training Collar	40634	55884	0
+32670	Depleted Two-Handed Axe	NULL	40757	0
+32671	Depleted Mace	NULL	9332	1
+32672	Depleted Badge	NULL	40744	0
+32673	Depleted Dagger	NULL	14049	1
+32674	Depleted Sword	NULL	34796	1
+32675	Depleted Mail Gauntlets	NULL	15814	1
+32676	Depleted Cloth Bracers	NULL	14047	1
+32677	Depleted Cloak	NULL	40747	0
+32678	Depleted Ring	NULL	40754	0
+32679	Depleted Staff	NULL	33250	1
+32681	Onyx Scale of Rivendark	NULL	40766	0
+32682	Obsidia Scale	NULL	40767	0
+32683	Jet Scale of Furywing	NULL	40765	0
+32684	Insidion's Ebony Scale	NULL	40764	0
+32895	Scroll of the Maelstrom	NULL	42801	0
+32896	Scroll of the Sun	NULL	42801	0
+32911	Empty Brewfest Stein	NULL	3366	0
+33096	Complimentary Brewfest Sampler	NULL	42436	0
+33147	Formula: Enchant Cloak - Subtlety	25084	483	0
+33189	Rickety Magic Broom	NULL	42692	0
+33223	Fishing Chair	NULL	42766	0
+33634	Orehammer's Precision Bombs	NULL	43403	0
+33784	Darkrune Fragment	NULL	43521	0
+34480	Romantic Picnic Basket	NULL	45094	0
+34494	Paper Zeppelin	NULL	45129	0
+34497	Paper Flying Machine	NULL	45133	0
+34498	Paper Zeppelin Kit	NULL	45131	0
+34499	Paper Flying Machine Kit	NULL	45135	0
+34955	Scorched Stone	45890	55884	0
+35586	Frozen Axe	NULL	46700	0
+35722	Foror's Wipe Neutralizer	NULL	29820	0
+37312	Carrot on a Stick	NULL	48401	0
+37888	Arcane Disruptor	NULL	49590	0
+43150	Defense Control Crystal	NULL	57804	0
+43627	Thrall's Gold Coin	NULL	59125	0
+43628	Lady Jaina Proudmoore's Gold Coin	NULL	59125	0
+43629	Uther Lightbringer's Gold Coin	NULL	59125	0
+43630	Tirion Fordring's Gold Coin	NULL	59125	0
+43631	Teron's Gold Coin	NULL	59125	0
+43632	Sylvanas Windrunner's Gold Coin	NULL	59125	0
+43633	Prince Kael'thas Sunstrider's Gold Coin	NULL	59125	0
+43634	Lady Katrana Prestor's Gold Coin	NULL	59125	0
+43635	Kel'Thuzad's Gold Coin	NULL	59125	0
+43636	Chromie's Gold Coin	NULL	59125	0
+43637	Brann Bronzebeard's Gold Coin	NULL	59125	0
+43638	Arugal's Gold Coin	NULL	59125	0
+43639	Arthas' Gold Coin	NULL	59125	0
+43640	Archimonde's Gold Coin	NULL	59125	0
+43641	Anduin Wrynn's Gold Coin	NULL	59125	0
+44430	Titanium Seal of Dalaran	NULL	60458	0
+44794	Spring Rabbit's Foot	61725	55884	0
+44810	Turkey Cage	61773	55884	0
+45924	Certificate of Appreciation	NULL	64347	0
+45984	Unusual Compass	NULL	64385	0
+46396	Wolvar Orphan Whistle	NULL	65353	0
+46397	Oracle Orphan Whistle	NULL	65352	0
+49703	Perpetual Purple Firework	NULL	30161	0
+49704	Carved Ogre Idol	NULL	30167	0
+49917	Brazie's Gnomish Pleasure Device	NULL	70660	0
+49918	Brazie's Guide to Getting Good with Gnomish Girls	NULL	-1	0
+49922	Brazie's Dictionary of Devilish Draenei Damsels	NULL	-1	0
+49923	Brazie's Document on Dwarven Dates in Dun Morogh	NULL	-1	0
+49924	Brazie's Notes on Naughty Night Elves	NULL	-1	0
+49925	Brazie's Handbook to Handling Human Hunnies	NULL	-1	0
+53641	Ice Chip	74932	55884	0
+54452	Ethereal Portal	NULL	75136	0
