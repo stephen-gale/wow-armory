@@ -1,0 +1,1206 @@
+[
+  {
+    "id": "item_19450",
+    "name": "A Jubling's Tiny Home",
+    "spell_ids": [
+      23811
+    ]
+  },
+  {
+    "id": "item_44822",
+    "name": "Albino Snake",
+    "spell_ids": [
+      10713
+    ]
+  },
+  {
+    "id": "item_44984",
+    "name": "Ammen Vale Lashling",
+    "spell_ids": [
+      62562
+    ]
+  },
+  {
+    "id": "item_11023",
+    "name": "Ancona Chicken",
+    "spell_ids": [
+      10685
+    ]
+  },
+  {
+    "id": "item_45022",
+    "name": "Argent Gruntling",
+    "spell_ids": [
+      62746
+    ]
+  },
+  {
+    "id": "item_44998",
+    "name": "Argent Squire",
+    "spell_ids": [
+      62609
+    ]
+  },
+  {
+    "id": "item_34535",
+    "name": "Azure Whelpling",
+    "spell_ids": [
+      10696
+    ]
+  },
+  {
+    "id": "item_44819",
+    "name": "Baby Blizzard Bear",
+    "spell_ids": [
+      61855
+    ]
+  },
+  {
+    "id": "item_21168",
+    "name": "Baby Shark",
+    "spell_ids": [
+      25849
+    ]
+  },
+  {
+    "id": "item_32588",
+    "name": "Banana Charm",
+    "spell_ids": [
+      40549
+    ]
+  },
+  {
+    "id": "item_10360",
+    "name": "Black Kingsnake",
+    "spell_ids": [
+      10714
+    ]
+  },
+  {
+    "id": "item_54436",
+    "name": "Blue Clockwork Rocket Bot",
+    "spell_ids": [
+      75134
+    ]
+  },
+  {
+    "id": "item_29958",
+    "name": "Blue Dragonhawk Hatchling",
+    "spell_ids": [
+      36031
+    ]
+  },
+  {
+    "id": "item_29901",
+    "name": "Blue Moth Egg",
+    "spell_ids": [
+      35907
+    ]
+  },
+  {
+    "id": "item_20371",
+    "name": "Blue Murloc Egg",
+    "spell_ids": [
+      24696
+    ]
+  },
+  {
+    "id": "item_29364",
+    "name": "Brown Rabbit Crate",
+    "spell_ids": [
+      35239
+    ]
+  },
+  {
+    "id": "item_10361",
+    "name": "Brown Snake",
+    "spell_ids": [
+      10716
+    ]
+  },
+  {
+    "id": "item_46398",
+    "name": "Calico Cat",
+    "spell_ids": [
+      65358
+    ]
+  },
+  {
+    "id": "item_29960",
+    "name": "Captured Firefly",
+    "spell_ids": [
+      36034
+    ]
+  },
+  {
+    "id": "item_23083",
+    "name": "Captured Flame",
+    "spell_ids": [
+      28871
+    ]
+  },
+  {
+    "id": "item_8491",
+    "name": "Cat Carrier (Black Tabby)",
+    "spell_ids": [
+      10675
+    ]
+  },
+  {
+    "id": "item_8485",
+    "name": "Cat Carrier (Bombay)",
+    "spell_ids": [
+      10673
+    ]
+  },
+  {
+    "id": "item_8486",
+    "name": "Cat Carrier (Cornish Rex)",
+    "spell_ids": [
+      10674
+    ]
+  },
+  {
+    "id": "item_11903",
+    "name": "Cat Carrier (Corrupted Kitten)",
+    "spell_ids": [
+      15648
+    ]
+  },
+  {
+    "id": "item_8487",
+    "name": "Cat Carrier (Orange Tabby)",
+    "spell_ids": [
+      10676
+    ]
+  },
+  {
+    "id": "item_8490",
+    "name": "Cat Carrier (Siamese)",
+    "spell_ids": [
+      10677
+    ]
+  },
+  {
+    "id": "item_8488",
+    "name": "Cat Carrier (Silver Tabby)",
+    "spell_ids": [
+      10678
+    ]
+  },
+  {
+    "id": "item_8489",
+    "name": "Cat Carrier (White Kitten)",
+    "spell_ids": [
+      10679
+    ]
+  },
+  {
+    "id": "item_54810",
+    "name": "Celestial Dragon",
+    "spell_ids": [
+      75613
+    ]
+  },
+  {
+    "id": "item_11110",
+    "name": "Chicken Egg",
+    "spell_ids": [
+      13548
+    ]
+  },
+  {
+    "id": "item_35350",
+    "name": "Chuck's Bucket",
+    "spell_ids": [
+      46426
+    ]
+  },
+  {
+    "id": "item_34425",
+    "name": "Clockwork Rocket Bot",
+    "spell_ids": [
+      54187
+    ]
+  },
+  {
+    "id": "item_39898",
+    "name": "Cobra Hatchling",
+    "spell_ids": [
+      61351
+    ]
+  },
+  {
+    "id": "item_10393",
+    "name": "Cockroach",
+    "spell_ids": [
+      10688
+    ]
+  },
+  {
+    "id": "item_37298",
+    "name": "Competitor's Souvenir",
+    "spell_ids": [
+      48408
+    ]
+  },
+  {
+    "id": "item_49646",
+    "name": "Core Hound Pup",
+    "spell_ids": [
+      69452
+    ]
+  },
+  {
+    "id": "item_10392",
+    "name": "Crimson Snake",
+    "spell_ids": [
+      10717
+    ]
+  },
+  {
+    "id": "item_46545",
+    "name": "Curious Oracle Hatchling",
+    "spell_ids": [
+      65381
+    ]
+  },
+  {
+    "id": "item_46544",
+    "name": "Curious Wolvar Pup",
+    "spell_ids": [
+      65382
+    ]
+  },
+  {
+    "id": "item_10822",
+    "name": "Dark Whelpling",
+    "spell_ids": [
+      10695
+    ]
+  },
+  {
+    "id": "item_48112",
+    "name": "Darting Hatchling",
+    "spell_ids": [
+      67413
+    ]
+  },
+  {
+    "id": "item_48114",
+    "name": "Deviate Hatchling",
+    "spell_ids": [
+      67414
+    ]
+  },
+  {
+    "id": "item_13584",
+    "name": "Diablo Stone",
+    "spell_ids": [
+      17708
+    ]
+  },
+  {
+    "id": "item_20769",
+    "name": "Disgusting Oozeling",
+    "spell_ids": [
+      25162
+    ]
+  },
+  {
+    "id": "item_34493",
+    "name": "Dragon Kite",
+    "spell_ids": [
+      45127
+    ]
+  },
+  {
+    "id": "item_44970",
+    "name": "Dun Morogh Cub",
+    "spell_ids": [
+      62508
+    ]
+  },
+  {
+    "id": "item_44973",
+    "name": "Durotar Scorpion",
+    "spell_ids": [
+      62513
+    ]
+  },
+  {
+    "id": "item_32616",
+    "name": "Egbert's Egg",
+    "spell_ids": [
+      40614
+    ]
+  },
+  {
+    "id": "item_32622",
+    "name": "Elekk Training Collar",
+    "spell_ids": [
+      40634
+    ]
+  },
+  {
+    "id": "item_44974",
+    "name": "Elwynn Lamb",
+    "spell_ids": [
+      62516
+    ]
+  },
+  {
+    "id": "item_44982",
+    "name": "Enchanted Broom",
+    "spell_ids": [
+      62564
+    ]
+  },
+  {
+    "id": "item_48527",
+    "name": "Enchanted Onyx",
+    "spell_ids": [
+      67527
+    ]
+  },
+  {
+    "id": "item_32465",
+    "name": "Fortune Coin",
+    "spell_ids": [
+      40319
+    ]
+  },
+  {
+    "id": "item_32498",
+    "name": "Fortune Coin",
+    "spell_ids": [
+      40405
+    ]
+  },
+  {
+    "id": "item_39286",
+    "name": "Frosty's Collar",
+    "spell_ids": [
+      52615
+    ]
+  },
+  {
+    "id": "item_39973",
+    "name": "Ghostly Skull",
+    "spell_ids": [
+      53316
+    ]
+  },
+  {
+    "id": "item_43698",
+    "name": "Giant Sewer Rat",
+    "spell_ids": [
+      59250
+    ]
+  },
+  {
+    "id": "item_35227",
+    "name": "Goblin Weather Machine - Prototype 01-B",
+    "spell_ids": [
+      46203
+    ]
+  },
+  {
+    "id": "item_37297",
+    "name": "Gold Medallion",
+    "spell_ids": [
+      48406
+    ]
+  },
+  {
+    "id": "item_29953",
+    "name": "Golden Dragonhawk Hatchling",
+    "spell_ids": [
+      36027
+    ]
+  },
+  {
+    "id": "item_34518",
+    "name": "Golden Pig Coin",
+    "spell_ids": [
+      45174
+    ]
+  },
+  {
+    "id": "item_8500",
+    "name": "Great Horned Owl",
+    "spell_ids": [
+      10707
+    ]
+  },
+  {
+    "id": "item_19055",
+    "name": "Green Dragon Orb",
+    "spell_ids": [
+      23531
+    ]
+  },
+  {
+    "id": "item_49662",
+    "name": "Gryphon Hatchling",
+    "spell_ids": [
+      69535
+    ]
+  },
+  {
+    "id": "item_48116",
+    "name": "Gundrak Hatchling",
+    "spell_ids": [
+      67415
+    ]
+  },
+  {
+    "id": "item_8501",
+    "name": "Hawk Owl",
+    "spell_ids": [
+      10706
+    ]
+  },
+  {
+    "id": "item_46802",
+    "name": "Heavy Murloc Egg",
+    "spell_ids": [
+      66030
+    ]
+  },
+  {
+    "id": "item_23713",
+    "name": "Hippogryph Hatchling",
+    "spell_ids": [
+      30156
+    ]
+  },
+  {
+    "id": "item_53641",
+    "name": "Ice Chip",
+    "spell_ids": [
+      74932
+    ]
+  },
+  {
+    "id": "item_44738",
+    "name": "Kirin Tor Familiar",
+    "spell_ids": [
+      61472
+    ]
+  },
+  {
+    "id": "item_48118",
+    "name": "Leaping Hatchling",
+    "spell_ids": [
+      67416
+    ]
+  },
+  {
+    "id": "item_15996",
+    "name": "Lifelike Mechanical Toad",
+    "spell_ids": [
+      19772
+    ]
+  },
+  {
+    "id": "item_49693",
+    "name": "Lil' Phylactery",
+    "spell_ids": [
+      69677
+    ]
+  },
+  {
+    "id": "item_11826",
+    "name": "Lil' Smoky",
+    "spell_ids": [
+      15049
+    ]
+  },
+  {
+    "id": "item_54847",
+    "name": "Lil' XT",
+    "spell_ids": [
+      75906
+    ]
+  },
+  {
+    "id": "item_44841",
+    "name": "Little Fawn's Salt Lick",
+    "spell_ids": [
+      61991
+    ]
+  },
+  {
+    "id": "item_30360",
+    "name": "Lurky's Egg",
+    "spell_ids": [
+      24988
+    ]
+  },
+  {
+    "id": "item_46831",
+    "name": "Macabre Marionette",
+    "spell_ids": [
+      66175
+    ]
+  },
+  {
+    "id": "item_27445",
+    "name": "Magical Crawdad Box",
+    "spell_ids": [
+      33050
+    ]
+  },
+  {
+    "id": "item_29363",
+    "name": "Mana Wyrmling",
+    "spell_ids": [
+      35156
+    ]
+  },
+  {
+    "id": "item_10398",
+    "name": "Mechanical Chicken",
+    "spell_ids": [
+      12243
+    ]
+  },
+  {
+    "id": "item_4401",
+    "name": "Mechanical Squirrel Box",
+    "spell_ids": [
+      4055
+    ]
+  },
+  {
+    "id": "item_45002",
+    "name": "Mechanopeep",
+    "spell_ids": [
+      62674
+    ]
+  },
+  {
+    "id": "item_56806",
+    "name": "Mini Thor",
+    "spell_ids": [
+      78381
+    ]
+  },
+  {
+    "id": "item_31760",
+    "name": "Miniwing",
+    "spell_ids": [
+      39181
+    ]
+  },
+  {
+    "id": "item_33993",
+    "name": "Mojo",
+    "spell_ids": [
+      43918
+    ]
+  },
+  {
+    "id": "item_33818",
+    "name": "Muckbreath's Bucket",
+    "spell_ids": [
+      43698
+    ]
+  },
+  {
+    "id": "item_44980",
+    "name": "Mulgore Hatchling",
+    "spell_ids": [
+      62542
+    ]
+  },
+  {
+    "id": "item_45180",
+    "name": "Murkimus' Little Spear",
+    "spell_ids": [
+      63318
+    ]
+  },
+  {
+    "id": "item_54857",
+    "name": "Murkimus' Little Spear",
+    "spell_ids": [
+      75936
+    ]
+  },
+  {
+    "id": "item_46892",
+    "name": "Murkimus' Tiny Spear",
+    "spell_ids": [
+      63318
+    ]
+  },
+  {
+    "id": "item_38628",
+    "name": "Nether Ray Fry",
+    "spell_ids": [
+      51716
+    ]
+  },
+  {
+    "id": "item_25535",
+    "name": "Netherwhelp's Collar",
+    "spell_ids": [
+      32298
+    ]
+  },
+  {
+    "id": "item_44723",
+    "name": "Nurtured Penguin Egg",
+    "spell_ids": [
+      61357
+    ]
+  },
+  {
+    "id": "item_48120",
+    "name": "Obsidian Hatchling",
+    "spell_ids": [
+      67417
+    ]
+  },
+  {
+    "id": "item_49362",
+    "name": "Onyxian Whelpling",
+    "spell_ids": [
+      69002
+    ]
+  },
+  {
+    "id": "item_20651",
+    "name": "Orange Murloc Egg",
+    "spell_ids": [
+      25018
+    ]
+  },
+  {
+    "id": "item_13583",
+    "name": "Panda Collar",
+    "spell_ids": [
+      17707
+    ]
+  },
+  {
+    "id": "item_49665",
+    "name": "Pandaren Monk",
+    "spell_ids": [
+      69541
+    ]
+  },
+  {
+    "id": "item_8496",
+    "name": "Parrot Cage (Cockatiel)",
+    "spell_ids": [
+      10680
+    ]
+  },
+  {
+    "id": "item_8492",
+    "name": "Parrot Cage (Green Wing Macaw)",
+    "spell_ids": [
+      10683
+    ]
+  },
+  {
+    "id": "item_8494",
+    "name": "Parrot Cage (Hyacinth Macaw)",
+    "spell_ids": [
+      10682
+    ]
+  },
+  {
+    "id": "item_8495",
+    "name": "Parrot Cage (Senegal)",
+    "spell_ids": [
+      10684
+    ]
+  },
+  {
+    "id": "item_43517",
+    "name": "Penguin Egg",
+    "spell_ids": [
+      61357
+    ]
+  },
+  {
+    "id": "item_49912",
+    "name": "Perky Pug",
+    "spell_ids": [
+      70613
+    ]
+  },
+  {
+    "id": "item_11825",
+    "name": "Pet Bombling",
+    "spell_ids": [
+      15048
+    ]
+  },
+  {
+    "id": "item_35504",
+    "name": "Phoenix Hatchling",
+    "spell_ids": [
+      46599
+    ]
+  },
+  {
+    "id": "item_23007",
+    "name": "Piglet's Collar",
+    "spell_ids": [
+      28739
+    ]
+  },
+  {
+    "id": "item_22114",
+    "name": "Pink Murloc Egg",
+    "spell_ids": [
+      27241
+    ]
+  },
+  {
+    "id": "item_46707",
+    "name": "Pint-Sized Pink Pachyderm",
+    "spell_ids": [
+      44369
+    ]
+  },
+  {
+    "id": "item_22781",
+    "name": "Polar Bear Collar",
+    "spell_ids": [
+      28505
+    ]
+  },
+  {
+    "id": "item_10394",
+    "name": "Prairie Dog Whistle",
+    "spell_ids": [
+      10709
+    ]
+  },
+  {
+    "id": "item_44721",
+    "name": "Proto-Drake Whelp",
+    "spell_ids": [
+      61350
+    ]
+  },
+  {
+    "id": "item_8497",
+    "name": "Rabbit Crate (Snowshoe)",
+    "spell_ids": [
+      10711
+    ]
+  },
+  {
+    "id": "item_23015",
+    "name": "Rat Cage",
+    "spell_ids": [
+      28740
+    ]
+  },
+  {
+    "id": "item_48122",
+    "name": "Ravasaur Hatchling",
+    "spell_ids": [
+      67418
+    ]
+  },
+  {
+    "id": "item_48124",
+    "name": "Razormaw Hatchling",
+    "spell_ids": [
+      67419
+    ]
+  },
+  {
+    "id": "item_48126",
+    "name": "Razzashi Hatchling",
+    "spell_ids": [
+      67420
+    ]
+  },
+  {
+    "id": "item_19054",
+    "name": "Red Dragon Orb",
+    "spell_ids": [
+      23530
+    ]
+  },
+  {
+    "id": "item_29956",
+    "name": "Red Dragonhawk Hatchling",
+    "spell_ids": [
+      36028
+    ]
+  },
+  {
+    "id": "item_29902",
+    "name": "Red Moth Egg",
+    "spell_ids": [
+      35909
+    ]
+  },
+  {
+    "id": "item_44820",
+    "name": "Red Ribbon Pet Leash",
+    "spell_ids": [
+      61856
+    ]
+  },
+  {
+    "id": "item_40653",
+    "name": "Reeking Pet Carrier",
+    "spell_ids": [
+      40990
+    ]
+  },
+  {
+    "id": "item_34492",
+    "name": "Rocket Chicken",
+    "spell_ids": [
+      45125
+    ]
+  },
+  {
+    "id": "item_37460",
+    "name": "Rope Pet Leash",
+    "spell_ids": [
+      48722
+    ]
+  },
+  {
+    "id": "item_34955",
+    "name": "Scorched Stone",
+    "spell_ids": [
+      45890
+    ]
+  },
+  {
+    "id": "item_45606",
+    "name": "Sen'jin Fetish",
+    "spell_ids": [
+      63712
+    ]
+  },
+  {
+    "id": "item_46820",
+    "name": "Shimmering Wyrmling",
+    "spell_ids": [
+      66096
+    ]
+  },
+  {
+    "id": "item_46821",
+    "name": "Shimmering Wyrmling",
+    "spell_ids": [
+      66096
+    ]
+  },
+  {
+    "id": "item_29957",
+    "name": "Silver Dragonhawk Hatchling",
+    "spell_ids": [
+      36029
+    ]
+  },
+  {
+    "id": "item_34519",
+    "name": "Silver Pig Coin",
+    "spell_ids": [
+      45175
+    ]
+  },
+  {
+    "id": "item_22200",
+    "name": "Silver Shafted Arrow",
+    "spell_ids": [
+      27662
+    ]
+  },
+  {
+    "id": "item_33154",
+    "name": "Sinister Squashling",
+    "spell_ids": [
+      42609
+    ]
+  },
+  {
+    "id": "item_32617",
+    "name": "Sleepy Willy",
+    "spell_ids": [
+      40613
+    ]
+  },
+  {
+    "id": "item_12529",
+    "name": "Smolderweb Carrier",
+    "spell_ids": [
+      16450
+    ]
+  },
+  {
+    "id": "item_35349",
+    "name": "Snarly's Bucket",
+    "spell_ids": [
+      46425
+    ]
+  },
+  {
+    "id": "item_38050",
+    "name": "Soul-Trader Beacon",
+    "spell_ids": [
+      49964
+    ]
+  },
+  {
+    "id": "item_49343",
+    "name": "Spectral Tiger Cub",
+    "spell_ids": [
+      68810
+    ]
+  },
+  {
+    "id": "item_44794",
+    "name": "Spring Rabbit's Foot",
+    "spell_ids": [
+      61725
+    ]
+  },
+  {
+    "id": "item_11474",
+    "name": "Sprite Darter Egg",
+    "spell_ids": [
+      15067
+    ]
+  },
+  {
+    "id": "item_44983",
+    "name": "Strand Crawler",
+    "spell_ids": [
+      62561
+    ]
+  },
+  {
+    "id": "item_44965",
+    "name": "Teldrassil Sproutling",
+    "spell_ids": [
+      62491
+    ]
+  },
+  {
+    "id": "item_39896",
+    "name": "Tickbird Hatchling",
+    "spell_ids": [
+      61348
+    ]
+  },
+  {
+    "id": "item_8499",
+    "name": "Tiny Crimson Whelpling",
+    "spell_ids": [
+      10697
+    ]
+  },
+  {
+    "id": "item_8498",
+    "name": "Tiny Emerald Whelpling",
+    "spell_ids": [
+      10698
+    ]
+  },
+  {
+    "id": "item_34478",
+    "name": "Tiny Sporebat",
+    "spell_ids": [
+      45082
+    ]
+  },
+  {
+    "id": "item_44971",
+    "name": "Tirisfal Batling",
+    "spell_ids": [
+      62510
+    ]
+  },
+  {
+    "id": "item_33816",
+    "name": "Toothy's Bucket",
+    "spell_ids": [
+      43697
+    ]
+  },
+  {
+    "id": "item_50446",
+    "name": "Toxic Wasteling",
+    "spell_ids": [
+      71840
+    ]
+  },
+  {
+    "id": "item_21277",
+    "name": "Tranquil Mechanical Yeti",
+    "spell_ids": [
+      26010
+    ]
+  },
+  {
+    "id": "item_11026",
+    "name": "Tree Frog Box",
+    "spell_ids": [
+      10704
+    ]
+  },
+  {
+    "id": "item_22235",
+    "name": "Truesilver Shafted Arrow",
+    "spell_ids": [
+      27570
+    ]
+  },
+  {
+    "id": "item_44810",
+    "name": "Turkey Cage",
+    "spell_ids": [
+      61773
+    ]
+  },
+  {
+    "id": "item_23002",
+    "name": "Turtle Box",
+    "spell_ids": [
+      28738
+    ]
+  },
+  {
+    "id": "item_18964",
+    "name": "Turtle Egg (Loggerhead)",
+    "spell_ids": [
+      23429
+    ]
+  },
+  {
+    "id": "item_49287",
+    "name": "Tuskarr Kite",
+    "spell_ids": [
+      68767
+    ]
+  },
+  {
+    "id": "item_39656",
+    "name": "Tyrael's Hilt",
+    "spell_ids": [
+      53082
+    ]
+  },
+  {
+    "id": "item_19462",
+    "name": "Unhatched Jubling Egg",
+    "spell_ids": [
+      23851
+    ]
+  },
+  {
+    "id": "item_41133",
+    "name": "Unhatched Mr. Chilly",
+    "spell_ids": [
+      55068
+    ]
+  },
+  {
+    "id": "item_38658",
+    "name": "Vampiric Batling",
+    "spell_ids": [
+      51851
+    ]
+  },
+  {
+    "id": "item_46767",
+    "name": "Warbot Ignition Key",
+    "spell_ids": [
+      65682
+    ]
+  },
+  {
+    "id": "item_29904",
+    "name": "White Moth Egg",
+    "spell_ids": [
+      35911
+    ]
+  },
+  {
+    "id": "item_22780",
+    "name": "White Murloc Egg",
+    "spell_ids": [
+      28487
+    ]
+  },
+  {
+    "id": "item_39899",
+    "name": "White Tickbird Hatchling",
+    "spell_ids": [
+      61349
+    ]
+  },
+  {
+    "id": "item_23712",
+    "name": "White Tiger Cub",
+    "spell_ids": [
+      30152
+    ]
+  },
+  {
+    "id": "item_49663",
+    "name": "Wind Rider Cub",
+    "spell_ids": [
+      69536
+    ]
+  },
+  {
+    "id": "item_32233",
+    "name": "Wolpertinger's Tankard",
+    "spell_ids": [
+      39709
+    ]
+  },
+  {
+    "id": "item_11027",
+    "name": "Wood Frog Box",
+    "spell_ids": [
+      10703
+    ]
+  },
+  {
+    "id": "item_12264",
+    "name": "Worg Carrier",
+    "spell_ids": [
+      15999
+    ]
+  },
+  {
+    "id": "item_45942",
+    "name": "XS-001 Constructor Bot",
+    "spell_ids": [
+      64351
+    ]
+  },
+  {
+    "id": "item_29903",
+    "name": "Yellow Moth Egg",
+    "spell_ids": [
+      35910
+    ]
+  },
+  {
+    "id": "item_13582",
+    "name": "Zergling Leash",
+    "spell_ids": [
+      17709
+    ]
+  }
+]

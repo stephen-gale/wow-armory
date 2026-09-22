@@ -15,28 +15,37 @@
 # them as env vars before calling this script) to match wowbackup.sh.
 #
 # Collections (see assets/data/collections/) are a custom, companion-app-
-# only system — not real WoW achievements. Each category is detected a
-# different way:
-# - Gear (assets/data/collections/gear.json): each character's *currently
-#   equipped* items (character_inventory.bag = 0, slot 0-18) against the
-#   item ids that make up each named set.
-# - Mounts (assets/data/collections/mounts.json) and Pets
-#   (assets/data/collections/pets.json): each character's *known spells*
-#   (character_spell) against the learn-spell ids for each mount/pet — an
-#   entry is earned if the character knows ANY ONE of its spell_ids (so a
-#   multi-color mount like Netherwing Drake completes on any single color,
-#   never requiring every color). Both categories are detected from one
-#   shared character_spell query (see KNOWN_SPELLS_TMP below).
+# only system — not real WoW achievements. Each category is detected one
+# of two ways:
+# - "equip" categories (Sets, Legendaries, Tabards, Heirlooms): each
+#   character's *currently equipped* items (character_inventory.bag = 0,
+#   slot 0-18) against the item ids each entry's slot_groups require (one
+#   item from every slot group must be equipped at once — a slot group is a
+#   list of interchangeable item ids for that slot, e.g. a 10-/25-player
+#   token pair). Legendaries/Tabards/Heirlooms just have a single slot
+#   group of one item, so "equipped, all slot groups satisfied" means
+#   "equipped, this one item" — same detection function as Sets.
+# - "spell" categories (Mounts, Companions): each character's *known
+#   spells* (character_spell) against the learn-spell ids for each
+#   mount/companion — an entry is earned if the character knows ANY ONE of
+#   its spell_ids (so a multi-color mount like Netherwing Drake completes
+#   on any single color, never requiring every color).
 # Once earned, a collection is sticky: it stays on the character
-# permanently, even after the gear is swapped away, by unioning this run's
-# newly-detected ids with whatever was already recorded in the existing
-# OUTPUT_FILE (if present) before overwriting it. Both achievements and
-# collections carry an earned_at timestamp — achievements read theirs
-# straight from character_achievement.date (Blizzard's own record);
-# collections have no such record (character_spell in particular has no
-# timestamp column at all), so the first run that detects one stamps it
-# with that run's generated_at, and every later run preserves that
-# original stamp rather than overwriting it.
+# permanently (even after the gear is swapped away, for equip categories),
+# by unioning this run's newly-detected ids with whatever was already
+# recorded in the existing OUTPUT_FILE (if present) before overwriting it.
+# Both achievements and collections carry an earned_at timestamp —
+# achievements read theirs straight from character_achievement.date
+# (Blizzard's own record); collections have no such record (character_spell
+# in particular has no timestamp column at all, and equip detection is a
+# point-in-time snapshot), so the first run that detects one stamps it with
+# that run's generated_at, and every later run preserves that original
+# stamp rather than overwriting it.
+#
+# Heirlooms are stored here exactly like Legendaries (per-character,
+# equipped-only, sticky) — the faction-level de-duplicated display (since
+# heirlooms are Bind-on-Account and can be mailed between characters) is
+# purely an app.js rendering concern, not a detection/storage one.
 
 set -euo pipefail
 
@@ -47,9 +56,13 @@ DB_PASS="${DB_PASS:-acore}"
 OUTPUT_DIR="${OUTPUT_DIR:-$HOME/wow-backups}"
 OUTPUT_FILE="${OUTPUT_FILE:-$OUTPUT_DIR/characters.json}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-COLLECTION_GEAR_DEFS="${COLLECTION_GEAR_DEFS:-$SCRIPT_DIR/../assets/data/collections/gear.json}"
-COLLECTION_MOUNTS_DEFS="${COLLECTION_MOUNTS_DEFS:-$SCRIPT_DIR/../assets/data/collections/mounts.json}"
-COLLECTION_PETS_DEFS="${COLLECTION_PETS_DEFS:-$SCRIPT_DIR/../assets/data/collections/pets.json}"
+COLLECTIONS_DIR="${COLLECTIONS_DIR:-$SCRIPT_DIR/../assets/data/collections}"
+COLLECTION_SETS_DEFS="${COLLECTION_SETS_DEFS:-$COLLECTIONS_DIR/sets.json}"
+COLLECTION_MOUNTS_DEFS="${COLLECTION_MOUNTS_DEFS:-$COLLECTIONS_DIR/mounts.json}"
+COLLECTION_COMPANIONS_DEFS="${COLLECTION_COMPANIONS_DEFS:-$COLLECTIONS_DIR/companions.json}"
+COLLECTION_LEGENDARIES_DEFS="${COLLECTION_LEGENDARIES_DEFS:-$COLLECTIONS_DIR/legendaries.json}"
+COLLECTION_TABARDS_DEFS="${COLLECTION_TABARDS_DEFS:-$COLLECTIONS_DIR/tabards.json}"
+COLLECTION_HEIRLOOMS_DEFS="${COLLECTION_HEIRLOOMS_DEFS:-$COLLECTIONS_DIR/heirlooms.json}"
 
 mkdir -p "$OUTPUT_DIR"
 
@@ -76,14 +89,14 @@ mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
     AND a.username NOT LIKE 'RNDBOT%';
 " > "$EQUIPPED_TMP"
 
-# Only the spell ids that actually matter for Mounts/Pets detection — a
-# max-level character can know thousands of spells, so filtering
+# Only the spell ids that actually matter for Mounts/Companions detection —
+# a max-level character can know thousands of spells, so filtering
 # server-side (rather than pulling every known spell and filtering in
 # Python) keeps this cheap. Both categories share this one query/temp file.
 SPELL_COLLECTION_IDS="$(python3 -c "
 import json
 ids = set()
-for path in ('$COLLECTION_MOUNTS_DEFS', '$COLLECTION_PETS_DEFS'):
+for path in ('$COLLECTION_MOUNTS_DEFS', '$COLLECTION_COMPANIONS_DEFS'):
     with open(path) as f:
         defs = json.load(f)
     ids.update(str(s) for d in defs for s in d['spell_ids'])
@@ -135,20 +148,31 @@ WHERE a.username NOT LIKE 'RNDBOT%'
 ORDER BY faction, c.level DESC, c.name;
 SQL
 
-mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "$QUERY" | python3 - "$OUTPUT_FILE" "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$COLLECTION_GEAR_DEFS" "$KNOWN_SPELLS_TMP" "$COLLECTION_MOUNTS_DEFS" "$COLLECTION_PETS_DEFS" <<'PYEOF'
+mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "$QUERY" | python3 - \
+  "$OUTPUT_FILE" "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" \
+  "$COLLECTION_SETS_DEFS" "$COLLECTION_MOUNTS_DEFS" "$COLLECTION_COMPANIONS_DEFS" \
+  "$COLLECTION_LEGENDARIES_DEFS" "$COLLECTION_TABARDS_DEFS" "$COLLECTION_HEIRLOOMS_DEFS" <<'PYEOF'
 import sys
 import json
 import datetime
 import os
 from collections import defaultdict
 
-out_path = sys.argv[1]
-achievements_path = sys.argv[2]
-equipped_path = sys.argv[3]
-collection_gear_defs_path = sys.argv[4]
-known_spells_path = sys.argv[5]
-collection_mounts_defs_path = sys.argv[6]
-collection_pets_defs_path = sys.argv[7]
+(out_path, achievements_path, equipped_path, known_spells_path,
+ sets_defs_path, mounts_defs_path, companions_defs_path,
+ legendaries_defs_path, tabards_defs_path, heirlooms_defs_path) = sys.argv[1:11]
+
+# (json key, detection kind, defs path) — "equip" entries have slot_groups,
+# "spell" entries have spell_ids. See the header comment above for what
+# each kind means.
+CATEGORIES = [
+    ("sets", "equip", sets_defs_path),
+    ("mounts", "spell", mounts_defs_path),
+    ("companions", "spell", companions_defs_path),
+    ("legendaries", "equip", legendaries_defs_path),
+    ("tabards", "equip", tabards_defs_path),
+    ("heirlooms", "equip", heirlooms_defs_path),
+]
 
 def iso(unix_ts):
     try:
@@ -184,24 +208,9 @@ with open(equipped_path) as f:
         guid, item_entry = line.split("\t")
         equipped_by_guid[int(guid)].add(int(item_entry))
 
-with open(collection_gear_defs_path) as f:
-    collection_gear_defs = json.load(f)
-
-def detect_collection_gear(equipped_ids):
-    """A Gear collection is earned when the character currently has at
-    least one item from EVERY slot group equipped (each slot group is a list
-    of interchangeable item ids for that slot — e.g. a "Conquest"-suffixed
-    variant and its plain counterpart, or a Horde/Alliance pair that happens
-    to share a display name)."""
-    earned = []
-    for gs in collection_gear_defs:
-        if all(any(item_id in equipped_ids for item_id in group) for group in gs["slot_groups"]):
-            earned.append(gs["id"])
-    return earned
-
-# Known mount/pet-learn spells per character (character_spell has no
-# per-row timestamp, unlike character_achievement — that's why Mounts and
-# Pets use the same sticky-timestamp fallback as Gear below).
+# Known mount/companion-learn spells per character (character_spell has no
+# per-row timestamp, unlike character_achievement — that's why every
+# collection category uses the same sticky-timestamp fallback below).
 known_spells_by_guid = defaultdict(set)
 with open(known_spells_path) as f:
     for line in f:
@@ -211,22 +220,36 @@ with open(known_spells_path) as f:
         guid, spell_id = line.split("\t")
         known_spells_by_guid[int(guid)].add(int(spell_id))
 
-with open(collection_mounts_defs_path) as f:
-    collection_mounts_defs = json.load(f)
+def detect_equip(equipped_ids, defs):
+    """Earned when the character has at least one item from EVERY slot
+    group equipped right now (each slot group is a list of interchangeable
+    item ids for that slot — e.g. a 10-/25-player token pair, or a
+    Horde/Alliance pair that happens to share a display name). A single-
+    item slot_groups entry ([[id]]) reduces to "is this exact item
+    equipped" — how Legendaries/Tabards/Heirlooms use this same function."""
+    earned = []
+    for entry in defs:
+        if all(any(item_id in equipped_ids for item_id in group) for group in entry["slot_groups"]):
+            earned.append(entry["id"])
+    return earned
 
-with open(collection_pets_defs_path) as f:
-    collection_pets_defs = json.load(f)
-
-def detect_by_known_spell(known_spell_ids, defs):
-    """Shared by Mounts and Pets: an entry is earned when the character
-    knows ANY ONE of its spell_ids — a multi-color mount (Netherwing Drake,
-    Qiraji Battle Tank) lists every color's spell id and completes on any
-    single color, never requiring every color."""
+def detect_spell(known_spell_ids, defs):
+    """Shared by Mounts and Companions: an entry is earned when the
+    character knows ANY ONE of its spell_ids — a multi-color mount
+    (Netherwing Drake, Qiraji Battle Tank) lists every color's spell id and
+    completes on any single color, never requiring every color."""
     earned = []
     for entry in defs:
         if any(spell_id in known_spell_ids for spell_id in entry["spell_ids"]):
             earned.append(entry["id"])
     return earned
+
+DETECTORS = {"equip": detect_equip, "spell": detect_spell}
+
+defs_by_key = {}
+for key, kind, defs_path in CATEGORIES:
+    with open(defs_path) as f:
+        defs_by_key[key] = json.load(f)
 
 # Sticky, with the original earned_at preserved: once earned, a collection
 # is never removed and its earned_at is never overwritten, even after the
@@ -240,18 +263,15 @@ def _earned_at_map(entries):
         for entry in entries
     }
 
-previous_collection_gear_by_guid = defaultdict(dict)
-previous_collection_mounts_by_guid = defaultdict(dict)
-previous_collection_pets_by_guid = defaultdict(dict)
+previous_by_key_by_guid = {key: defaultdict(dict) for key, _, _ in CATEGORIES}
 if os.path.exists(out_path):
     try:
         with open(out_path) as f:
             previous_data = json.load(f)
         for prev_char in previous_data.get("characters", []):
             prev_collections = prev_char.get("collections", {})
-            previous_collection_gear_by_guid[prev_char["guid"]] = _earned_at_map(prev_collections.get("gear", []))
-            previous_collection_mounts_by_guid[prev_char["guid"]] = _earned_at_map(prev_collections.get("mounts", []))
-            previous_collection_pets_by_guid[prev_char["guid"]] = _earned_at_map(prev_collections.get("pets", []))
+            for key, _, _ in CATEGORIES:
+                previous_by_key_by_guid[key][prev_char["guid"]] = _earned_at_map(prev_collections.get(key, []))
     except (json.JSONDecodeError, OSError):
         pass  # first run, or an unreadable/corrupt previous file — start fresh
 
@@ -268,31 +288,20 @@ for line in sys.stdin:
      faction, level, money, ap, ac, played) = fields
     guid = int(guid)
 
-    gear_earned_at = dict(previous_collection_gear_by_guid.get(guid, {}))
-    for gear_id in detect_collection_gear(equipped_by_guid.get(guid, set())):
-        gear_earned_at.setdefault(gear_id, generated_at)
-    collection_gear = [
-        {"id": gear_id, "earned_at": earned_at}
-        for gear_id, earned_at in sorted(gear_earned_at.items())
-    ]
-
+    equipped_ids = equipped_by_guid.get(guid, set())
     known_spells = known_spells_by_guid.get(guid, set())
 
-    mounts_earned_at = dict(previous_collection_mounts_by_guid.get(guid, {}))
-    for mount_id in detect_by_known_spell(known_spells, collection_mounts_defs):
-        mounts_earned_at.setdefault(mount_id, generated_at)
-    collection_mounts = [
-        {"id": mount_id, "earned_at": earned_at}
-        for mount_id, earned_at in sorted(mounts_earned_at.items())
-    ]
-
-    pets_earned_at = dict(previous_collection_pets_by_guid.get(guid, {}))
-    for pet_id in detect_by_known_spell(known_spells, collection_pets_defs):
-        pets_earned_at.setdefault(pet_id, generated_at)
-    collection_pets = [
-        {"id": pet_id, "earned_at": earned_at}
-        for pet_id, earned_at in sorted(pets_earned_at.items())
-    ]
+    collections = {}
+    for key, kind, _ in CATEGORIES:
+        detector = DETECTORS[kind]
+        current_ids = detector(equipped_ids if kind == "equip" else known_spells, defs_by_key[key])
+        earned_at_map = dict(previous_by_key_by_guid[key].get(guid, {}))
+        for entry_id in current_ids:
+            earned_at_map.setdefault(entry_id, generated_at)
+        collections[key] = [
+            {"id": entry_id, "earned_at": earned_at}
+            for entry_id, earned_at in sorted(earned_at_map.items())
+        ]
 
     characters.append({
         "guid": guid,
@@ -309,11 +318,7 @@ for line in sys.stdin:
         "achievement_count": int(ac),
         "played_time_seconds": int(played),
         "achievements": sorted(achievements_by_guid.get(guid, []), key=lambda a: a["id"]),
-        "collections": {
-            "gear": collection_gear,
-            "mounts": collection_mounts,
-            "pets": collection_pets,
-        },
+        "collections": collections,
     })
 
 data = {

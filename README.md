@@ -80,91 +80,148 @@ against this bundled data at render time.
 
 A custom tracking system for things worth showing off that aren't part of
 Blizzard's own achievement system — named and modeled after the
-"Collections" sections other WoW armory sites/apps have, for mounts,
-pets, toys, tabards, and so on. **Gear**, **Mounts**, and **Pets** are the
-collection categories built so far; more (Tabards, etc.) can be added
-later as siblings without changing anything already here. Nothing about
-this touches the AzerothCore server, DBC files, or the live game —
-detection and storage both happen entirely in the export scripts and
-`characters.json`.
+"Collections" sections other WoW armory sites/apps have. Two tenets drive
+every category here: **celebrate accomplishments, not the unobtained**
+(nothing here ever lists or counts what a character *doesn't* have — nothing
+to hide), and **mechanical, not subjective** — every category is generated
+straight from `item_template` by `scripts/generate-collections-data.py`
+(see that script's own docstring for the exact rule and rationale behind
+each category), never hand-picked or curated. Nothing about any of this
+touches the AzerothCore server, DBC files, or the live game — detection and
+storage both happen entirely in the export scripts and `characters.json`.
 
-#### Gear
+There are six categories: **Sets**, **Mounts**, **Companions**,
+**Legendaries**, **Tabards**, and **Heirlooms**. Adding a further one later
+is purely a data-file + one-line registration change (`COLLECTION_CATEGORIES`
+in `app.js`, the `CATEGORIES` list in the export scripts) — no other code
+changes.
 
-Equipping a full named gear set (raid tier sets, dungeon sets, and a
-handful of other notable sets), covering Classic through WotLK content.
+#### Sets
 
-- **Data source**: `assets/data/collections/gear.json`, a static list of
-  every curated set — id, display name, category/tier, class or armor
-  type, and the item ids that make it up (grouped by equipment slot, since
-  a few sets have more than one valid item per slot — e.g. a
-  faction-specific pair sharing one display name). Generated from the
-  [nexus-devs/wow-classic-items](https://github.com/nexus-devs/wow-classic-items)
-  dataset, cross-checked item by item against real tooltip set groupings,
-  acquisition source, and item level banding.
-- **Detection**: the export scripts (`scripts/export-characters-json.sh`,
-  and the equivalent block in `wowbackup.sh`) query each character's
-  *currently equipped* items only (`character_inventory.bag = 0`, slot
-  0-18 — not bags or bank) and check them against every set's item ids. A
-  set is earned when every one of its slot groups has a match currently
+Equipping every piece of a named gear set — every set in the game, not a
+curated subset, spanning Classic through WotLK content.
+
+- **Data source**: `assets/data/collections/sets.json`, mechanically
+  generated from `item_template.itemset` — id, display name (derived by
+  intersecting the whitespace-tokenized names of every piece, e.g.
+  "Breastplate of Valor" + "Helm of Valor" + ... → "of Valor"), and the
+  item ids that make it up, grouped by real equipment slot
+  (`InventoryType`) into `slot_groups`. Grouping by slot (rather than by
+  itemset id alone) recovers the intended "one piece per slot, any
+  interchangeable version counts" structure from itemsets that otherwise
+  bundle several interchangeable duplicates under one id (10-/25-player
+  tokens, valor-purchased duplicates, etc.).
+- **Detection**: the export scripts query each character's *currently
+  equipped* items only (`character_inventory.bag = 0`, slot 0-18 — not
+  bags or bank) and check them against every set's `slot_groups`. A set is
+  earned when at least one item from every slot group is currently
   equipped.
-- **Sticky, one-per-variant**: once earned, a Gear collection is
-  permanent — it's never re-derived from scratch, only added to. Each run
-  unions its freshly-detected sets into whatever was already recorded in
-  the previous `characters.json`, so swapping gear away later never
-  removes it. Each spec/faction/difficulty variant of a set (e.g. 10- and
-  25-player Wrath tier armor, or the Horde/Alliance names for Tier 9) is
-  its own separate collection.
-- Each is worth 10 points, shown under their own "Gear" grouping in the
-  detail panel's Collections section — kept entirely separate from the
-  real `achievement_points`/`achievement_count` totals, which only ever
-  reflect actual Blizzard achievements.
+- **Sticky**: once earned, a Set is permanent — never re-derived from
+  scratch, only added to. Each run unions its freshly-detected sets into
+  whatever was already recorded in the previous `characters.json`, so
+  swapping gear away later never removes it.
 
 #### Mounts
 
-A curated shortlist of rare/noteworthy mounts (not every mount in the
-game — see the design rationale below), covering Classic through WotLK
-content.
+Every mount in the game — ordinary trainer mounts included, not just rare
+or noteworthy ones — spanning Classic through WotLK content.
 
-- **Data source**: `assets/data/collections/mounts.json`, a static list of
-  every curated mount — id, display name, expansion, points, and the
-  mount-learn spell id(s) that grant it. A mount with multiple color
-  variants (Netherwing Drake, Qiraji Battle Tank) lists every variant's
-  spell id in `spell_ids`; knowing any single one is enough — collecting
-  every color is never required.
+- **Data source**: `assets/data/collections/mounts.json`, mechanically
+  generated from `item_template` (`class` 15, `subclass` 5 — the game's
+  own Mount item subclass) — id, display name, and the mount-learn spell
+  id(s) that grant it. A mount with multiple color variants (Netherwing
+  Drake, Qiraji Battle Tank) lists every variant's spell id in
+  `spell_ids`; knowing any single one is enough — collecting every color
+  is never required. It also includes a short list of items Blizzard
+  itself filed under the wrong item subclass (`Junk`, subclass 0) but
+  which pass the exact same "genuine teach-spell" mechanical test as every
+  other entry — see the script's docstring for how those were found and
+  verified, not guessed from item names.
+- **The one deliberate exception**: a small, explicitly non-mechanical
+  list (`TRAINER_TAUGHT_MOUNTS`) for mounts with no backing item at all —
+  a Paladin's Warhorse/Charger, learned directly from the class trainer as
+  a spell (a Warlock's Felsteed/Dreadsteed, a Death Knight's Acherus
+  Deathcharger, and possibly others work the same way but aren't in the
+  list). There's no query that can enumerate "spells that are secretly
+  mounts with no item," so this only grows when a specific character's
+  real, known mount turns out to need it — never as a speculative
+  completeness pass — each one confirmed in-game via `.lookup spell` since
+  `spell_dbc` is unpopulated for standard spells on this server.
 - **Detection**: the export scripts query each character's *known spells*
   (`character_spell`, filtered server-side to just the mount-learn spell
   ids this list cares about) and check for a match against each mount's
   `spell_ids`. Unlike `character_achievement`, `character_spell` has no
   timestamp column at all, so there's no real acquisition date to read —
-  same sticky-timestamp fallback as Gear (see below).
-- **Sticky**: once earned, a Mount collection is permanent, following the
-  same union-with-previous-run pattern as Gear.
-- Curation is deliberately kept in the data file, not the code or schema:
-  the `characters.json` key is the neutral `collections.mounts` (never
-  something narrower like `collections.rare_mounts`), so widening from a
-  curated shortlist to literally every mount later is purely a
-  `mounts.json` data change.
+  same sticky-timestamp fallback as Sets (see below).
+- **Sticky**: once earned, a Mount is permanent, following the same
+  union-with-previous-run pattern as Sets.
+- A small number of mounts predate this app and were backfilled once with
+  their real acquisition dates (from memory/screenshots, not detection
+  time) — see `scripts/apply-date-corrections.py`.
 
-#### Pets
+#### Companions
 
-A curated shortlist of rare/noteworthy non-combat companion pets, same bar
-as Mounts. Mostly Classic/TBC content — WotLK didn't add anything that
-survived verification as a genuine, obtainable-at-3.3.5a rare pet.
+Every non-combat companion pet in the game, same "no curation" bar as
+Mounts, spanning Classic through WotLK content.
 
-- **Data source**: `assets/data/collections/pets.json`, same shape as
-  `mounts.json` — id, display name, expansion, points, and the
-  learn-companion spell id(s).
-- **Detection**: identical mechanism to Mounts — a pet's teach item grants
-  a permanently known `character_spell` entry, same as a mount. Both
-  categories are detected from one shared known-spells query (see below),
-  just checked against two different data files.
-- **Sticky**: same union-with-previous-run pattern as Gear and Mounts.
-- One real pet from the original candidate list, Blood Parrot, was cut
-  before shipping: unlike every other entry, it's summoned by *using* a
-  worn item (unequipping it despawns the pet) rather than by knowing a
-  permanent spell, so `character_spell`-based detection can't see it. It
-  would need a different detection mechanism (inventory + reputation) to
-  ever be added.
+- **Data source**: `assets/data/collections/companions.json`, same
+  generation mechanism as Mounts — `item_template` `class` 15, `subclass`
+  2 (the game's own Companion Pet item subclass), plus the same short list
+  of genuinely-miscategorized `Junk`-subclass items.
+- **Detection**: identical mechanism to Mounts — a companion's teach item
+  grants a permanently known `character_spell` entry, same as a mount.
+  Both categories are detected from one shared known-spells query (see
+  below), just checked against two different data files.
+- **Sticky**: same union-with-previous-run pattern as Sets and Mounts.
+- One real companion, Blood Parrot, can't be detected this way: unlike
+  every other entry, it's summoned by *using* a worn item (unequipping it
+  despawns the pet) rather than by knowing a permanent spell, so
+  `character_spell`-based detection can't see it. It would need a
+  different detection mechanism (inventory + reputation) to ever be added.
+
+#### Legendaries
+
+Equipping any Legendary-quality (orange, `quality` 5) item.
+
+- **Data source**: `assets/data/collections/legendaries.json`, mechanically
+  generated from `item_template` — id, display name, and a single-item
+  `slot_groups` entry (`[[item_id]]`), the same shape Sets uses, filtered
+  to `InventoryType != 0` so quest components/reagents that can never
+  actually be equipped don't clutter the file.
+- **Detection/sticky**: identical mechanism to Sets — "equipped, all slot
+  groups satisfied" reduces to "equipped, this one item" when there's only
+  one group of one item, so the same detection function and sticky
+  behavior apply unchanged. Equipped-only, not merely owned — useful even
+  for a raid leader who collects an item without ever equipping it
+  themselves.
+
+#### Tabards
+
+Equipping any Tabard (`InventoryType` 19).
+
+- **Data source**: `assets/data/collections/tabards.json`, same generation
+  mechanism and shape as Legendaries.
+- **Detection/sticky**: identical mechanism to Sets/Legendaries.
+
+#### Heirlooms
+
+Equipping any Heirloom-quality (`quality` 7) item — displayed differently
+from every other category, see below.
+
+- **Data source**: `assets/data/collections/heirlooms.json`, same
+  generation mechanism and shape as Legendaries.
+- **Detection/storage**: identical mechanism to Legendaries — per
+  character, equipped-only, sticky. Stored in `characters.json` exactly
+  like every other category.
+- **Display is faction-level, not per-character**: heirlooms are
+  Bind-on-Account and get mailed between characters, so showing them
+  inside each character's own panel would make the same heirloom look
+  "earned" over and over as it's handed around the roster. `app.js`
+  instead unions every character's detections within a faction into one
+  family-wide list (keeping the earliest `earned_at` seen for each item —
+  when the family first had it) and renders it once, under that faction's
+  character list. This is purely a rendering choice — the underlying data
+  is stored identically to Legendaries/Tabards.
 
 ### `characters.json` shape
 
@@ -192,15 +249,20 @@ survived verification as a genuine, obtainable-at-3.3.5a rare pet.
         {"id": 556, "earned_at": null}
       ],
       "collections": {
-        "gear": [
-          {"id": "t0_warrior", "earned_at": "2026-03-01T20:15:00Z"},
-          {"id": "t1_warrior", "earned_at": "2026-06-19T23:04:41Z"}
+        "sets": [
+          {"id": "itemset_209", "earned_at": "2026-03-01T20:15:00Z"},
+          {"id": "itemset_218", "earned_at": "2026-06-19T23:04:41Z"}
         ],
         "mounts": [
-          {"id": "deathchargers_reins", "earned_at": "2026-04-12T09:30:00Z"}
+          {"id": "item_13335", "earned_at": "2026-04-12T09:30:00Z"}
         ],
-        "pets": [
-          {"id": "captured_firefly", "earned_at": "2026-05-02T16:40:00Z"}
+        "companions": [
+          {"id": "item_29960", "earned_at": "2026-05-02T16:40:00Z"}
+        ],
+        "legendaries": [],
+        "tabards": [],
+        "heirlooms": [
+          {"id": "item_42991", "earned_at": "2026-02-14T08:00:00Z"}
         ]
       }
     }
@@ -221,15 +283,17 @@ report: `acore_characters.character_achievement_points(guid, total_points,
 total_achievements)`.
 
 `collections` is the custom, companion-app-only tracking system — see
-[Collections](#collections) above. `collections.gear`, `collections.mounts`,
-and `collections.pets` are the Gear, Mounts, and Pets categories' earned
-entries; future categories (tabards, etc.) would land as further sibling
-keys. Unlike `achievements`, these
-are never recomputed from scratch: once an entry appears here, the export
-scripts always carry it forward, even if the character no longer has the
-set equipped — and `earned_at`, stamped the first time it's detected, is
-never overwritten on later runs either, since there's no Blizzard-side
-date to read for something that isn't a real achievement.
+[Collections](#collections) above. `collections.sets`, `.mounts`,
+`.companions`, `.legendaries`, `.tabards`, and `.heirlooms` are each
+category's earned entries; a future category would land as a further
+sibling key. Unlike `achievements`, these are never recomputed from
+scratch: once an entry appears here, the export scripts always carry it
+forward, even if the character no longer has the item equipped — and
+`earned_at`, stamped the first time it's detected, is never overwritten on
+later runs either, since there's no Blizzard-side date to read for
+something that isn't a real achievement (except for a small number of
+one-time, hand-verified corrections — see `scripts/apply-date-corrections.py`
+and the Mounts section above).
 
 ### Privacy note
 
@@ -277,21 +341,20 @@ right after the existing "Saving progress report..." block (i.e. right
 after the `} > "$BACKUP_DIR/playtime_by_character.txt" || { ... }` line)
 and before the "Compressing..." step.
 
-It also detects the **Gear**, **Mounts**, and **Pets** collections (see
-[Collections](#collections) above): a second query pulls each character's
-currently-equipped items and checks them against
-`assets/data/collections/gear.json`; a third pulls each character's known
-spells (filtered to just the learn-spell ids `mounts.json`/`pets.json` care
-about — one shared query for both categories) and checks them against
-`assets/data/collections/mounts.json` and `assets/data/collections/pets.json`
-separately. All three union any newly-earned entries into whatever was
-already published to `wow-armory-data/characters.json` last run, so earned
-entries are never lost — Gear even after the gear is swapped away, Mounts
-and Pets regardless (neither can be un-learned). This means
+It also detects all six Collections categories (see [Collections](#collections)
+above): a second query pulls each character's currently-equipped items and
+checks them against the "equip" categories (Sets, Legendaries, Tabards,
+Heirlooms); a third pulls each character's known spells (filtered to just
+the learn-spell ids Mounts/Companions care about — one shared query for
+both) and checks them against those two. Every category unions any
+newly-earned entries into whatever was already published to
+`wow-armory-data/characters.json` last run, so earned entries are never
+lost — the equip categories even after the item is unequipped, Mounts and
+Companions regardless (neither can be un-learned). This means
 `wow-armory-data` needs the repo's `assets/data/` folder present — since
 it's a full clone of this repo, a one-time `git pull` there after this
-feature first ships is enough to pick it up (and again any time
-`gear.json`, `mounts.json`, or `pets.json` changes).
+feature first ships is enough to pick it up (and again any time a
+`assets/data/collections/*.json` file changes).
 
 ```bash
 echo "  Saving characters.json..."
@@ -308,9 +371,12 @@ REPO_DATA_DIR="/home/deck/wow-armory-data"
 (cd "$REPO_DATA_DIR" && git fetch origin main && git reset --hard origin/main) \
   || echo "  Warning: failed to sync $REPO_DATA_DIR with origin/main before publishing (non-fatal)"
 
-COLLECTION_GEAR_DEFS="$REPO_DATA_DIR/assets/data/collections/gear.json"
+COLLECTION_SETS_DEFS="$REPO_DATA_DIR/assets/data/collections/sets.json"
 COLLECTION_MOUNTS_DEFS="$REPO_DATA_DIR/assets/data/collections/mounts.json"
-COLLECTION_PETS_DEFS="$REPO_DATA_DIR/assets/data/collections/pets.json"
+COLLECTION_COMPANIONS_DEFS="$REPO_DATA_DIR/assets/data/collections/companions.json"
+COLLECTION_LEGENDARIES_DEFS="$REPO_DATA_DIR/assets/data/collections/legendaries.json"
+COLLECTION_TABARDS_DEFS="$REPO_DATA_DIR/assets/data/collections/tabards.json"
+COLLECTION_HEIRLOOMS_DEFS="$REPO_DATA_DIR/assets/data/collections/heirlooms.json"
 ACHIEVEMENTS_TMP="$(mktemp)"
 EQUIPPED_TMP="$(mktemp)"
 KNOWN_SPELLS_TMP="$(mktemp)"
@@ -330,13 +396,13 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   WHERE ci.bag = 0 AND ci.slot BETWEEN 0 AND 18
     AND a.username NOT LIKE 'RNDBOT%';
 " > "$EQUIPPED_TMP"
-# Only the spell ids that actually matter for Mounts/Pets detection — a
-# max-level character can know thousands of spells, so filtering
+# Only the spell ids that actually matter for Mounts/Companions detection —
+# a max-level character can know thousands of spells, so filtering
 # server-side keeps this cheap. Both categories share this one query.
 SPELL_COLLECTION_IDS="$(python3 -c "
 import json
 ids = set()
-for path in ('$COLLECTION_MOUNTS_DEFS', '$COLLECTION_PETS_DEFS'):
+for path in ('$COLLECTION_MOUNTS_DEFS', '$COLLECTION_COMPANIONS_DEFS'):
     with open(path) as f:
         defs = json.load(f)
     ids.update(str(s) for d in defs for s in d['spell_ids'])
@@ -422,23 +488,9 @@ with open('$EQUIPPED_TMP') as f:
         guid, item_entry = line.split('\t')
         equipped_by_guid[int(guid)].add(int(item_entry))
 
-with open('$COLLECTION_GEAR_DEFS') as f:
-    collection_gear_defs = json.load(f)
-
-def detect_collection_gear(equipped_ids):
-    # Earned when the character has at least one item from EVERY slot group
-    # equipped right now (each slot group lists interchangeable item ids for
-    # that slot — a 'Conquest'-suffixed variant and its plain counterpart, or
-    # a Horde/Alliance pair sharing one display name).
-    earned = []
-    for gs in collection_gear_defs:
-        if all(any(item_id in equipped_ids for item_id in group) for group in gs['slot_groups']):
-            earned.append(gs['id'])
-    return earned
-
-# Known mount-learn spells per character (character_spell has no per-row
-# timestamp, unlike character_achievement — that's why mounts use the same
-# sticky-timestamp fallback as Gear below).
+# Known mount/companion-learn spells per character (character_spell has no
+# per-row timestamp, unlike character_achievement — that's why every
+# collection category uses the same sticky-timestamp fallback below).
 known_spells_by_guid = defaultdict(set)
 with open('$KNOWN_SPELLS_TMP') as f:
     for line in f:
@@ -448,22 +500,52 @@ with open('$KNOWN_SPELLS_TMP') as f:
         guid, spell_id = line.split('\t')
         known_spells_by_guid[int(guid)].add(int(spell_id))
 
-with open('$COLLECTION_MOUNTS_DEFS') as f:
-    collection_mounts_defs = json.load(f)
+# (json key, detection kind, defs path) — 'equip' entries have slot_groups
+# (matched against currently-equipped items), 'spell' entries have
+# spell_ids (matched against known character_spell rows). Heirlooms are
+# stored here exactly like Legendaries (per-character, equipped-only,
+# sticky) — the faction-level de-duplicated display (heirlooms are
+# Bind-on-Account and can be mailed between characters) is purely an
+# app.js rendering concern, not a detection/storage one.
+CATEGORIES = [
+    ('sets', 'equip', '$COLLECTION_SETS_DEFS'),
+    ('mounts', 'spell', '$COLLECTION_MOUNTS_DEFS'),
+    ('companions', 'spell', '$COLLECTION_COMPANIONS_DEFS'),
+    ('legendaries', 'equip', '$COLLECTION_LEGENDARIES_DEFS'),
+    ('tabards', 'equip', '$COLLECTION_TABARDS_DEFS'),
+    ('heirlooms', 'equip', '$COLLECTION_HEIRLOOMS_DEFS'),
+]
 
-with open('$COLLECTION_PETS_DEFS') as f:
-    collection_pets_defs = json.load(f)
+def detect_equip(equipped_ids, defs):
+    # Earned when the character has at least one item from EVERY slot group
+    # equipped right now (each slot group lists interchangeable item ids for
+    # that slot — a 10-/25-player token pair, or a Horde/Alliance pair
+    # sharing one display name). A single-item slot_groups entry ([[id]])
+    # reduces to 'is this exact item equipped' — how Legendaries/Tabards/
+    # Heirlooms use this same function.
+    earned = []
+    for entry in defs:
+        if all(any(item_id in equipped_ids for item_id in group) for group in entry['slot_groups']):
+            earned.append(entry['id'])
+    return earned
 
-def detect_by_known_spell(known_spell_ids, defs):
-    # Shared by Mounts and Pets: earned when the character knows ANY ONE of
-    # its spell_ids — multi-color mounts (Netherwing Drake, Qiraji Battle
-    # Tank) list every color's spell id and complete on any single color,
-    # never requiring every color.
+def detect_spell(known_spell_ids, defs):
+    # Shared by Mounts and Companions: earned when the character knows ANY
+    # ONE of its spell_ids — multi-color mounts (Netherwing Drake, Qiraji
+    # Battle Tank) list every color's spell id and complete on any single
+    # color, never requiring every color.
     earned = []
     for entry in defs:
         if any(spell_id in known_spell_ids for spell_id in entry['spell_ids']):
             earned.append(entry['id'])
     return earned
+
+DETECTORS = {'equip': detect_equip, 'spell': detect_spell}
+
+defs_by_key = {}
+for key, kind, defs_path in CATEGORIES:
+    with open(defs_path) as f:
+        defs_by_key[key] = json.load(f)
 
 # Sticky, with the original earned_at preserved: once earned, a collection
 # is never removed and its earned_at is never overwritten, even after the
@@ -477,9 +559,7 @@ def _earned_at_map(entries):
         for entry in entries
     }
 
-previous_collection_gear_by_guid = defaultdict(dict)
-previous_collection_mounts_by_guid = defaultdict(dict)
-previous_collection_pets_by_guid = defaultdict(dict)
+previous_by_key_by_guid = {key: defaultdict(dict) for key, _, _ in CATEGORIES}
 prev_path = '$REPO_DATA_DIR/characters.json'
 if os.path.exists(prev_path):
     try:
@@ -487,9 +567,8 @@ if os.path.exists(prev_path):
             previous_data = json.load(f)
         for prev_char in previous_data.get('characters', []):
             prev_collections = prev_char.get('collections', {})
-            previous_collection_gear_by_guid[prev_char['guid']] = _earned_at_map(prev_collections.get('gear', []))
-            previous_collection_mounts_by_guid[prev_char['guid']] = _earned_at_map(prev_collections.get('mounts', []))
-            previous_collection_pets_by_guid[prev_char['guid']] = _earned_at_map(prev_collections.get('pets', []))
+            for key, _, _ in CATEGORIES:
+                previous_by_key_by_guid[key][prev_char['guid']] = _earned_at_map(prev_collections.get(key, []))
     except (json.JSONDecodeError, OSError):
         pass  # first run, or an unreadable/corrupt previous file — start fresh
 
@@ -504,31 +583,20 @@ for line in sys.stdin:
      faction, level, money, ap, ac, played) = line.split('\t')
     guid = int(guid)
 
-    gear_earned_at = dict(previous_collection_gear_by_guid.get(guid, {}))
-    for gear_id in detect_collection_gear(equipped_by_guid.get(guid, set())):
-        gear_earned_at.setdefault(gear_id, generated_at)
-    collection_gear = [
-        {'id': gear_id, 'earned_at': earned_at}
-        for gear_id, earned_at in sorted(gear_earned_at.items())
-    ]
-
+    equipped_ids = equipped_by_guid.get(guid, set())
     known_spells = known_spells_by_guid.get(guid, set())
 
-    mounts_earned_at = dict(previous_collection_mounts_by_guid.get(guid, {}))
-    for mount_id in detect_by_known_spell(known_spells, collection_mounts_defs):
-        mounts_earned_at.setdefault(mount_id, generated_at)
-    collection_mounts = [
-        {'id': mount_id, 'earned_at': earned_at}
-        for mount_id, earned_at in sorted(mounts_earned_at.items())
-    ]
-
-    pets_earned_at = dict(previous_collection_pets_by_guid.get(guid, {}))
-    for pet_id in detect_by_known_spell(known_spells, collection_pets_defs):
-        pets_earned_at.setdefault(pet_id, generated_at)
-    collection_pets = [
-        {'id': pet_id, 'earned_at': earned_at}
-        for pet_id, earned_at in sorted(pets_earned_at.items())
-    ]
+    collections = {}
+    for key, kind, _ in CATEGORIES:
+        detector = DETECTORS[kind]
+        current_ids = detector(equipped_ids if kind == 'equip' else known_spells, defs_by_key[key])
+        earned_at_map = dict(previous_by_key_by_guid[key].get(guid, {}))
+        for entry_id in current_ids:
+            earned_at_map.setdefault(entry_id, generated_at)
+        collections[key] = [
+            {'id': entry_id, 'earned_at': earned_at}
+            for entry_id, earned_at in sorted(earned_at_map.items())
+        ]
 
     characters.append({
         'guid': guid,
@@ -545,11 +613,7 @@ for line in sys.stdin:
         'achievement_count': int(ac),
         'played_time_seconds': int(played),
         'achievements': sorted(achievements_by_guid.get(guid, []), key=lambda a: a['id']),
-        'collections': {
-            'gear': collection_gear,
-            'mounts': collection_mounts,
-            'pets': collection_pets,
-        },
+        'collections': collections,
     })
 
 with open('$BACKUP_DIR/characters.json', 'w') as f:

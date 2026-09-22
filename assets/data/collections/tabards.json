@@ -1,0 +1,686 @@
+[
+  {
+    "id": "item_31779",
+    "name": "Aldor Tabard",
+    "slot_groups": [
+      [
+        31779
+      ]
+    ]
+  },
+  {
+    "id": "item_20132",
+    "name": "Arathor Battle Tabard",
+    "slot_groups": [
+      [
+        20132
+      ]
+    ]
+  },
+  {
+    "id": "item_46874",
+    "name": "Argent Crusader's Tabard",
+    "slot_groups": [
+      [
+        46874
+      ]
+    ]
+  },
+  {
+    "id": "item_20131",
+    "name": "Battle Tabard of the Defilers",
+    "slot_groups": [
+      [
+        20131
+      ]
+    ]
+  },
+  {
+    "id": "item_25549",
+    "name": "Blood Knight Tabard",
+    "slot_groups": [
+      [
+        25549
+      ]
+    ]
+  },
+  {
+    "id": "item_31804",
+    "name": "Cenarion Expedition Tabard",
+    "slot_groups": [
+      [
+        31804
+      ]
+    ]
+  },
+  {
+    "id": "item_36941",
+    "name": "Competitor's Tabard",
+    "slot_groups": [
+      [
+        36941
+      ]
+    ]
+  },
+  {
+    "id": "item_31776",
+    "name": "Consortium Tabard",
+    "slot_groups": [
+      [
+        31776
+      ]
+    ]
+  },
+  {
+    "id": "item_45579",
+    "name": "Darnassus Tabard",
+    "slot_groups": [
+      [
+        45579
+      ]
+    ]
+  },
+  {
+    "id": "item_31279",
+    "name": "Enchanted Illidari Tabard",
+    "slot_groups": [
+      [
+        31279
+      ]
+    ]
+  },
+  {
+    "id": "item_45580",
+    "name": "Exodar Tabard",
+    "slot_groups": [
+      [
+        45580
+      ]
+    ]
+  },
+  {
+    "id": "item_19031",
+    "name": "Frostwolf Battle Tabard",
+    "slot_groups": [
+      [
+        19031
+      ]
+    ]
+  },
+  {
+    "id": "item_45983",
+    "name": "Furious Gladiator's Tabard",
+    "slot_groups": [
+      [
+        45983
+      ]
+    ]
+  },
+  {
+    "id": "item_45578",
+    "name": "Gnomeregan Tabard",
+    "slot_groups": [
+      [
+        45578
+      ]
+    ]
+  },
+  {
+    "id": "item_31404",
+    "name": "Green Trophy Tabard of the Illidari",
+    "slot_groups": [
+      [
+        31404
+      ]
+    ]
+  },
+  {
+    "id": "item_5976",
+    "name": "Guild Tabard",
+    "slot_groups": [
+      [
+        5976
+      ]
+    ]
+  },
+  {
+    "id": "item_23999",
+    "name": "Honor Hold Tabard",
+    "slot_groups": [
+      [
+        23999
+      ]
+    ]
+  },
+  {
+    "id": "item_45577",
+    "name": "Ironforge Tabard",
+    "slot_groups": [
+      [
+        45577
+      ]
+    ]
+  },
+  {
+    "id": "item_31777",
+    "name": "Keepers of Time Tabard",
+    "slot_groups": [
+      [
+        31777
+      ]
+    ]
+  },
+  {
+    "id": "item_15198",
+    "name": "Knight's Colors",
+    "slot_groups": [
+      [
+        15198
+      ]
+    ]
+  },
+  {
+    "id": "item_31774",
+    "name": "Kurenai Tabard",
+    "slot_groups": [
+      [
+        31774
+      ]
+    ]
+  },
+  {
+    "id": "item_43300",
+    "name": "Loremaster's Colors",
+    "slot_groups": [
+      [
+        43300
+      ]
+    ]
+  },
+  {
+    "id": "item_31778",
+    "name": "Lower City Tabard",
+    "slot_groups": [
+      [
+        31778
+      ]
+    ]
+  },
+  {
+    "id": "item_31773",
+    "name": "Mag'har Tabard",
+    "slot_groups": [
+      [
+        31773
+      ]
+    ]
+  },
+  {
+    "id": "item_32828",
+    "name": "Ogri'la Tabard",
+    "slot_groups": [
+      [
+        32828
+      ]
+    ]
+  },
+  {
+    "id": "item_45581",
+    "name": "Orgrimmar Tabard",
+    "slot_groups": [
+      [
+        45581
+      ]
+    ]
+  },
+  {
+    "id": "item_15196",
+    "name": "Private's Tabard",
+    "slot_groups": [
+      [
+        15196
+      ]
+    ]
+  },
+  {
+    "id": "item_31405",
+    "name": "Purple Trophy Tabard of the Illidari",
+    "slot_groups": [
+      [
+        31405
+      ]
+    ]
+  },
+  {
+    "id": "item_49086",
+    "name": "Relentless Gladiator's Tabard",
+    "slot_groups": [
+      [
+        49086
+      ]
+    ]
+  },
+  {
+    "id": "item_15197",
+    "name": "Scout's Tabard",
+    "slot_groups": [
+      [
+        15197
+      ]
+    ]
+  },
+  {
+    "id": "item_31780",
+    "name": "Scryers Tabard",
+    "slot_groups": [
+      [
+        31780
+      ]
+    ]
+  },
+  {
+    "id": "item_45582",
+    "name": "Sen'jin Tabard",
+    "slot_groups": [
+      [
+        45582
+      ]
+    ]
+  },
+  {
+    "id": "item_31781",
+    "name": "Sha'tar Tabard",
+    "slot_groups": [
+      [
+        31781
+      ]
+    ]
+  },
+  {
+    "id": "item_46817",
+    "name": "Silver Covenant Tabard",
+    "slot_groups": [
+      [
+        46817
+      ]
+    ]
+  },
+  {
+    "id": "item_45585",
+    "name": "Silvermoon City Tabard",
+    "slot_groups": [
+      [
+        45585
+      ]
+    ]
+  },
+  {
+    "id": "item_19506",
+    "name": "Silverwing Battle Tabard",
+    "slot_groups": [
+      [
+        19506
+      ]
+    ]
+  },
+  {
+    "id": "item_32445",
+    "name": "Skyguard Tabard",
+    "slot_groups": [
+      [
+        32445
+      ]
+    ]
+  },
+  {
+    "id": "item_31775",
+    "name": "Sporeggar Tabard",
+    "slot_groups": [
+      [
+        31775
+      ]
+    ]
+  },
+  {
+    "id": "item_15199",
+    "name": "Stone Guard's Herald",
+    "slot_groups": [
+      [
+        15199
+      ]
+    ]
+  },
+  {
+    "id": "item_19032",
+    "name": "Stormpike Battle Tabard",
+    "slot_groups": [
+      [
+        19032
+      ]
+    ]
+  },
+  {
+    "id": "item_45574",
+    "name": "Stormwind Tabard",
+    "slot_groups": [
+      [
+        45574
+      ]
+    ]
+  },
+  {
+    "id": "item_46818",
+    "name": "Sunreaver Tabard",
+    "slot_groups": [
+      [
+        46818
+      ]
+    ]
+  },
+  {
+    "id": "item_38312",
+    "name": "Tabard of Brilliance",
+    "slot_groups": [
+      [
+        38312
+      ]
+    ]
+  },
+  {
+    "id": "item_43349",
+    "name": "Tabard of Brute Force",
+    "slot_groups": [
+      [
+        43349
+      ]
+    ]
+  },
+  {
+    "id": "item_49054",
+    "name": "Tabard of Conquest",
+    "slot_groups": [
+      [
+        49054
+      ]
+    ]
+  },
+  {
+    "id": "item_49052",
+    "name": "Tabard of Conquest",
+    "slot_groups": [
+      [
+        49052
+      ]
+    ]
+  },
+  {
+    "id": "item_23705",
+    "name": "Tabard of Flame",
+    "slot_groups": [
+      [
+        23705
+      ]
+    ]
+  },
+  {
+    "id": "item_23709",
+    "name": "Tabard of Frost",
+    "slot_groups": [
+      [
+        23709
+      ]
+    ]
+  },
+  {
+    "id": "item_38313",
+    "name": "Tabard of Fury",
+    "slot_groups": [
+      [
+        38313
+      ]
+    ]
+  },
+  {
+    "id": "item_38309",
+    "name": "Tabard of Nature",
+    "slot_groups": [
+      [
+        38309
+      ]
+    ]
+  },
+  {
+    "id": "item_11364",
+    "name": "Tabard of Stormwind",
+    "slot_groups": [
+      [
+        11364
+      ]
+    ]
+  },
+  {
+    "id": "item_35280",
+    "name": "Tabard of Summer Flames",
+    "slot_groups": [
+      [
+        35280
+      ]
+    ]
+  },
+  {
+    "id": "item_35279",
+    "name": "Tabard of Summer Skies",
+    "slot_groups": [
+      [
+        35279
+      ]
+    ]
+  },
+  {
+    "id": "item_40643",
+    "name": "Tabard of the Achiever",
+    "slot_groups": [
+      [
+        40643
+      ]
+    ]
+  },
+  {
+    "id": "item_38310",
+    "name": "Tabard of the Arcane",
+    "slot_groups": [
+      [
+        38310
+      ]
+    ]
+  },
+  {
+    "id": "item_43154",
+    "name": "Tabard of the Argent Crusade",
+    "slot_groups": [
+      [
+        43154
+      ]
+    ]
+  },
+  {
+    "id": "item_22999",
+    "name": "Tabard of the Argent Dawn",
+    "slot_groups": [
+      [
+        22999
+      ]
+    ]
+  },
+  {
+    "id": "item_38314",
+    "name": "Tabard of the Defender",
+    "slot_groups": [
+      [
+        38314
+      ]
+    ]
+  },
+  {
+    "id": "item_43155",
+    "name": "Tabard of the Ebon Blade",
+    "slot_groups": [
+      [
+        43155
+      ]
+    ]
+  },
+  {
+    "id": "item_43348",
+    "name": "Tabard of the Explorer",
+    "slot_groups": [
+      [
+        43348
+      ]
+    ]
+  },
+  {
+    "id": "item_24344",
+    "name": "Tabard of the Hand",
+    "slot_groups": [
+      [
+        24344
+      ]
+    ]
+  },
+  {
+    "id": "item_43157",
+    "name": "Tabard of the Kirin Tor",
+    "slot_groups": [
+      [
+        43157
+      ]
+    ]
+  },
+  {
+    "id": "item_52252",
+    "name": "Tabard of the Lightbringer",
+    "slot_groups": [
+      [
+        52252
+      ]
+    ]
+  },
+  {
+    "id": "item_28788",
+    "name": "Tabard of the Protector",
+    "slot_groups": [
+      [
+        28788
+      ]
+    ]
+  },
+  {
+    "id": "item_23192",
+    "name": "Tabard of the Scarlet Crusade",
+    "slot_groups": [
+      [
+        23192
+      ]
+    ]
+  },
+  {
+    "id": "item_35221",
+    "name": "Tabard of the Shattered Sun",
+    "slot_groups": [
+      [
+        35221
+      ]
+    ]
+  },
+  {
+    "id": "item_38311",
+    "name": "Tabard of the Void",
+    "slot_groups": [
+      [
+        38311
+      ]
+    ]
+  },
+  {
+    "id": "item_43156",
+    "name": "Tabard of the Wyrmrest Accord",
+    "slot_groups": [
+      [
+        43156
+      ]
+    ]
+  },
+  {
+    "id": "item_34158",
+    "name": "Team A Tabard",
+    "slot_groups": [
+      [
+        34158
+      ]
+    ]
+  },
+  {
+    "id": "item_24004",
+    "name": "Thrallmar Tabard",
+    "slot_groups": [
+      [
+        24004
+      ]
+    ]
+  },
+  {
+    "id": "item_45584",
+    "name": "Thunder Bluff Tabard",
+    "slot_groups": [
+      [
+        45584
+      ]
+    ]
+  },
+  {
+    "id": "item_45583",
+    "name": "Undercity Tabard",
+    "slot_groups": [
+      [
+        45583
+      ]
+    ]
+  },
+  {
+    "id": "item_3557",
+    "name": "Unused Tabard of Chow",
+    "slot_groups": [
+      [
+        3557
+      ]
+    ]
+  },
+  {
+    "id": "item_23710",
+    "name": "Upperdeck Tabard #3",
+    "slot_groups": [
+      [
+        23710
+      ]
+    ]
+  },
+  {
+    "id": "item_19505",
+    "name": "Warsong Battle Tabard",
+    "slot_groups": [
+      [
+        19505
+      ]
+    ]
+  },
+  {
+    "id": "item_51534",
+    "name": "Wrathful Gladiator's Tabard",
+    "slot_groups": [
+      [
+        51534
+      ]
+    ]
+  }
+]

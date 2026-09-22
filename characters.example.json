@@ -62,46 +62,60 @@
         }
       ],
       "collections": {
-        "gear": [
+        "sets": [
           {
-            "id": "t0_warrior",
+            "id": "itemset_209",
             "earned_at": "2025-11-17T15:09:00Z"
           },
           {
-            "id": "t05_plate_a",
-            "earned_at": "2026-09-11T18:16:00Z"
-          },
-          {
-            "id": "t1_warrior",
+            "id": "itemset_218",
             "earned_at": "2026-02-10T13:43:00Z"
           },
           {
-            "id": "t2_warrior",
+            "id": "itemset_523",
             "earned_at": "2026-06-27T17:12:00Z"
           }
         ],
         "mounts": [
           {
-            "id": "deathchargers_reins",
+            "id": "item_13335",
             "earned_at": "2025-12-02T22:41:00Z"
           },
           {
-            "id": "invincibles_reins",
+            "id": "item_50818",
             "earned_at": "2026-08-14T21:03:00Z"
           },
           {
-            "id": "grand_ice_mammoth",
+            "id": "item_43961",
             "earned_at": "2026-05-09T19:27:00Z"
           }
         ],
-        "pets": [
+        "companions": [
           {
-            "id": "hyacinth_macaw",
+            "id": "item_8494",
             "earned_at": "2025-12-20T17:44:00Z"
           },
           {
-            "id": "magical_crawdad",
+            "id": "item_27445",
             "earned_at": "2026-04-03T20:11:00Z"
+          }
+        ],
+        "legendaries": [
+          {
+            "id": "item_19019",
+            "earned_at": "2026-09-11T18:16:00Z"
+          }
+        ],
+        "tabards": [
+          {
+            "id": "item_22999",
+            "earned_at": "2026-01-05T12:00:00Z"
+          }
+        ],
+        "heirlooms": [
+          {
+            "id": "item_42991",
+            "earned_at": "2025-11-20T09:30:00Z"
           }
         ]
       }
@@ -159,34 +173,44 @@
         }
       ],
       "collections": {
-        "gear": [
+        "sets": [
           {
-            "id": "t0_druid",
+            "id": "itemset_631",
             "earned_at": "2025-10-11T16:11:00Z"
           },
           {
-            "id": "t05_leather_b",
+            "id": "itemset_214",
             "earned_at": "2026-04-19T21:06:00Z"
           }
         ],
         "mounts": [
           {
-            "id": "netherwing_drake",
+            "id": "item_32858",
             "earned_at": "2026-01-30T18:52:00Z"
           },
           {
-            "id": "raven_lord",
+            "id": "item_32768",
             "earned_at": "2026-06-02T14:09:00Z"
           }
         ],
-        "pets": [
+        "companions": [
           {
-            "id": "disgusting_oozeling",
+            "id": "item_20769",
             "earned_at": "2026-02-14T22:07:00Z"
           },
           {
-            "id": "captured_firefly",
+            "id": "item_29960",
             "earned_at": "2026-07-19T15:53:00Z"
+          }
+        ],
+        "heirlooms": [
+          {
+            "id": "item_42991",
+            "earned_at": "2026-04-19T21:06:00Z"
+          },
+          {
+            "id": "item_42947",
+            "earned_at": "2026-05-02T10:15:00Z"
           }
         ]
       }
@@ -269,42 +293,44 @@
         }
       ],
       "collections": {
-        "gear": [
+        "sets": [
           {
-            "id": "t0_warrior",
+            "id": "itemset_209",
             "earned_at": "2026-04-01T22:46:00Z"
           },
           {
-            "id": "t1_warrior",
+            "id": "itemset_218",
             "earned_at": "2026-08-29T13:35:00Z"
           },
           {
-            "id": "t2_warrior",
+            "id": "itemset_523",
             "earned_at": "2026-04-30T21:47:00Z"
-          },
-          {
-            "id": "aq40_warrior",
-            "earned_at": "2025-11-28T01:40:00Z"
           }
         ],
         "mounts": [
           {
-            "id": "qiraji_battle_tank",
+            "id": "item_21176",
             "earned_at": "2025-11-28T01:55:00Z"
           },
           {
-            "id": "black_war_kodo",
+            "id": "item_18247",
             "earned_at": "2026-02-19T20:14:00Z"
           },
           {
-            "id": "ashes_of_alar",
+            "id": "item_32458",
             "earned_at": "2026-07-22T22:38:00Z"
           }
         ],
-        "pets": [
+        "companions": [
           {
-            "id": "tiny_crimson_whelpling",
+            "id": "item_8499",
             "earned_at": "2026-01-09T18:30:00Z"
+          }
+        ],
+        "heirlooms": [
+          {
+            "id": "item_42991",
+            "earned_at": "2026-03-05T08:00:00Z"
           }
         ]
       }
@@ -354,26 +380,32 @@
         }
       ],
       "collections": {
-        "gear": [
+        "sets": [
           {
-            "id": "t0_warlock",
+            "id": "itemset_203",
             "earned_at": "2026-05-25T19:28:00Z"
           }
         ],
         "mounts": [
           {
-            "id": "onyxian_drake",
+            "id": "item_49636",
             "earned_at": "2026-03-08T23:17:00Z"
           }
         ],
-        "pets": [
+        "companions": [
           {
-            "id": "dark_whelpling",
+            "id": "item_10822",
             "earned_at": "2026-06-11T21:49:00Z"
           },
           {
-            "id": "sprite_darter_hatchling",
+            "id": "item_11474",
             "earned_at": "2026-08-02T16:26:00Z"
+          }
+        ],
+        "heirlooms": [
+          {
+            "id": "item_42991",
+            "earned_at": "2026-06-14T11:20:00Z"
           }
         ]
       }
