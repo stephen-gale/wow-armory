@@ -20,11 +20,13 @@
 # - Gear (assets/data/collections/gear.json): each character's *currently
 #   equipped* items (character_inventory.bag = 0, slot 0-18) against the
 #   item ids that make up each named set.
-# - Mounts (assets/data/collections/mounts.json): each character's *known
-#   spells* (character_spell) against the mount-learn spell ids for each
-#   mount — a mount is earned if the character knows ANY ONE of its
-#   spell_ids (so a multi-color mount like Netherwing Drake completes on
-#   any single color, never requiring every color).
+# - Mounts (assets/data/collections/mounts.json) and Pets
+#   (assets/data/collections/pets.json): each character's *known spells*
+#   (character_spell) against the learn-spell ids for each mount/pet — an
+#   entry is earned if the character knows ANY ONE of its spell_ids (so a
+#   multi-color mount like Netherwing Drake completes on any single color,
+#   never requiring every color). Both categories are detected from one
+#   shared character_spell query (see KNOWN_SPELLS_TMP below).
 # Once earned, a collection is sticky: it stays on the character
 # permanently, even after the gear is swapped away, by unioning this run's
 # newly-detected ids with whatever was already recorded in the existing
@@ -47,6 +49,7 @@ OUTPUT_FILE="${OUTPUT_FILE:-$OUTPUT_DIR/characters.json}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 COLLECTION_GEAR_DEFS="${COLLECTION_GEAR_DEFS:-$SCRIPT_DIR/../assets/data/collections/gear.json}"
 COLLECTION_MOUNTS_DEFS="${COLLECTION_MOUNTS_DEFS:-$SCRIPT_DIR/../assets/data/collections/mounts.json}"
+COLLECTION_PETS_DEFS="${COLLECTION_PETS_DEFS:-$SCRIPT_DIR/../assets/data/collections/pets.json}"
 
 mkdir -p "$OUTPUT_DIR"
 
@@ -73,15 +76,18 @@ mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
     AND a.username NOT LIKE 'RNDBOT%';
 " > "$EQUIPPED_TMP"
 
-# Only the spell ids that actually matter for mount detection — a max-level
-# character can know thousands of spells, so filtering server-side (rather
-# than pulling every known spell and filtering in Python) keeps this cheap.
-MOUNT_SPELL_IDS="$(python3 -c "
+# Only the spell ids that actually matter for Mounts/Pets detection — a
+# max-level character can know thousands of spells, so filtering
+# server-side (rather than pulling every known spell and filtering in
+# Python) keeps this cheap. Both categories share this one query/temp file.
+SPELL_COLLECTION_IDS="$(python3 -c "
 import json
-with open('$COLLECTION_MOUNTS_DEFS') as f:
-    defs = json.load(f)
-ids = sorted({str(s) for m in defs for s in m['spell_ids']})
-print(','.join(ids) if ids else '0')
+ids = set()
+for path in ('$COLLECTION_MOUNTS_DEFS', '$COLLECTION_PETS_DEFS'):
+    with open(path) as f:
+        defs = json.load(f)
+    ids.update(str(s) for d in defs for s in d['spell_ids'])
+print(','.join(sorted(ids)) if ids else '0')
 ")"
 
 mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
@@ -89,7 +95,7 @@ mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
   FROM acore_characters.character_spell cs
   JOIN acore_characters.characters c ON c.guid = cs.guid
   JOIN acore_auth.account a ON a.id = c.account
-  WHERE cs.spell IN ($MOUNT_SPELL_IDS)
+  WHERE cs.spell IN ($SPELL_COLLECTION_IDS)
     AND a.username NOT LIKE 'RNDBOT%';
 " > "$KNOWN_SPELLS_TMP"
 
@@ -129,7 +135,7 @@ WHERE a.username NOT LIKE 'RNDBOT%'
 ORDER BY faction, c.level DESC, c.name;
 SQL
 
-mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "$QUERY" | python3 - "$OUTPUT_FILE" "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$COLLECTION_GEAR_DEFS" "$KNOWN_SPELLS_TMP" "$COLLECTION_MOUNTS_DEFS" <<'PYEOF'
+mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "$QUERY" | python3 - "$OUTPUT_FILE" "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$COLLECTION_GEAR_DEFS" "$KNOWN_SPELLS_TMP" "$COLLECTION_MOUNTS_DEFS" "$COLLECTION_PETS_DEFS" <<'PYEOF'
 import sys
 import json
 import datetime
@@ -142,6 +148,7 @@ equipped_path = sys.argv[3]
 collection_gear_defs_path = sys.argv[4]
 known_spells_path = sys.argv[5]
 collection_mounts_defs_path = sys.argv[6]
+collection_pets_defs_path = sys.argv[7]
 
 def iso(unix_ts):
     try:
@@ -192,9 +199,9 @@ def detect_collection_gear(equipped_ids):
             earned.append(gs["id"])
     return earned
 
-# Known mount-learn spells per character (character_spell has no per-row
-# timestamp, unlike character_achievement — that's why mounts use the same
-# sticky-timestamp fallback as Gear below).
+# Known mount/pet-learn spells per character (character_spell has no
+# per-row timestamp, unlike character_achievement — that's why Mounts and
+# Pets use the same sticky-timestamp fallback as Gear below).
 known_spells_by_guid = defaultdict(set)
 with open(known_spells_path) as f:
     for line in f:
@@ -207,15 +214,18 @@ with open(known_spells_path) as f:
 with open(collection_mounts_defs_path) as f:
     collection_mounts_defs = json.load(f)
 
-def detect_collection_mounts(known_spell_ids):
-    """A Mount collection is earned when the character knows ANY ONE of its
-    spell_ids — multi-color mounts (Netherwing Drake, Qiraji Battle Tank)
-    list every color's spell id and complete on any single color, never
-    requiring every color."""
+with open(collection_pets_defs_path) as f:
+    collection_pets_defs = json.load(f)
+
+def detect_by_known_spell(known_spell_ids, defs):
+    """Shared by Mounts and Pets: an entry is earned when the character
+    knows ANY ONE of its spell_ids — a multi-color mount (Netherwing Drake,
+    Qiraji Battle Tank) lists every color's spell id and completes on any
+    single color, never requiring every color."""
     earned = []
-    for mount in collection_mounts_defs:
-        if any(spell_id in known_spell_ids for spell_id in mount["spell_ids"]):
-            earned.append(mount["id"])
+    for entry in defs:
+        if any(spell_id in known_spell_ids for spell_id in entry["spell_ids"]):
+            earned.append(entry["id"])
     return earned
 
 # Sticky, with the original earned_at preserved: once earned, a collection
@@ -232,6 +242,7 @@ def _earned_at_map(entries):
 
 previous_collection_gear_by_guid = defaultdict(dict)
 previous_collection_mounts_by_guid = defaultdict(dict)
+previous_collection_pets_by_guid = defaultdict(dict)
 if os.path.exists(out_path):
     try:
         with open(out_path) as f:
@@ -240,6 +251,7 @@ if os.path.exists(out_path):
             prev_collections = prev_char.get("collections", {})
             previous_collection_gear_by_guid[prev_char["guid"]] = _earned_at_map(prev_collections.get("gear", []))
             previous_collection_mounts_by_guid[prev_char["guid"]] = _earned_at_map(prev_collections.get("mounts", []))
+            previous_collection_pets_by_guid[prev_char["guid"]] = _earned_at_map(prev_collections.get("pets", []))
     except (json.JSONDecodeError, OSError):
         pass  # first run, or an unreadable/corrupt previous file — start fresh
 
@@ -264,12 +276,22 @@ for line in sys.stdin:
         for gear_id, earned_at in sorted(gear_earned_at.items())
     ]
 
+    known_spells = known_spells_by_guid.get(guid, set())
+
     mounts_earned_at = dict(previous_collection_mounts_by_guid.get(guid, {}))
-    for mount_id in detect_collection_mounts(known_spells_by_guid.get(guid, set())):
+    for mount_id in detect_by_known_spell(known_spells, collection_mounts_defs):
         mounts_earned_at.setdefault(mount_id, generated_at)
     collection_mounts = [
         {"id": mount_id, "earned_at": earned_at}
         for mount_id, earned_at in sorted(mounts_earned_at.items())
+    ]
+
+    pets_earned_at = dict(previous_collection_pets_by_guid.get(guid, {}))
+    for pet_id in detect_by_known_spell(known_spells, collection_pets_defs):
+        pets_earned_at.setdefault(pet_id, generated_at)
+    collection_pets = [
+        {"id": pet_id, "earned_at": earned_at}
+        for pet_id, earned_at in sorted(pets_earned_at.items())
     ]
 
     characters.append({
@@ -290,6 +312,7 @@ for line in sys.stdin:
         "collections": {
             "gear": collection_gear,
             "mounts": collection_mounts,
+            "pets": collection_pets,
         },
     })
 

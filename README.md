@@ -81,11 +81,12 @@ against this bundled data at render time.
 A custom tracking system for things worth showing off that aren't part of
 Blizzard's own achievement system — named and modeled after the
 "Collections" sections other WoW armory sites/apps have, for mounts,
-pets, toys, tabards, and so on. **Gear** is the first collection category
-built; more (Mounts, Pets, Tabards, etc.) can be added later as siblings
-without changing anything already here. Nothing about this touches the
-AzerothCore server, DBC files, or the live game — detection and storage
-both happen entirely in the export scripts and `characters.json`.
+pets, toys, tabards, and so on. **Gear**, **Mounts**, and **Pets** are the
+collection categories built so far; more (Tabards, etc.) can be added
+later as siblings without changing anything already here. Nothing about
+this touches the AzerothCore server, DBC files, or the live game —
+detection and storage both happen entirely in the export scripts and
+`characters.json`.
 
 #### Gear
 
@@ -144,6 +145,27 @@ content.
   curated shortlist to literally every mount later is purely a
   `mounts.json` data change.
 
+#### Pets
+
+A curated shortlist of rare/noteworthy non-combat companion pets, same bar
+as Mounts. Mostly Classic/TBC content — WotLK didn't add anything that
+survived verification as a genuine, obtainable-at-3.3.5a rare pet.
+
+- **Data source**: `assets/data/collections/pets.json`, same shape as
+  `mounts.json` — id, display name, expansion, points, and the
+  learn-companion spell id(s).
+- **Detection**: identical mechanism to Mounts — a pet's teach item grants
+  a permanently known `character_spell` entry, same as a mount. Both
+  categories are detected from one shared known-spells query (see below),
+  just checked against two different data files.
+- **Sticky**: same union-with-previous-run pattern as Gear and Mounts.
+- One real pet from the original candidate list, Blood Parrot, was cut
+  before shipping: unlike every other entry, it's summoned by *using* a
+  worn item (unequipping it despawns the pet) rather than by knowing a
+  permanent spell, so `character_spell`-based detection can't see it. It
+  would need a different detection mechanism (inventory + reputation) to
+  ever be added.
+
 ### `characters.json` shape
 
 ```json
@@ -176,6 +198,9 @@ content.
         ],
         "mounts": [
           {"id": "deathchargers_reins", "earned_at": "2026-04-12T09:30:00Z"}
+        ],
+        "pets": [
+          {"id": "captured_firefly", "earned_at": "2026-05-02T16:40:00Z"}
         ]
       }
     }
@@ -196,10 +221,10 @@ report: `acore_characters.character_achievement_points(guid, total_points,
 total_achievements)`.
 
 `collections` is the custom, companion-app-only tracking system — see
-[Collections](#collections) above. `collections.gear` and
-`collections.mounts` are the Gear and Mounts categories' earned entries;
-future categories (pets, tabards, etc.) would land as further sibling keys.
-Unlike `achievements`, these
+[Collections](#collections) above. `collections.gear`, `collections.mounts`,
+and `collections.pets` are the Gear, Mounts, and Pets categories' earned
+entries; future categories (tabards, etc.) would land as further sibling
+keys. Unlike `achievements`, these
 are never recomputed from scratch: once an entry appears here, the export
 scripts always carry it forward, even if the character no longer has the
 set equipped — and `earned_at`, stamped the first time it's detected, is
@@ -252,19 +277,21 @@ right after the existing "Saving progress report..." block (i.e. right
 after the `} > "$BACKUP_DIR/playtime_by_character.txt" || { ... }` line)
 and before the "Compressing..." step.
 
-It also detects the **Gear** and **Mounts** collections (see
+It also detects the **Gear**, **Mounts**, and **Pets** collections (see
 [Collections](#collections) above): a second query pulls each character's
 currently-equipped items and checks them against
 `assets/data/collections/gear.json`; a third pulls each character's known
-spells (filtered to just the mount-learn spell ids `mounts.json` cares
-about) and checks them against `assets/data/collections/mounts.json`. Both
-union any newly-earned entries into whatever was already published to
-`wow-armory-data/characters.json` last run, so earned entries are never
-lost — Gear even after the gear is swapped away, Mounts regardless (mounts
-can't be un-learned). This means `wow-armory-data` needs the repo's
-`assets/data/` folder present — since it's a full clone of this repo, a
-one-time `git pull` there after this feature first ships is enough to pick
-it up (and again any time `gear.json` or `mounts.json` changes).
+spells (filtered to just the learn-spell ids `mounts.json`/`pets.json` care
+about — one shared query for both categories) and checks them against
+`assets/data/collections/mounts.json` and `assets/data/collections/pets.json`
+separately. All three union any newly-earned entries into whatever was
+already published to `wow-armory-data/characters.json` last run, so earned
+entries are never lost — Gear even after the gear is swapped away, Mounts
+and Pets regardless (neither can be un-learned). This means
+`wow-armory-data` needs the repo's `assets/data/` folder present — since
+it's a full clone of this repo, a one-time `git pull` there after this
+feature first ships is enough to pick it up (and again any time
+`gear.json`, `mounts.json`, or `pets.json` changes).
 
 ```bash
 echo "  Saving characters.json..."
@@ -283,6 +310,7 @@ REPO_DATA_DIR="/home/deck/wow-armory-data"
 
 COLLECTION_GEAR_DEFS="$REPO_DATA_DIR/assets/data/collections/gear.json"
 COLLECTION_MOUNTS_DEFS="$REPO_DATA_DIR/assets/data/collections/mounts.json"
+COLLECTION_PETS_DEFS="$REPO_DATA_DIR/assets/data/collections/pets.json"
 ACHIEVEMENTS_TMP="$(mktemp)"
 EQUIPPED_TMP="$(mktemp)"
 KNOWN_SPELLS_TMP="$(mktemp)"
@@ -302,22 +330,24 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   WHERE ci.bag = 0 AND ci.slot BETWEEN 0 AND 18
     AND a.username NOT LIKE 'RNDBOT%';
 " > "$EQUIPPED_TMP"
-# Only the spell ids that actually matter for mount detection — a max-level
-# character can know thousands of spells, so filtering server-side keeps
-# this cheap.
-MOUNT_SPELL_IDS="$(python3 -c "
+# Only the spell ids that actually matter for Mounts/Pets detection — a
+# max-level character can know thousands of spells, so filtering
+# server-side keeps this cheap. Both categories share this one query.
+SPELL_COLLECTION_IDS="$(python3 -c "
 import json
-with open('$COLLECTION_MOUNTS_DEFS') as f:
-    defs = json.load(f)
-ids = sorted({str(s) for m in defs for s in m['spell_ids']})
-print(','.join(ids) if ids else '0')
+ids = set()
+for path in ('$COLLECTION_MOUNTS_DEFS', '$COLLECTION_PETS_DEFS'):
+    with open(path) as f:
+        defs = json.load(f)
+    ids.update(str(s) for d in defs for s in d['spell_ids'])
+print(','.join(sorted(ids)) if ids else '0')
 ")"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT cs.guid, cs.spell
   FROM acore_characters.character_spell cs
   JOIN acore_characters.characters c ON c.guid = cs.guid
   JOIN acore_auth.account a ON a.id = c.account
-  WHERE cs.spell IN ($MOUNT_SPELL_IDS)
+  WHERE cs.spell IN ($SPELL_COLLECTION_IDS)
     AND a.username NOT LIKE 'RNDBOT%';
 " > "$KNOWN_SPELLS_TMP"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
@@ -421,14 +451,18 @@ with open('$KNOWN_SPELLS_TMP') as f:
 with open('$COLLECTION_MOUNTS_DEFS') as f:
     collection_mounts_defs = json.load(f)
 
-def detect_collection_mounts(known_spell_ids):
-    # Earned when the character knows ANY ONE of its spell_ids — multi-color
-    # mounts (Netherwing Drake, Qiraji Battle Tank) list every color's spell
-    # id and complete on any single color, never requiring every color.
+with open('$COLLECTION_PETS_DEFS') as f:
+    collection_pets_defs = json.load(f)
+
+def detect_by_known_spell(known_spell_ids, defs):
+    # Shared by Mounts and Pets: earned when the character knows ANY ONE of
+    # its spell_ids — multi-color mounts (Netherwing Drake, Qiraji Battle
+    # Tank) list every color's spell id and complete on any single color,
+    # never requiring every color.
     earned = []
-    for mount in collection_mounts_defs:
-        if any(spell_id in known_spell_ids for spell_id in mount['spell_ids']):
-            earned.append(mount['id'])
+    for entry in defs:
+        if any(spell_id in known_spell_ids for spell_id in entry['spell_ids']):
+            earned.append(entry['id'])
     return earned
 
 # Sticky, with the original earned_at preserved: once earned, a collection
@@ -445,6 +479,7 @@ def _earned_at_map(entries):
 
 previous_collection_gear_by_guid = defaultdict(dict)
 previous_collection_mounts_by_guid = defaultdict(dict)
+previous_collection_pets_by_guid = defaultdict(dict)
 prev_path = '$REPO_DATA_DIR/characters.json'
 if os.path.exists(prev_path):
     try:
@@ -454,6 +489,7 @@ if os.path.exists(prev_path):
             prev_collections = prev_char.get('collections', {})
             previous_collection_gear_by_guid[prev_char['guid']] = _earned_at_map(prev_collections.get('gear', []))
             previous_collection_mounts_by_guid[prev_char['guid']] = _earned_at_map(prev_collections.get('mounts', []))
+            previous_collection_pets_by_guid[prev_char['guid']] = _earned_at_map(prev_collections.get('pets', []))
     except (json.JSONDecodeError, OSError):
         pass  # first run, or an unreadable/corrupt previous file — start fresh
 
@@ -476,12 +512,22 @@ for line in sys.stdin:
         for gear_id, earned_at in sorted(gear_earned_at.items())
     ]
 
+    known_spells = known_spells_by_guid.get(guid, set())
+
     mounts_earned_at = dict(previous_collection_mounts_by_guid.get(guid, {}))
-    for mount_id in detect_collection_mounts(known_spells_by_guid.get(guid, set())):
+    for mount_id in detect_by_known_spell(known_spells, collection_mounts_defs):
         mounts_earned_at.setdefault(mount_id, generated_at)
     collection_mounts = [
         {'id': mount_id, 'earned_at': earned_at}
         for mount_id, earned_at in sorted(mounts_earned_at.items())
+    ]
+
+    pets_earned_at = dict(previous_collection_pets_by_guid.get(guid, {}))
+    for pet_id in detect_by_known_spell(known_spells, collection_pets_defs):
+        pets_earned_at.setdefault(pet_id, generated_at)
+    collection_pets = [
+        {'id': pet_id, 'earned_at': earned_at}
+        for pet_id, earned_at in sorted(pets_earned_at.items())
     ]
 
     characters.append({
@@ -502,6 +548,7 @@ for line in sys.stdin:
         'collections': {
             'gear': collection_gear,
             'mounts': collection_mounts,
+            'pets': collection_pets,
         },
     })
 

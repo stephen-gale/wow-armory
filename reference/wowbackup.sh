@@ -196,6 +196,7 @@ REPO_DATA_DIR="/home/deck/wow-armory-data"
 
 COLLECTION_GEAR_DEFS="$REPO_DATA_DIR/assets/data/collections/gear.json"
 COLLECTION_MOUNTS_DEFS="$REPO_DATA_DIR/assets/data/collections/mounts.json"
+COLLECTION_PETS_DEFS="$REPO_DATA_DIR/assets/data/collections/pets.json"
 ACHIEVEMENTS_TMP="$(mktemp)"
 EQUIPPED_TMP="$(mktemp)"
 KNOWN_SPELLS_TMP="$(mktemp)"
@@ -215,22 +216,24 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   WHERE ci.bag = 0 AND ci.slot BETWEEN 0 AND 18
     AND a.username NOT LIKE 'RNDBOT%';
 " > "$EQUIPPED_TMP"
-# Only the spell ids that actually matter for mount detection — a max-level
-# character can know thousands of spells, so filtering server-side keeps
-# this cheap.
-MOUNT_SPELL_IDS="$(python3 -c "
+# Only the spell ids that actually matter for Mounts/Pets detection — a
+# max-level character can know thousands of spells, so filtering
+# server-side keeps this cheap. Both categories share this one query.
+SPELL_COLLECTION_IDS="$(python3 -c "
 import json
-with open('$COLLECTION_MOUNTS_DEFS') as f:
-    defs = json.load(f)
-ids = sorted({str(s) for m in defs for s in m['spell_ids']})
-print(','.join(ids) if ids else '0')
+ids = set()
+for path in ('$COLLECTION_MOUNTS_DEFS', '$COLLECTION_PETS_DEFS'):
+    with open(path) as f:
+        defs = json.load(f)
+    ids.update(str(s) for d in defs for s in d['spell_ids'])
+print(','.join(sorted(ids)) if ids else '0')
 ")"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT cs.guid, cs.spell
   FROM acore_characters.character_spell cs
   JOIN acore_characters.characters c ON c.guid = cs.guid
   JOIN acore_auth.account a ON a.id = c.account
-  WHERE cs.spell IN ($MOUNT_SPELL_IDS)
+  WHERE cs.spell IN ($SPELL_COLLECTION_IDS)
     AND a.username NOT LIKE 'RNDBOT%';
 " > "$KNOWN_SPELLS_TMP"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
@@ -334,14 +337,18 @@ with open('$KNOWN_SPELLS_TMP') as f:
 with open('$COLLECTION_MOUNTS_DEFS') as f:
     collection_mounts_defs = json.load(f)
 
-def detect_collection_mounts(known_spell_ids):
-    # Earned when the character knows ANY ONE of its spell_ids — multi-color
-    # mounts (Netherwing Drake, Qiraji Battle Tank) list every color's spell
-    # id and complete on any single color, never requiring every color.
+with open('$COLLECTION_PETS_DEFS') as f:
+    collection_pets_defs = json.load(f)
+
+def detect_by_known_spell(known_spell_ids, defs):
+    # Shared by Mounts and Pets: earned when the character knows ANY ONE of
+    # its spell_ids — multi-color mounts (Netherwing Drake, Qiraji Battle
+    # Tank) list every color's spell id and complete on any single color,
+    # never requiring every color.
     earned = []
-    for mount in collection_mounts_defs:
-        if any(spell_id in known_spell_ids for spell_id in mount['spell_ids']):
-            earned.append(mount['id'])
+    for entry in defs:
+        if any(spell_id in known_spell_ids for spell_id in entry['spell_ids']):
+            earned.append(entry['id'])
     return earned
 
 # Sticky, with the original earned_at preserved: once earned, a collection
@@ -358,6 +365,7 @@ def _earned_at_map(entries):
 
 previous_collection_gear_by_guid = defaultdict(dict)
 previous_collection_mounts_by_guid = defaultdict(dict)
+previous_collection_pets_by_guid = defaultdict(dict)
 prev_path = '$REPO_DATA_DIR/characters.json'
 if os.path.exists(prev_path):
     try:
@@ -367,6 +375,7 @@ if os.path.exists(prev_path):
             prev_collections = prev_char.get('collections', {})
             previous_collection_gear_by_guid[prev_char['guid']] = _earned_at_map(prev_collections.get('gear', []))
             previous_collection_mounts_by_guid[prev_char['guid']] = _earned_at_map(prev_collections.get('mounts', []))
+            previous_collection_pets_by_guid[prev_char['guid']] = _earned_at_map(prev_collections.get('pets', []))
     except (json.JSONDecodeError, OSError):
         pass  # first run, or an unreadable/corrupt previous file — start fresh
 
@@ -389,12 +398,22 @@ for line in sys.stdin:
         for gear_id, earned_at in sorted(gear_earned_at.items())
     ]
 
+    known_spells = known_spells_by_guid.get(guid, set())
+
     mounts_earned_at = dict(previous_collection_mounts_by_guid.get(guid, {}))
-    for mount_id in detect_collection_mounts(known_spells_by_guid.get(guid, set())):
+    for mount_id in detect_by_known_spell(known_spells, collection_mounts_defs):
         mounts_earned_at.setdefault(mount_id, generated_at)
     collection_mounts = [
         {'id': mount_id, 'earned_at': earned_at}
         for mount_id, earned_at in sorted(mounts_earned_at.items())
+    ]
+
+    pets_earned_at = dict(previous_collection_pets_by_guid.get(guid, {}))
+    for pet_id in detect_by_known_spell(known_spells, collection_pets_defs):
+        pets_earned_at.setdefault(pet_id, generated_at)
+    collection_pets = [
+        {'id': pet_id, 'earned_at': earned_at}
+        for pet_id, earned_at in sorted(pets_earned_at.items())
     ]
 
     characters.append({
@@ -415,6 +434,7 @@ for line in sys.stdin:
         'collections': {
             'gear': collection_gear,
             'mounts': collection_mounts,
+            'pets': collection_pets,
         },
     })
 
