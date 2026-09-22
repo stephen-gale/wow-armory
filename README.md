@@ -135,10 +135,18 @@ or noteworthy ones — spanning Classic through WotLK content.
   is never required. It also includes a short list of items Blizzard
   itself filed under the wrong item subclass (`Junk`, subclass 0) but
   which pass the exact same "genuine teach-spell" mechanical test as every
-  other entry, plus a short, separately-maintained list of class-trainer-
-  taught mounts (a Paladin's Warhorse/Charger, confirmed so far) that have
-  no item at all — see the script's docstring for how both were found and
+  other entry — see the script's docstring for how those were found and
   verified, not guessed from item names.
+- **The one deliberate exception**: a small, explicitly non-mechanical
+  list (`TRAINER_TAUGHT_MOUNTS`) for mounts with no backing item at all —
+  a Paladin's Warhorse/Charger, learned directly from the class trainer as
+  a spell (a Warlock's Felsteed/Dreadsteed, a Death Knight's Acherus
+  Deathcharger, and possibly others work the same way but aren't in the
+  list). There's no query that can enumerate "spells that are secretly
+  mounts with no item," so this only grows when a specific character's
+  real, known mount turns out to need it — never as a speculative
+  completeness pass — each one confirmed in-game via `.lookup spell` since
+  `spell_dbc` is unpopulated for standard spells on this server.
 - **Detection**: the export scripts query each character's *known spells*
   (`character_spell`, filtered server-side to just the mount-learn spell
   ids this list cares about) and check for a match against each mount's
@@ -149,10 +157,7 @@ or noteworthy ones — spanning Classic through WotLK content.
   union-with-previous-run pattern as Sets.
 - A small number of mounts predate this app and were backfilled once with
   their real acquisition dates (from memory/screenshots, not detection
-  time) — see `scripts/apply-date-corrections.py`. A Warlock's
-  Felsteed/Dreadsteed (the other class-trainer-taught mounts, alongside
-  the now-resolved Paladin ones above) haven't been confirmed yet the
-  same way.
+  time) — see `scripts/apply-date-corrections.py`.
 
 #### Companions
 

@@ -61,18 +61,24 @@ does. Recipe items (Formula:/Pattern:/Plans:/Schematic:/Recipe:/Design:/
 Manual: prefixes) also use trigger=6 for unrelated reasons and are
 excluded by that prefix check before the list is even built.
 
-Class-trainer-taught mounts: a Paladin's Warhorse/Charger and a Warlock's
-Felsteed/Dreadsteed are learned directly as a spell from the class trainer
-- no item is ever involved, so item_template can never surface them no
-matter how the query is widened. spell_dbc (which would otherwise give a
-spell's name over SQL) is unpopulated for standard spells on this server
-(confirmed empirically - see the commit history), so these can't be found
-by query at all; they were instead confirmed in-game with `.lookup spell
-<name>` as a GM (which reads the client's loaded DBC data directly,
-sidestepping the SQL gap) - see TRAINER_TAUGHT_MOUNTS below. Each id is
-the base trainer spell itself (confirmed via the `[known]` tag against a
-character who has it), not the race-specific "Summon X" spell variant it
-grants - the base spell is the one stable id that works across every race.
+Class-trainer/quest-granted mounts (TRAINER_TAUGHT_MOUNTS): a small,
+explicit exception list, honestly not mechanical the way everything else
+in this file is. A Paladin's Warhorse/Charger are learned directly as a
+spell from the class trainer - no item is ever involved, so no widening
+of the item_template query could ever surface them (same is true of a
+Warlock's Felsteed/Dreadsteed, a Death Knight's Acherus Deathcharger via
+starting-zone quest reward, and possibly others not yet identified - this
+list only grows as a *specific* character's real earned mount turns out
+to need it, never as a speculative completeness pass, since there's no
+query that enumerates "spells that are secretly mounts with no backing
+item" to check against). spell_dbc (which would otherwise give a spell's
+name over SQL) is unpopulated for standard spells on this server
+(confirmed empirically - see the commit history), so an id can't be found
+by query either; each entry here was instead confirmed in-game with
+`.lookup spell <name>` as a GM (reads the client's loaded DBC data
+directly, sidestepping the SQL gap), using the base trainer/quest spell
+itself (confirmed via the `[known]` tag against a character who has it),
+not the race-specific "Summon X" variant it grants.
 
 Usage:
   python3 generate-collections-data.py <dump-dir> <output-dir>
