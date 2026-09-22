@@ -1,0 +1,59 @@
+entry	name	spellid_1	spelltrigger_1	spellid_2	spelltrigger_2	spellid_3	spelltrigger_3	spellid_4	spelltrigger_4	spellid_5	spelltrigger_5
+13325	Fluorescent Green Mechanostrider	17458	0	0	0	0	0	0	0	0	0
+13342	Pet Fish	0	0	0	0	0	0	0	0	0	0
+13343	Pet Stone	0	0	0	0	0	0	0	0	0	0
+18963	Turtle Egg (Albino)	0	0	0	0	0	0	0	0	0	0
+18965	Turtle Egg (Hawksbill)	0	0	0	0	0	0	0	0	0	0
+18966	Turtle Egg (Leatherback)	0	0	0	0	0	0	0	0	0	0
+18967	Turtle Egg (Olive)	0	0	0	0	0	0	0	0	0	0
+19462	Unhatched Jubling Egg	23851	0	0	0	0	0	0	0	0	0
+22200	Silver Shafted Arrow	27662	0	0	0	0	0	0	0	0	0
+27819	NPC Equip 27819	0	0	0	0	0	0	0	0	0	0
+27853	NPC Equip 27853	0	0	0	0	0	0	0	0	0	0
+28326	NPC Equip 28326	0	0	0	0	0	0	0	0	0	0
+29225	zzoldSwift Warstrider	35028	0	0	0	0	0	0	0	0	0
+33176	Flying Broom	42667	0	0	0	0	0	0	0	0	0
+33182	Swift Flying Broom	42668	0	0	0	0	0	0	0	0	0
+33183	Old Magic Broom	42680	0	0	0	0	0	0	0	0	0
+33184	Swift Magic Broom	42668	0	0	0	0	0	0	0	0	0
+33817	NPC Equip 33817	0	0	0	0	0	0	0	0	0	0
+34495	NPC Equip 34495	0	0	0	0	0	0	0	0	0	0
+35227	Goblin Weather Machine - Prototype 01-B	46203	0	0	0	0	0	0	0	0	0
+37011	Magic Broom	47977	0	0	0	0	0	0	0	0	0
+37460	Rope Pet Leash	48722	0	0	0	0	0	0	0	0	0
+38234	NPC Equip 38234	0	0	0	0	0	0	0	0	0	0
+38265	[PH] Reins of the Black Warp Stalker	50281	0	0	0	0	0	0	0	0	0
+38299	NPC Equip 38299	0	0	0	0	0	0	0	0	0	0
+38612	NPC Equip 38612	0	0	0	0	0	0	0	0	0	0
+38690	NPC Equip 38690	0	0	0	0	0	0	0	0	0	0
+39148	Baby Coralshell Turtle	0	0	0	0	0	0	0	0	0	0
+39303	Swift Flying Carpet	60969	0	0	0	0	0	0	0	0	0
+40355	NPC Equip 40355	0	0	0	0	0	0	0	0	0	0
+43957	NPC Equip 43957	0	0	0	0	0	0	0	0	0	0
+43960	NPC Equip 43960	0	0	0	0	0	0	0	0	0	0
+43965	NPC Equip 43965	0	0	0	0	0	0	0	0	0	0
+44079	NPC Equip 44079	0	0	0	0	0	0	0	0	0	0
+44085	NPC Equip 44085	0	0	0	0	0	0	0	0	0	0
+44221	Loaned Gryphon Reins	64749	0	0	0	0	0	0	0	0	0
+44229	Loaned Wind Rider Reins	64762	0	0	0	0	0	0	0	0	0
+44557	Swift Ebonweave Carpet	60975	0	0	0	0	0	0	0	0	0
+44820	Red Ribbon Pet Leash	61856	0	0	0	0	0	0	0	0	0
+44823	NPC Equip 44823	0	0	0	0	0	0	0	0	0	0
+44824	NPC Equip 44824	0	0	0	0	0	0	0	0	0	0
+44825	NPC Equip 44825	0	0	0	0	0	0	0	0	0	0
+44826	NPC Equip 44826	0	0	0	0	0	0	0	0	0	0
+44827	NPC Equip 44827	0	0	0	0	0	0	0	0	0	0
+44828	NPC Equip 44828	0	0	0	0	0	0	0	0	0	0
+44829	NPC Equip 44829	0	0	0	0	0	0	0	0	0	0
+44857	NPC Equip 44857	0	0	0	0	0	0	0	0	0	0
+44885	NPC Equip 44885	0	0	0	0	0	0	0	0	0	0
+46101	Blue Skeletal Warhorse	0	0	0	0	0	0	0	0	0	0
+46831	Macabre Marionette	66175	0	0	0	0	0	0	0	0	0
+46890	NPC Equip 46890	0	0	0	0	0	0	0	0	0	0
+46891	NPC Equip 46891	0	0	0	0	0	0	0	0	0	0
+46894	NPC Equip 46894	0	0	0	0	0	0	0	0	0	0
+49659	NPC Equip 49659	0	0	0	0	0	0	0	0	0	0
+49660	NPC Equip 49660	0	0	0	0	0	0	0	0	0	0
+49664	NPC Equip 49664	0	0	0	0	0	0	0	0	0	0
+49911	NPC Equip 49911	0	0	0	0	0	0	0	0	0	0
+50151	NPC Equip 50151	0	0	0	0	0	0	0	0	0	0
