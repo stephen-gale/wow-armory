@@ -1,0 +1,63 @@
+entry	name	InventoryType
+44102	Aged Pauldrons of The Five Thunders	3
+38691	Ancestral Claymore	17
+50370	Arcanum of Blissful Mending	0
+44152	Arcanum of Blissful Mending	0
+50368	Arcanum of Burning Mysteries	0
+44159	Arcanum of Burning Mysteries	0
+50373	Arcanum of the Savage Gladiator	0
+50372	Arcanum of the Savage Gladiator	0
+44702	Arcanum of the Savage Gladiator	0
+44701	Arcanum of the Savage Gladiator	0
+50369	Arcanum of the Stalwart Protector	0
+44150	Arcanum of the Stalwart Protector	0
+50367	Arcanum of Torment	0
+44149	Arcanum of Torment	0
+42944	Balanced Heartseeker	13
+44096	Battleworn Thrash Blade	13
+42943	Bloodied Arcanite Reaper	17
+42950	Champion Herod's Shoulder	3
+48677	Champion's Deathdealer Breastplate	5
+42946	Charmed Ancient Bone Bow	15
+42948	Devout Aurastone Hammer	21
+42947	Dignified Headmaster's Charge	17
+42992	Discerning Eye of the Beast	12
+50255	Dread Pirate Ring	11
+44103	Exceptional Stormshroud Shoulders	3
+44107	Exquisite Sunderseer Mantle	3
+44095	Grand Staff of Jordan	17
+50335	Greater Inscription of the Axe	0
+44133	Greater Inscription of the Axe	0
+50336	Greater Inscription of the Crag	0
+44134	Greater Inscription of the Crag	0
+50337	Greater Inscription of the Pinnacle	0
+44136	Greater Inscription of the Pinnacle	0
+50338	Greater Inscription of the Storm 	0
+44135	Greater Inscription of the Storm 	0
+44098	Inherited Insignia of the Alliance	12
+44097	Inherited Insignia of the Horde	12
+44105	Lasting Feralheart Spaulders	3
+42951	Mystical Pauldrons of Elements	3
+48683	Mystical Vest of Elements	5
+48685	Polished Breastplate of Valor	5
+42949	Polished Spaulders of Valor	3
+48687	Preened Ironfeather Breastplate	5
+42984	Preened Ironfeather Shoulders	3
+44100	Pristine Lightforge Spaulders	3
+44101	Prized Beastmaster's Mantle	3
+44092	Reforged Truesilver Champion	17
+48718	Repurposed Lava Dredger	17
+44091	Sharpened Scarlet Kris	13
+42952	Stained Shadowcraft Spaulders	3
+48689	Stained Shadowcraft Tunic	5
+44099	Strengthened Stockade Pauldrons	3
+42991	Swift Hand of Justice	12
+42985	Tattered Dreadmist Mantle	3
+48691	Tattered Dreadmist Robe	20
+44090	Test Mail Shoulder 2	3
+44094	The Blessed Hammer of Grace	21
+49177	Tome of Cold Weather Flight	0
+44093	Upgraded Dwarven Hand Cannon	26
+42945	Venerable Dal'Rend's Sacred Charge	21
+48716	Venerable Mass of McGowan	13
+44115	Wintergrasp Commendation	0

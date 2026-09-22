@@ -1,0 +1,321 @@
+entry	name	learn_spell_id
+1132	Horn of the Timber Wolf	580
+2411	Black Stallion Bridle	470
+2414	Pinto Bridle	472
+5655	Chestnut Mare Bridle	6648
+5656	Brown Horse Bridle	458
+5665	Horn of the Dire Wolf	6653
+5668	Horn of the Brown Wolf	6654
+5864	Gray Ram	6777
+5872	Brown Ram	6899
+5873	White Ram	6898
+8563	Red Mechanostrider	10873
+8586	Whistle of the Mottled Red Raptor	16084
+8588	Whistle of the Emerald Raptor	8395
+8591	Whistle of the Turquoise Raptor	10796
+8592	Whistle of the Violet Raptor	10799
+8595	Blue Mechanostrider	10969
+8629	Reins of the Striped Nightsaber	10793
+8631	Reins of the Striped Frostsaber	8394
+8632	Reins of the Spotted Frostsaber	10789
+12302	Reins of the Ancient Frostsaber	16056
+12303	Reins of the Nightsaber	16055
+12325	Reins of the Primal Leopard	16058
+12326	Reins of the Tawny Sabercat	16059
+12327	Reins of the Golden Sabercat	16060
+12330	Horn of the Red Wolf	16080
+12351	Horn of the Arctic Wolf	16081
+12353	White Stallion Bridle	16083
+12354	Palomino Bridle	16082
+13086	Reins of the Winterspring Frostsaber	17229
+13317	Whistle of the Ivory Raptor	17450
+13321	Green Mechanostrider	17453
+13322	Unpainted Mechanostrider	17454
+13323	Purple Mechanostrider	17455
+13324	Red and Blue Mechanostrider	17456
+13325	Fluorescent Green Mechanostrider	NULL
+13326	White Mechanostrider Mod B	15779
+13327	Icy Blue Mechanostrider Mod A	17459
+13328	Black Ram	17461
+13329	Frost Ram	17460
+13331	Red Skeletal Horse	17462
+13332	Blue Skeletal Horse	17463
+13333	Brown Skeletal Horse	17464
+13334	Green Skeletal Warhorse	17465
+13335	Deathcharger's Reins	17481
+15277	Gray Kodo	18989
+15290	Brown Kodo	18990
+15292	Green Kodo	18991
+15293	Teal Kodo	18992
+18241	Black War Steed Bridle	22717
+18242	Reins of the Black War Tiger	22723
+18243	Black Battlestrider	22719
+18244	Black War Ram	22720
+18245	Horn of the Black War Wolf	22724
+18246	Whistle of the Black War Raptor	22721
+18247	Black War Kodo	22718
+18248	Red Skeletal Warhorse	22722
+18766	Reins of the Swift Frostsaber	23221
+18767	Reins of the Swift Mistsaber	23219
+18768	Reins of the Swift Dawnsaber	23220
+18772	Swift Green Mechanostrider	23225
+18773	Swift White Mechanostrider	23223
+18774	Swift Yellow Mechanostrider	23222
+18776	Swift Palomino	23227
+18777	Swift Brown Steed	23229
+18778	Swift White Steed	23228
+18785	Swift White Ram	23240
+18786	Swift Brown Ram	23238
+18787	Swift Gray Ram	23239
+18788	Swift Blue Raptor	23241
+18789	Swift Olive Raptor	23242
+18790	Swift Orange Raptor	23243
+18791	Purple Skeletal Warhorse	23246
+18793	Great White Kodo	23247
+18794	Great Brown Kodo	23249
+18795	Great Gray Kodo	23248
+18796	Horn of the Swift Brown Wolf	23250
+18797	Horn of the Swift Timber Wolf	23251
+18798	Horn of the Swift Gray Wolf	23252
+18902	Reins of the Swift Stormsaber	23338
+19029	Horn of the Frostwolf Howler	23509
+19030	Stormpike Battle Charger	23510
+19872	Swift Razzashi Raptor	24242
+19902	Swift Zulian Tiger	24252
+21176	Black Qiraji Resonating Crystal	26656
+21218	Blue Qiraji Resonating Crystal	25953
+21321	Red Qiraji Resonating Crystal	26054
+21323	Green Qiraji Resonating Crystal	26056
+21324	Yellow Qiraji Resonating Crystal	26055
+25470	Golden Gryphon	32235
+25471	Ebon Gryphon	32239
+25472	Snowy Gryphon	32240
+25473	Swift Blue Gryphon	32242
+25474	Tawny Wind Rider	32243
+25475	Blue Wind Rider	32244
+25476	Green Wind Rider	32245
+25477	Swift Red Wind Rider	32246
+25527	Swift Red Gryphon	32289
+25528	Swift Green Gryphon	32290
+25529	Swift Purple Gryphon	32292
+25531	Swift Green Wind Rider	32295
+25532	Swift Yellow Wind Rider	32296
+25533	Swift Purple Wind Rider	32297
+27819	NPC Equip 27819	NULL
+27853	NPC Equip 27853	NULL
+28481	Brown Elekk	34406
+28482	Great Elite Elekk	34407
+28915	Reins of the Dark Riding Talbuk	39316
+28927	Red Hawkstrider	34795
+28936	Swift Pink Hawkstrider	33660
+29102	Reins of the Cobalt War Talbuk	34896
+29103	Reins of the White War Talbuk	34897
+29104	Reins of the Silver War Talbuk	34898
+29105	Reins of the Tan War Talbuk	34899
+29220	Blue Hawkstrider	35020
+29221	Black Hawkstrider	35022
+29222	Purple Hawkstrider	35018
+29223	Swift Green Hawkstrider	35025
+29224	Swift Purple Hawkstrider	35027
+29225	zzoldSwift Warstrider	NULL
+29227	Reins of the Cobalt War Talbuk	34896
+29228	Reins of the Dark War Talbuk	34790
+29229	Reins of the Silver War Talbuk	34898
+29230	Reins of the Tan War Talbuk	34899
+29231	Reins of the White War Talbuk	34897
+29465	Black Battlestrider	22719
+29466	Black War Kodo	22718
+29467	Black War Ram	22720
+29468	Black War Steed Bridle	22717
+29469	Horn of the Black War Wolf	22724
+29470	Red Skeletal Warhorse	22722
+29471	Reins of the Black War Tiger	22723
+29472	Whistle of the Black War Raptor	22721
+29743	Purple Elekk	35711
+29744	Gray Elekk	35710
+29745	Great Blue Elekk	35713
+29746	Great Green Elekk	35712
+29747	Great Purple Elekk	35714
+30480	Fiery Warhorse's Reins	36702
+30609	Swift Nether Drake	37015
+31829	Reins of the Cobalt Riding Talbuk	39315
+31830	Reins of the Cobalt Riding Talbuk	39315
+31831	Reins of the Silver Riding Talbuk	39317
+31832	Reins of the Silver Riding Talbuk	39317
+31833	Reins of the Tan Riding Talbuk	39318
+31834	Reins of the Tan Riding Talbuk	39318
+31835	Reins of the White Riding Talbuk	39319
+31836	Reins of the White Riding Talbuk	39319
+32314	Green Riding Nether Ray	39798
+32316	Purple Riding Nether Ray	39801
+32317	Red Riding Nether Ray	39800
+32318	Silver Riding Nether Ray	39802
+32319	Blue Riding Nether Ray	39803
+32458	Ashes of Al'ar	40192
+32768	Reins of the Raven Lord	41252
+32857	Reins of the Onyx Netherwing Drake	41513
+32858	Reins of the Azure Netherwing Drake	41514
+32859	Reins of the Cobalt Netherwing Drake	41515
+32860	Reins of the Purple Netherwing Drake	41516
+32861	Reins of the Veridian Netherwing Drake	41517
+32862	Reins of the Violet Netherwing Drake	41518
+33176	Flying Broom	NULL
+33182	Swift Flying Broom	NULL
+33183	Old Magic Broom	NULL
+33184	Swift Magic Broom	NULL
+33224	Reins of the Spectral Tiger	42776
+33225	Reins of the Swift Spectral Tiger	42777
+33809	Amani War Bear	43688
+33976	Brewfest Ram	43899
+33977	Swift Brewfest Ram	43900
+33999	Cenarion War Hippogryph	43927
+34060	Flying Machine Control	44153
+34061	Turbo-Charged Flying Machine Control	44151
+34092	Merciless Nether Drake	44744
+34129	Swift Warstrider	35028
+35225	X-51 Nether-Rocket	46197
+35226	X-51 Nether-Rocket X-TREME	46199
+35513	Swift White Hawkstrider	46628
+35906	Reins of the Black War Elekk	48027
+37011	Magic Broom	NULL
+37012	The Horseman's Reins	48025
+37598	Swift Zhevra OLD	48954
+37676	Vengeful Nether Drake	49193
+37719	Swift Zhevra	49322
+37827	Brewfest Kodo	49378
+37828	Great Brewfest Kodo	49379
+38265	[PH] Reins of the Black Warp Stalker	NULL
+38576	Big Battle Bear	51412
+38690	NPC Equip 38690	NULL
+39303	Swift Flying Carpet	NULL
+40775	Winged Steed of the Ebon Blade	54729
+40777	Polar Bear Harness	54753
+41508	Mechano-hog	55531
+43516	Brutal Nether Drake	58615
+43599	Big Blizzard Bear	58983
+43951	Reins of the Bronze Drake	59569
+43952	Reins of the Azure Drake	59567
+43953	Reins of the Blue Drake	59568
+43954	Reins of the Twilight Drake	59571
+43955	Reins of the Red Drake	59570
+43956	Reins of the Black War Mammoth	59785
+43957	NPC Equip 43957	NULL
+43958	Reins of the Ice Mammoth	59799
+43959	Reins of the Grand Black War Mammoth	61465
+43960	NPC Equip 43960	NULL
+43961	Reins of the Grand Ice Mammoth	61470
+43962	Reins of the White Polar Bear	54753
+43963	Reins of the Brown Polar Bear	59573
+43964	Reins of the Black Polar Bear	59572
+43965	NPC Equip 43965	NULL
+43986	Reins of the Black Drake	59650
+44077	Reins of the Black War Mammoth	59788
+44079	NPC Equip 44079	NULL
+44080	Reins of the Ice Mammoth	59797
+44083	Reins of the Grand Black War Mammoth	61467
+44085	NPC Equip 44085	NULL
+44086	Reins of the Grand Ice Mammoth	61469
+44151	Reins of the Blue Proto-Drake	59996
+44160	Reins of the Red Proto-Drake	59961
+44164	Reins of the Black Proto-Drake	59976
+44168	Reins of the Time-Lost Proto-Drake	60002
+44175	Reins of the Plagued Proto-Drake	60021
+44177	Reins of the Violet Proto-Drake	60024
+44178	Reins of the Albino Drake	60025
+44221	Loaned Gryphon Reins	NULL
+44223	Reins of the Black War Bear	60118
+44224	Reins of the Black War Bear	60119
+44225	Reins of the Armored Brown Bear	60114
+44226	Reins of the Armored Brown Bear	60116
+44229	Loaned Wind Rider Reins	NULL
+44230	Reins of the Wooly Mammoth	59791
+44231	Reins of the Wooly Mammoth	59793
+44234	Reins of the Traveler's Tundra Mammoth	61447
+44235	Reins of the Traveler's Tundra Mammoth	61425
+44413	Mekgineer's Chopper	60424
+44554	Flying Carpet	61451
+44555	Swift Mooncloth Carpet	61442
+44556	Swift Spellfire Carpet	61446
+44557	Swift Ebonweave Carpet	NULL
+44558	Magnificent Flying Carpet	61309
+44689	Armored Snowy Gryphon	61229
+44690	Armored Blue Wind Rider	61230
+44707	Reins of the Green Proto-Drake	61294
+44842	Red Dragonhawk Mount	61997
+44843	Blue Dragonhawk Mount	61996
+44857	NPC Equip 44857	NULL
+44885	NPC Equip 44885	NULL
+45125	Stormwind Steed	63232
+45586	Ironforge Ram	63636
+45589	Gnomeregan Mechanostrider	63638
+45590	Exodar Elekk	63639
+45591	Darnassian Nightsaber	63637
+45592	Thunder Bluff Kodo	63641
+45593	Darkspear Raptor	63635
+45595	Orgrimmar Wolf	63640
+45596	Silvermoon Hawkstrider	63642
+45597	Forsaken Warhorse	63643
+45693	Mimiron's Head	63796
+45725	Argent Hippogryph	63844
+45801	Reins of the Ironbound Proto-Drake	63956
+45802	Reins of the Rusted Proto-Drake	63963
+46099	Horn of the Black Wolf	64658
+46100	White Kodo	64657
+46101	Blue Skeletal Warhorse	NULL
+46102	Whistle of the Venomhide Ravasaur	64659
+46109	Sea Turtle	64731
+46171	Furious Gladiator's Frost Wyrm	65439
+46308	Black Skeletal Horse	64977
+46708	Deadly Gladiator's Frost Wyrm	64927
+46743	Swift Purple Raptor	65644
+46744	Swift Moonsaber	65638
+46745	Great Red Elekk	65637
+46746	White Skeletal Warhorse	65645
+46747	Turbostrider	65642
+46748	Swift Violet Ram	65643
+46749	Swift Burgundy Wolf	65646
+46750	Great Golden Kodo	65641
+46751	Swift Red Hawkstrider	65639
+46752	Swift Gray Steed	65640
+46755	Great Golden Kodo	65641
+46756	Great Red Elekk	65637
+46757	Swift Burgundy Wolf	65646
+46758	Swift Gray Steed	65640
+46759	Swift Moonsaber	65638
+46760	Swift Purple Raptor	65644
+46761	Swift Red Hawkstrider	65639
+46762	Swift Violet Ram	65643
+46763	Turbostrider	65642
+46764	White Skeletal Warhorse	65645
+46778	Magic Rooster Egg	65917
+46813	Silver Covenant Hippogryph	66087
+46814	Sunreaver Dragonhawk	66088
+46815	Quel'dorei Steed	66090
+46816	Sunreaver Hawkstrider	66091
+47100	Reins of the Striped Dawnsaber	66847
+47101	Ochre Skeletal Warhorse	66846
+47179	Argent Charger	66906
+47180	Argent Warhorse	67466
+47840	Relentless Gladiator's Frost Wyrm	67336
+49044	Swift Alliance Steed	68057
+49046	Swift Horde Wolf	68056
+49096	Crusader's White Warhorse	68187
+49098	Crusader's Black Warhorse	68188
+49282	Big Battle Bear	51412
+49283	Reins of the Spectral Tiger	42776
+49284	Reins of the Swift Spectral Tiger	42777
+49285	X-51 Nether-Rocket	46197
+49286	X-51 Nether-Rocket X-TREME	46199
+49290	Magic Rooster Egg	65917
+49636	Reins of the Onyxian Drake	69395
+50250	Big Love Rocket	71342
+50435	Wrathful Gladiator's Frost Wyrm	71810
+50818	Invincible's Reins	72286
+51954	Reins of the Bloodbathed Frostbrood Vanquisher	72808
+51955	Reins of the Icebound Frostbrood Vanquisher	72807
+52200	Reins of the Crimson Deathcharger	73313
+54068	Wooly White Rhino	74918
+54069	Blazing Hippogryph	74856
+54797	Frosty Flying Carpet	75596
+54811	Celestial Steed	75614
+54860	X-53 Touring Rocket	75973

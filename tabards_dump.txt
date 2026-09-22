@@ -1,0 +1,88 @@
+entry	name
+31779	Aldor Tabard
+20132	Arathor Battle Tabard
+46874	Argent Crusader's Tabard
+20131	Battle Tabard of the Defilers
+25549	Blood Knight Tabard
+31804	Cenarion Expedition Tabard
+36941	Competitor's Tabard
+31776	Consortium Tabard
+19160	Contest Winner's Tabard
+45579	Darnassus Tabard
+31279	Enchanted Illidari Tabard
+45580	Exodar Tabard
+19031	Frostwolf Battle Tabard
+45983	Furious Gladiator's Tabard
+45578	Gnomeregan Tabard
+31404	Green Trophy Tabard of the Illidari
+5976	Guild Tabard
+23999	Honor Hold Tabard
+45577	Ironforge Tabard
+31777	Keepers of Time Tabard
+15198	Knight's Colors
+31774	Kurenai Tabard
+746	Lord Brandon's Tabard (Test)
+43300	Loremaster's Colors
+31778	Lower City Tabard
+31773	Mag'har Tabard
+18732	NPC Equip 18732
+18733	NPC Equip 18733
+23388	NPC Equip 23388
+33227	NPC Equip 33227
+34159	NPC Equip 34159
+38352	NPC Equip 38352
+43301	NPC Equip 43301
+46873	NPC Equip 46873
+32828	Ogri'la Tabard
+45581	Orgrimmar Tabard
+15196	Private's Tabard
+31405	Purple Trophy Tabard of the Illidari
+49086	Relentless Gladiator's Tabard
+15197	Scout's Tabard
+31780	Scryers Tabard
+45582	Sen'jin Tabard
+31781	Sha'tar Tabard
+46817	Silver Covenant Tabard
+45585	Silvermoon City Tabard
+19506	Silverwing Battle Tabard
+32445	Skyguard Tabard
+31775	Sporeggar Tabard
+15199	Stone Guard's Herald
+19032	Stormpike Battle Tabard
+45574	Stormwind Tabard
+46818	Sunreaver Tabard
+38312	Tabard of Brilliance
+43349	Tabard of Brute Force
+49054	Tabard of Conquest
+49052	Tabard of Conquest
+23705	Tabard of Flame
+23709	Tabard of Frost
+38313	Tabard of Fury
+38309	Tabard of Nature
+11364	Tabard of Stormwind
+35280	Tabard of Summer Flames
+35279	Tabard of Summer Skies
+40643	Tabard of the Achiever
+38310	Tabard of the Arcane
+43154	Tabard of the Argent Crusade
+22999	Tabard of the Argent Dawn
+38314	Tabard of the Defender
+43155	Tabard of the Ebon Blade
+43348	Tabard of the Explorer
+24344	Tabard of the Hand
+43157	Tabard of the Kirin Tor
+52252	Tabard of the Lightbringer
+28788	Tabard of the Protector
+23192	Tabard of the Scarlet Crusade
+7725	Tabard of the Scarlet Crusade DEPRECATED
+35221	Tabard of the Shattered Sun
+38311	Tabard of the Void
+43156	Tabard of the Wyrmrest Accord
+34158	Team A Tabard
+24004	Thrallmar Tabard
+45584	Thunder Bluff Tabard
+45583	Undercity Tabard
+3557	Unused Tabard of Chow
+23710	Upperdeck Tabard #3
+19505	Warsong Battle Tabard
+51534	Wrathful Gladiator's Tabard

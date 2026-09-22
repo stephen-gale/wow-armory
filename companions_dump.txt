@@ -1,0 +1,192 @@
+entry	name	learn_spell_id
+4401	Mechanical Squirrel Box	4055
+8485	Cat Carrier (Bombay)	10673
+8486	Cat Carrier (Cornish Rex)	10674
+8487	Cat Carrier (Orange Tabby)	10676
+8488	Cat Carrier (Silver Tabby)	10678
+8489	Cat Carrier (White Kitten)	10679
+8490	Cat Carrier (Siamese)	10677
+8491	Cat Carrier (Black Tabby)	10675
+8492	Parrot Cage (Green Wing Macaw)	10683
+8494	Parrot Cage (Hyacinth Macaw)	10682
+8495	Parrot Cage (Senegal)	10684
+8496	Parrot Cage (Cockatiel)	10680
+8497	Rabbit Crate (Snowshoe)	10711
+8498	Tiny Emerald Whelpling	10698
+8499	Tiny Crimson Whelpling	10697
+8500	Great Horned Owl	10707
+8501	Hawk Owl	10706
+10360	Black Kingsnake	10714
+10361	Brown Snake	10716
+10392	Crimson Snake	10717
+10393	Cockroach	10688
+10394	Prairie Dog Whistle	10709
+10398	Mechanical Chicken	12243
+10822	Dark Whelpling	10695
+11023	Ancona Chicken	10685
+11026	Tree Frog Box	10704
+11027	Wood Frog Box	10703
+11110	Chicken Egg	13548
+11474	Sprite Darter Egg	15067
+11825	Pet Bombling	15048
+11826	Lil' Smoky	15049
+11903	Cat Carrier (Corrupted Kitten)	15648
+13342	Pet Fish	NULL
+13343	Pet Stone	NULL
+13582	Zergling Leash	17709
+13583	Panda Collar	17707
+13584	Diablo Stone	17708
+15996	Lifelike Mechanical Toad	19772
+18963	Turtle Egg (Albino)	NULL
+18964	Turtle Egg (Loggerhead)	23429
+18965	Turtle Egg (Hawksbill)	NULL
+18966	Turtle Egg (Leatherback)	NULL
+18967	Turtle Egg (Olive)	NULL
+19054	Red Dragon Orb	23530
+19055	Green Dragon Orb	23531
+19450	A Jubling's Tiny Home	23811
+19462	Unhatched Jubling Egg	NULL
+20371	Blue Murloc Egg	24696
+20651	Orange Murloc Egg	25018
+20769	Disgusting Oozeling	25162
+21168	Baby Shark	25849
+21277	Tranquil Mechanical Yeti	26010
+22114	Pink Murloc Egg	27241
+22200	Silver Shafted Arrow	NULL
+22235	Truesilver Shafted Arrow	27570
+22780	White Murloc Egg	28487
+22781	Polar Bear Collar	28505
+23002	Turtle Box	28738
+23007	Piglet's Collar	28739
+23015	Rat Cage	28740
+23083	Captured Flame	28871
+23712	White Tiger Cub	30152
+23713	Hippogryph Hatchling	30156
+25535	Netherwhelp's Collar	32298
+27445	Magical Crawdad Box	33050
+28326	NPC Equip 28326	NULL
+29363	Mana Wyrmling	35156
+29364	Brown Rabbit Crate	35239
+29901	Blue Moth Egg	35907
+29902	Red Moth Egg	35909
+29903	Yellow Moth Egg	35910
+29904	White Moth Egg	35911
+29953	Golden Dragonhawk Hatchling	36027
+29956	Red Dragonhawk Hatchling	36028
+29957	Silver Dragonhawk Hatchling	36029
+29958	Blue Dragonhawk Hatchling	36031
+29960	Captured Firefly	36034
+32233	Wolpertinger's Tankard	39709
+32465	Fortune Coin	40319
+32498	Fortune Coin	40405
+32588	Banana Charm	40549
+33154	Sinister Squashling	42609
+33816	Toothy's Bucket	43697
+33817	NPC Equip 33817	NULL
+33818	Muckbreath's Bucket	43698
+33993	Mojo	43918
+34425	Clockwork Rocket Bot	54187
+34478	Tiny Sporebat	45082
+34492	Rocket Chicken	45125
+34493	Dragon Kite	45127
+34495	NPC Equip 34495	NULL
+34518	Golden Pig Coin	45174
+34519	Silver Pig Coin	45175
+34535	Azure Whelpling	10696
+35227	Goblin Weather Machine - Prototype 01-B	NULL
+35349	Snarly's Bucket	46425
+35350	Chuck's Bucket	46426
+35504	Phoenix Hatchling	46599
+37297	Gold Medallion	48406
+37298	Competitor's Souvenir	48408
+37460	Rope Pet Leash	NULL
+38050	Soul-Trader Beacon	49964
+38234	NPC Equip 38234	NULL
+38299	NPC Equip 38299	NULL
+38612	NPC Equip 38612	NULL
+38628	Nether Ray Fry	51716
+38658	Vampiric Batling	51851
+39148	Baby Coralshell Turtle	NULL
+39286	Frosty's Collar	52615
+39656	Tyrael's Hilt	53082
+39896	Tickbird Hatchling	61348
+39898	Cobra Hatchling	61351
+39899	White Tickbird Hatchling	61349
+39973	Ghostly Skull	53316
+40355	NPC Equip 40355	NULL
+40653	Reeking Pet Carrier	40990
+41133	Unhatched Mr. Chilly	55068
+43517	Penguin Egg	61357
+43698	Giant Sewer Rat	59250
+44721	Proto-Drake Whelp	61350
+44723	Nurtured Penguin Egg	61357
+44738	Kirin Tor Familiar	61472
+44819	Baby Blizzard Bear	61855
+44820	Red Ribbon Pet Leash	NULL
+44822	Albino Snake	10713
+44823	NPC Equip 44823	NULL
+44824	NPC Equip 44824	NULL
+44825	NPC Equip 44825	NULL
+44826	NPC Equip 44826	NULL
+44827	NPC Equip 44827	NULL
+44828	NPC Equip 44828	NULL
+44829	NPC Equip 44829	NULL
+44841	Little Fawn's Salt Lick	61991
+44965	Teldrassil Sproutling	62491
+44970	Dun Morogh Cub	62508
+44971	Tirisfal Batling	62510
+44972	Alarming Clockbot (NOT IN USE)	62514
+44973	Durotar Scorpion	62513
+44974	Elwynn Lamb	62516
+44980	Mulgore Hatchling	62542
+44982	Enchanted Broom	62564
+44983	Strand Crawler	62561
+44984	Ammen Vale Lashling	62562
+44998	Argent Squire	62609
+45002	Mechanopeep	62674
+45022	Argent Gruntling	62746
+45180	Murkimus' Little Spear	63318
+45606	Sen'jin Fetish	63712
+45942	XS-001 Constructor Bot	64351
+46398	Calico Cat	65358
+46544	Curious Wolvar Pup	65382
+46545	Curious Oracle Hatchling	65381
+46707	Pint-Sized Pink Pachyderm	44369
+46767	Warbot Ignition Key	65682
+46802	Heavy Murloc Egg	66030
+46820	Shimmering Wyrmling	66096
+46821	Shimmering Wyrmling	66096
+46831	Macabre Marionette	NULL
+46890	NPC Equip 46890	NULL
+46891	NPC Equip 46891	NULL
+46892	Murkimus' Tiny Spear	63318
+46894	NPC Equip 46894	NULL
+48112	Darting Hatchling	67413
+48114	Deviate Hatchling	67414
+48116	Gundrak Hatchling	67415
+48118	Leaping Hatchling	67416
+48120	Obsidian Hatchling	67417
+48122	Ravasaur Hatchling	67418
+48124	Razormaw Hatchling	67419
+48126	Razzashi Hatchling	67420
+48527	Enchanted Onyx	67527
+49287	Tuskarr Kite	68767
+49343	Spectral Tiger Cub	68810
+49362	Onyxian Whelpling	69002
+49646	Core Hound Pup	69452
+49659	NPC Equip 49659	NULL
+49660	NPC Equip 49660	NULL
+49662	Gryphon Hatchling	69535
+49663	Wind Rider Cub	69536
+49664	NPC Equip 49664	NULL
+49665	Pandaren Monk	69541
+49693	Lil' Phylactery	69677
+49911	NPC Equip 49911	NULL
+49912	Perky Pug	70613
+50151	NPC Equip 50151	NULL
+50446	Toxic Wasteling	71840
+54436	Blue Clockwork Rocket Bot	75134
+54810	Celestial Dragon	75613
+54847	Lil' XT	75906
+54857	Murkimus' Little Spear	75936
+56806	Mini Thor	78381

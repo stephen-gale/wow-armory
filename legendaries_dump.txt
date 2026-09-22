@@ -1,0 +1,52 @@
+entry	name	InventoryType
+22736	Andonisus, Reaper of Souls	21
+13262	Ashbringer	17
+50442	Ashbringer (Extra Effects)	17
+22737	Atiesh, Greatstaff of the Guardian	0
+22632	Atiesh, Greatstaff of the Guardian	17
+22631	Atiesh, Greatstaff of the Guardian	17
+22630	Atiesh, Greatstaff of the Guardian	17
+22589	Atiesh, Greatstaff of the Guardian	17
+18563	Bindings of the Windseeker	0
+18564	Bindings of the Windseeker	0
+21176	Black Qiraji Resonating Crystal	0
+30320	Bundle of Nether Spikes	0
+30317	Cosmic Infuser	21
+43651	Crafty's Pole	17
+30316	Devastation	17
+19018	Dormant Wind Kissed Blade	0
+18589	Dormant Wind Kissed Blade DEPRECATED	0
+17771	Elementium Bar	0
+17204	Eye of Sulfuras	0
+20221	Foror's Fabled Steed	0
+45038	Fragment of Val'anyr	0
+22727	Frame of Atiesh	0
+23051	Glaive of the Defender	15
+30312	Infinity Blade	13
+30319	Nether Spike	24
+30318	Netherstrand Longbow	15
+25596	Peep's Whistle	0
+30314	Phaseshift Bulwark	14
+45897	Reforged Hammer of Ancient Kings	0
+50274	Shadowfrost Shard	0
+49623	Shadowmourne	17
+17142	Shard of the Defiler	13
+45039	Shattered Fragments of Val'anyr	0
+22726	Splinter of Atiesh	0
+30313	Staff of Disintegration	17
+17182	Sulfuras, Hand of Ragnaros	17
+17783	Talisman of Binding Fragment	2
+17782	Talisman of Binding Shard	2
+3895	TEST Legendary	21
+18881	TEST Ragnaros Hammer	17
+19158	TEST Sulfuras, Hand of Ragnaros	17
+34334	Thori'dal, the Stars' Fury	15
+19019	Thunderfury, Blessed Blade of the Windseeker	13
+17802	Thunderfury, Blessed Blade of the Windseeker DEPRECATED	21
+45896	Unbound Fragments of Val'anyr	0
+46017	Val'anyr, Hammer of Ancient Kings	21
+19016	Vessel of Rebirth	0
+18565	Vessel of Rebirth DEPRECATED	0
+32837	Warglaive of Azzinoth	21
+32838	Warglaive of Azzinoth	22
+30311	Warp Slicer	13
