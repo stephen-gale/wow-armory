@@ -118,6 +118,32 @@ handful of other notable sets), covering Classic through WotLK content.
   real `achievement_points`/`achievement_count` totals, which only ever
   reflect actual Blizzard achievements.
 
+#### Mounts
+
+A curated shortlist of rare/noteworthy mounts (not every mount in the
+game — see the design rationale below), covering Classic through WotLK
+content.
+
+- **Data source**: `assets/data/collections/mounts.json`, a static list of
+  every curated mount — id, display name, expansion, points, and the
+  mount-learn spell id(s) that grant it. A mount with multiple color
+  variants (Netherwing Drake, Qiraji Battle Tank) lists every variant's
+  spell id in `spell_ids`; knowing any single one is enough — collecting
+  every color is never required.
+- **Detection**: the export scripts query each character's *known spells*
+  (`character_spell`, filtered server-side to just the mount-learn spell
+  ids this list cares about) and check for a match against each mount's
+  `spell_ids`. Unlike `character_achievement`, `character_spell` has no
+  timestamp column at all, so there's no real acquisition date to read —
+  same sticky-timestamp fallback as Gear (see below).
+- **Sticky**: once earned, a Mount collection is permanent, following the
+  same union-with-previous-run pattern as Gear.
+- Curation is deliberately kept in the data file, not the code or schema:
+  the `characters.json` key is the neutral `collections.mounts` (never
+  something narrower like `collections.rare_mounts`), so widening from a
+  curated shortlist to literally every mount later is purely a
+  `mounts.json` data change.
+
 ### `characters.json` shape
 
 ```json
@@ -147,6 +173,9 @@ handful of other notable sets), covering Classic through WotLK content.
         "gear": [
           {"id": "t0_warrior", "earned_at": "2026-03-01T20:15:00Z"},
           {"id": "t1_warrior", "earned_at": "2026-06-19T23:04:41Z"}
+        ],
+        "mounts": [
+          {"id": "deathchargers_reins", "earned_at": "2026-04-12T09:30:00Z"}
         ]
       }
     }
@@ -167,9 +196,10 @@ report: `acore_characters.character_achievement_points(guid, total_points,
 total_achievements)`.
 
 `collections` is the custom, companion-app-only tracking system — see
-[Collections](#collections) above. `collections.gear` is the Gear
-category's earned entries; future categories (mounts, pets, tabards, etc.)
-would land as sibling keys alongside `gear`. Unlike `achievements`, these
+[Collections](#collections) above. `collections.gear` and
+`collections.mounts` are the Gear and Mounts categories' earned entries;
+future categories (pets, tabards, etc.) would land as further sibling keys.
+Unlike `achievements`, these
 are never recomputed from scratch: once an entry appears here, the export
 scripts always carry it forward, even if the character no longer has the
 set equipped — and `earned_at`, stamped the first time it's detected, is
@@ -222,16 +252,19 @@ right after the existing "Saving progress report..." block (i.e. right
 after the `} > "$BACKUP_DIR/playtime_by_character.txt" || { ... }` line)
 and before the "Compressing..." step.
 
-It also detects the **Gear collection** (see [Collections](#collections)
-above): a second query pulls each character's currently-equipped items,
-checks them against `assets/data/collections/gear.json`, and unions any
-newly-earned set into whatever was already published to
-`wow-armory-data/characters.json` last run, so earned sets are never lost
-even after the gear is swapped away. This means `wow-armory-data` needs
-the repo's `assets/data/` folder present — since it's a full clone of this
-repo, a one-time `git pull` there after this feature first ships is enough
-to pick it up (and again any time `assets/data/collections/gear.json`
-changes).
+It also detects the **Gear** and **Mounts** collections (see
+[Collections](#collections) above): a second query pulls each character's
+currently-equipped items and checks them against
+`assets/data/collections/gear.json`; a third pulls each character's known
+spells (filtered to just the mount-learn spell ids `mounts.json` cares
+about) and checks them against `assets/data/collections/mounts.json`. Both
+union any newly-earned entries into whatever was already published to
+`wow-armory-data/characters.json` last run, so earned entries are never
+lost — Gear even after the gear is swapped away, Mounts regardless (mounts
+can't be un-learned). This means `wow-armory-data` needs the repo's
+`assets/data/` folder present — since it's a full clone of this repo, a
+one-time `git pull` there after this feature first ships is enough to pick
+it up (and again any time `gear.json` or `mounts.json` changes).
 
 ```bash
 echo "  Saving characters.json..."
@@ -249,8 +282,10 @@ REPO_DATA_DIR="/home/deck/wow-armory-data"
   || echo "  Warning: failed to sync $REPO_DATA_DIR with origin/main before publishing (non-fatal)"
 
 COLLECTION_GEAR_DEFS="$REPO_DATA_DIR/assets/data/collections/gear.json"
+COLLECTION_MOUNTS_DEFS="$REPO_DATA_DIR/assets/data/collections/mounts.json"
 ACHIEVEMENTS_TMP="$(mktemp)"
 EQUIPPED_TMP="$(mktemp)"
+KNOWN_SPELLS_TMP="$(mktemp)"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT ca.guid, ca.achievement, ca.date
   FROM acore_characters.character_achievement ca
@@ -267,6 +302,24 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   WHERE ci.bag = 0 AND ci.slot BETWEEN 0 AND 18
     AND a.username NOT LIKE 'RNDBOT%';
 " > "$EQUIPPED_TMP"
+# Only the spell ids that actually matter for mount detection — a max-level
+# character can know thousands of spells, so filtering server-side keeps
+# this cheap.
+MOUNT_SPELL_IDS="$(python3 -c "
+import json
+with open('$COLLECTION_MOUNTS_DEFS') as f:
+    defs = json.load(f)
+ids = sorted({str(s) for m in defs for s in m['spell_ids']})
+print(','.join(ids) if ids else '0')
+")"
+mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
+  SELECT cs.guid, cs.spell
+  FROM acore_characters.character_spell cs
+  JOIN acore_characters.characters c ON c.guid = cs.guid
+  JOIN acore_auth.account a ON a.id = c.account
+  WHERE cs.spell IN ($MOUNT_SPELL_IDS)
+    AND a.username NOT LIKE 'RNDBOT%';
+" > "$KNOWN_SPELLS_TMP"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT
     c.guid,
@@ -353,24 +406,54 @@ def detect_collection_gear(equipped_ids):
             earned.append(gs['id'])
     return earned
 
+# Known mount-learn spells per character (character_spell has no per-row
+# timestamp, unlike character_achievement — that's why mounts use the same
+# sticky-timestamp fallback as Gear below).
+known_spells_by_guid = defaultdict(set)
+with open('$KNOWN_SPELLS_TMP') as f:
+    for line in f:
+        line = line.rstrip('\n')
+        if not line:
+            continue
+        guid, spell_id = line.split('\t')
+        known_spells_by_guid[int(guid)].add(int(spell_id))
+
+with open('$COLLECTION_MOUNTS_DEFS') as f:
+    collection_mounts_defs = json.load(f)
+
+def detect_collection_mounts(known_spell_ids):
+    # Earned when the character knows ANY ONE of its spell_ids — multi-color
+    # mounts (Netherwing Drake, Qiraji Battle Tank) list every color's spell
+    # id and complete on any single color, never requiring every color.
+    earned = []
+    for mount in collection_mounts_defs:
+        if any(spell_id in known_spell_ids for spell_id in mount['spell_ids']):
+            earned.append(mount['id'])
+    return earned
+
 # Sticky, with the original earned_at preserved: once earned, a collection
 # is never removed and its earned_at is never overwritten, even after the
 # gear is swapped away. Read whatever was already published last run (if
 # any) and carry its earned_at forward for anything still present.
+def _earned_at_map(entries):
+    # entries used to be bare ids (pre-earned_at); accept both
+    return {
+        (entry['id'] if isinstance(entry, dict) else entry):
+            (entry.get('earned_at') if isinstance(entry, dict) else None)
+        for entry in entries
+    }
+
 previous_collection_gear_by_guid = defaultdict(dict)
+previous_collection_mounts_by_guid = defaultdict(dict)
 prev_path = '$REPO_DATA_DIR/characters.json'
 if os.path.exists(prev_path):
     try:
         with open(prev_path) as f:
             previous_data = json.load(f)
         for prev_char in previous_data.get('characters', []):
-            previous_gear = prev_char.get('collections', {}).get('gear', [])
-            previous_collection_gear_by_guid[prev_char['guid']] = {
-                # entries used to be bare ids (pre-earned_at); accept both
-                (entry['id'] if isinstance(entry, dict) else entry):
-                    (entry.get('earned_at') if isinstance(entry, dict) else None)
-                for entry in previous_gear
-            }
+            prev_collections = prev_char.get('collections', {})
+            previous_collection_gear_by_guid[prev_char['guid']] = _earned_at_map(prev_collections.get('gear', []))
+            previous_collection_mounts_by_guid[prev_char['guid']] = _earned_at_map(prev_collections.get('mounts', []))
     except (json.JSONDecodeError, OSError):
         pass  # first run, or an unreadable/corrupt previous file — start fresh
 
@@ -393,6 +476,14 @@ for line in sys.stdin:
         for gear_id, earned_at in sorted(gear_earned_at.items())
     ]
 
+    mounts_earned_at = dict(previous_collection_mounts_by_guid.get(guid, {}))
+    for mount_id in detect_collection_mounts(known_spells_by_guid.get(guid, set())):
+        mounts_earned_at.setdefault(mount_id, generated_at)
+    collection_mounts = [
+        {'id': mount_id, 'earned_at': earned_at}
+        for mount_id, earned_at in sorted(mounts_earned_at.items())
+    ]
+
     characters.append({
         'guid': guid,
         'name': name,
@@ -410,6 +501,7 @@ for line in sys.stdin:
         'achievements': sorted(achievements_by_guid.get(guid, []), key=lambda a: a['id']),
         'collections': {
             'gear': collection_gear,
+            'mounts': collection_mounts,
         },
     })
 
@@ -422,7 +514,7 @@ with open('$REPO_DATA_DIR/characters.json', 'w') as f:
 
 print(f'  characters.json: wrote {len(characters)} characters')
 " || { echo "Failed: characters.json export"; exit 1; }
-rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP"
+rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP"
 
 echo "  Publishing characters.json to GitHub..."
 (

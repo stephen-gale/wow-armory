@@ -76,6 +76,16 @@ function statWithIcon(iconSrc, text, extraIconClass) {
   return `<span class="stat"><img class="${cls}" src="${iconSrc}" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">${text}</span>`;
 }
 
+// Each Collections category lives in its own data file (mirroring the SQL
+// export's characters.json shape) and groups its items by a category-
+// specific field — Gear by tier, Mounts by the expansion it's from. Adding
+// a future category (Pets, Tabards, ...) means one more entry here, no
+// other code changes.
+const COLLECTION_CATEGORIES = [
+  { key: "gear", file: "assets/data/collections/gear.json", groupLabel: (item) => `Gear — ${item.tier}` },
+  { key: "mounts", file: "assets/data/collections/mounts.json", groupLabel: (item) => `Mounts — ${item.expansion}` },
+];
+
 // Fetched once, eagerly, so it's usually already resolved by the time
 // someone taps a character to expand their achievements/collections.
 let achievementDataPromise = null;
@@ -85,11 +95,13 @@ function loadAchievementData() {
     achievementDataPromise = Promise.all([
       fetch("assets/data/achievements.json").then((r) => r.json()),
       fetch("assets/data/achievement_categories.json").then((r) => r.json()),
-      fetch("assets/data/collections/gear.json").then((r) => r.json()),
-    ]).then(([achievements, categories, collectionGear]) => ({
+      ...COLLECTION_CATEGORIES.map((cat) => fetch(cat.file).then((r) => r.json())),
+    ]).then(([achievements, categories, ...collectionLists]) => ({
       achievementsById: new Map(achievements.map((a) => [a.id, a])),
       categoriesById: new Map(categories.map((c) => [c.id, c])),
-      collectionGearById: new Map(collectionGear.map((g) => [g.id, g])),
+      collectionsByCategory: new Map(
+        COLLECTION_CATEGORIES.map((cat, i) => [cat.key, new Map(collectionLists[i].map((item) => [item.id, item]))])
+      ),
     }));
   }
   return achievementDataPromise;
@@ -264,16 +276,17 @@ function toggleAchievementsPanel(rowLi, c) {
   placeholder.innerHTML = `<p class="char-achievements__empty">Loading…</p>`;
   rowLi.after(placeholder);
 
-  loadAchievementData().then(({ achievementsById, categoriesById, collectionGearById }) => {
-    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById, collectionGearById));
+  loadAchievementData().then(({ achievementsById, categoriesById, collectionsByCategory }) => {
+    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory));
   });
 }
 
 // Two separate, clearly-labeled systems in one expandable panel:
-// - Collections: custom, companion-app-only tracking (currently just Gear —
-//   equipping a full named gear set — with Mounts/Pets/Tabards etc. planned
-//   as sibling categories later). Not real WoW achievements; never mixed
-//   into the Achievements totals or grouping below.
+// - Collections: custom, companion-app-only tracking across categories
+//   (Gear, Mounts, with Pets/Tabards etc. planned as further sibling
+//   categories later — see COLLECTION_CATEGORIES). Not real WoW
+//   achievements; never mixed into the Achievements totals or grouping
+//   below.
 // - Achievements: the character's real completed Blizzard achievements,
 //   grouped by whichever category Blizzard's own data files directly tag
 //   them with — no re-grouping or custom categorization on top.
@@ -288,25 +301,31 @@ function normalizeEntry(entry) {
     : { id: entry, earned_at: null };
 }
 
-function buildAchievementsPanel(c, achievementsById, categoriesById, collectionGearById) {
+function buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory) {
   const li = document.createElement("li");
   li.className = "char-achievements";
 
-  const collectionGearEntries = (c.collections?.gear || []).map(normalizeEntry);
-  const byGearTier = new Map();
-  for (const entry of collectionGearEntries) {
-    const item = collectionGearById.get(entry.id);
-    if (!item) continue;
-    const list = byGearTier.get(item.tier) || [];
-    list.push({ ...item, earned_at: entry.earned_at });
-    byGearTier.set(item.tier, list);
+  const collectionGroups = [];
+  for (const cat of COLLECTION_CATEGORIES) {
+    const itemsById = collectionsByCategory.get(cat.key);
+    const entries = (c.collections?.[cat.key] || []).map(normalizeEntry);
+    const byGroup = new Map();
+    for (const entry of entries) {
+      const item = itemsById.get(entry.id);
+      if (!item) continue;
+      const label = cat.groupLabel(item);
+      const list = byGroup.get(label) || [];
+      list.push({ ...item, earned_at: entry.earned_at });
+      byGroup.set(label, list);
+    }
+    for (const [label, items] of byGroup) {
+      collectionGroups.push({
+        name: label,
+        achievements: items.sort((a, b) => a.name.localeCompare(b.name)),
+      });
+    }
   }
-  const collectionGroups = [...byGearTier.entries()]
-    .map(([tier, items]) => ({
-      name: `Gear — ${tier}`,
-      achievements: items.sort((a, b) => a.name.localeCompare(b.name)),
-    }))
-    .sort((a, b) => a.name.localeCompare(b.name));
+  collectionGroups.sort((a, b) => a.name.localeCompare(b.name));
 
   const achievementEntries = (c.achievements || []).map(normalizeEntry);
   const byCategory = new Map();
