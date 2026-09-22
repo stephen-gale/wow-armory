@@ -277,11 +277,22 @@ function toggleAchievementsPanel(rowLi, c) {
 // - Achievements: the character's real completed Blizzard achievements,
 //   grouped by whichever category Blizzard's own data files directly tag
 //   them with — no re-grouping or custom categorization on top.
+// Accepts either the current {id, earned_at} shape or the older bare-id
+// shape (a stale cached characters.json, or one from before earned_at
+// existed) so a mismatch between a freshly-deployed app.js and
+// not-yet-regenerated data degrades to "no date shown" rather than to
+// every entry silently failing to match at all.
+function normalizeEntry(entry) {
+  return typeof entry === "object" && entry !== null
+    ? entry
+    : { id: entry, earned_at: null };
+}
+
 function buildAchievementsPanel(c, achievementsById, categoriesById, collectionGearById) {
   const li = document.createElement("li");
   li.className = "char-achievements";
 
-  const collectionGearEntries = c.collections?.gear || [];
+  const collectionGearEntries = (c.collections?.gear || []).map(normalizeEntry);
   const byGearTier = new Map();
   for (const entry of collectionGearEntries) {
     const item = collectionGearById.get(entry.id);
@@ -297,7 +308,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collectionG
     }))
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  const achievementEntries = c.achievements || [];
+  const achievementEntries = (c.achievements || []).map(normalizeEntry);
   const byCategory = new Map();
   for (const entry of achievementEntries) {
     const achievement = achievementsById.get(entry.id);
