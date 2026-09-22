@@ -378,6 +378,11 @@ main {
   font-size: 0.72rem;
 }
 
+.achv-list__date {
+  color: var(--text-dim);
+  font-size: 0.72rem;
+}
+
 .app-footer {
   text-align: center;
   color: var(--text-dim);

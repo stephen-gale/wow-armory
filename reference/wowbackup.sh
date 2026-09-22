@@ -198,7 +198,7 @@ COLLECTION_GEAR_DEFS="$REPO_DATA_DIR/assets/data/collections/gear.json"
 ACHIEVEMENTS_TMP="$(mktemp)"
 EQUIPPED_TMP="$(mktemp)"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
-  SELECT ca.guid, ca.achievement
+  SELECT ca.guid, ca.achievement, ca.date
   FROM acore_characters.character_achievement ca
   JOIN acore_characters.characters c ON c.guid = ca.guid
   JOIN acore_auth.account a ON a.id = c.account
@@ -251,14 +251,28 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
 import sys, json, datetime, os
 from collections import defaultdict
 
+def iso(unix_ts):
+    try:
+        ts = int(unix_ts)
+    except (TypeError, ValueError):
+        return None
+    if ts <= 0:
+        return None
+    return datetime.datetime.utcfromtimestamp(ts).strftime('%Y-%m-%dT%H:%M:%SZ')
+
+# Achievements carry their real completion date straight from
+# character_achievement.date (Blizzard's own record) — no tracking needed.
 achievements_by_guid = defaultdict(list)
 with open('$ACHIEVEMENTS_TMP') as f:
     for line in f:
         line = line.rstrip('\n')
         if not line:
             continue
-        guid, achievement_id = line.split('\t')
-        achievements_by_guid[int(guid)].append(int(achievement_id))
+        guid, achievement_id, earned_unix = line.split('\t')
+        achievements_by_guid[int(guid)].append({
+            'id': int(achievement_id),
+            'earned_at': iso(earned_unix),
+        })
 
 # Currently-equipped item entries per character (bag=0, slot 0-18 — actual
 # gear, not bags/bank).
@@ -285,10 +299,11 @@ def detect_collection_gear(equipped_ids):
             earned.append(gs['id'])
     return earned
 
-# Sticky: once earned, a collection is never removed, even after the gear
-# is swapped away. Union this run's live detection with whatever was
-# already published to the repo (the ongoing source of truth) last run.
-previous_collection_gear_by_guid = defaultdict(set)
+# Sticky, with the original earned_at preserved: once earned, a collection
+# is never removed and its earned_at is never overwritten, even after the
+# gear is swapped away. Read whatever was already published last run (if
+# any) and carry its earned_at forward for anything still present.
+previous_collection_gear_by_guid = defaultdict(dict)
 prev_path = '$REPO_DATA_DIR/characters.json'
 if os.path.exists(prev_path):
     try:
@@ -296,9 +311,16 @@ if os.path.exists(prev_path):
             previous_data = json.load(f)
         for prev_char in previous_data.get('characters', []):
             previous_gear = prev_char.get('collections', {}).get('gear', [])
-            previous_collection_gear_by_guid[prev_char['guid']] = set(previous_gear)
+            previous_collection_gear_by_guid[prev_char['guid']] = {
+                # entries used to be bare ids (pre-earned_at); accept both
+                (entry['id'] if isinstance(entry, dict) else entry):
+                    (entry.get('earned_at') if isinstance(entry, dict) else None)
+                for entry in previous_gear
+            }
     except (json.JSONDecodeError, OSError):
         pass  # first run, or an unreadable/corrupt previous file — start fresh
+
+generated_at = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 
 characters = []
 for line in sys.stdin:
@@ -308,8 +330,15 @@ for line in sys.stdin:
     (guid, name, account, race, race_name, cls, class_name,
      faction, level, money, ap, ac, played) = line.split('\t')
     guid = int(guid)
-    newly_detected = detect_collection_gear(equipped_by_guid.get(guid, set()))
-    collection_gear = sorted(previous_collection_gear_by_guid.get(guid, set()) | set(newly_detected))
+
+    gear_earned_at = dict(previous_collection_gear_by_guid.get(guid, {}))
+    for gear_id in detect_collection_gear(equipped_by_guid.get(guid, set())):
+        gear_earned_at.setdefault(gear_id, generated_at)
+    collection_gear = [
+        {'id': gear_id, 'earned_at': earned_at}
+        for gear_id, earned_at in sorted(gear_earned_at.items())
+    ]
+
     characters.append({
         'guid': guid,
         'name': name,
@@ -324,13 +353,11 @@ for line in sys.stdin:
         'achievement_points': int(ap),
         'achievement_count': int(ac),
         'played_time_seconds': int(played),
-        'achievements': sorted(achievements_by_guid.get(guid, [])),
+        'achievements': sorted(achievements_by_guid.get(guid, []), key=lambda a: a['id']),
         'collections': {
             'gear': collection_gear,
         },
     })
-
-generated_at = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 
 with open('$BACKUP_DIR/characters.json', 'w') as f:
     json.dump({'generated_at': generated_at, 'characters': characters}, f, indent=2)

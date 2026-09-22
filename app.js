@@ -281,13 +281,13 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collectionG
   const li = document.createElement("li");
   li.className = "char-achievements";
 
-  const collectionGearIds = c.collections?.gear || [];
+  const collectionGearEntries = c.collections?.gear || [];
   const byGearTier = new Map();
-  for (const id of collectionGearIds) {
-    const item = collectionGearById.get(id);
+  for (const entry of collectionGearEntries) {
+    const item = collectionGearById.get(entry.id);
     if (!item) continue;
     const list = byGearTier.get(item.tier) || [];
-    list.push(item);
+    list.push({ ...item, earned_at: entry.earned_at });
     byGearTier.set(item.tier, list);
   }
   const collectionGroups = [...byGearTier.entries()]
@@ -297,13 +297,13 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collectionG
     }))
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  const ids = c.achievements || [];
+  const achievementEntries = c.achievements || [];
   const byCategory = new Map();
-  for (const id of ids) {
-    const achievement = achievementsById.get(id);
+  for (const entry of achievementEntries) {
+    const achievement = achievementsById.get(entry.id);
     if (!achievement) continue;
     const list = byCategory.get(achievement.category_id) || [];
-    list.push(achievement);
+    list.push({ ...achievement, earned_at: entry.earned_at });
     byCategory.set(achievement.category_id, list);
   }
   const categoryGroups = [...byCategory.entries()]
@@ -340,13 +340,24 @@ function renderAchievementGroups(groups, sectionLabel, showPoints) {
         <h4 class="achv-category__name">${escapeHtml(group.name)} <span class="achv-category__count">(${group.achievements.length})</span></h4>
         <ul class="achv-list">
           ${group.achievements.map((a) => `
-            <li class="achv-list__item">${escapeHtml(a.name)}${showPoints ? ` <span class="achv-list__points">${a.points} pts</span>` : ""}</li>
+            <li class="achv-list__item">${escapeHtml(a.name)}${showPoints ? ` <span class="achv-list__points">${a.points} pts</span>` : ""}${formatEarnedDate(a.earned_at)}</li>
           `).join("")}
         </ul>
       </div>
     `)
     .join("");
   return heading + categories;
+}
+
+// Blank when there's no date to show (e.g. the rare achievement whose
+// completion date Blizzard never recorded) rather than a misleading blank
+// or placeholder date.
+function formatEarnedDate(earnedAt) {
+  if (!earnedAt) return "";
+  const date = new Date(earnedAt);
+  if (Number.isNaN(date.getTime())) return "";
+  const formatted = date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+  return ` <span class="achv-list__date">${escapeHtml(formatted)}</span>`;
 }
 
 function formatPlayedTime(totalSeconds) {
