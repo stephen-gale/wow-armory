@@ -918,3 +918,4 @@ rough effort.
 | PvP: honor rolled up to faction/account | Trivial (when wanted) | Data shape already supports it — `honor_points` matches the fields `renderSummary`/`renderFactionPanel` already reduce over |
 | PvP: kills | Dropped for now | Bots are currently off, so kill counts wouldn't reflect real activity |
 | Additional dashboard views (achievements/playtime trends over multiple backups, etc.) | Unscoped | Carried over from an earlier planning note, not yet reviewed against the real schema |
+| Item rarity borders on Equipped Gear icons | Low | `item_template.Quality` is one more column on the same live query Equipped Gear already joins for names — no new source. Client-side: a quality→border-color map (grey/white/green/blue/purple/orange, Blizzard's own convention) applied to `.achv-list__icon` for equipped items |
