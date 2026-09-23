@@ -1,5 +1,12 @@
 [
   {
+    "id": "spell_48778",
+    "name": "Acherus Deathcharger",
+    "spell_ids": [
+      48778
+    ]
+  },
+  {
     "id": "item_33809",
     "name": "Amani War Bear",
     "spell_ids": [
@@ -350,6 +357,13 @@
     ]
   },
   {
+    "id": "spell_23161",
+    "name": "Dreadsteed",
+    "spell_ids": [
+      23161
+    ]
+  },
+  {
     "id": "item_25471",
     "name": "Ebon Gryphon",
     "spell_ids": [
@@ -361,6 +375,13 @@
     "name": "Exodar Elekk",
     "spell_ids": [
       63639
+    ]
+  },
+  {
+    "id": "spell_5784",
+    "name": "Felsteed",
+    "spell_ids": [
+      5784
     ]
   },
   {

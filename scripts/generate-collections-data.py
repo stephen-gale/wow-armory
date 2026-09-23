@@ -114,10 +114,20 @@ JUNK_BUCKET_UNCERTAIN_ENTRIES = {
 }
 
 # See module docstring. Confirmed in-game via `.lookup spell <name>`, not
-# derivable from any SQL dump.
+# derivable from any SQL dump. In every case the base trainer/quest spell
+# is the bare name with no verb prefix - the "Summon X"/"Teach Summon X"/
+# "Conjure X DUMMY DND" rows alongside it are the race/theme variants (or
+# dev-test artifacts) it grants, never the one a character actually knows.
+# Warhorse/Charger were directly verified via the `[known]` tag against
+# Tirion; Felsteed/Dreadsteed/Acherus Deathcharger follow the identical
+# naming pattern but aren't `[known]`-verified (no Warlock/Death Knight
+# character to check against yet).
 TRAINER_TAUGHT_MOUNTS = [
     {"id": "spell_13819", "name": "Warhorse", "spell_ids": [13819]},
     {"id": "spell_23214", "name": "Charger", "spell_ids": [23214]},
+    {"id": "spell_5784", "name": "Felsteed", "spell_ids": [5784]},
+    {"id": "spell_23161", "name": "Dreadsteed", "spell_ids": [23161]},
+    {"id": "spell_48778", "name": "Acherus Deathcharger", "spell_ids": [48778]},
 ]
 
 

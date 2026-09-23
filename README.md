@@ -139,14 +139,18 @@ or noteworthy ones — spanning Classic through WotLK content.
   verified, not guessed from item names.
 - **The one deliberate exception**: a small, explicitly non-mechanical
   list (`TRAINER_TAUGHT_MOUNTS`) for mounts with no backing item at all —
-  a Paladin's Warhorse/Charger, learned directly from the class trainer as
-  a spell (a Warlock's Felsteed/Dreadsteed, a Death Knight's Acherus
-  Deathcharger, and possibly others work the same way but aren't in the
-  list). There's no query that can enumerate "spells that are secretly
-  mounts with no item," so this only grows when a specific character's
-  real, known mount turns out to need it — never as a speculative
-  completeness pass — each one confirmed in-game via `.lookup spell` since
-  `spell_dbc` is unpopulated for standard spells on this server.
+  a Paladin's Warhorse/Charger, a Warlock's Felsteed/Dreadsteed, and a
+  Death Knight's Acherus Deathcharger, each learned directly as a spell
+  (trainer-taught for the first two, a starting-zone quest reward for the
+  last) rather than from an item. There's no query that can enumerate
+  "spells that are secretly mounts with no item," so this only grows when
+  a specific character's real, known mount turns out to need it — never as
+  a speculative completeness pass — each one identified in-game via
+  `.lookup spell` since `spell_dbc` is unpopulated for standard spells on
+  this server. Warhorse/Charger are directly `[known]`-verified against a
+  Paladin who has them; the other three follow the identical "bare name,
+  no verb prefix" pattern those two established, but aren't yet verified
+  the same way for lack of a Warlock/Death Knight character to check.
 - **Detection**: the export scripts query each character's *known spells*
   (`character_spell`, filtered server-side to just the mount-learn spell
   ids this list cares about) and check for a match against each mount's
