@@ -29,16 +29,31 @@ import json
 # (character name, collection category key, item id, corrected earned_at) —
 # see the branch history / PR description for how each date and item id
 # was sourced.
+#
+# Mount times specifically are constrained by real Blizzard-timestamped
+# achievements already on record for these characters, not picked freely:
+# a mount can never predate the level its riding skill requires (level 20
+# for any basic ground mount post-3.0.8, 40 for an epic/class mount, 60 for
+# a basic flying mount, etc - whichever "Level N" achievement applies), and
+# whichever mount was actually the character's first must land at or before
+# their "Giddy Up!" achievement (fires the instant a first mount is
+# learned). Where a corrected mount falls on the same calendar day as the
+# relevant achievement, its time was set a little after the level gate (or
+# a moment before Giddy Up!) rather than left at the generic noon
+# placeholder used elsewhere - see each entry's comment for which
+# achievement times it against. Check any future manual mount correction
+# against the character's own real achievement dates the same way before
+# picking a time, not just a date.
 CORRECTIONS = [
-    ("Rokhan", "mounts", "item_25476", "2026-05-11T12:00:00Z"),      # Green Wind Rider
-    ("Rokhan", "mounts", "item_18790", "2026-04-21T12:00:00Z"),      # Swift Orange Raptor
-    ("Rokhan", "mounts", "item_8592", "2026-04-02T12:00:00Z"),       # Whistle of the Violet Raptor
+    ("Rokhan", "mounts", "item_25476", "2026-05-11T15:20:00Z"),      # Green Wind Rider - after Level 60 (15:14:28)
+    ("Rokhan", "mounts", "item_18790", "2026-04-21T21:35:00Z"),      # Swift Orange Raptor - after Level 40 (21:28:39)
+    ("Rokhan", "mounts", "item_8592", "2026-04-02T15:53:28Z"),       # Whistle of the Violet Raptor - after Level 20 (15:22:58), before Giddy Up! (15:53:29)
     ("Rokhan", "companions", "item_10398", "2026-05-01T12:00:00Z"),  # Mechanical Chicken
     ("Rokhan", "companions", "item_31760", "2026-05-20T12:00:00Z"),  # Miniwing
     ("Rokhan", "companions", "item_11474", "2026-05-03T12:00:00Z"),  # Sprite Darter Egg
-    ("Tirion", "mounts", "item_25470", "2026-08-24T12:00:00Z"),      # Golden Gryphon
-    ("Tirion", "mounts", "spell_13819", "2026-07-03T12:00:00Z"),     # Warhorse
-    ("Tirion", "mounts", "spell_23214", "2026-07-31T12:00:00Z"),     # Charger
+    ("Tirion", "mounts", "item_25470", "2026-08-24T12:00:00Z"),      # Golden Gryphon - already after Level 60 (09:46:59), no change needed
+    ("Tirion", "mounts", "spell_13819", "2026-07-03T21:21:42Z"),     # Warhorse - after Level 20 (15:46:38), before Giddy Up! (21:21:43)
+    ("Tirion", "mounts", "spell_23214", "2026-07-31T21:20:00Z"),     # Charger - after Level 40 (21:13:54)
 ]
 
 
