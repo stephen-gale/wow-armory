@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-23T08:42:41Z",
+  "generated_at": "2026-09-23T09:38:47Z",
   "characters": [
     {
       "guid": 1006,
@@ -307,7 +307,7 @@
       "money_copper": 20481078,
       "achievement_points": 500,
       "achievement_count": 50,
-      "played_time_seconds": 406895,
+      "played_time_seconds": 407089,
       "achievements": [
         {
           "id": 6,
