@@ -58,13 +58,16 @@ const STAT_ICONS = {
   played: "assets/icons/clock.svg",
 };
 
-// Not a top-level stat yet — shown inside the expanded panel only, under
-// Achievements. Icon confirmed from real Blizzard client data, not
-// guessed: item 43308 ("Honor Points", the currency-wrapper item id used
-// pre-modern-currency-system) -> DisplayInfoID 40753 in ItemDisplayInfo.dbc
-// -> InventoryIcon "Spell_Holy_ChampionsBond" (same source/method as
-// assets/data/item_icons.json).
-const HONOR_ICON = "assets/icons/spell_holy_championsbond.png";
+// Faction-specific, confirmed against real in-game screenshots of the
+// default PvP frame's "Honor:" display (Alliance lion crest / Horde
+// crest) - the earlier assumption of one shared icon was verified
+// against the wrong UI element (the Honor Points currency-wrapper item's
+// own icon, Spell_Holy_ChampionsBond, which is a real Blizzard icon but
+// not the one this app's Honor Points line was meant to show).
+const HONOR_ICON = {
+  Alliance: "assets/icons/achievement_pvp_a_a.png",
+  Horde: "assets/icons/achievement_pvp_h_h.png",
+};
 
 function iconUrl(slug) {
   return `assets/icons/${slug}.png`;
@@ -403,7 +406,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
   li.className = "char-achievements";
 
   const equippedGearHtml = renderEquippedGear(c.equipped_gear || [], itemIcons);
-  const honorHtml = renderHonorPoints(c.honor_points);
+  const honorHtml = renderHonorPoints(c.honor_points, c.faction);
 
   // One flat section per category — no sub-grouping by tier/expansion — in
   // COLLECTION_CATEGORIES' own declared order. factionLevel categories
@@ -548,12 +551,13 @@ function renderEquippedGear(gear, itemIcons) {
 // roll up (see renderSummary/renderFactionPanel's .reduce() calls) - so
 // adding Honor Points there later is a one-line change whenever that's
 // wanted, not a data/schema change.
-function renderHonorPoints(honorPoints) {
+function renderHonorPoints(honorPoints, faction) {
   if (honorPoints === undefined) return "";
+  const icon = HONOR_ICON[faction] || HONOR_ICON.Alliance;
   return `
     <h3 class="achv-section__name">PvP</h3>
     <ul class="achv-list">
-      <li class="achv-list__item"><img class="achv-list__icon" src="${HONOR_ICON}" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">Honor Points: ${formatNumber(honorPoints)}</li>
+      <li class="achv-list__item"><img class="achv-list__icon" src="${icon}" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">Honor Points: ${formatNumber(honorPoints)}</li>
     </ul>
   `;
 }

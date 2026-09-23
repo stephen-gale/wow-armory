@@ -291,21 +291,19 @@ whenever that's wanted, not a data or schema change.
 
 - **Data source**: `characters.totalHonorPoints`, one existing column,
   added to the export scripts' main character query.
-- **Icon**: found from real Blizzard client data, not guessed. Blizzard
-  represents Honor Points internally via a currency-wrapper item (id
-  `43308`) even though it's not truly an inventory item; that item's
-  `DisplayInfoID` (`40753` in `ItemDisplayInfo_3.3.5_12340.csv`) resolves
-  to `Spell_Holy_ChampionsBond` — the same official icon the game itself
-  uses. Bundled at `assets/icons/spell_holy_championsbond.png` (the small,
-  hand-picked UI icon set, not `assets/icons/items/`, since it was
-  resolved and fetched individually rather than as part of the bulk
-  equippable-item icon set). One icon for both factions is correct, not
-  an oversight: WotLK's post-3.2 honor rework made Honor Points a single
-  currency shared by both factions (unlike the older, faction-specific
-  Insignia items it replaced) — confirmed directly in `Item_3.3.5_12340.csv`,
-  where item `43307` (a different currency, Arena Points — not a
-  Horde-specific Honor Points) happens to share the same `DisplayInfoID`
-  as `43308`, but there is no separate Alliance/Horde item at all.
+- **Icon**: faction-specific, confirmed against real in-game screenshots
+  of the default PvP frame's own "Honor:" display — the Alliance lion
+  crest (`Achievement_PvP_A_A`) or the Horde crest (`Achievement_PvP_H_H`),
+  picked by `characters.faction`. Both are standard Blizzard UI icons
+  already bundled at `assets/icons/achievement_pvp_a_a.png` /
+  `achievement_pvp_h_h.png`. An earlier version of this app used a single
+  shared icon (`Spell_Holy_ChampionsBond`, resolved from the Honor Points
+  currency-wrapper item, id `43308`) reasoning that WotLK's post-3.2 honor
+  rework made Honor Points one currency shared by both factions — true of
+  the currency itself, but that turned out to be the wrong UI element to
+  check: the actual in-game "Honor:" display uses the faction crest, not
+  the currency's own icon. Corrected once real screenshots made the
+  mismatch obvious, not caught by DBC data alone.
 
 ### Titles
 
@@ -893,7 +891,10 @@ here directly as things ship or plans change.
 - **Honor Points / PvP module** — an independent third module (peer of
   Equipped and Collections/Achievements), not gated by the Sort toggle.
   Data shape already matches the fields that roll up into faction/account
-  totals, so that rollup is a one-line change whenever it's wanted.
+  totals, so that rollup is a one-line change whenever it's wanted. Icon
+  is faction-specific (Alliance lion crest / Horde crest), verified
+  against real in-game screenshots after an initial DBC-only check
+  picked the wrong UI element — see [Honor Points](#honor-points) above.
 - **Titles** — a seventh Collections category, achievement-granted titles
   only (see [Titles](#titles) above for why, and the known gap — a
   handful of WotLK titles come from quests instead). No new DB query: a
@@ -901,16 +902,6 @@ here directly as things ship or plans change.
   against a bundled achievement-id → title-name map, so every entry
   always carries a real date, unlike the sticky-guess fallback the other
   six Collections categories need.
-
-### In progress / near-term
-
-- [ ] **Verify the Honor Points icon** — take an in-game screenshot of
-  where Honor Points shows in the UI, share it, and confirm/correct the
-  icon currently used in `app.js` (`assets/icons/spell_holy_championsbond.png`,
-  resolved from item 43308). Checked the client data already: WotLK's
-  unified Honor Points currency (id 1901) has one icon shared by both
-  factions, no Alliance/Horde split — this is a sanity check against the
-  real client, not a known bug (see [Honor Points](#honor-points) above).
 
 ### Backlog ideas
 
