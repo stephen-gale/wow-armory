@@ -67,6 +67,24 @@ function iconImg(slug, className) {
   return `<img class="${className}" src="${iconUrl(slug)}" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">`;
 }
 
+// Item icons (assets/data/item_icons.json) are a much larger, separately
+// bundled set (see scripts/generate-item-icons.py) — kept in their own
+// assets/icons/items/ subfolder rather than mixed into the flat top-level
+// assets/icons/ used for the small, hand-picked UI icon set above.
+function itemIconImg(slug, className) {
+  if (!slug) return "";
+  return `<img class="${className}" src="assets/icons/items/${slug}.png" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">`;
+}
+
+// WoW's fixed EQUIPMENT_SLOT_* order (0-18) - stable across the game's
+// entire history, matches the character_inventory.slot values the export
+// scripts already filter to (bag=0, slot 0-18).
+const EQUIP_SLOT_LABELS = [
+  "Head", "Neck", "Shoulder", "Shirt", "Chest", "Waist", "Legs", "Feet",
+  "Wrist", "Hands", "Ring 1", "Ring 2", "Trinket 1", "Trinket 2", "Back",
+  "Main Hand", "Off Hand", "Ranged", "Tabard",
+];
+
 // A stat value with its icon in front instead of a text label (e.g. gold
 // coin icon instead of the word "Gold"). Used for both the per-faction
 // summary row and each character row, in the same Gold/Achievements/Played
@@ -106,10 +124,12 @@ function loadAchievementData() {
     achievementDataPromise = Promise.all([
       fetch("assets/data/achievements.json").then((r) => r.json()),
       fetch("assets/data/achievement_categories.json").then((r) => r.json()),
+      fetch("assets/data/item_icons.json").then((r) => r.json()),
       ...COLLECTION_CATEGORIES.map((cat) => fetch(cat.file).then((r) => r.json())),
-    ]).then(([achievements, categories, ...collectionLists]) => ({
+    ]).then(([achievements, categories, itemIcons, ...collectionLists]) => ({
       achievementsById: new Map(achievements.map((a) => [a.id, a])),
       categoriesById: new Map(categories.map((c) => [c.id, c])),
+      itemIcons,
       collectionsByCategory: new Map(
         COLLECTION_CATEGORIES.map((cat, i) => [cat.key, new Map(collectionLists[i].map((item) => [item.id, item]))])
       ),
@@ -337,8 +357,8 @@ function toggleAchievementsPanel(rowLi, c) {
   placeholder.innerHTML = `<p class="char-achievements__empty">Loading…</p>`;
   rowLi.after(placeholder);
 
-  loadAchievementData().then(({ achievementsById, categoriesById, collectionsByCategory }) => {
-    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory));
+  loadAchievementData().then(({ achievementsById, categoriesById, collectionsByCategory, itemIcons }) => {
+    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory, itemIcons));
   });
 }
 
@@ -362,9 +382,11 @@ function normalizeEntry(entry) {
     : { id: entry, earned_at: null };
 }
 
-function buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory) {
+function buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory, itemIcons) {
   const li = document.createElement("li");
   li.className = "char-achievements";
+
+  const equippedGearHtml = renderEquippedGear(c.equipped_gear || [], itemIcons);
 
   // One flat section per category — no sub-grouping by tier/expansion — in
   // COLLECTION_CATEGORIES' own declared order. factionLevel categories
@@ -403,41 +425,78 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     }))
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  if (collectionGroups.length === 0 && categoryGroups.length === 0) {
+  if (collectionGroups.length === 0 && categoryGroups.length === 0 && !equippedGearHtml) {
     li.innerHTML = `<p class="char-achievements__empty">No collections or achievements recorded.</p>`;
     return li;
   }
 
-  const typeViewHtml =
-    renderAchievementGroups(collectionGroups, "Collections", false) +
-    renderAchievementGroups(categoryGroups, "Achievements", false);
-  const allItems = [...collectionGroups, ...categoryGroups].flatMap((group) => group.achievements);
-  const dateViewHtml = renderDateView(allItems);
+  // Equipped Gear sits outside the sort-toggle entirely (before it, always
+  // visible): it's a live snapshot of the current loadout, not something
+  // "earned" with a date, so it doesn't belong in either Type or Date view.
+  // The toggle itself only makes sense when there's actually Collections/
+  // Achievements data to sort - skip it entirely otherwise (e.g. a
+  // character with gear equipped but nothing recorded yet).
+  let sortSectionHtml = "";
+  if (collectionGroups.length > 0 || categoryGroups.length > 0) {
+    const typeViewHtml =
+      renderAchievementGroups(collectionGroups, "Collections", false) +
+      renderAchievementGroups(categoryGroups, "Achievements", false);
+    const allItems = [...collectionGroups, ...categoryGroups].flatMap((group) => group.achievements);
+    const dateViewHtml = renderDateView(allItems);
 
-  // Radio `name` must be unique per panel — multiple characters' panels
-  // can be expanded on the page at once, and a shared name would let
-  // toggling one character's Sort by also move every other open panel's.
-  const toggleName = `sort-${c.guid}`;
-  li.innerHTML = `
-    <div class="sort-toggle" role="radiogroup" aria-label="Sort by">
-      <input type="radio" name="${toggleName}" id="${toggleName}-type" checked>
-      <label class="sort-toggle__label" for="${toggleName}-type">Type</label>
-      <input type="radio" name="${toggleName}" id="${toggleName}-date">
-      <label class="sort-toggle__label" for="${toggleName}-date">Date</label>
-    </div>
-    <div class="sort-view is-active" data-view="type">${typeViewHtml}</div>
-    <div class="sort-view" data-view="date">${dateViewHtml}</div>
-  `;
+    // Radio `name` must be unique per panel — multiple characters' panels
+    // can be expanded on the page at once, and a shared name would let
+    // toggling one character's Sort by also move every other open panel's.
+    const toggleName = `sort-${c.guid}`;
+    sortSectionHtml = `
+      <div class="sort-toggle" role="radiogroup" aria-label="Sort by">
+        <input type="radio" name="${toggleName}" id="${toggleName}-type" checked>
+        <label class="sort-toggle__label" for="${toggleName}-type">Type</label>
+        <input type="radio" name="${toggleName}" id="${toggleName}-date">
+        <label class="sort-toggle__label" for="${toggleName}-date">Date</label>
+      </div>
+      <div class="sort-view is-active" data-view="type">${typeViewHtml}</div>
+      <div class="sort-view" data-view="date">${dateViewHtml}</div>
+    `;
+  }
+
+  li.innerHTML = equippedGearHtml + sortSectionHtml;
 
   const views = li.querySelectorAll(".sort-view");
   for (const radio of li.querySelectorAll(".sort-toggle input")) {
     radio.addEventListener("change", () => {
-      const which = radio.id === `${toggleName}-date` ? "date" : "type";
+      const which = radio.id.endsWith("-date") ? "date" : "type";
       views.forEach((view) => view.classList.toggle("is-active", view.dataset.view === which));
     });
   }
 
   return li;
+}
+
+// Equipped Gear: the character's current loadout, slot by slot, straight
+// from character_inventory (see export-characters-json.sh/wowbackup.sh's
+// equipped_gear) - not sticky, not "earned", just what's on right now.
+// Icons resolve against the bundled item_icons.json (item id -> icon
+// name, see scripts/generate-item-icons.py); a slot with no icon in that
+// map (or whose file failed to load) just shows the name with no icon,
+// same graceful fallback every other icon in this app already uses.
+function renderEquippedGear(gear, itemIcons) {
+  if (gear.length === 0) return "";
+  const items = gear
+    .map((g) => ({ ...g, slotLabel: EQUIP_SLOT_LABELS[g.slot] }))
+    .filter((g) => g.slotLabel)
+    .sort((a, b) => a.slot - b.slot);
+  if (items.length === 0) return "";
+  return `
+    <div class="achv-category">
+      <h4 class="achv-category__name">Equipped Gear <span class="achv-category__count">(${items.length})</span></h4>
+      <ul class="achv-list">
+        ${items.map((g) => `
+          <li class="achv-list__item">${itemIconImg(itemIcons[g.id], "achv-list__icon")}${escapeHtml(g.slotLabel)}: ${escapeHtml(g.name)}</li>
+        `).join("")}
+      </ul>
+    </div>
+  `;
 }
 
 // Returns achv-category blocks as siblings (not wrapped in a container), so

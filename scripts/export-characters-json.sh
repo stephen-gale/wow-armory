@@ -46,6 +46,18 @@
 # equipped-only, sticky) — the faction-level de-duplicated display (since
 # heirlooms are Bind-on-Account and can be mailed between characters) is
 # purely an app.js rendering concern, not a detection/storage one.
+#
+# `equipped_gear` (separate from `collections`) is each character's current
+# loadout, slot by slot — unlike Collections, this is NOT sticky: it's a
+# plain point-in-time snapshot of character_inventory, fully replaced every
+# run, since "what you're wearing right now" has no notion of being
+# permanently "earned". Names are queried live from item_template (the
+# live server is the simplest, most accurate source, unlike Collections
+# which resolve names against a bundled reference file); icons are resolved
+# client-side in app.js against the bundled assets/data/item_icons.json
+# (item id -> icon slug, precomputed once from Blizzard's own client data —
+# see that file's generation notes), so a brand new piece of gear just
+# works on the next run with no script change needed here.
 
 set -euo pipefail
 
@@ -80,11 +92,12 @@ mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
 " > "$ACHIEVEMENTS_TMP"
 
 mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
-  SELECT ci.guid, ii.itemEntry
+  SELECT ci.guid, ci.slot, ii.itemEntry, it.name
   FROM acore_characters.character_inventory ci
   JOIN acore_characters.item_instance ii ON ii.guid = ci.item
   JOIN acore_characters.characters c ON c.guid = ci.guid
   JOIN acore_auth.account a ON a.id = c.account
+  JOIN acore_world.item_template it ON it.entry = ii.itemEntry
   WHERE ci.bag = 0 AND ci.slot BETWEEN 0 AND 18
     AND a.username NOT LIKE 'RNDBOT%';
 " > "$EQUIPPED_TMP"
@@ -198,15 +211,25 @@ with open(achievements_path) as f:
         })
 
 # Currently-equipped item entries per character (bag=0, slot 0-18 only —
-# actual gear, not bags/bank/inventory).
+# actual gear, not bags/bank/inventory). Also kept as a per-slot list
+# (equipped_gear_by_guid) for the plain "what's currently worn" snapshot -
+# see equipped_gear below - separate from equipped_by_guid's flat id set,
+# which is only used for Collections "equip" detection.
 equipped_by_guid = defaultdict(set)
+equipped_gear_by_guid = defaultdict(list)
 with open(equipped_path) as f:
     for line in f:
         line = line.rstrip("\n")
         if not line:
             continue
-        guid, item_entry = line.split("\t")
-        equipped_by_guid[int(guid)].add(int(item_entry))
+        guid, slot, item_entry, item_name = line.split("\t")
+        guid = int(guid)
+        equipped_by_guid[guid].add(int(item_entry))
+        equipped_gear_by_guid[guid].append({
+            "slot": int(slot),
+            "id": int(item_entry),
+            "name": item_name,
+        })
 
 # Known mount/companion-learn spells per character (character_spell has no
 # per-row timestamp, unlike character_achievement — that's why every
@@ -319,6 +342,7 @@ for line in sys.stdin:
         "played_time_seconds": int(played),
         "achievements": sorted(achievements_by_guid.get(guid, []), key=lambda a: a["id"]),
         "collections": collections,
+        "equipped_gear": sorted(equipped_gear_by_guid.get(guid, []), key=lambda g: g["slot"]),
     })
 
 data = {

@@ -430,6 +430,17 @@ main {
   font-size: 0.82rem;
 }
 
+/* Equipped Gear only - real item icons, same 18px size settled on in the
+   earlier icon-size mockup. */
+.achv-list__icon {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+  border-radius: 3px;
+  margin-right: 0.35rem;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
 .achv-list__points {
   color: var(--text-dim);
   font-size: 0.72rem;

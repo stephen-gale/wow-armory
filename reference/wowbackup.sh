@@ -211,11 +211,12 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   WHERE a.username NOT LIKE 'RNDBOT%';
 " > "$ACHIEVEMENTS_TMP"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
-  SELECT ci.guid, ii.itemEntry
+  SELECT ci.guid, ci.slot, ii.itemEntry, it.name
   FROM acore_characters.character_inventory ci
   JOIN acore_characters.item_instance ii ON ii.guid = ci.item
   JOIN acore_characters.characters c ON c.guid = ci.guid
   JOIN acore_auth.account a ON a.id = c.account
+  JOIN acore_world.item_template it ON it.entry = ii.itemEntry
   WHERE ci.bag = 0 AND ci.slot BETWEEN 0 AND 18
     AND a.username NOT LIKE 'RNDBOT%';
 " > "$EQUIPPED_TMP"
@@ -301,15 +302,23 @@ with open('$ACHIEVEMENTS_TMP') as f:
         })
 
 # Currently-equipped item entries per character (bag=0, slot 0-18 — actual
-# gear, not bags/bank).
+# gear, not bags/bank). Also kept per-slot (equipped_gear_by_guid) for the
+# plain current-loadout snapshot - see equipped_gear below.
 equipped_by_guid = defaultdict(set)
+equipped_gear_by_guid = defaultdict(list)
 with open('$EQUIPPED_TMP') as f:
     for line in f:
         line = line.rstrip('\n')
         if not line:
             continue
-        guid, item_entry = line.split('\t')
-        equipped_by_guid[int(guid)].add(int(item_entry))
+        guid, slot, item_entry, item_name = line.split('\t')
+        guid = int(guid)
+        equipped_by_guid[guid].add(int(item_entry))
+        equipped_gear_by_guid[guid].append({
+            'slot': int(slot),
+            'id': int(item_entry),
+            'name': item_name,
+        })
 
 # Known mount/companion-learn spells per character (character_spell has no
 # per-row timestamp, unlike character_achievement — that's why every
@@ -437,6 +446,7 @@ for line in sys.stdin:
         'played_time_seconds': int(played),
         'achievements': sorted(achievements_by_guid.get(guid, []), key=lambda a: a['id']),
         'collections': collections,
+        'equipped_gear': sorted(equipped_gear_by_guid.get(guid, []), key=lambda g: g['slot']),
     })
 
 with open('$BACKUP_DIR/characters.json', 'w') as f:

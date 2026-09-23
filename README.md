@@ -227,6 +227,47 @@ from every other category, see below.
   character list. This is purely a rendering choice — the underlying data
   is stored identically to Legendaries/Tabards.
 
+### Equipped Gear
+
+A separate feature from Collections, sitting above it in each character's
+panel: the character's full current loadout, slot by slot, with a real
+item icon next to each piece. Unlike every Collections category, this is
+**not sticky** — it's a plain point-in-time snapshot of
+`character_inventory`, fully replaced every run, since "what you're
+wearing right now" isn't something that gets permanently "earned". It has
+no `earned_at` and doesn't appear in the Sort by: Date view for that
+reason.
+
+- **Data source**: the export scripts' existing equipped-items query
+  (`character_inventory.bag = 0`, slot 0-18 — the same one Collections'
+  "equip" categories already use) extended with two columns:
+  `character_inventory.slot` and `item_template.name` (joined live from
+  `acore_world`, the simplest and most accurate source for whatever's
+  actually on the server right now — unlike Collections, no bundled
+  reference file is needed for names here).
+- **Icons**: resolved client-side in `app.js` against
+  `assets/data/item_icons.json` (item id → icon name), generated once by
+  `scripts/generate-item-icons.py` from two DBC-derived CSVs (the same
+  `r-o-b-o-t-o/azerothcore-armory` source `achievements.json` came from):
+  `Item_3.3.5_12340.csv` (item → `DisplayInfoID`) joined against
+  `ItemDisplayInfo_3.3.5_12340.csv` (`DisplayInfoID` → icon name). Item ids
+  for this build match `item_template.entry` 1:1 for standard content (the
+  same assumption every Collections category already relies on), so this
+  needs no DB access at all — pure client-data, and complete for every
+  equippable item in the game, not just what's currently on the roster.
+  The actual icon PNGs are a one-time bundle at `assets/icons/items/*.png`
+  from the same `Gethe/wow-ui-textures` mirror the class/race/faction
+  icons already use (2,742 of the 2,747 distinct icons this build ever
+  needs — the rest silently show no icon, same graceful fallback as any
+  other icon in this app).
+- **Why new gear "just works"**: this build (3.3.5.12340) is frozen
+  forever, so `item_icons.json` already covers every item that could ever
+  be equipped, not only what's currently worn — equip something new and
+  run `wowbackup`, and the name comes live from the DB while the icon
+  resolves from data that was already complete. No re-fetching, no manual
+  step, ever — regenerating `item_icons.json` is only ever needed if this
+  project moved to a different client build.
+
 ### `characters.json` shape
 
 ```json
@@ -268,7 +309,11 @@ from every other category, see below.
         "heirlooms": [
           {"id": "item_42991", "earned_at": "2026-02-14T08:00:00Z"}
         ]
-      }
+      },
+      "equipped_gear": [
+        {"slot": 0, "id": 22418, "name": "Dreadnaught Helmet"},
+        {"slot": 15, "id": 19019, "name": "Thunderfury, Blessed Blade of the Windseeker"}
+      ]
     }
   ]
 }
@@ -298,6 +343,12 @@ later runs either, since there's no Blizzard-side date to read for
 something that isn't a real achievement (except for a small number of
 one-time, hand-verified corrections — see `scripts/apply-date-corrections.py`
 and the Mounts section above).
+
+`equipped_gear` is the character's current loadout — see
+[Equipped Gear](#equipped-gear) above. Unlike `collections`, this array is
+fully replaced every run (no sticky merge, no `earned_at`); `id` is the
+item entry, resolved to a name live from `item_template` and to an icon
+client-side against `assets/data/item_icons.json`.
 
 ### Privacy note
 
@@ -360,6 +411,12 @@ it's a full clone of this repo, a one-time `git pull` there after this
 feature first ships is enough to pick it up (and again any time a
 `assets/data/collections/*.json` file changes).
 
+That same equipped-items query also carries [Equipped Gear](#equipped-gear)
+(slot and item name, joined live from `item_template`) — unlike
+Collections, this one isn't unioned with anything from last run, since
+`equipped_gear` is a plain current-loadout snapshot, not something that
+accumulates.
+
 ```bash
 echo "  Saving characters.json..."
 REPO_DATA_DIR="/home/deck/wow-armory-data"
@@ -392,11 +449,12 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   WHERE a.username NOT LIKE 'RNDBOT%';
 " > "$ACHIEVEMENTS_TMP"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
-  SELECT ci.guid, ii.itemEntry
+  SELECT ci.guid, ci.slot, ii.itemEntry, it.name
   FROM acore_characters.character_inventory ci
   JOIN acore_characters.item_instance ii ON ii.guid = ci.item
   JOIN acore_characters.characters c ON c.guid = ci.guid
   JOIN acore_auth.account a ON a.id = c.account
+  JOIN acore_world.item_template it ON it.entry = ii.itemEntry
   WHERE ci.bag = 0 AND ci.slot BETWEEN 0 AND 18
     AND a.username NOT LIKE 'RNDBOT%';
 " > "$EQUIPPED_TMP"
@@ -482,15 +540,23 @@ with open('$ACHIEVEMENTS_TMP') as f:
         })
 
 # Currently-equipped item entries per character (bag=0, slot 0-18 — actual
-# gear, not bags/bank).
+# gear, not bags/bank). Also kept per-slot (equipped_gear_by_guid) for the
+# plain current-loadout snapshot - see equipped_gear below.
 equipped_by_guid = defaultdict(set)
+equipped_gear_by_guid = defaultdict(list)
 with open('$EQUIPPED_TMP') as f:
     for line in f:
         line = line.rstrip('\n')
         if not line:
             continue
-        guid, item_entry = line.split('\t')
-        equipped_by_guid[int(guid)].add(int(item_entry))
+        guid, slot, item_entry, item_name = line.split('\t')
+        guid = int(guid)
+        equipped_by_guid[guid].add(int(item_entry))
+        equipped_gear_by_guid[guid].append({
+            'slot': int(slot),
+            'id': int(item_entry),
+            'name': item_name,
+        })
 
 # Known mount/companion-learn spells per character (character_spell has no
 # per-row timestamp, unlike character_achievement — that's why every
@@ -618,6 +684,7 @@ for line in sys.stdin:
         'played_time_seconds': int(played),
         'achievements': sorted(achievements_by_guid.get(guid, []), key=lambda a: a['id']),
         'collections': collections,
+        'equipped_gear': sorted(equipped_gear_by_guid.get(guid, []), key=lambda g: g['slot']),
     })
 
 with open('$BACKUP_DIR/characters.json', 'w') as f:
