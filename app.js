@@ -114,18 +114,12 @@ function statWithIcon(iconSrc, text, extraIconClass) {
 // "earned" repeatedly. buildAchievementsPanel skips factionLevel
 // categories; renderFactionPanel renders their union instead, once per
 // faction (see buildFactionHeirloomsPanel).
-// Titles is nameTemplate: true - its reference entries carry Blizzard's own
-// "%s"-templated name (see resolveTitleName) instead of a plain display
-// name, since a title reads as an extension of whichever character has it,
-// not a fixed label. See assets/data/collections/titles.json's generator
-// (scripts/generate-titles-collection-data.py) for where that comes from -
-// AzerothCore's chartitles_dbc world-DB table, a one-time export the site
-// owner runs against their own server, since (unlike every other category
-// here) there's no CharTitles.dbc-derived CSV published anywhere to bundle
-// instead. Until that file exists, titles.json 404s and this category is
-// silently empty everywhere (see the .catch(() => []) below) - same
-// graceful-degradation this app already gives any other missing/broken
-// asset, not a crash.
+// Titles' id is simply the granting achievement's id - see
+// assets/data/collections/titles.json's generator
+// (scripts/generate-titles-collection-data.py) for why: it's scoped to
+// achievement-granted titles only (not every title source in the game),
+// since that's the one source this project can resolve names/dates for
+// without a live DB dependency.
 const COLLECTION_CATEGORIES = [
   { key: "sets", file: "assets/data/collections/sets.json", label: "Sets" },
   { key: "mounts", file: "assets/data/collections/mounts.json", label: "Mounts" },
@@ -133,7 +127,7 @@ const COLLECTION_CATEGORIES = [
   { key: "legendaries", file: "assets/data/collections/legendaries.json", label: "Legendaries" },
   { key: "tabards", file: "assets/data/collections/tabards.json", label: "Tabards" },
   { key: "heirlooms", file: "assets/data/collections/heirlooms.json", label: "Heirlooms", factionLevel: true },
-  { key: "titles", file: "assets/data/collections/titles.json", label: "Titles", nameTemplate: true },
+  { key: "titles", file: "assets/data/collections/titles.json", label: "Titles" },
 ];
 
 // Fetched once, eagerly, so it's usually already resolved by the time
@@ -160,14 +154,6 @@ function loadAchievementData() {
 }
 loadAchievementData();
 
-// A title's stored name is Blizzard's own "%s"-templated string (e.g. "%s
-// the Explorer", "Elder %s") - substituted here, not guessed at server-side
-// or hand-typed, so prefix/suffix formatting is always exactly what the
-// game itself would show. gender: 0 = male, 1 = female (characters.gender).
-function resolveTitleName(title, c) {
-  const template = c.gender === 1 ? title.name_female || title.name : title.name;
-  return template.replace("%s", c.name);
-}
 
 const fileInput = document.getElementById("file-input");
 const generatedAtEl = document.getElementById("generated-at");
@@ -215,31 +201,6 @@ function renderDashboard(data) {
 
   renderSummary(characters);
   renderFactions(characters);
-  patchActiveTitles(characters);
-}
-
-// The character's currently-selected title, shown as a small line right
-// under their name in the always-visible roster row - not gated behind
-// expanding the panel, since it reads as part of the name itself ("as
-// it's like an extension of their name"). Patched in once the (larger,
-// eagerly-fetched-anyway) Collections/Achievements data resolves, rather
-// than blocking the roster's own fast first paint on it.
-function patchActiveTitles(characters) {
-  loadAchievementData().then(({ collectionsByCategory }) => {
-    const titlesById = collectionsByCategory.get("titles");
-    for (const c of characters) {
-      if (!c.active_title_id) continue;
-      const title = titlesById.get(c.active_title_id);
-      if (!title) continue;
-      const card = document.querySelector(`.char-card[data-guid="${c.guid}"]`);
-      const nameEl = card?.querySelector(".char-card__name");
-      if (!nameEl) continue;
-      const titleEl = document.createElement("p");
-      titleEl.className = "char-card__title";
-      titleEl.textContent = resolveTitleName(title, c);
-      nameEl.after(titleEl);
-    }
-  });
 }
 
 function renderSummary(characters) {
@@ -364,7 +325,6 @@ function renderCharCard(c) {
   li.tabIndex = 0;
   li.setAttribute("role", "button");
   li.setAttribute("aria-expanded", "false");
-  li.dataset.guid = c.guid;
 
   const classColor = CLASS_COLORS[c.class_name] || "#e8e6e1";
   const classIcon = iconImg(CLASS_ICON_SLUGS[c.class_name], "class-icon");
@@ -456,12 +416,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     const items = entries
       .map((entry) => {
         const item = itemsById.get(entry.id);
-        if (!item) return null;
-        // Titles: the bundled name is a "%s"-templated string, not a fixed
-        // label (see resolveTitleName) - resolve it against THIS character
-        // before it's used anywhere below (sorting, rendering, date view).
-        const name = cat.nameTemplate ? resolveTitleName(item, c) : item.name;
-        return { ...item, name, earned_at: entry.earned_at };
+        return item && { ...item, earned_at: entry.earned_at };
       })
       .filter(Boolean);
     if (items.length === 0) continue;

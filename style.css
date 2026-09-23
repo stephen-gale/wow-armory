@@ -285,16 +285,6 @@ main {
   margin: 0;
 }
 
-/* The character's currently-selected title - patched in once Collections
-   data resolves (see patchActiveTitles), so it always lands between the
-   name and the race/class meta line below it regardless of load order. */
-.char-card__title {
-  margin: 0.1rem 0 0;
-  color: var(--gold);
-  font-size: 0.78rem;
-  font-style: italic;
-}
-
 .char-card__meta {
   margin: 0.15rem 0 0;
   color: var(--text-dim);

@@ -229,10 +229,10 @@ from every other category, see below.
 
 #### Titles
 
-Every title a character has earned, from any source — different enough
-from the other six (its own detection mechanism, a one-time per-server
-setup step, a second always-visible "currently equipped" display) to get
-its own full section — see [Titles](#titles) below.
+Every achievement-granted title a character has earned — its own
+detection mechanism (no equip/spell query, a direct achievement lookup
+instead), different enough from the other six to get its own full
+section — see [Titles](#titles) below.
 
 ### Equipped Gear
 
@@ -310,53 +310,39 @@ whenever that's wanted, not a data or schema change.
 ### Titles
 
 A seventh Collections category — every title a character has earned,
-from any source (achievements, quests, PvP rank, whatever granted it),
-shown in the Collections list exactly like Sets/Mounts/etc. The
-character's **currently-selected** title also shows separately, as a
-small line right under their name in the always-visible roster row
-("Brannthor" / _the Explorer_) — it reads as an extension of the name,
-not a Collections entry.
+shown in the Collections list exactly like Sets/Mounts/etc, sorted and
+dated the same way.
 
-- **Detection, mechanically complete, not per-source**: unlike every
-  other category here, this doesn't detect one specific way of earning
-  something — it reads `characters.knownTitles`, the same bitmask the
-  game itself uses to track "has this title", regardless of how it was
-  granted. Decoded against every title's `bit_index`
-  (`chartitles_dbc.Mask_ID`) from the bundled reference data — see
-  `scripts/export-characters-json.sh`/`reference/wowbackup.sh`'s
-  `decode_known_titles`/`detect_title`. `characters.chosenTitle` (the
-  currently-selected title, same bit_index) resolves the same way into
-  the top-level `active_title_id`.
-- **Real dates where possible**: a live `acore_world.achievement_reward`
-  query (`TitleA`/`TitleH` by achievement id, faction-aware) lets a title
-  earned via achievement carry that achievement's own real completion
-  date — the same accuracy Achievements already has. Every other known
-  title (quest-granted, PvP rank, anything without a traceable
-  achievement) falls back to the sticky first-detected stamp every other
-  undateable Collections category already uses. If a title's real date
-  becomes attributable later (the cross-reference improves, or the title
-  was first detected before this existed), the stored date upgrades to
-  the real one rather than staying stuck on the earlier guess.
-- **Why not CharTitles.dbc directly**: unlike Item/Achievement/Talent
-  data, nobody has published a CharTitles.dbc-derived CSV for this build
-  from the same trusted `r-o-b-o-t-o/azerothcore-armory` source this
-  project otherwise uses, and extracting one needs the raw client DBC
-  file, not available here. AzerothCore mirrors CharTitles.dbc into a
-  live-queryable world-DB table instead (`chartitles_dbc` — `ID`,
-  `Name_Lang_enUS`, `Name1_Lang_enUS`, `Mask_ID`), so `titles.json` is a
-  **one-time export from your own server**, not bundled with this repo
-  the way every other category's reference data is. See
-  `scripts/generate-titles-collection-data.py`'s docstring for the exact
-  one-time command. Until that file exists, Titles detection is silently
-  skipped (server-side) and the category is silently empty (client-side)
-  — same graceful degradation this app gives any other missing asset,
-  not a crash.
-- **Name formatting, not guessed**: a title's stored name keeps
-  Blizzard's own `%s` placeholder intact (e.g. `"%s the Explorer"`,
-  `"Elder %s"`) and the correct male/female form (`characters.gender`) —
-  substituted with the character's own name at render time (`app.js`'s
-  `resolveTitleName`), so prefix/suffix formatting is always exactly
-  what the game itself would show, never assumed.
+- **Scope, stated plainly**: achievement-granted titles only, not every
+  title source the game has (a handful come from quests instead). The
+  mechanically "complete" alternative — decoding `characters.knownTitles`,
+  the bitmask the game itself uses, which would catch every source
+  uniformly — needs each title's real name and its CharTitles.dbc
+  `bit_index` to decode against, and neither is available: unlike Item/
+  Achievement/Talent data, nobody has published a CharTitles.dbc-derived
+  CSV for this build, and AzerothCore's own source turns out not to ship
+  `chartitles_dbc` (the table that would otherwise carry this data)
+  populated at all — checked directly against both the main server repo
+  and the separate full-content database repo, neither seeds it. Getting
+  real data means extracting the actual client's `CharTitles.dbc` file
+  and running a separate tool against it — not something to assume any
+  server has done, so this doesn't depend on it. Same kind of deliberate,
+  documented gap as Collections' Blood Parrot exception, not an
+  oversight.
+- **Detection**: no separate DB query at all — a direct lookup against
+  each character's own completed `achievements` (already queried) against
+  a bundled achievement-id → title-name map
+  (`assets/data/collections/titles.json`, generated by
+  `scripts/generate-titles-collection-data.py` from the same
+  `Achievement_3.3.5_12340.csv` `achievements.json` already comes from;
+  its `Reward_lang[0]` field is Blizzard's own tooltip text for what an
+  achievement grants, e.g. `"Title Reward: Elder"`).
+- **Always a real date**: every Titles entry carries its granting
+  achievement's own real completion date — never the sticky first-seen
+  guess every other undateable Collections category needs, since which
+  achievements a character has completed is already fully known every
+  run (no merge with a previous run needed either, unlike Sets/Mounts/
+  etc — it's recomputed fresh each time, and always agrees).
 
 ### `characters.json` shape
 
@@ -373,17 +359,16 @@ not a Collections entry.
       "class_id": 1,
       "class_name": "Warrior",
       "faction": "Alliance",
-      "gender": 0,
       "level": 80,
       "money_copper": 4582311,
       "achievement_points": 3120,
       "achievement_count": 130,
       "played_time_seconds": 1234567,
       "honor_points": 15230,
-      "active_title_id": 61,
       "achievements": [
         {"id": 6, "earned_at": "2026-01-04T18:22:10Z"},
         {"id": 42, "earned_at": "2026-02-11T02:47:33Z"},
+        {"id": 46, "earned_at": "2026-03-01T18:20:00Z"},
         {"id": 556, "earned_at": null}
       ],
       "collections": {
@@ -403,7 +388,7 @@ not a Collections entry.
           {"id": "item_42991", "earned_at": "2026-02-14T08:00:00Z"}
         ],
         "titles": [
-          {"id": 61, "earned_at": "2026-01-04T18:22:10Z"}
+          {"id": 46, "earned_at": "2026-03-01T18:20:00Z"}
         ]
       },
       "equipped_gear": [
@@ -427,22 +412,20 @@ Schema matches the achievement columns used by `wowbackup.sh`'s own progress
 report: `acore_characters.character_achievement_points(guid, total_points,
 total_achievements)`.
 
-`gender` is `characters.gender` (0 male, 1 female) — used only to pick
-the right form of a title's name (see [Titles](#titles) above), same
-shape `race_id`/`class_id` already use for client-side icon lookups.
-
 `collections` is the custom, companion-app-only tracking system — see
 [Collections](#collections) above. `collections.sets`, `.mounts`,
 `.companions`, `.legendaries`, `.tabards`, `.heirlooms`, and `.titles`
 are each category's earned entries; a future category would land as a
-further sibling key. Unlike `achievements`, these are never recomputed
-from scratch: once an entry appears here, the export scripts always
-carry it forward, even if the character no longer has the item equipped
-— and `earned_at`, stamped the first time it's detected, is never
-overwritten on later runs either (except when a real date becomes
-attributable for a Titles entry — see [Titles](#titles) — or for a small
-number of one-time, hand-verified corrections, see
+further sibling key. Unlike `achievements`, most of these are never
+recomputed from scratch: once an entry appears here, the export scripts
+always carry it forward, even if the character no longer has the item
+equipped — and `earned_at`, stamped the first time it's detected, is
+never overwritten on later runs either (except for a small number of
+one-time, hand-verified corrections, see
 `scripts/apply-date-corrections.py` and the Mounts section above).
+`collections.titles` is the one exception — see [Titles](#titles) above:
+it's recomputed fresh every run from the character's own achievements,
+always with a real date, not sticky-merged like the other six.
 
 `equipped_gear` is the character's current loadout — see
 [Equipped Gear](#equipped-gear) above. Unlike `collections`, this array is
@@ -452,11 +435,6 @@ client-side against `assets/data/item_icons.json`.
 
 `honor_points` is `characters.totalHonorPoints`, read straight through —
 see [Honor Points](#honor-points) above.
-
-`active_title_id` is the character's currently-selected title
-(`characters.chosenTitle`, resolved from a bit_index to the same id
-`collections.titles` uses), or `null` if none is selected — see
-[Titles](#titles) above.
 
 ### Privacy note
 
@@ -504,22 +482,20 @@ right after the existing "Saving progress report..." block (i.e. right
 after the `} > "$BACKUP_DIR/playtime_by_character.txt" || { ... }` line)
 and before the "Compressing..." step.
 
-It also detects all seven Collections categories (see [Collections](#collections)
-above): a second query pulls each character's currently-equipped items and
-checks them against the "equip" categories (Sets, Legendaries, Tabards,
-Heirlooms); a third pulls each character's known spells (filtered to just
-the learn-spell ids Mounts/Companions care about — one shared query for
-both) and checks them against those two; a fourth decodes each
-character's `knownTitles` bitmask against every title's bit_index for
-Titles. Every category unions any newly-earned entries into whatever was
-already published to `wow-armory-data/characters.json` last run, so
-earned entries are never lost — the equip categories even after the item
-is unequipped, Mounts/Companions/Titles regardless (none of those three
-can be un-learned). This means `wow-armory-data` needs the repo's
-`assets/data/` folder present — since it's a full clone of this repo, a
-one-time `git pull` there after this feature first ships is enough to
-pick it up (and again any time an `assets/data/collections/*.json` file
-changes).
+It also detects six of the seven Collections categories this way (see
+[Collections](#collections) above): a second query pulls each character's
+currently-equipped items and checks them against the "equip" categories
+(Sets, Legendaries, Tabards, Heirlooms); a third pulls each character's
+known spells (filtered to just the learn-spell ids Mounts/Companions care
+about — one shared query for both) and checks them against those two.
+Every category unions any newly-earned entries into whatever was already
+published to `wow-armory-data/characters.json` last run, so earned
+entries are never lost — even after the item is unequipped for the equip
+categories, regardless for Mounts/Companions (neither can be
+un-learned). This means `wow-armory-data` needs the repo's `assets/data/`
+folder present — since it's a full clone of this repo, a one-time
+`git pull` there after this feature first ships is enough to pick it up
+(and again any time an `assets/data/collections/*.json` file changes).
 
 That same equipped-items query also carries [Equipped Gear](#equipped-gear)
 (slot and item name, joined live from `item_template`) — unlike
@@ -527,16 +503,9 @@ Collections, this one isn't unioned with anything from last run, since
 `equipped_gear` is a plain current-loadout snapshot, not something that
 accumulates.
 
-A fifth query pulls `acore_world.achievement_reward` (which achievement
-grants which title, by faction) — used only to give a Titles entry a real
-earned_at (the granting achievement's own date) where one can be
-attributed; every other known title (quest-granted, PvP rank, whatever)
-falls back to the same sticky first-detected stamp every other undateable
-category already uses. See [Titles](#titles) above for the full detection
-mechanism and the one-time setup step it needs
-(`assets/data/collections/titles.json` isn't bundled with this repo the
-way every other category's reference data is — it has to be generated
-once from your own server).
+The seventh category, Titles, isn't detected this way at all — see
+[Titles](#titles) above for why (it's a direct lookup against each
+character's own completed achievements, not a separate DB query).
 
 ```bash
 echo "  Saving characters.json..."
@@ -563,7 +532,6 @@ COLLECTION_TITLES_DEFS="$REPO_DATA_DIR/assets/data/collections/titles.json"
 ACHIEVEMENTS_TMP="$(mktemp)"
 EQUIPPED_TMP="$(mktemp)"
 KNOWN_SPELLS_TMP="$(mktemp)"
-ACHIEVEMENT_TITLES_TMP="$(mktemp)"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT ca.guid, ca.achievement, ca.date
   FROM acore_characters.character_achievement ca
@@ -601,15 +569,6 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   WHERE cs.spell IN ($SPELL_COLLECTION_IDS)
     AND a.username NOT LIKE 'RNDBOT%';
 " > "$KNOWN_SPELLS_TMP"
-# Which achievement grants which title, by faction — a small (~100 row)
-# world-DB table, cheap to pull in full every run. Only rows that actually
-# grant a title matter; TitleA/TitleH are real CharTitles ids (the same id
-# space assets/data/collections/titles.json's own id uses), 0 = none.
-mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
-  SELECT ID, TitleA, TitleH
-  FROM acore_world.achievement_reward
-  WHERE TitleA != 0 OR TitleH != 0;
-" > "$ACHIEVEMENT_TITLES_TMP"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT
     c.guid,
@@ -634,15 +593,12 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
       WHEN c.race IN (2,5,6,8,9,10) THEN 'Horde'
       ELSE 'Unknown'
     END,
-    c.gender,
     c.level,
     c.money,
     COALESCE(cap.total_points, 0),
     COALESCE(cap.total_achievements, 0),
     c.totaltime,
-    c.totalHonorPoints,
-    c.chosenTitle,
-    c.knownTitles
+    c.totalHonorPoints
   FROM acore_characters.characters c
   JOIN acore_auth.account a ON a.id = c.account
   LEFT JOIN acore_characters.character_achievement_points cap ON cap.guid = c.guid
@@ -706,45 +662,22 @@ with open('$KNOWN_SPELLS_TMP') as f:
         guid, spell_id = line.split('\t')
         known_spells_by_guid[int(guid)].add(int(spell_id))
 
-# Which achievement grants which title, by faction (see the mysql query
-# above) — used below to give a Titles entry a real earned_at (the
-# granting achievement's own date) instead of falling back to the sticky
-# first-detected stamp every other undateable collection uses.
-achievement_titles = {}
-with open('$ACHIEVEMENT_TITLES_TMP') as f:
-    for line in f:
-        line = line.rstrip('\n')
-        if not line:
-            continue
-        achievement_id, title_a, title_h = line.split('\t')
-        achievement_titles[int(achievement_id)] = (int(title_a), int(title_h))
-
-# characters.knownTitles: 6 space-separated uint32 chunks (three uint64
-# PLAYER__FIELD_KNOWN_TITLES fields, each split into two uint32 - see
-# AzerothCore's Player::HasTitle/SetTitle). Bit i of chunk i//32 set means
-# the character knows the title whose CharTitles.dbc bit_index
-# (chartitles_dbc.Mask_ID) is i - this is the game's own ground truth for
-# 'has this title', covering every source (achievement, quest, whatever
-# granted it) the same way, unlike every other Collections category here
-# which can only detect one specific source.
-def decode_known_titles(known_titles_str):
-    if not known_titles_str:
-        return set()
-    bits = set()
-    for chunk_index, value in enumerate(int(x) for x in known_titles_str.split()):
-        for bit in range(32):
-            if value & (1 << bit):
-                bits.add(chunk_index * 32 + bit)
-    return bits
+# Titles: an achievement id -> title name map (see
+# scripts/generate-titles-collection-data.py). A character's titles are
+# whichever of their own completed achievements (achievements_by_guid
+# above) grant one - no separate query, no sticky merge needed, since
+# achievements are already fully known and authoritative every run.
+with open('$COLLECTION_TITLES_DEFS') as f:
+    titles_by_achievement_id = {entry['id']: entry for entry in json.load(f)}
 
 # (json key, detection kind, defs path) — 'equip' entries have slot_groups
 # (matched against currently-equipped items), 'spell' entries have
-# spell_ids (matched against known character_spell rows), 'title' entries
-# have bit_index (matched against the knownTitles bitmask above). Heirlooms
-# are stored here exactly like Legendaries (per-character, equipped-only,
+# spell_ids (matched against known character_spell rows). Heirlooms are
+# stored here exactly like Legendaries (per-character, equipped-only,
 # sticky) — the faction-level de-duplicated display (heirlooms are
 # Bind-on-Account and can be mailed between characters) is purely an
-# app.js rendering concern, not a detection/storage one.
+# app.js rendering concern, not a detection/storage one. Titles isn't
+# here - see the dedicated block below.
 CATEGORIES = [
     ('sets', 'equip', '$COLLECTION_SETS_DEFS'),
     ('mounts', 'spell', '$COLLECTION_MOUNTS_DEFS'),
@@ -752,7 +685,6 @@ CATEGORIES = [
     ('legendaries', 'equip', '$COLLECTION_LEGENDARIES_DEFS'),
     ('tabards', 'equip', '$COLLECTION_TABARDS_DEFS'),
     ('heirlooms', 'equip', '$COLLECTION_HEIRLOOMS_DEFS'),
-    ('titles', 'title', '$COLLECTION_TITLES_DEFS'),
 ]
 
 def detect_equip(equipped_ids, defs):
@@ -779,34 +711,12 @@ def detect_spell(known_spell_ids, defs):
             earned.append(entry['id'])
     return earned
 
-def detect_title(known_titles_str, defs):
-    # Titles: earned when the character's knownTitles bitmask has the bit
-    # for this entry's bit_index set - the same bitmask the game itself
-    # checks, so this catches a title regardless of how it was granted.
-    known_bits = decode_known_titles(known_titles_str)
-    return [entry['id'] for entry in defs if entry['bit_index'] in known_bits]
-
-DETECTORS = {'equip': detect_equip, 'spell': detect_spell, 'title': detect_title}
+DETECTORS = {'equip': detect_equip, 'spell': detect_spell}
 
 defs_by_key = {}
 for key, kind, defs_path in CATEGORIES:
-    try:
-        with open(defs_path) as f:
-            defs_by_key[key] = json.load(f)
-    except FileNotFoundError:
-        # Every other category ships its defs file with the repo - only
-        # Titles can legitimately be missing, until its one-time
-        # chartitles_dbc export (scripts/generate-titles-collection-
-        # data.py) has been run and committed. Skip it gracefully rather
-        # than failing the whole export over one not-yet-generated file.
-        if key != 'titles':
-            raise
-        print(f'  Note: {defs_path} not found - skipping Titles detection this run', file=sys.stderr)
-        defs_by_key[key] = []
-
-# CharTitles bit_index -> id, for resolving characters.chosenTitle (which
-# stores a bit_index, same as knownTitles) into active_title_id below.
-title_bit_index_to_id = {entry['bit_index']: entry['id'] for entry in defs_by_key.get('titles', [])}
+    with open(defs_path) as f:
+        defs_by_key[key] = json.load(f)
 
 # Sticky, with the original earned_at preserved: once earned, a collection
 # is never removed and its earned_at is never overwritten, even after the
@@ -840,45 +750,33 @@ for line in sys.stdin:
     line = line.rstrip('\n')
     if not line:
         continue
-    (guid, name, account, race, race_name, cls, class_name, faction, gender,
-     level, money, ap, ac, played, honor, chosen_title, known_titles) = line.split('\t')
+    (guid, name, account, race, race_name, cls, class_name,
+     faction, level, money, ap, ac, played, honor) = line.split('\t')
     guid = int(guid)
 
     equipped_ids = equipped_by_guid.get(guid, set())
     known_spells = known_spells_by_guid.get(guid, set())
-    detector_input_by_kind = {'equip': equipped_ids, 'spell': known_spells, 'title': known_titles}
-
-    # Real dates for titles attributable to one of this character's own
-    # completed achievements (title_A for Alliance, title_H for Horde) -
-    # every other known title falls back to the sticky stamp below, same
-    # as every other undateable collection category.
-    real_title_dates = {}
-    for ach in achievements_by_guid.get(guid, []):
-        title_a, title_h = achievement_titles.get(ach['id'], (0, 0))
-        title_id = title_a if faction == 'Alliance' else title_h if faction == 'Horde' else 0
-        if title_id and ach['earned_at']:
-            real_title_dates[title_id] = ach['earned_at']
 
     collections = {}
     for key, kind, _ in CATEGORIES:
         detector = DETECTORS[kind]
-        current_ids = detector(detector_input_by_kind[kind], defs_by_key[key])
+        current_ids = detector(equipped_ids if kind == 'equip' else known_spells, defs_by_key[key])
         earned_at_map = dict(previous_by_key_by_guid[key].get(guid, {}))
         for entry_id in current_ids:
-            real_date = real_title_dates.get(entry_id) if key == 'titles' else None
-            if real_date:
-                # Always prefer the real, achievement-sourced date, even
-                # over an earned_at already sticky-recorded from before
-                # this cross-reference existed.
-                earned_at_map[entry_id] = real_date
-            else:
-                earned_at_map.setdefault(entry_id, generated_at)
+            earned_at_map.setdefault(entry_id, generated_at)
         collections[key] = [
             {'id': entry_id, 'earned_at': earned_at}
             for entry_id, earned_at in sorted(earned_at_map.items())
         ]
 
-    active_title_id = title_bit_index_to_id.get(int(chosen_title)) if int(chosen_title) else None
+    collections['titles'] = sorted(
+        (
+            {'id': ach['id'], 'earned_at': ach['earned_at']}
+            for ach in achievements_by_guid.get(guid, [])
+            if ach['id'] in titles_by_achievement_id
+        ),
+        key=lambda t: t['id'],
+    )
 
     characters.append({
         'guid': guid,
@@ -889,14 +787,12 @@ for line in sys.stdin:
         'class_id': int(cls),
         'class_name': class_name,
         'faction': faction,
-        'gender': int(gender),
         'level': int(level),
         'money_copper': int(money),
         'achievement_points': int(ap),
         'achievement_count': int(ac),
         'played_time_seconds': int(played),
         'honor_points': int(honor),
-        'active_title_id': active_title_id,
         'achievements': sorted(achievements_by_guid.get(guid, []), key=lambda a: a['id']),
         'collections': collections,
         'equipped_gear': sorted(equipped_gear_by_guid.get(guid, []), key=lambda g: g['slot']),
@@ -911,7 +807,7 @@ with open('$REPO_DATA_DIR/characters.json', 'w') as f:
 
 print(f'  characters.json: wrote {len(characters)} characters')
 " || { echo "Failed: characters.json export"; exit 1; }
-rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$ACHIEVEMENT_TITLES_TMP"
+rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP"
 
 echo "  Publishing characters.json to GitHub..."
 (
@@ -998,27 +894,16 @@ here directly as things ship or plans change.
   Equipped and Collections/Achievements), not gated by the Sort toggle.
   Data shape already matches the fields that roll up into faction/account
   totals, so that rollup is a one-line change whenever it's wanted.
-- **Titles** — a seventh Collections category, plus the currently-selected
-  title shown under the character's name in the roster row. Detected
-  mechanically from `characters.knownTitles` (the game's own bitmask, so
-  every source — achievements, quests, PvP rank — is covered the same
-  way, not just one), with real dates where a completed achievement can
-  be attributed via a live `achievement_reward` cross-reference. Code is
-  fully built and tested; the actual reference data
-  (`assets/data/collections/titles.json`) still needs its one-time
-  per-server export — see [In progress](#in-progress--near-term) below.
+- **Titles** — a seventh Collections category, achievement-granted titles
+  only (see [Titles](#titles) above for why, and the known gap — a
+  handful of WotLK titles come from quests instead). No new DB query: a
+  direct lookup against each character's own completed achievements
+  against a bundled achievement-id → title-name map, so every entry
+  always carries a real date, unlike the sticky-guess fallback the other
+  six Collections categories need.
 
 ### In progress / near-term
 
-- [ ] **Generate and commit `assets/data/collections/titles.json`** —
-  a one-time export from your own server's `chartitles_dbc` table (client
-  data mirrored into the world DB — see [Titles](#titles) above for why
-  this can't be bundled the way every other category's reference data
-  is). Run the SQL dump + `scripts/generate-titles-collection-data.py`
-  command in that script's own docstring, commit the output, then run
-  `wowbackup` as normal. Until this exists, Titles detection is silently
-  skipped and the category is silently empty everywhere — not broken,
-  just not populated yet.
 - [ ] **Verify the Honor Points icon** — take an in-game screenshot of
   where Honor Points shows in the UI, share it, and confirm/correct the
   icon currently used in `app.js` (`assets/icons/spell_holy_championsbond.png`,

@@ -204,7 +204,6 @@ COLLECTION_TITLES_DEFS="$REPO_DATA_DIR/assets/data/collections/titles.json"
 ACHIEVEMENTS_TMP="$(mktemp)"
 EQUIPPED_TMP="$(mktemp)"
 KNOWN_SPELLS_TMP="$(mktemp)"
-ACHIEVEMENT_TITLES_TMP="$(mktemp)"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT ca.guid, ca.achievement, ca.date
   FROM acore_characters.character_achievement ca
@@ -242,15 +241,6 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   WHERE cs.spell IN ($SPELL_COLLECTION_IDS)
     AND a.username NOT LIKE 'RNDBOT%';
 " > "$KNOWN_SPELLS_TMP"
-# Which achievement grants which title, by faction — a small (~100 row)
-# world-DB table, cheap to pull in full every run. Only rows that actually
-# grant a title matter; TitleA/TitleH are real CharTitles ids (the same id
-# space assets/data/collections/titles.json's own id uses), 0 = none.
-mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
-  SELECT ID, TitleA, TitleH
-  FROM acore_world.achievement_reward
-  WHERE TitleA != 0 OR TitleH != 0;
-" > "$ACHIEVEMENT_TITLES_TMP"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT
     c.guid,
@@ -275,15 +265,12 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
       WHEN c.race IN (2,5,6,8,9,10) THEN 'Horde'
       ELSE 'Unknown'
     END,
-    c.gender,
     c.level,
     c.money,
     COALESCE(cap.total_points, 0),
     COALESCE(cap.total_achievements, 0),
     c.totaltime,
-    c.totalHonorPoints,
-    c.chosenTitle,
-    c.knownTitles
+    c.totalHonorPoints
   FROM acore_characters.characters c
   JOIN acore_auth.account a ON a.id = c.account
   LEFT JOIN acore_characters.character_achievement_points cap ON cap.guid = c.guid
@@ -347,45 +334,22 @@ with open('$KNOWN_SPELLS_TMP') as f:
         guid, spell_id = line.split('\t')
         known_spells_by_guid[int(guid)].add(int(spell_id))
 
-# Which achievement grants which title, by faction (see the mysql query
-# above) — used below to give a Titles entry a real earned_at (the
-# granting achievement's own date) instead of falling back to the sticky
-# first-detected stamp every other undateable collection uses.
-achievement_titles = {}
-with open('$ACHIEVEMENT_TITLES_TMP') as f:
-    for line in f:
-        line = line.rstrip('\n')
-        if not line:
-            continue
-        achievement_id, title_a, title_h = line.split('\t')
-        achievement_titles[int(achievement_id)] = (int(title_a), int(title_h))
-
-# characters.knownTitles: 6 space-separated uint32 chunks (three uint64
-# PLAYER__FIELD_KNOWN_TITLES fields, each split into two uint32 - see
-# AzerothCore's Player::HasTitle/SetTitle). Bit i of chunk i//32 set means
-# the character knows the title whose CharTitles.dbc bit_index
-# (chartitles_dbc.Mask_ID) is i - this is the game's own ground truth for
-# 'has this title', covering every source (achievement, quest, whatever
-# granted it) the same way, unlike every other Collections category here
-# which can only detect one specific source.
-def decode_known_titles(known_titles_str):
-    if not known_titles_str:
-        return set()
-    bits = set()
-    for chunk_index, value in enumerate(int(x) for x in known_titles_str.split()):
-        for bit in range(32):
-            if value & (1 << bit):
-                bits.add(chunk_index * 32 + bit)
-    return bits
+# Titles: an achievement id -> title name map (see
+# scripts/generate-titles-collection-data.py). A character's titles are
+# whichever of their own completed achievements (achievements_by_guid
+# above) grant one - no separate query, no sticky merge needed, since
+# achievements are already fully known and authoritative every run.
+with open('$COLLECTION_TITLES_DEFS') as f:
+    titles_by_achievement_id = {entry['id']: entry for entry in json.load(f)}
 
 # (json key, detection kind, defs path) — 'equip' entries have slot_groups
 # (matched against currently-equipped items), 'spell' entries have
-# spell_ids (matched against known character_spell rows), 'title' entries
-# have bit_index (matched against the knownTitles bitmask above). Heirlooms
-# are stored here exactly like Legendaries (per-character, equipped-only,
+# spell_ids (matched against known character_spell rows). Heirlooms are
+# stored here exactly like Legendaries (per-character, equipped-only,
 # sticky) — the faction-level de-duplicated display (heirlooms are
 # Bind-on-Account and can be mailed between characters) is purely an
-# app.js rendering concern, not a detection/storage one.
+# app.js rendering concern, not a detection/storage one. Titles isn't
+# here - see the dedicated block below.
 CATEGORIES = [
     ('sets', 'equip', '$COLLECTION_SETS_DEFS'),
     ('mounts', 'spell', '$COLLECTION_MOUNTS_DEFS'),
@@ -393,7 +357,6 @@ CATEGORIES = [
     ('legendaries', 'equip', '$COLLECTION_LEGENDARIES_DEFS'),
     ('tabards', 'equip', '$COLLECTION_TABARDS_DEFS'),
     ('heirlooms', 'equip', '$COLLECTION_HEIRLOOMS_DEFS'),
-    ('titles', 'title', '$COLLECTION_TITLES_DEFS'),
 ]
 
 def detect_equip(equipped_ids, defs):
@@ -420,34 +383,12 @@ def detect_spell(known_spell_ids, defs):
             earned.append(entry['id'])
     return earned
 
-def detect_title(known_titles_str, defs):
-    # Titles: earned when the character's knownTitles bitmask has the bit
-    # for this entry's bit_index set - the same bitmask the game itself
-    # checks, so this catches a title regardless of how it was granted.
-    known_bits = decode_known_titles(known_titles_str)
-    return [entry['id'] for entry in defs if entry['bit_index'] in known_bits]
-
-DETECTORS = {'equip': detect_equip, 'spell': detect_spell, 'title': detect_title}
+DETECTORS = {'equip': detect_equip, 'spell': detect_spell}
 
 defs_by_key = {}
 for key, kind, defs_path in CATEGORIES:
-    try:
-        with open(defs_path) as f:
-            defs_by_key[key] = json.load(f)
-    except FileNotFoundError:
-        # Every other category ships its defs file with the repo - only
-        # Titles can legitimately be missing, until its one-time
-        # chartitles_dbc export (scripts/generate-titles-collection-
-        # data.py) has been run and committed. Skip it gracefully rather
-        # than failing the whole export over one not-yet-generated file.
-        if key != 'titles':
-            raise
-        print(f'  Note: {defs_path} not found - skipping Titles detection this run', file=sys.stderr)
-        defs_by_key[key] = []
-
-# CharTitles bit_index -> id, for resolving characters.chosenTitle (which
-# stores a bit_index, same as knownTitles) into active_title_id below.
-title_bit_index_to_id = {entry['bit_index']: entry['id'] for entry in defs_by_key.get('titles', [])}
+    with open(defs_path) as f:
+        defs_by_key[key] = json.load(f)
 
 # Sticky, with the original earned_at preserved: once earned, a collection
 # is never removed and its earned_at is never overwritten, even after the
@@ -481,45 +422,33 @@ for line in sys.stdin:
     line = line.rstrip('\n')
     if not line:
         continue
-    (guid, name, account, race, race_name, cls, class_name, faction, gender,
-     level, money, ap, ac, played, honor, chosen_title, known_titles) = line.split('\t')
+    (guid, name, account, race, race_name, cls, class_name,
+     faction, level, money, ap, ac, played, honor) = line.split('\t')
     guid = int(guid)
 
     equipped_ids = equipped_by_guid.get(guid, set())
     known_spells = known_spells_by_guid.get(guid, set())
-    detector_input_by_kind = {'equip': equipped_ids, 'spell': known_spells, 'title': known_titles}
-
-    # Real dates for titles attributable to one of this character's own
-    # completed achievements (title_A for Alliance, title_H for Horde) -
-    # every other known title falls back to the sticky stamp below, same
-    # as every other undateable collection category.
-    real_title_dates = {}
-    for ach in achievements_by_guid.get(guid, []):
-        title_a, title_h = achievement_titles.get(ach['id'], (0, 0))
-        title_id = title_a if faction == 'Alliance' else title_h if faction == 'Horde' else 0
-        if title_id and ach['earned_at']:
-            real_title_dates[title_id] = ach['earned_at']
 
     collections = {}
     for key, kind, _ in CATEGORIES:
         detector = DETECTORS[kind]
-        current_ids = detector(detector_input_by_kind[kind], defs_by_key[key])
+        current_ids = detector(equipped_ids if kind == 'equip' else known_spells, defs_by_key[key])
         earned_at_map = dict(previous_by_key_by_guid[key].get(guid, {}))
         for entry_id in current_ids:
-            real_date = real_title_dates.get(entry_id) if key == 'titles' else None
-            if real_date:
-                # Always prefer the real, achievement-sourced date, even
-                # over an earned_at already sticky-recorded from before
-                # this cross-reference existed.
-                earned_at_map[entry_id] = real_date
-            else:
-                earned_at_map.setdefault(entry_id, generated_at)
+            earned_at_map.setdefault(entry_id, generated_at)
         collections[key] = [
             {'id': entry_id, 'earned_at': earned_at}
             for entry_id, earned_at in sorted(earned_at_map.items())
         ]
 
-    active_title_id = title_bit_index_to_id.get(int(chosen_title)) if int(chosen_title) else None
+    collections['titles'] = sorted(
+        (
+            {'id': ach['id'], 'earned_at': ach['earned_at']}
+            for ach in achievements_by_guid.get(guid, [])
+            if ach['id'] in titles_by_achievement_id
+        ),
+        key=lambda t: t['id'],
+    )
 
     characters.append({
         'guid': guid,
@@ -530,14 +459,12 @@ for line in sys.stdin:
         'class_id': int(cls),
         'class_name': class_name,
         'faction': faction,
-        'gender': int(gender),
         'level': int(level),
         'money_copper': int(money),
         'achievement_points': int(ap),
         'achievement_count': int(ac),
         'played_time_seconds': int(played),
         'honor_points': int(honor),
-        'active_title_id': active_title_id,
         'achievements': sorted(achievements_by_guid.get(guid, []), key=lambda a: a['id']),
         'collections': collections,
         'equipped_gear': sorted(equipped_gear_by_guid.get(guid, []), key=lambda g: g['slot']),
@@ -552,7 +479,7 @@ with open('$REPO_DATA_DIR/characters.json', 'w') as f:
 
 print(f'  characters.json: wrote {len(characters)} characters')
 " || { echo "Failed: characters.json export"; exit 1; }
-rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$ACHIEVEMENT_TITLES_TMP"
+rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP"
 
 echo "  Publishing characters.json to GitHub..."
 (

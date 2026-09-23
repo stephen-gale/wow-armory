@@ -1,1 +1,246 @@
-[]
+[
+  {
+    "id": 46,
+    "name": "The Explorer"
+  },
+  {
+    "id": 230,
+    "name": "Battlemaster"
+  },
+  {
+    "id": 456,
+    "name": "Obsidian Slayer"
+  },
+  {
+    "id": 714,
+    "name": "Conqueror"
+  },
+  {
+    "id": 762,
+    "name": "Ambassador"
+  },
+  {
+    "id": 870,
+    "name": "Of the Horde or Of the Alliance"
+  },
+  {
+    "id": 907,
+    "name": "Justicar"
+  },
+  {
+    "id": 913,
+    "name": "Elder"
+  },
+  {
+    "id": 942,
+    "name": "The Diplomat"
+  },
+  {
+    "id": 943,
+    "name": "The Diplomat"
+  },
+  {
+    "id": 945,
+    "name": "The Argent Champion"
+  },
+  {
+    "id": 948,
+    "name": "Ambassador"
+  },
+  {
+    "id": 953,
+    "name": "Guardian of Cenarius"
+  },
+  {
+    "id": 978,
+    "name": "The Seeker"
+  },
+  {
+    "id": 1015,
+    "name": "The Exalted"
+  },
+  {
+    "id": 1038,
+    "name": "Flame Warden"
+  },
+  {
+    "id": 1039,
+    "name": "Flame Keeper"
+  },
+  {
+    "id": 1174,
+    "name": "Arena Master"
+  },
+  {
+    "id": 1175,
+    "name": "Battlemaster"
+  },
+  {
+    "id": 1400,
+    "name": "The Magic Seeker"
+  },
+  {
+    "id": 1402,
+    "name": "Conqueror of Naxxramas"
+  },
+  {
+    "id": 1516,
+    "name": "Salty"
+  },
+  {
+    "id": 1563,
+    "name": "Chef"
+  },
+  {
+    "id": 1656,
+    "name": "The Hallowed"
+  },
+  {
+    "id": 1657,
+    "name": "The Hallowed"
+  },
+  {
+    "id": 1658,
+    "name": "Champion of the Frozen Wastes"
+  },
+  {
+    "id": 1683,
+    "name": "Brewmaster"
+  },
+  {
+    "id": 1684,
+    "name": "Brewmaster"
+  },
+  {
+    "id": 1691,
+    "name": "Merrymaker"
+  },
+  {
+    "id": 1692,
+    "name": "Merrymaker"
+  },
+  {
+    "id": 1693,
+    "name": "The Love Fool"
+  },
+  {
+    "id": 1707,
+    "name": "The Love Fool"
+  },
+  {
+    "id": 1784,
+    "name": "Chef"
+  },
+  {
+    "id": 1793,
+    "name": "Matron/Patron"
+  },
+  {
+    "id": 2051,
+    "name": "Of the Nightfall"
+  },
+  {
+    "id": 2054,
+    "name": "Twilight Vanquisher"
+  },
+  {
+    "id": 2186,
+    "name": "The Immortal"
+  },
+  {
+    "id": 2187,
+    "name": "The Undying"
+  },
+  {
+    "id": 2336,
+    "name": "The Insane"
+  },
+  {
+    "id": 2760,
+    "name": "Champion of Darnassus"
+  },
+  {
+    "id": 2761,
+    "name": "Champion of the Exodar"
+  },
+  {
+    "id": 2762,
+    "name": "Champion of Gnomeregan"
+  },
+  {
+    "id": 2763,
+    "name": "Champion of Ironforge"
+  },
+  {
+    "id": 2764,
+    "name": "Champion of Stormwind"
+  },
+  {
+    "id": 2765,
+    "name": "Champion of Orgrimmar"
+  },
+  {
+    "id": 2766,
+    "name": "Champion of Sen'jin"
+  },
+  {
+    "id": 2767,
+    "name": "Champion of Silvermoon"
+  },
+  {
+    "id": 2768,
+    "name": "Champion of Thunder Bluff"
+  },
+  {
+    "id": 2769,
+    "name": "Champion of the Undercity"
+  },
+  {
+    "id": 2797,
+    "name": "the Noble"
+  },
+  {
+    "id": 2798,
+    "name": "the Noble"
+  },
+  {
+    "id": 2816,
+    "name": "Crusader"
+  },
+  {
+    "id": 2817,
+    "name": "Crusader"
+  },
+  {
+    "id": 2903,
+    "name": "Champion of Ulduar"
+  },
+  {
+    "id": 2904,
+    "name": "Conqueror of Ulduar"
+  },
+  {
+    "id": 3036,
+    "name": "Starcaller"
+  },
+  {
+    "id": 3037,
+    "name": "The Astral Walker"
+  },
+  {
+    "id": 3117,
+    "name": "Death's Demise"
+  },
+  {
+    "id": 3259,
+    "name": "The Celestial Defender"
+  },
+  {
+    "id": 3316,
+    "name": "Herald of the Titans"
+  },
+  {
+    "id": 4078,
+    "name": "The Grand Crusader"
+  }
+]

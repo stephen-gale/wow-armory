@@ -10,13 +10,11 @@
       "class_id": 1,
       "class_name": "Warrior",
       "faction": "Alliance",
-      "gender": 0,
       "level": 80,
       "money_copper": 4582311,
       "achievement_points": 3120,
       "played_time_seconds": 1234567,
       "honor_points": 15230,
-      "active_title_id": 61,
       "achievement_count": 130,
       "achievements": [
         {
@@ -135,12 +133,16 @@
         ],
         "titles": [
           {
-            "id": 61,
+            "id": 46,
             "earned_at": "2026-03-01T18:20:00Z"
           },
           {
-            "id": 90,
+            "id": 907,
             "earned_at": "2026-04-15T21:10:00Z"
+          },
+          {
+            "id": 1015,
+            "earned_at": "2026-06-02T19:05:00Z"
           }
         ]
       },
@@ -167,18 +169,20 @@
       "class_id": 11,
       "class_name": "Druid",
       "faction": "Alliance",
-      "gender": 1,
       "level": 80,
       "money_copper": 1122334,
       "achievement_points": 2895,
       "played_time_seconds": 987654,
       "honor_points": 4310,
-      "active_title_id": 90,
       "achievement_count": 121,
       "achievements": [
         {
           "id": 6,
           "earned_at": "2026-03-26T20:55:00Z"
+        },
+        {
+          "id": 913,
+          "earned_at": "2026-02-08T13:00:00Z"
         },
         {
           "id": 11,
@@ -256,7 +260,7 @@
         ],
         "titles": [
           {
-            "id": 90,
+            "id": 913,
             "earned_at": "2026-02-08T13:00:00Z"
           }
         ]
