@@ -267,6 +267,20 @@ reason.
   icons already use (2,742 of the 2,747 distinct icons this build ever
   needs — the rest silently show no icon, same graceful fallback as any
   other icon in this app).
+- **Rarity coloring**: `item_template.Quality` (0-7), added as a third
+  column to the same live query names/icons already come from — no new
+  source. Client-side, a fixed `QUALITY_COLORS` map (`app.js`) tints the
+  icon border and the item name text, the same treatment the real client
+  uses everywhere (Poor grey, Common white, Uncommon green, Rare blue,
+  Epic purple, Legendary orange, Artifact tan, Heirloom light blue).
+  These are Blizzard's own long-standing values, not chosen ones — cross-
+  checked against Blizzard's own FrameXML source where possible (the
+  Heirloom color matched exactly); the client computes the rest natively
+  rather than storing them as a Lua literal, so they're taken from the
+  same widely-documented, unchanged-since-introduction values every WoW
+  addon and site uses. A character exported before `quality` existed just
+  renders with no tint, same graceful fallback as every other optional
+  field in this app.
 - **Why new gear "just works"**: this build (3.3.5.12340) is frozen
   forever, so `item_icons.json` already covers every item that could ever
   be equipped, not only what's currently worn — equip something new and
@@ -390,8 +404,8 @@ dated the same way.
         ]
       },
       "equipped_gear": [
-        {"slot": 0, "id": 22418, "name": "Dreadnaught Helmet"},
-        {"slot": 15, "id": 19019, "name": "Thunderfury, Blessed Blade of the Windseeker"}
+        {"slot": 0, "id": 22418, "name": "Dreadnaught Helmet", "quality": 4},
+        {"slot": 15, "id": 19019, "name": "Thunderfury, Blessed Blade of the Windseeker", "quality": 5}
       ]
     }
   ]
@@ -429,7 +443,9 @@ always with a real date, not sticky-merged like the other six.
 [Equipped Gear](#equipped-gear) above. Unlike `collections`, this array is
 fully replaced every run (no sticky merge, no `earned_at`); `id` is the
 item entry, resolved to a name live from `item_template` and to an icon
-client-side against `assets/data/item_icons.json`.
+client-side against `assets/data/item_icons.json`; `quality` is
+`item_template.Quality` (0-7), read from the same row and mapped
+client-side to Blizzard's own rarity colors.
 
 `honor_points` is `characters.totalHonorPoints`, read straight through —
 see [Honor Points](#honor-points) above.
@@ -538,7 +554,7 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   WHERE a.username NOT LIKE 'RNDBOT%';
 " > "$ACHIEVEMENTS_TMP"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
-  SELECT ci.guid, ci.slot, ii.itemEntry, it.name
+  SELECT ci.guid, ci.slot, ii.itemEntry, it.name, it.Quality
   FROM acore_characters.character_inventory ci
   JOIN acore_characters.item_instance ii ON ii.guid = ci.item
   JOIN acore_characters.characters c ON c.guid = ci.guid
@@ -639,13 +655,14 @@ with open('$EQUIPPED_TMP') as f:
         line = line.rstrip('\n')
         if not line:
             continue
-        guid, slot, item_entry, item_name = line.split('\t')
+        guid, slot, item_entry, item_name, quality = line.split('\t')
         guid = int(guid)
         equipped_by_guid[guid].add(int(item_entry))
         equipped_gear_by_guid[guid].append({
             'slot': int(slot),
             'id': int(item_entry),
             'name': item_name,
+            'quality': int(quality),
         })
 
 # Known mount/companion-learn spells per character (character_spell has no
@@ -887,7 +904,9 @@ here directly as things ship or plans change.
 - **Equipped Gear** — the character's current loadout, slot by slot, with
   real item icons resolved client-side from bundled DBC data (2,742/2,747
   icons, 99.8% coverage). Not sticky — a plain point-in-time snapshot,
-  unlike Collections.
+  unlike Collections. Icon border and item name are tinted by
+  `item_template.Quality` using Blizzard's own rarity colors — see
+  [Equipped Gear](#equipped-gear) above.
 - **Honor Points / PvP module** — an independent third module (peer of
   Equipped and Collections/Achievements), not gated by the Sort toggle.
   Data shape already matches the fields that roll up into faction/account
@@ -918,6 +937,5 @@ rough effort.
 | PvP: honor rolled up to faction/account | Trivial (when wanted) | Data shape already supports it — `honor_points` matches the fields `renderSummary`/`renderFactionPanel` already reduce over |
 | PvP: kills | Dropped for now | Bots are currently off, so kill counts wouldn't reflect real activity |
 | Additional dashboard views (achievements/playtime trends over multiple backups, etc.) | Unscoped | Carried over from an earlier planning note, not yet reviewed against the real schema |
-| Item rarity borders (and name color) on Equipped Gear | Low | `item_template.Quality` is one more column on the same live query Equipped Gear already joins for names — no new source. Client-side: a quality→color map (grey/white/green/blue/purple/orange, Blizzard's own convention) applied to `.achv-list__icon`'s border and, using the same map, to the item name text itself, same as retail's item quality coloring |
 | Icons on Mounts, Tabards, Companions, Legendaries, Heirlooms (same treatment as Equipped Gear) | Low–medium, varies by category | Tabards/Legendaries/Heirlooms are equippable items, so their `item_*` ids likely already resolve against the existing `assets/data/item_icons.json` (needs confirming per category, not assumed). Mounts/Companions are mostly summoned via spell (`spell_*` ids) or a non-equippable item (`InventoryType 0`, excluded from `item_icons.json`'s own generation) — those need a spell-icon lookup instead (`Spell_3.3.5_12340.csv`'s icon field, same `r-o-b-o-t-o/azerothcore-armory` source, not yet pulled into this project). Achievements/Titles/Sets are still undecided: no icon, or a single generic achievement icon, when shown in the Date view (mixes categories in one list, so no per-item icon source applies uniformly) |
 | Secondary (dimmer/smaller) sub-value on the top Played Time and Gold stat tiles | Low | `formatPlayedTime` currently only ever shows whole hours (`Math.floor(totalSeconds / 3600) + "h"`, dropping the remaining minutes/seconds); `formatMoneyPlain` currently only ever shows gold (`goldAmount(copper) + "g"`, dropping the remaining silver/copper). Add the dropped remainder as a `.ap-count`-style secondary span (e.g. `12h (34m 56s)`, `1,050g (34s 12c)`), reusing the same markup/class the achievement count already uses in the summary tile, so all three top stat tiles carry a matching primary+secondary shape instead of only Achievements having one |

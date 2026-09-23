@@ -106,7 +106,7 @@ mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
 " > "$ACHIEVEMENTS_TMP"
 
 mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
-  SELECT ci.guid, ci.slot, ii.itemEntry, it.name
+  SELECT ci.guid, ci.slot, ii.itemEntry, it.name, it.Quality
   FROM acore_characters.character_inventory ci
   JOIN acore_characters.item_instance ii ON ii.guid = ci.item
   JOIN acore_characters.characters c ON c.guid = ci.guid
@@ -246,13 +246,14 @@ with open(equipped_path) as f:
         line = line.rstrip("\n")
         if not line:
             continue
-        guid, slot, item_entry, item_name = line.split("\t")
+        guid, slot, item_entry, item_name, quality = line.split("\t")
         guid = int(guid)
         equipped_by_guid[guid].add(int(item_entry))
         equipped_gear_by_guid[guid].append({
             "slot": int(slot),
             "id": int(item_entry),
             "name": item_name,
+            "quality": int(quality),
         })
 
 # Known mount/companion-learn spells per character (character_spell has no

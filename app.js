@@ -69,6 +69,29 @@ const HONOR_ICON = {
   Horde: "assets/icons/achievement_pvp_h_h.png",
 };
 
+// item_template.Quality (0-7) -> Blizzard's own item quality colors, used
+// everywhere in the real client (item names, tooltip borders, etc).
+// These are computed client-side by the native GetItemQualityColor() call
+// rather than stored as a literal table in any client Lua source - true
+// back through WotLK's own FrameXML (checked directly against Gethe's
+// wow-ui-source mirror) - so the exact hex isn't extractable from client
+// source the way icon slugs or achievement text were for other features.
+// One value here (7, Heirloom) was cross-checked directly against
+// Blizzard's own FrameXML/Constants.lua (HEIRLOOM_BLUE_COLOR = 0, 0.8, 1 ->
+// #00CCFF), confirming it against the same widely-published values used
+// for the rest - these have been unchanged since each quality's
+// introduction across every WoW client version.
+const QUALITY_COLORS = {
+  0: "#9d9d9d", // Poor
+  1: "#ffffff", // Common
+  2: "#1eff00", // Uncommon
+  3: "#0070dd", // Rare
+  4: "#a335ee", // Epic
+  5: "#ff8000", // Legendary
+  6: "#e6cc80", // Artifact
+  7: "#00ccff", // Heirloom
+};
+
 function iconUrl(slug) {
   return `assets/icons/${slug}.png`;
 }
@@ -82,9 +105,10 @@ function iconImg(slug, className) {
 // bundled set (see scripts/generate-item-icons.py) — kept in their own
 // assets/icons/items/ subfolder rather than mixed into the flat top-level
 // assets/icons/ used for the small, hand-picked UI icon set above.
-function itemIconImg(slug, className) {
+function itemIconImg(slug, className, style) {
   if (!slug) return "";
-  return `<img class="${className}" src="assets/icons/items/${slug}.png" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">`;
+  const styleAttr = style ? ` style="${style}"` : "";
+  return `<img class="${className}" src="assets/icons/items/${slug}.png" alt=""${styleAttr} onerror="console.warn('icon failed to load:', this.src); this.remove();">`;
 }
 
 // WoW's fixed EQUIPMENT_SLOT_* order (0-18) - stable across the game's
@@ -517,6 +541,10 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
 // name, see scripts/generate-item-icons.py); a slot with no icon in that
 // map (or whose file failed to load) just shows the name with no icon,
 // same graceful fallback every other icon in this app already uses.
+// The icon border and item name are tinted by item_template.Quality (see
+// QUALITY_COLORS) the same way retail colors item names by rarity; a
+// character exported before `quality` was added to equipped_gear just
+// renders with no tint, same graceful fallback.
 function renderEquippedGear(gear, itemIcons) {
   if (gear.length === 0) return "";
   const items = gear
@@ -527,9 +555,14 @@ function renderEquippedGear(gear, itemIcons) {
   return `
     <h3 class="achv-section__name">Equipped</h3>
     <ul class="achv-list">
-      ${items.map((g) => `
-        <li class="achv-list__item">${itemIconImg(itemIcons[g.id], "achv-list__icon")}${escapeHtml(g.slotLabel)}: ${escapeHtml(g.name)}</li>
-      `).join("")}
+      ${items.map((g) => {
+        const color = QUALITY_COLORS[g.quality];
+        const iconStyle = color ? `border-color: ${color}` : "";
+        const nameStyle = color ? ` style="color: ${color}"` : "";
+        return `
+        <li class="achv-list__item">${itemIconImg(itemIcons[g.id], "achv-list__icon", iconStyle)}${escapeHtml(g.slotLabel)}: <span${nameStyle}>${escapeHtml(g.name)}</span></li>
+      `;
+      }).join("")}
     </ul>
   `;
 }
