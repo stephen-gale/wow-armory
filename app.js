@@ -235,7 +235,12 @@ function renderFactionPanel(faction, characters) {
   heirloomsPlaceholder.innerHTML = `<p class="char-achievements__empty">Loading…</p>`;
   panel.appendChild(heirloomsPlaceholder);
   loadAchievementData().then(({ collectionsByCategory }) => {
-    heirloomsPlaceholder.replaceWith(buildFactionHeirloomsPanel(characters, collectionsByCategory));
+    const panel = buildFactionHeirloomsPanel(characters, collectionsByCategory);
+    if (panel) {
+      heirloomsPlaceholder.replaceWith(panel);
+    } else {
+      heirloomsPlaceholder.remove();
+    }
   });
 
   return panel;
@@ -247,7 +252,9 @@ function renderFactionPanel(faction, characters) {
 // every character's detections in the faction into one family-wide list,
 // keeping the earliest earned_at seen for each item (when the family
 // first had it) — always visible under the roster, not tucked inside any
-// one character's expandable panel.
+// one character's expandable panel. Returns null when the faction has none
+// at all, so the caller can render nothing rather than an empty-state
+// message — Collections celebrates what's earned, never flags what isn't.
 function buildFactionHeirloomsPanel(characters, collectionsByCategory) {
   const heirloomsById = collectionsByCategory.get("heirlooms");
   const earliestByItemId = new Map();
@@ -268,11 +275,11 @@ function buildFactionHeirloomsPanel(characters, collectionsByCategory) {
     .filter(Boolean)
     .sort((a, b) => a.name.localeCompare(b.name));
 
+  if (items.length === 0) return null;
+
   const div = document.createElement("div");
   div.className = "char-achievements faction-heirlooms";
-  div.innerHTML = items.length === 0
-    ? `<p class="char-achievements__empty">No heirlooms recorded.</p>`
-    : renderAchievementGroups([{ name: "Heirlooms", achievements: items }], null, false);
+  div.innerHTML = renderAchievementGroups([{ name: "Heirlooms", achievements: items }], null, false);
   return div;
 }
 
