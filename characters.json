@@ -265,29 +265,29 @@
         "mounts": [
           {
             "id": "item_18790",
-            "earned_at": "2026-09-23T00:05:31Z"
+            "earned_at": "2026-04-21T12:00:00Z"
           },
           {
             "id": "item_25476",
-            "earned_at": "2026-09-23T00:05:31Z"
+            "earned_at": "2026-05-11T12:00:00Z"
           },
           {
             "id": "item_8592",
-            "earned_at": "2026-09-23T00:05:31Z"
+            "earned_at": "2026-04-02T12:00:00Z"
           }
         ],
         "companions": [
           {
             "id": "item_10398",
-            "earned_at": "2026-09-23T00:05:31Z"
+            "earned_at": "2026-05-01T12:00:00Z"
           },
           {
             "id": "item_11474",
-            "earned_at": "2026-09-23T00:05:31Z"
+            "earned_at": "2026-05-01T12:00:00Z"
           },
           {
             "id": "item_31760",
-            "earned_at": "2026-09-23T00:05:31Z"
+            "earned_at": "2026-05-20T12:00:00Z"
           }
         ],
         "legendaries": [],
@@ -515,15 +515,15 @@
         "mounts": [
           {
             "id": "item_25470",
-            "earned_at": "2026-09-23T00:05:31Z"
+            "earned_at": "2026-08-24T12:00:00Z"
           },
           {
             "id": "spell_13819",
-            "earned_at": "2026-09-23T00:05:31Z"
+            "earned_at": "2026-07-03T12:00:00Z"
           },
           {
             "id": "spell_23214",
-            "earned_at": "2026-09-23T00:05:31Z"
+            "earned_at": "2026-07-31T12:00:00Z"
           }
         ],
         "companions": [],
