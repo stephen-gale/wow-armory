@@ -449,11 +449,14 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     // toggling one character's Sort by also move every other open panel's.
     const toggleName = `sort-${c.guid}`;
     sortSectionHtml = `
-      <div class="sort-toggle" role="radiogroup" aria-label="Sort by">
-        <input type="radio" name="${toggleName}" id="${toggleName}-type" checked>
-        <label class="sort-toggle__label" for="${toggleName}-type">Type</label>
-        <input type="radio" name="${toggleName}" id="${toggleName}-date">
-        <label class="sort-toggle__label" for="${toggleName}-date">Date</label>
+      <div class="sort-row">
+        <span class="sort-row__label">Sort</span>
+        <div class="sort-toggle" role="radiogroup" aria-label="Sort by">
+          <input type="radio" name="${toggleName}" id="${toggleName}-type" checked>
+          <label class="sort-toggle__label" for="${toggleName}-type">Type</label>
+          <input type="radio" name="${toggleName}" id="${toggleName}-date">
+          <label class="sort-toggle__label" for="${toggleName}-date">Date</label>
+        </div>
       </div>
       <div class="sort-view is-active" data-view="type">${typeViewHtml}</div>
       <div class="sort-view" data-view="date">${dateViewHtml}</div>

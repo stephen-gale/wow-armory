@@ -352,14 +352,27 @@ main {
    / achv-category cards) flow directly into the parent's grid, same as if
    there were no wrapper at all — display:none removes the inactive one
    from layout entirely. */
-.sort-toggle {
+.sort-row {
   grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.4rem;
+}
+
+.sort-row__label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+}
+
+.sort-toggle {
   display: inline-flex;
-  align-self: start;
   border: 1px solid var(--panel-border);
   border-radius: 6px;
   overflow: hidden;
-  margin-bottom: 0.4rem;
 }
 
 /* Separates Equipped from the Type/Date toggle below it - a dedicated
@@ -403,11 +416,11 @@ main {
 .sort-view { display: none; }
 .sort-view.is-active { display: contents; }
 
-/* The sort-toggle now sits before whichever view is active, so that
-   view's own first heading is never .char-achievements' literal
-   :first-child anymore (the rule above no longer matches it) — this
-   covers the same "no redundant top border" case via the toggle instead. */
-.sort-toggle + .sort-view.is-active > .achv-section__name:first-child {
+/* The sort-row now sits before whichever view is active, so that view's
+   own first heading is never .char-achievements' literal :first-child
+   anymore (the rule above no longer matches it) — this covers the same
+   "no redundant top border" case via the toggle row instead. */
+.sort-row + .sort-view.is-active > .achv-section__name:first-child {
   border-top: none;
   padding-top: 0;
   margin-top: 0;
