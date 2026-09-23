@@ -281,6 +281,13 @@ reason.
   addon and site uses. A character exported before `quality` existed just
   renders with no tint, same graceful fallback as every other optional
   field in this app.
+- **Slot 17 label**: not "Ranged" for every class. Confirmed against
+  WotLK's own client source (`PaperDollFrame.lua`): the real paperdoll
+  picks `RANGEDSLOT` ("Ranged") or `RELICSLOT` ("Relic") per class, based
+  on `UnitHasRelicSlot()` — true only for Paladin (Libram), Druid (Idol),
+  and Shaman (Totem). `app.js`'s `RELIC_SLOT_CLASSES` mirrors that same
+  three-class list against the character's own `class_name`, already
+  bundled in every export.
 - **Why new gear "just works"**: this build (3.3.5.12340) is frozen
   forever, so `item_icons.json` already covers every item that could ever
   be equipped, not only what's currently worn — equip something new and

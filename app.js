@@ -120,6 +120,14 @@ const EQUIP_SLOT_LABELS = [
   "Main Hand", "Off Hand", "Ranged", "Tabard",
 ];
 
+// Slot 17 isn't a single "Ranged" slot for every class - it's the real
+// client's own behavior (confirmed against WotLK FrameXML: PaperDollFrame
+// picks RANGEDSLOT ("Ranged") or RELICSLOT ("Relic") based on
+// UnitHasRelicSlot(), which is true only for these three). Paladins get a
+// Libram there, Druids an Idol, Shamans a Totem - "Ranged" never applied
+// to them even though it's the same inventory slot index.
+const RELIC_SLOT_CLASSES = new Set(["Paladin", "Druid", "Shaman"]);
+
 // A stat value with its icon in front instead of a text label (e.g. gold
 // coin icon instead of the word "Gold"). Used for both the per-faction
 // summary row and each character row, in the same Gold/Achievements/Played
@@ -429,7 +437,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
   const li = document.createElement("li");
   li.className = "char-achievements";
 
-  const equippedGearHtml = renderEquippedGear(c.equipped_gear || [], itemIcons);
+  const equippedGearHtml = renderEquippedGear(c.equipped_gear || [], itemIcons, c.class_name);
   const honorHtml = renderHonorPoints(c.honor_points, c.faction);
 
   // One flat section per category — no sub-grouping by tier/expansion — in
@@ -545,10 +553,11 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
 // QUALITY_COLORS) the same way retail colors item names by rarity; a
 // character exported before `quality` was added to equipped_gear just
 // renders with no tint, same graceful fallback.
-function renderEquippedGear(gear, itemIcons) {
+function renderEquippedGear(gear, itemIcons, className) {
   if (gear.length === 0) return "";
+  const relicSlot = RELIC_SLOT_CLASSES.has(className);
   const items = gear
-    .map((g) => ({ ...g, slotLabel: EQUIP_SLOT_LABELS[g.slot] }))
+    .map((g) => ({ ...g, slotLabel: g.slot === 17 && relicSlot ? "Relic" : EQUIP_SLOT_LABELS[g.slot] }))
     .filter((g) => g.slotLabel)
     .sort((a, b) => a.slot - b.slot);
   if (items.length === 0) return "";
