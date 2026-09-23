@@ -133,11 +133,13 @@ function loadAchievementData() {
       fetch("assets/data/achievements.json").then((r) => r.json()),
       fetch("assets/data/achievement_categories.json").then((r) => r.json()),
       fetch("assets/data/item_icons.json").then((r) => r.json()),
+      fetch("assets/data/titles.json").then((r) => r.json()),
       ...COLLECTION_CATEGORIES.map((cat) => fetch(cat.file).then((r) => r.json())),
-    ]).then(([achievements, categories, itemIcons, ...collectionLists]) => ({
+    ]).then(([achievements, categories, itemIcons, titlesByAchievementId, ...collectionLists]) => ({
       achievementsById: new Map(achievements.map((a) => [a.id, a])),
       categoriesById: new Map(categories.map((c) => [c.id, c])),
       itemIcons,
+      titlesByAchievementId,
       collectionsByCategory: new Map(
         COLLECTION_CATEGORIES.map((cat, i) => [cat.key, new Map(collectionLists[i].map((item) => [item.id, item]))])
       ),
@@ -365,8 +367,8 @@ function toggleAchievementsPanel(rowLi, c) {
   placeholder.innerHTML = `<p class="char-achievements__empty">Loading…</p>`;
   rowLi.after(placeholder);
 
-  loadAchievementData().then(({ achievementsById, categoriesById, collectionsByCategory, itemIcons }) => {
-    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory, itemIcons));
+  loadAchievementData().then(({ achievementsById, categoriesById, collectionsByCategory, itemIcons, titlesByAchievementId }) => {
+    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory, itemIcons, titlesByAchievementId));
   });
 }
 
@@ -390,10 +392,11 @@ function normalizeEntry(entry) {
     : { id: entry, earned_at: null };
 }
 
-function buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory, itemIcons) {
+function buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory, itemIcons, titlesByAchievementId) {
   const li = document.createElement("li");
   li.className = "char-achievements";
 
+  const titlesHtml = renderCharacterTitles(c, titlesByAchievementId);
   const equippedGearHtml = renderEquippedGear(c.equipped_gear || [], itemIcons);
   const honorHtml = renderHonorPoints(c.honor_points);
 
@@ -434,7 +437,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     }))
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  if (collectionGroups.length === 0 && categoryGroups.length === 0 && !equippedGearHtml && !honorHtml) {
+  if (collectionGroups.length === 0 && categoryGroups.length === 0 && !equippedGearHtml && !honorHtml && !titlesHtml) {
     li.innerHTML = `<p class="char-achievements__empty">No collections or achievements recorded.</p>`;
     return li;
   }
@@ -486,7 +489,10 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     parts.push(sortSectionHtml);
   }
   if (honorHtml) parts.push(honorHtml);
-  li.innerHTML = parts.join("");
+  // Not a fourth module: a name-adjacent subtitle line, always first,
+  // directly under the character's name in the row above (no header, no
+  // divider of its own - it reads as part of the name, not a section).
+  li.innerHTML = titlesHtml + parts.join("");
 
   const views = li.querySelectorAll(".sort-view");
   for (const radio of li.querySelectorAll(".sort-toggle input")) {
@@ -497,6 +503,36 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
   }
 
   return li;
+}
+
+// Titles: every achievement-granted title the character has earned, read
+// straight off their existing `achievements` array against the bundled
+// achievement-id -> title-text map (assets/data/titles.json, see
+// scripts/generate-titles-data.py) - no new characters.json field, no new
+// DB query, since it's just a different lens on data already there.
+//
+// Deliberately achievement-granted titles only, not literally every title
+// source the game has: WotLK grants the large majority of its titles this
+// way, but a handful come from quests or other non-achievement sources
+// instead (quest_template.RewardTitle) and won't show up here - same kind
+// of documented, deliberate gap as Collections' Blood Parrot exception,
+// not an oversight. See titles.json's generator for the full reasoning
+// (in short: there's no bundled CharTitles.dbc-derived data source to
+// resolve those against, unlike every other reference file this app uses).
+//
+// Rendered as a plain subtitle line, not a fourth panel module - titles
+// aren't "earned" the way Collections/Achievements are (no separate date
+// beyond the achievement's own), so they don't belong in the Sort by:
+// Date view either, same reasoning as Equipped Gear and PvP.
+function renderCharacterTitles(c, titlesByAchievementId) {
+  const names = (c.achievements || [])
+    .map(normalizeEntry)
+    .map((entry) => titlesByAchievementId[entry.id])
+    .filter(Boolean)
+    .map((text) => (typeof text === "object" ? text[c.faction] || text.Alliance : text))
+    .sort((a, b) => a.localeCompare(b));
+  if (names.length === 0) return "";
+  return `<p class="char-titles">${names.map(escapeHtml).join(" · ")}</p>`;
 }
 
 // Equipped Gear: the character's current loadout, slot by slot, straight
