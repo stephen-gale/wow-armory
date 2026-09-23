@@ -408,9 +408,34 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     return li;
   }
 
-  li.innerHTML =
+  const typeViewHtml =
     renderAchievementGroups(collectionGroups, "Collections", false) +
     renderAchievementGroups(categoryGroups, "Achievements", false);
+  const allItems = [...collectionGroups, ...categoryGroups].flatMap((group) => group.achievements);
+  const dateViewHtml = renderDateView(allItems);
+
+  // Radio `name` must be unique per panel — multiple characters' panels
+  // can be expanded on the page at once, and a shared name would let
+  // toggling one character's Sort by also move every other open panel's.
+  const toggleName = `sort-${c.guid}`;
+  li.innerHTML = `
+    <div class="sort-toggle" role="radiogroup" aria-label="Sort by">
+      <input type="radio" name="${toggleName}" id="${toggleName}-type" checked>
+      <label class="sort-toggle__label" for="${toggleName}-type">Type</label>
+      <input type="radio" name="${toggleName}" id="${toggleName}-date">
+      <label class="sort-toggle__label" for="${toggleName}-date">Date</label>
+    </div>
+    <div class="sort-view is-active" data-view="type">${typeViewHtml}</div>
+    <div class="sort-view" data-view="date">${dateViewHtml}</div>
+  `;
+
+  const views = li.querySelectorAll(".sort-view");
+  for (const radio of li.querySelectorAll(".sort-toggle input")) {
+    radio.addEventListener("change", () => {
+      const which = radio.id === `${toggleName}-date` ? "date" : "type";
+      views.forEach((view) => view.classList.toggle("is-active", view.dataset.view === which));
+    });
+  }
 
   return li;
 }
@@ -437,6 +462,55 @@ function renderAchievementGroups(groups, sectionLabel, showPoints) {
     `)
     .join("");
   return heading + categories;
+}
+
+const MONTH_NAMES = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+];
+
+// The "Sort by: Date" alternative to renderAchievementGroups: every dated
+// Collections/Achievements entry (across every category) as one flat
+// timeline, newest first, grouped by year (gold, reusing achv-section__name)
+// then month (grey, achv-category__name) instead of by category. No
+// per-entry category tag (Sets/Achievement/etc.) — tried it, but it ate too
+// much width and caused extra wrapping on mobile, so which list an entry
+// came from is only visible in the Type view.
+function renderDateView(items) {
+  const dated = items.filter((item) => item.earned_at);
+  if (dated.length === 0) {
+    return `<p class="char-achievements__empty">Nothing dated yet.</p>`;
+  }
+  const sorted = [...dated].sort((a, b) => b.earned_at.localeCompare(a.earned_at));
+
+  const byYear = new Map();
+  for (const item of sorted) {
+    const date = new Date(item.earned_at);
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    if (!byYear.has(year)) byYear.set(year, new Map());
+    const byMonth = byYear.get(year);
+    if (!byMonth.has(month)) byMonth.set(month, []);
+    byMonth.get(month).push(item);
+  }
+
+  let html = "";
+  for (const [year, byMonth] of byYear) {
+    html += `<h3 class="achv-section__name">${year}</h3>`;
+    for (const [month, monthItems] of byMonth) {
+      html += `
+        <div class="achv-category">
+          <h4 class="achv-category__name">${MONTH_NAMES[month]}</h4>
+          <ul class="achv-list">
+            ${monthItems.map((item) => `
+              <li class="achv-list__item">${escapeHtml(item.name)}${formatEarnedDate(item.earned_at)}</li>
+            `).join("")}
+          </ul>
+        </div>
+      `;
+    }
+  }
+  return html;
 }
 
 // Blank when there's no date to show (e.g. the rare achievement whose
