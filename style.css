@@ -285,6 +285,16 @@ main {
   margin: 0;
 }
 
+/* The character's currently-selected title - patched in once Collections
+   data resolves (see patchActiveTitles), so it always lands between the
+   name and the race/class meta line below it regardless of load order. */
+.char-card__title {
+  margin: 0.1rem 0 0;
+  color: var(--gold);
+  font-size: 0.78rem;
+  font-style: italic;
+}
+
 .char-card__meta {
   margin: 0.15rem 0 0;
   color: var(--text-dim);
@@ -330,16 +340,6 @@ main {
   grid-column: 1 / -1;
 }
 
-/* Titles: a name-adjacent subtitle, not a panel module - reads as part of
-   the character's name above rather than its own section, so no header,
-   no divider, no border-top of its own. */
-.char-titles {
-  grid-column: 1 / -1;
-  margin: 0;
-  font-size: 0.8rem;
-  font-style: italic;
-  color: var(--gold);
-}
 
 .achv-section__name {
   grid-column: 1 / -1;

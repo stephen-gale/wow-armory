@@ -114,6 +114,18 @@ function statWithIcon(iconSrc, text, extraIconClass) {
 // "earned" repeatedly. buildAchievementsPanel skips factionLevel
 // categories; renderFactionPanel renders their union instead, once per
 // faction (see buildFactionHeirloomsPanel).
+// Titles is nameTemplate: true - its reference entries carry Blizzard's own
+// "%s"-templated name (see resolveTitleName) instead of a plain display
+// name, since a title reads as an extension of whichever character has it,
+// not a fixed label. See assets/data/collections/titles.json's generator
+// (scripts/generate-titles-collection-data.py) for where that comes from -
+// AzerothCore's chartitles_dbc world-DB table, a one-time export the site
+// owner runs against their own server, since (unlike every other category
+// here) there's no CharTitles.dbc-derived CSV published anywhere to bundle
+// instead. Until that file exists, titles.json 404s and this category is
+// silently empty everywhere (see the .catch(() => []) below) - same
+// graceful-degradation this app already gives any other missing/broken
+// asset, not a crash.
 const COLLECTION_CATEGORIES = [
   { key: "sets", file: "assets/data/collections/sets.json", label: "Sets" },
   { key: "mounts", file: "assets/data/collections/mounts.json", label: "Mounts" },
@@ -121,6 +133,7 @@ const COLLECTION_CATEGORIES = [
   { key: "legendaries", file: "assets/data/collections/legendaries.json", label: "Legendaries" },
   { key: "tabards", file: "assets/data/collections/tabards.json", label: "Tabards" },
   { key: "heirlooms", file: "assets/data/collections/heirlooms.json", label: "Heirlooms", factionLevel: true },
+  { key: "titles", file: "assets/data/collections/titles.json", label: "Titles", nameTemplate: true },
 ];
 
 // Fetched once, eagerly, so it's usually already resolved by the time
@@ -133,13 +146,11 @@ function loadAchievementData() {
       fetch("assets/data/achievements.json").then((r) => r.json()),
       fetch("assets/data/achievement_categories.json").then((r) => r.json()),
       fetch("assets/data/item_icons.json").then((r) => r.json()),
-      fetch("assets/data/titles.json").then((r) => r.json()),
-      ...COLLECTION_CATEGORIES.map((cat) => fetch(cat.file).then((r) => r.json())),
-    ]).then(([achievements, categories, itemIcons, titlesByAchievementId, ...collectionLists]) => ({
+      ...COLLECTION_CATEGORIES.map((cat) => fetch(cat.file).then((r) => r.json()).catch(() => [])),
+    ]).then(([achievements, categories, itemIcons, ...collectionLists]) => ({
       achievementsById: new Map(achievements.map((a) => [a.id, a])),
       categoriesById: new Map(categories.map((c) => [c.id, c])),
       itemIcons,
-      titlesByAchievementId,
       collectionsByCategory: new Map(
         COLLECTION_CATEGORIES.map((cat, i) => [cat.key, new Map(collectionLists[i].map((item) => [item.id, item]))])
       ),
@@ -148,6 +159,15 @@ function loadAchievementData() {
   return achievementDataPromise;
 }
 loadAchievementData();
+
+// A title's stored name is Blizzard's own "%s"-templated string (e.g. "%s
+// the Explorer", "Elder %s") - substituted here, not guessed at server-side
+// or hand-typed, so prefix/suffix formatting is always exactly what the
+// game itself would show. gender: 0 = male, 1 = female (characters.gender).
+function resolveTitleName(title, c) {
+  const template = c.gender === 1 ? title.name_female || title.name : title.name;
+  return template.replace("%s", c.name);
+}
 
 const fileInput = document.getElementById("file-input");
 const generatedAtEl = document.getElementById("generated-at");
@@ -195,6 +215,31 @@ function renderDashboard(data) {
 
   renderSummary(characters);
   renderFactions(characters);
+  patchActiveTitles(characters);
+}
+
+// The character's currently-selected title, shown as a small line right
+// under their name in the always-visible roster row - not gated behind
+// expanding the panel, since it reads as part of the name itself ("as
+// it's like an extension of their name"). Patched in once the (larger,
+// eagerly-fetched-anyway) Collections/Achievements data resolves, rather
+// than blocking the roster's own fast first paint on it.
+function patchActiveTitles(characters) {
+  loadAchievementData().then(({ collectionsByCategory }) => {
+    const titlesById = collectionsByCategory.get("titles");
+    for (const c of characters) {
+      if (!c.active_title_id) continue;
+      const title = titlesById.get(c.active_title_id);
+      if (!title) continue;
+      const card = document.querySelector(`.char-card[data-guid="${c.guid}"]`);
+      const nameEl = card?.querySelector(".char-card__name");
+      if (!nameEl) continue;
+      const titleEl = document.createElement("p");
+      titleEl.className = "char-card__title";
+      titleEl.textContent = resolveTitleName(title, c);
+      nameEl.after(titleEl);
+    }
+  });
 }
 
 function renderSummary(characters) {
@@ -319,6 +364,7 @@ function renderCharCard(c) {
   li.tabIndex = 0;
   li.setAttribute("role", "button");
   li.setAttribute("aria-expanded", "false");
+  li.dataset.guid = c.guid;
 
   const classColor = CLASS_COLORS[c.class_name] || "#e8e6e1";
   const classIcon = iconImg(CLASS_ICON_SLUGS[c.class_name], "class-icon");
@@ -367,8 +413,8 @@ function toggleAchievementsPanel(rowLi, c) {
   placeholder.innerHTML = `<p class="char-achievements__empty">Loading…</p>`;
   rowLi.after(placeholder);
 
-  loadAchievementData().then(({ achievementsById, categoriesById, collectionsByCategory, itemIcons, titlesByAchievementId }) => {
-    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory, itemIcons, titlesByAchievementId));
+  loadAchievementData().then(({ achievementsById, categoriesById, collectionsByCategory, itemIcons }) => {
+    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory, itemIcons));
   });
 }
 
@@ -392,11 +438,10 @@ function normalizeEntry(entry) {
     : { id: entry, earned_at: null };
 }
 
-function buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory, itemIcons, titlesByAchievementId) {
+function buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory, itemIcons) {
   const li = document.createElement("li");
   li.className = "char-achievements";
 
-  const titlesHtml = renderCharacterTitles(c, titlesByAchievementId);
   const equippedGearHtml = renderEquippedGear(c.equipped_gear || [], itemIcons);
   const honorHtml = renderHonorPoints(c.honor_points);
 
@@ -411,7 +456,12 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     const items = entries
       .map((entry) => {
         const item = itemsById.get(entry.id);
-        return item && { ...item, earned_at: entry.earned_at };
+        if (!item) return null;
+        // Titles: the bundled name is a "%s"-templated string, not a fixed
+        // label (see resolveTitleName) - resolve it against THIS character
+        // before it's used anywhere below (sorting, rendering, date view).
+        const name = cat.nameTemplate ? resolveTitleName(item, c) : item.name;
+        return { ...item, name, earned_at: entry.earned_at };
       })
       .filter(Boolean);
     if (items.length === 0) continue;
@@ -437,7 +487,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     }))
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  if (collectionGroups.length === 0 && categoryGroups.length === 0 && !equippedGearHtml && !honorHtml && !titlesHtml) {
+  if (collectionGroups.length === 0 && categoryGroups.length === 0 && !equippedGearHtml && !honorHtml) {
     li.innerHTML = `<p class="char-achievements__empty">No collections or achievements recorded.</p>`;
     return li;
   }
@@ -489,10 +539,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     parts.push(sortSectionHtml);
   }
   if (honorHtml) parts.push(honorHtml);
-  // Not a fourth module: a name-adjacent subtitle line, always first,
-  // directly under the character's name in the row above (no header, no
-  // divider of its own - it reads as part of the name, not a section).
-  li.innerHTML = titlesHtml + parts.join("");
+  li.innerHTML = parts.join("");
 
   const views = li.querySelectorAll(".sort-view");
   for (const radio of li.querySelectorAll(".sort-toggle input")) {
@@ -503,36 +550,6 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
   }
 
   return li;
-}
-
-// Titles: every achievement-granted title the character has earned, read
-// straight off their existing `achievements` array against the bundled
-// achievement-id -> title-text map (assets/data/titles.json, see
-// scripts/generate-titles-data.py) - no new characters.json field, no new
-// DB query, since it's just a different lens on data already there.
-//
-// Deliberately achievement-granted titles only, not literally every title
-// source the game has: WotLK grants the large majority of its titles this
-// way, but a handful come from quests or other non-achievement sources
-// instead (quest_template.RewardTitle) and won't show up here - same kind
-// of documented, deliberate gap as Collections' Blood Parrot exception,
-// not an oversight. See titles.json's generator for the full reasoning
-// (in short: there's no bundled CharTitles.dbc-derived data source to
-// resolve those against, unlike every other reference file this app uses).
-//
-// Rendered as a plain subtitle line, not a fourth panel module - titles
-// aren't "earned" the way Collections/Achievements are (no separate date
-// beyond the achievement's own), so they don't belong in the Sort by:
-// Date view either, same reasoning as Equipped Gear and PvP.
-function renderCharacterTitles(c, titlesByAchievementId) {
-  const names = (c.achievements || [])
-    .map(normalizeEntry)
-    .map((entry) => titlesByAchievementId[entry.id])
-    .filter(Boolean)
-    .map((text) => (typeof text === "object" ? text[c.faction] || text.Alliance : text))
-    .sort((a, b) => a.localeCompare(b));
-  if (names.length === 0) return "";
-  return `<p class="char-titles">${names.map(escapeHtml).join(" · ")}</p>`;
 }
 
 // Equipped Gear: the character's current loadout, slot by slot, straight
