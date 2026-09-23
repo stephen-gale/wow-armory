@@ -560,7 +560,7 @@ function renderEquippedGear(gear, itemIcons) {
         const iconStyle = color ? `border-color: ${color}` : "";
         const nameStyle = color ? ` style="color: ${color}"` : "";
         return `
-        <li class="achv-list__item">${itemIconImg(itemIcons[g.id], "achv-list__icon", iconStyle)}${escapeHtml(g.slotLabel)}: <span${nameStyle}>${escapeHtml(g.name)}</span></li>
+        <li class="achv-list__item">${itemIconImg(itemIcons[g.id], "achv-list__icon", iconStyle)}<span${nameStyle}>${escapeHtml(g.name)}</span> <span class="achv-list__date">${escapeHtml(g.slotLabel)}</span></li>
       `;
       }).join("")}
     </ul>
