@@ -492,7 +492,7 @@ function renderEquippedGear(gear, itemIcons) {
     .sort((a, b) => a.slot - b.slot);
   if (items.length === 0) return "";
   return `
-    <h3 class="achv-section__name">Equipped <span class="achv-category__count">(${items.length})</span></h3>
+    <h3 class="achv-section__name">Equipped</h3>
     <ul class="achv-list">
       ${items.map((g) => `
         <li class="achv-list__item">${itemIconImg(itemIcons[g.id], "achv-list__icon")}${escapeHtml(g.slotLabel)}: ${escapeHtml(g.name)}</li>
