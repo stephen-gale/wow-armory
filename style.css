@@ -133,11 +133,15 @@ main {
   margin: 0;
 }
 
-/* The achievement count reads as secondary to the points value it sits
-   beside (in both the summary tile and the compact per-character/
-   per-faction rows) — dimmer and smaller rather than the same weight as
-   the number next to it, with only parentheses to tell them apart. */
-.ap-count {
+/* The achievement count reads as secondary to the points value only in
+   the big summary tile — dimmer and smaller there, since the surrounding
+   text is bright/bold and the two numbers otherwise look equally
+   weighted with just parentheses to tell them apart. In the compact
+   per-character/per-faction rows (.stat), the whole line is already
+   var(--text-dim), so the count needs no separate color — and shrinking
+   it there just makes the two numbers a mismatched size for no reason,
+   not any clearer. */
+.stat-tile__value .ap-count {
   color: var(--text-dim);
   font-size: 0.85em;
   font-weight: 400;
