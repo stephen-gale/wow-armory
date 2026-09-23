@@ -362,6 +362,15 @@ main {
   margin-bottom: 0.4rem;
 }
 
+/* Separates Equipped from the Type/Date toggle below it - a dedicated
+   element rather than a border on .sort-toggle itself, since that
+   already uses its own full border for the pill shape. */
+.equipped-divider {
+  grid-column: 1 / -1;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  margin: 0.2rem 0;
+}
+
 .sort-toggle input {
   position: absolute;
   opacity: 0;

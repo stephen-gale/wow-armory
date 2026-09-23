@@ -460,7 +460,8 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     `;
   }
 
-  li.innerHTML = equippedGearHtml + sortSectionHtml;
+  const divider = equippedGearHtml && sortSectionHtml ? `<div class="equipped-divider"></div>` : "";
+  li.innerHTML = equippedGearHtml + divider + sortSectionHtml;
 
   const views = li.querySelectorAll(".sort-view");
   for (const radio of li.querySelectorAll(".sort-toggle input")) {
@@ -488,14 +489,12 @@ function renderEquippedGear(gear, itemIcons) {
     .sort((a, b) => a.slot - b.slot);
   if (items.length === 0) return "";
   return `
-    <div class="achv-category">
-      <h4 class="achv-category__name">Equipped Gear <span class="achv-category__count">(${items.length})</span></h4>
-      <ul class="achv-list">
-        ${items.map((g) => `
-          <li class="achv-list__item">${itemIconImg(itemIcons[g.id], "achv-list__icon")}${escapeHtml(g.slotLabel)}: ${escapeHtml(g.name)}</li>
-        `).join("")}
-      </ul>
-    </div>
+    <h3 class="achv-section__name">Equipped <span class="achv-category__count">(${items.length})</span></h3>
+    <ul class="achv-list">
+      ${items.map((g) => `
+        <li class="achv-list__item">${itemIconImg(itemIcons[g.id], "achv-list__icon")}${escapeHtml(g.slotLabel)}: ${escapeHtml(g.name)}</li>
+      `).join("")}
+    </ul>
   `;
 }
 
