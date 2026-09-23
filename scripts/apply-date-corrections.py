@@ -31,29 +31,36 @@ import json
 # was sourced.
 #
 # Mount times specifically are constrained by real Blizzard-timestamped
-# achievements already on record for these characters, not picked freely:
-# a mount can never predate the level its riding skill requires (level 20
-# for any basic ground mount post-3.0.8, 40 for an epic/class mount, 60 for
-# a basic flying mount, etc - whichever "Level N" achievement applies), and
-# whichever mount was actually the character's first must land at or before
-# their "Giddy Up!" achievement (fires the instant a first mount is
-# learned). Where a corrected mount falls on the same calendar day as the
-# relevant achievement, its time was set a little after the level gate (or
-# a moment before Giddy Up!) rather than left at the generic noon
-# placeholder used elsewhere - see each entry's comment for which
-# achievement times it against. Check any future manual mount correction
-# against the character's own real achievement dates the same way before
-# picking a time, not just a date.
+# achievements already on record for these characters, not picked freely.
+# "Giddy Up!"/"Fast and Furious" fire on training the Apprentice/Journeyman
+# riding *skill* itself (level ~20/~40), independent of which mount is
+# later bought with it - not on acquiring a mount, as an earlier pass here
+# wrongly assumed. Two different real sequences follow from that:
+#   - Paladin class-trainer mounts (Warhorse, Charger): the trainer grants
+#     the mount spell and the matching riding skill in one transaction, so
+#     the mount lands essentially simultaneously with (a moment before)
+#     the riding achievement.
+#   - Vendor-bought mounts (Violet Raptor, Swift Orange Raptor, Green Wind
+#     Rider): riding skill is trained first, then it's a separate trip to
+#     the mount vendor - so these land a little *after* the riding
+#     achievement, not before. Green Wind Rider (Expert Riding, ~level 60)
+#     has no dedicated riding achievement to anchor against, so it's
+#     placed after the "Level 60" achievement instead, as the closest
+#     available proxy.
+# Check any future manual mount correction against the character's own
+# real achievement dates the same way before picking a time, not just a
+# date - and confirm which of the two sequences above actually applies
+# rather than assuming.
 CORRECTIONS = [
-    ("Rokhan", "mounts", "item_25476", "2026-05-11T15:20:00Z"),      # Green Wind Rider - after Level 60 (15:14:28)
-    ("Rokhan", "mounts", "item_18790", "2026-04-21T21:35:00Z"),      # Swift Orange Raptor - after Level 40 (21:28:39)
-    ("Rokhan", "mounts", "item_8592", "2026-04-02T15:53:28Z"),       # Whistle of the Violet Raptor - after Level 20 (15:22:58), before Giddy Up! (15:53:29)
+    ("Rokhan", "mounts", "item_25476", "2026-05-11T15:20:00Z"),      # Green Wind Rider - after Level 60 (15:14:28), no riding achievement to anchor against
+    ("Rokhan", "mounts", "item_18790", "2026-04-21T21:35:00Z"),      # Swift Orange Raptor - after Fast and Furious (21:32:59), vendor trip
+    ("Rokhan", "mounts", "item_8592", "2026-04-02T15:55:00Z"),       # Whistle of the Violet Raptor - after Giddy Up! (15:53:29), vendor trip
     ("Rokhan", "companions", "item_10398", "2026-05-01T12:00:00Z"),  # Mechanical Chicken
     ("Rokhan", "companions", "item_31760", "2026-05-20T12:00:00Z"),  # Miniwing
     ("Rokhan", "companions", "item_11474", "2026-05-03T12:00:00Z"),  # Sprite Darter Egg
     ("Tirion", "mounts", "item_25470", "2026-08-24T12:00:00Z"),      # Golden Gryphon - already after Level 60 (09:46:59), no change needed
-    ("Tirion", "mounts", "spell_13819", "2026-07-03T21:21:42Z"),     # Warhorse - after Level 20 (15:46:38), before Giddy Up! (21:21:43)
-    ("Tirion", "mounts", "spell_23214", "2026-07-31T21:20:00Z"),     # Charger - after Level 40 (21:13:54)
+    ("Tirion", "mounts", "spell_13819", "2026-07-03T21:21:42Z"),     # Warhorse - a moment before Giddy Up! (21:21:43), bundled class-trainer purchase
+    ("Tirion", "mounts", "spell_23214", "2026-07-31T21:21:44Z"),     # Charger - a moment before Fast and Furious (21:21:45), bundled class-trainer purchase
 ]
 
 
