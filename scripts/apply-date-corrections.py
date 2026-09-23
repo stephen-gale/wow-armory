@@ -32,35 +32,30 @@ import json
 #
 # Mount times specifically are constrained by real Blizzard-timestamped
 # achievements already on record for these characters, not picked freely.
-# "Giddy Up!"/"Fast and Furious" fire on training the Apprentice/Journeyman
-# riding *skill* itself (level ~20/~40), independent of which mount is
-# later bought with it - not on acquiring a mount, as an earlier pass here
-# wrongly assumed. Two different real sequences follow from that:
-#   - Paladin class-trainer mounts (Warhorse, Charger): the trainer grants
-#     the mount spell and the matching riding skill in one transaction, so
-#     the mount lands essentially simultaneously with (a moment before)
-#     the riding achievement.
-#   - Vendor-bought mounts (Violet Raptor, Swift Orange Raptor, Green Wind
-#     Rider): riding skill is trained first, then it's a separate trip to
-#     the mount vendor - so these land a little *after* the riding
-#     achievement, not before. Green Wind Rider (Expert Riding, ~level 60)
-#     has no dedicated riding achievement to anchor against, so it's
-#     placed after the "Level 60" achievement instead, as the closest
-#     available proxy.
+# Every ground/flying riding tier has its own achievement, fired on
+# training the riding *skill* itself, independent of which mount is later
+# bought with it - not on acquiring a mount, as an earlier pass here wrongly
+# assumed: "Giddy Up!" (Apprentice, ~level 20), "Fast and Furious"
+# (Journeyman, ~level 40), "Into The Wild Blue Yonder" (Expert/flying,
+# ~level 60). Every mount here - including the two Paladin class-trainer
+# ones, once confirmed as effectively instantaneous with their skill just
+# like everyone else's - lands a short while *after* its matching riding
+# achievement, never before: skill is trained first, then it's a separate
+# trip to buy the actual mount (from a vendor, or from the class trainer a
+# moment later in the Paladin case).
 # Check any future manual mount correction against the character's own
 # real achievement dates the same way before picking a time, not just a
-# date - and confirm which of the two sequences above actually applies
-# rather than assuming.
+# date.
 CORRECTIONS = [
-    ("Rokhan", "mounts", "item_25476", "2026-05-11T15:20:00Z"),      # Green Wind Rider - after Level 60 (15:14:28), no riding achievement to anchor against
-    ("Rokhan", "mounts", "item_18790", "2026-04-21T21:35:00Z"),      # Swift Orange Raptor - after Fast and Furious (21:32:59), vendor trip
-    ("Rokhan", "mounts", "item_8592", "2026-04-02T15:55:00Z"),       # Whistle of the Violet Raptor - after Giddy Up! (15:53:29), vendor trip
+    ("Rokhan", "mounts", "item_25476", "2026-05-11T15:25:00Z"),      # Green Wind Rider - after Into The Wild Blue Yonder (15:22:59)
+    ("Rokhan", "mounts", "item_18790", "2026-04-21T21:35:00Z"),      # Swift Orange Raptor - after Fast and Furious (21:32:59)
+    ("Rokhan", "mounts", "item_8592", "2026-04-02T15:55:00Z"),       # Whistle of the Violet Raptor - after Giddy Up! (15:53:29)
     ("Rokhan", "companions", "item_10398", "2026-05-01T12:00:00Z"),  # Mechanical Chicken
     ("Rokhan", "companions", "item_31760", "2026-05-20T12:00:00Z"),  # Miniwing
     ("Rokhan", "companions", "item_11474", "2026-05-03T12:00:00Z"),  # Sprite Darter Egg
-    ("Tirion", "mounts", "item_25470", "2026-08-24T12:00:00Z"),      # Golden Gryphon - already after Level 60 (09:46:59), no change needed
-    ("Tirion", "mounts", "spell_13819", "2026-07-03T21:21:42Z"),     # Warhorse - a moment before Giddy Up! (21:21:43), bundled class-trainer purchase
-    ("Tirion", "mounts", "spell_23214", "2026-07-31T21:21:44Z"),     # Charger - a moment before Fast and Furious (21:21:45), bundled class-trainer purchase
+    ("Tirion", "mounts", "item_25470", "2026-08-24T10:05:00Z"),      # Golden Gryphon - after Into The Wild Blue Yonder (10:02:04)
+    ("Tirion", "mounts", "spell_13819", "2026-07-03T21:23:00Z"),     # Warhorse - after Giddy Up! (21:21:43)
+    ("Tirion", "mounts", "spell_23214", "2026-07-31T21:23:00Z"),     # Charger - after Fast and Furious (21:21:45)
 ]
 
 
