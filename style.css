@@ -418,11 +418,15 @@ main {
 .sort-view { display: none; }
 .sort-view.is-active { display: contents; }
 
-/* The sort-row now sits before whichever view is active, so that view's
-   own first heading is never .char-achievements' literal :first-child
-   anymore (the rule above no longer matches it) — this covers the same
-   "no redundant top border" case via the toggle row instead. */
-.sort-row + .sort-view.is-active > .achv-section__name:first-child {
+/* The sort-row sits before both .sort-view containers, so neither one's
+   own first heading is ever .char-achievements' literal :first-child
+   anymore (the rule above no longer matches either) — this covers the
+   same "no redundant top border" case via the toggle row instead. Not
+   `.sort-row + .sort-view` (adjacent-sibling): only the Type view is
+   ever truly adjacent to .sort-row in the DOM (Date sits after Type),
+   so that combinator only ever matched Type, leaving Date's heading
+   with a stray top border whenever it was the active view. */
+.sort-view.is-active > .achv-section__name:first-child {
   border-top: none;
   padding-top: 0;
   margin-top: 0;
