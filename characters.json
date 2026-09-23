@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-23T23:38:52Z",
+  "generated_at": "2026-09-23T23:40:21Z",
   "characters": [
     {
       "guid": 1006,
@@ -300,92 +300,110 @@
         {
           "slot": 0,
           "id": 44045,
-          "name": "Crusader's Coif"
+          "name": "Crusader's Coif",
+          "quality": 3
         },
         {
           "slot": 1,
           "id": 39848,
-          "name": "Neckcharm of the Bloodletter"
+          "name": "Neckcharm of the Bloodletter",
+          "quality": 2
         },
         {
           "slot": 2,
           "id": 39446,
-          "name": "Pauldrons of Resolution"
+          "name": "Pauldrons of Resolution",
+          "quality": 2
         },
         {
           "slot": 3,
           "id": 127,
-          "name": "Trapper's Shirt"
+          "name": "Trapper's Shirt",
+          "quality": 1
         },
         {
           "slot": 4,
           "id": 39799,
-          "name": "Rescuer's Chestguard"
+          "name": "Rescuer's Chestguard",
+          "quality": 2
         },
         {
           "slot": 5,
           "id": 39780,
-          "name": "Valiant Belt of Battle"
+          "name": "Valiant Belt of Battle",
+          "quality": 2
         },
         {
           "slot": 6,
           "id": 43202,
-          "name": "Jormungar Hide Legguards"
+          "name": "Jormungar Hide Legguards",
+          "quality": 3
         },
         {
           "slot": 7,
           "id": 39441,
-          "name": "Treads of Bound Life"
+          "name": "Treads of Bound Life",
+          "quality": 2
         },
         {
           "slot": 8,
           "id": 41844,
-          "name": "Bracers of Vengeful Flight"
+          "name": "Bracers of Vengeful Flight",
+          "quality": 3
         },
         {
           "slot": 9,
           "id": 39867,
-          "name": "Bat Fur Mitts"
+          "name": "Bat Fur Mitts",
+          "quality": 2
         },
         {
           "slot": 10,
           "id": 44039,
-          "name": "Signet of Bridenbrad"
+          "name": "Signet of Bridenbrad",
+          "quality": 3
         },
         {
           "slot": 11,
           "id": 39480,
-          "name": "Bent Crocolisk Tooth"
+          "name": "Bent Crocolisk Tooth",
+          "quality": 2
         },
         {
           "slot": 12,
           "id": 38081,
-          "name": "Scarab of Isanoth"
+          "name": "Scarab of Isanoth",
+          "quality": 2
         },
         {
           "slot": 13,
           "id": 43829,
-          "name": "Crusader's Locket"
+          "name": "Crusader's Locket",
+          "quality": 2
         },
         {
           "slot": 14,
           "id": 43889,
-          "name": "Hulking Abomination Hide Cloak"
+          "name": "Hulking Abomination Hide Cloak",
+          "quality": 2
         },
         {
           "slot": 15,
           "id": 43833,
-          "name": "Blade of Echoes"
+          "name": "Blade of Echoes",
+          "quality": 2
         },
         {
           "slot": 16,
           "id": 42786,
-          "name": "Daschal's Serrated Blade"
+          "name": "Daschal's Serrated Blade",
+          "quality": 2
         },
         {
           "slot": 17,
           "id": 39829,
-          "name": "High-Strung Bow"
+          "name": "High-Strung Bow",
+          "quality": 2
         }
       ]
     },
@@ -631,87 +649,104 @@
         {
           "slot": 0,
           "id": 38094,
-          "name": "Dalaran Sentry Headguard"
+          "name": "Dalaran Sentry Headguard",
+          "quality": 2
         },
         {
           "slot": 1,
           "id": 35886,
-          "name": "Worgtooth Pendant"
+          "name": "Worgtooth Pendant",
+          "quality": 2
         },
         {
           "slot": 2,
           "id": 35920,
-          "name": "Feather-Lined Shoulderpads"
+          "name": "Feather-Lined Shoulderpads",
+          "quality": 2
         },
         {
           "slot": 3,
           "id": 45,
-          "name": "Squire's Shirt"
+          "name": "Squire's Shirt",
+          "quality": 1
         },
         {
           "slot": 4,
           "id": 38107,
-          "name": "Stonepath Chestguard"
+          "name": "Stonepath Chestguard",
+          "quality": 2
         },
         {
           "slot": 5,
           "id": 44670,
-          "name": "Soul-Sealed Belt"
+          "name": "Soul-Sealed Belt",
+          "quality": 3
         },
         {
           "slot": 6,
           "id": 35835,
-          "name": "Antique Reinforced Legguards"
+          "name": "Antique Reinforced Legguards",
+          "quality": 2
         },
         {
           "slot": 7,
           "id": 38084,
-          "name": "Crustacean Stompers"
+          "name": "Crustacean Stompers",
+          "quality": 2
         },
         {
           "slot": 8,
           "id": 38093,
-          "name": "Dalaran Sentry Wristbraces"
+          "name": "Dalaran Sentry Wristbraces",
+          "quality": 2
         },
         {
           "slot": 9,
           "id": 31180,
-          "name": "Gauntlets of the Skullsplitter"
+          "name": "Gauntlets of the Skullsplitter",
+          "quality": 3
         },
         {
           "slot": 10,
           "id": 36419,
-          "name": "Glass Ring"
+          "name": "Glass Ring",
+          "quality": 2
         },
         {
           "slot": 11,
           "id": 36421,
-          "name": "Devotional Band"
+          "name": "Devotional Band",
+          "quality": 2
         },
         {
           "slot": 12,
           "id": 36871,
-          "name": "Fury of the Encroaching Storm"
+          "name": "Fury of the Encroaching Storm",
+          "quality": 3
         },
         {
           "slot": 13,
           "id": 38259,
-          "name": "First Mate's Pocketwatch"
+          "name": "First Mate's Pocketwatch",
+          "quality": 3
         },
         {
           "slot": 14,
           "id": 37566,
-          "name": "Durable Worghide Cape"
+          "name": "Durable Worghide Cape",
+          "quality": 2
         },
         {
           "slot": 15,
           "id": 35812,
-          "name": "Cragthumper"
+          "name": "Cragthumper",
+          "quality": 2
         },
         {
           "slot": 17,
           "id": 28065,
-          "name": "Libram of Wracking"
+          "name": "Libram of Wracking",
+          "quality": 2
         }
       ]
     }
