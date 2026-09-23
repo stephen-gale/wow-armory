@@ -270,10 +270,17 @@ reason.
 
 ### Honor Points
 
-Not a top-level stat yet — shown under Achievements inside each
-character's expanded panel (Type view only; no `earned_at`, so no place
-in the Date view either), same "plain current-value stat, always shown
-including 0" treatment as Equipped Gear.
+Not a top-level stat yet — per character only, for now. The expanded
+panel is three independent modules (Equipped, Collections/Achievements,
+PvP), each shown only when it has something to show; PvP is a peer of
+the other two, not nested inside Achievements or gated by its Type/Date
+toggle (no `earned_at`, so no place in either view), same "plain
+current-value stat, always shown including 0" treatment as Equipped
+Gear. `honor_points` is already the same top-level-int shape as
+`achievement_points`/`money_copper`/`played_time_seconds`, which already
+roll up into the faction/account summary stats — so adding it there
+later, or a faction/account-level PvP stat, is a one-line change
+whenever that's wanted, not a data or schema change.
 
 - **Data source**: `characters.totalHonorPoints`, one existing column,
   added to the export scripts' main character query.

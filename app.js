@@ -395,6 +395,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
   li.className = "char-achievements";
 
   const equippedGearHtml = renderEquippedGear(c.equipped_gear || [], itemIcons);
+  const honorHtml = renderHonorPoints(c.honor_points);
 
   // One flat section per category — no sub-grouping by tier/expansion — in
   // COLLECTION_CATEGORIES' own declared order. factionLevel categories
@@ -433,14 +434,11 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     }))
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  if (collectionGroups.length === 0 && categoryGroups.length === 0 && !equippedGearHtml) {
+  if (collectionGroups.length === 0 && categoryGroups.length === 0 && !equippedGearHtml && !honorHtml) {
     li.innerHTML = `<p class="char-achievements__empty">No collections or achievements recorded.</p>`;
     return li;
   }
 
-  // Equipped Gear sits outside the sort-toggle entirely (before it, always
-  // visible): it's a live snapshot of the current loadout, not something
-  // "earned" with a date, so it doesn't belong in either Type or Date view.
   // The toggle itself only makes sense when there's actually Collections/
   // Achievements data to sort - skip it entirely otherwise (e.g. a
   // character with gear equipped but nothing recorded yet).
@@ -448,8 +446,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
   if (collectionGroups.length > 0 || categoryGroups.length > 0) {
     const typeViewHtml =
       renderAchievementGroups(collectionGroups, "Collections", false) +
-      renderAchievementGroups(categoryGroups, "Achievements", false) +
-      renderHonorPoints(c.honor_points);
+      renderAchievementGroups(categoryGroups, "Achievements", false);
     const allItems = [...collectionGroups, ...categoryGroups].flatMap((group) => group.achievements);
     const dateViewHtml = renderDateView(allItems);
 
@@ -472,8 +469,24 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     `;
   }
 
-  const divider = equippedGearHtml && sortSectionHtml ? `<div class="equipped-divider"></div>` : "";
-  li.innerHTML = equippedGearHtml + divider + sortSectionHtml;
+  // Three independent modules, in this fixed order: Equipped, Collections/
+  // Achievements (with its own Type/Date toggle), PvP - each shown only
+  // when it has something to show. Equipped and PvP are both headed by
+  // .achv-section__name, which already grows its own top border whenever
+  // it isn't .char-achievements' literal first child, so they need no
+  // manual divider before or after them - adding one would double up
+  // against that automatic border. sortSectionHtml starts with .sort-row
+  // instead, which has no built-in separator, so it's the only module that
+  // needs an explicit .module-divider in front of it (and only when
+  // something already precedes it).
+  const parts = [];
+  if (equippedGearHtml) parts.push(equippedGearHtml);
+  if (sortSectionHtml) {
+    if (parts.length > 0) parts.push(`<div class="module-divider"></div>`);
+    parts.push(sortSectionHtml);
+  }
+  if (honorHtml) parts.push(honorHtml);
+  li.innerHTML = parts.join("");
 
   const views = li.querySelectorAll(".sort-view");
   for (const radio of li.querySelectorAll(".sort-toggle input")) {
@@ -510,22 +523,30 @@ function renderEquippedGear(gear, itemIcons) {
   `;
 }
 
-// Honor Points — not a top-level stat yet, shown under Achievements in the
-// expanded panel only (Type view; there's no earned_at, so no place in the
-// Date view either). A plain current-value stat like Equipped Gear, not a
-// Collection, so it's shown whenever the field is present (including 0) —
-// only hidden for a stale characters.json from before this field existed
-// (honor_points undefined), same degrade-gracefully pattern equipped_gear
-// already uses.
+// PvP — its own module, a peer of Equipped and Collections/Achievements,
+// not nested inside either (Honor Points is the first thing in it; more
+// PvP stats can join it later). Independent of the Type/Date toggle
+// entirely, same reasoning as Equipped: no earned_at, not something
+// "earned" on a date, so it doesn't belong in either sorted view. A plain
+// current-value stat, not a Collection, so it's shown whenever the field
+// is present (including 0) — only hidden for a stale characters.json from
+// before this field existed (honor_points undefined), same degrade-
+// gracefully pattern equipped_gear already uses.
+//
+// Per-character only for now, deliberately not rolled up into the
+// faction/account-level summary stats - though `honor_points` is already
+// a plain top-level int per character, the same shape as
+// achievement_points/money_copper/played_time_seconds, which already do
+// roll up (see renderSummary/renderFactionPanel's .reduce() calls) - so
+// adding Honor Points there later is a one-line change whenever that's
+// wanted, not a data/schema change.
 function renderHonorPoints(honorPoints) {
   if (honorPoints === undefined) return "";
   return `
-    <div class="achv-category">
-      <h4 class="achv-category__name">PvP</h4>
-      <ul class="achv-list">
-        <li class="achv-list__item"><img class="achv-list__icon" src="${HONOR_ICON}" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">Honor Points: ${formatNumber(honorPoints)}</li>
-      </ul>
-    </div>
+    <h3 class="achv-section__name">PvP</h3>
+    <ul class="achv-list">
+      <li class="achv-list__item"><img class="achv-list__icon" src="${HONOR_ICON}" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">Honor Points: ${formatNumber(honorPoints)}</li>
+    </ul>
   `;
 }
 
