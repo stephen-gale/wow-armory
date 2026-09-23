@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-22T16:12:04Z",
+  "generated_at": "2026-09-23T00:05:31Z",
   "characters": [
     {
       "guid": 1006,
@@ -13,7 +13,7 @@
       "money_copper": 50365574,
       "achievement_points": 550,
       "achievement_count": 61,
-      "played_time_seconds": 611738,
+      "played_time_seconds": 612111,
       "achievements": [
         {
           "id": 6,
@@ -261,14 +261,38 @@
         }
       ],
       "collections": {
-        "gear": [],
-        "mounts": [],
-        "pets": [
+        "sets": [],
+        "mounts": [
           {
-            "id": "sprite_darter_hatchling",
-            "earned_at": "2026-09-22T13:47:01Z"
+            "id": "item_18790",
+            "earned_at": "2026-09-23T00:05:31Z"
+          },
+          {
+            "id": "item_25476",
+            "earned_at": "2026-09-23T00:05:31Z"
+          },
+          {
+            "id": "item_8592",
+            "earned_at": "2026-09-23T00:05:31Z"
           }
-        ]
+        ],
+        "companions": [
+          {
+            "id": "item_10398",
+            "earned_at": "2026-09-23T00:05:31Z"
+          },
+          {
+            "id": "item_11474",
+            "earned_at": "2026-09-23T00:05:31Z"
+          },
+          {
+            "id": "item_31760",
+            "earned_at": "2026-09-23T00:05:31Z"
+          }
+        ],
+        "legendaries": [],
+        "tabards": [],
+        "heirlooms": []
       }
     },
     {
@@ -283,7 +307,7 @@
       "money_copper": 20481078,
       "achievement_points": 500,
       "achievement_count": 50,
-      "played_time_seconds": 406394,
+      "played_time_seconds": 406895,
       "achievements": [
         {
           "id": 6,
@@ -487,9 +511,25 @@
         }
       ],
       "collections": {
-        "gear": [],
-        "mounts": [],
-        "pets": []
+        "sets": [],
+        "mounts": [
+          {
+            "id": "item_25470",
+            "earned_at": "2026-09-23T00:05:31Z"
+          },
+          {
+            "id": "spell_13819",
+            "earned_at": "2026-09-23T00:05:31Z"
+          },
+          {
+            "id": "spell_23214",
+            "earned_at": "2026-09-23T00:05:31Z"
+          }
+        ],
+        "companions": [],
+        "legendaries": [],
+        "tabards": [],
+        "heirlooms": []
       }
     }
   ]
