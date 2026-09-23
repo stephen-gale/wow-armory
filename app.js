@@ -650,8 +650,11 @@ function formatPlayedTime(totalSeconds) {
   return formatNumber(hours) + "h";
 }
 
+// The achievement count reads as secondary to the points value (dimmer,
+// smaller) rather than both looking equally weighted with only
+// parentheses to tell them apart.
 function formatAchievements(points, count) {
-  return `${formatNumber(points)} (${formatNumber(count)})`;
+  return `${formatNumber(points)} <span class="ap-count">(${formatNumber(count)})</span>`;
 }
 
 function formatNumber(n) {

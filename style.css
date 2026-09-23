@@ -133,6 +133,16 @@ main {
   margin: 0;
 }
 
+/* The achievement count reads as secondary to the points value it sits
+   beside (in both the summary tile and the compact per-character/
+   per-faction rows) — dimmer and smaller rather than the same weight as
+   the number next to it, with only parentheses to tell them apart. */
+.ap-count {
+  color: var(--text-dim);
+  font-size: 0.85em;
+  font-weight: 400;
+}
+
 .factions {
   display: grid;
   grid-template-columns: 1fr 1fr;
