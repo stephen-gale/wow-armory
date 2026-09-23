@@ -268,6 +268,25 @@ reason.
   step, ever — regenerating `item_icons.json` is only ever needed if this
   project moved to a different client build.
 
+### Honor Points
+
+Not a top-level stat yet — shown under Achievements inside each
+character's expanded panel (Type view only; no `earned_at`, so no place
+in the Date view either), same "plain current-value stat, always shown
+including 0" treatment as Equipped Gear.
+
+- **Data source**: `characters.totalHonorPoints`, one existing column,
+  added to the export scripts' main character query.
+- **Icon**: found from real Blizzard client data, not guessed. Blizzard
+  represents Honor Points internally via a currency-wrapper item (id
+  `43308`) even though it's not truly an inventory item; that item's
+  `DisplayInfoID` (`40753` in `ItemDisplayInfo_3.3.5_12340.csv`) resolves
+  to `Spell_Holy_ChampionsBond` — the same official icon the game itself
+  uses. Bundled at `assets/icons/spell_holy_championsbond.png` (the small,
+  hand-picked UI icon set, not `assets/icons/items/`, since it was
+  resolved and fetched individually rather than as part of the bulk
+  equippable-item icon set).
+
 ### `characters.json` shape
 
 ```json
@@ -288,6 +307,7 @@ reason.
       "achievement_points": 3120,
       "achievement_count": 130,
       "played_time_seconds": 1234567,
+      "honor_points": 15230,
       "achievements": [
         {"id": 6, "earned_at": "2026-01-04T18:22:10Z"},
         {"id": 42, "earned_at": "2026-02-11T02:47:33Z"},
@@ -349,6 +369,9 @@ and the Mounts section above).
 fully replaced every run (no sticky merge, no `earned_at`); `id` is the
 item entry, resolved to a name live from `item_template` and to an icon
 client-side against `assets/data/item_icons.json`.
+
+`honor_points` is `characters.totalHonorPoints`, read straight through —
+see [Honor Points](#honor-points) above.
 
 ### Privacy note
 
@@ -506,7 +529,8 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
     c.money,
     COALESCE(cap.total_points, 0),
     COALESCE(cap.total_achievements, 0),
-    c.totaltime
+    c.totaltime,
+    c.totalHonorPoints
   FROM acore_characters.characters c
   JOIN acore_auth.account a ON a.id = c.account
   LEFT JOIN acore_characters.character_achievement_points cap ON cap.guid = c.guid
@@ -650,7 +674,7 @@ for line in sys.stdin:
     if not line:
         continue
     (guid, name, account, race, race_name, cls, class_name,
-     faction, level, money, ap, ac, played) = line.split('\t')
+     faction, level, money, ap, ac, played, honor) = line.split('\t')
     guid = int(guid)
 
     equipped_ids = equipped_by_guid.get(guid, set())
@@ -682,6 +706,7 @@ for line in sys.stdin:
         'achievement_points': int(ap),
         'achievement_count': int(ac),
         'played_time_seconds': int(played),
+        'honor_points': int(honor),
         'achievements': sorted(achievements_by_guid.get(guid, []), key=lambda a: a['id']),
         'collections': collections,
         'equipped_gear': sorted(equipped_gear_by_guid.get(guid, []), key=lambda g: g['slot']),

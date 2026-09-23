@@ -58,6 +58,14 @@ const STAT_ICONS = {
   played: "assets/icons/clock.svg",
 };
 
+// Not a top-level stat yet — shown inside the expanded panel only, under
+// Achievements. Icon confirmed from real Blizzard client data, not
+// guessed: item 43308 ("Honor Points", the currency-wrapper item id used
+// pre-modern-currency-system) -> DisplayInfoID 40753 in ItemDisplayInfo.dbc
+// -> InventoryIcon "Spell_Holy_ChampionsBond" (same source/method as
+// assets/data/item_icons.json).
+const HONOR_ICON = "assets/icons/spell_holy_championsbond.png";
+
 function iconUrl(slug) {
   return `assets/icons/${slug}.png`;
 }
@@ -440,7 +448,8 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
   if (collectionGroups.length > 0 || categoryGroups.length > 0) {
     const typeViewHtml =
       renderAchievementGroups(collectionGroups, "Collections", false) +
-      renderAchievementGroups(categoryGroups, "Achievements", false);
+      renderAchievementGroups(categoryGroups, "Achievements", false) +
+      renderHonorPoints(c.honor_points);
     const allItems = [...collectionGroups, ...categoryGroups].flatMap((group) => group.achievements);
     const dateViewHtml = renderDateView(allItems);
 
@@ -498,6 +507,25 @@ function renderEquippedGear(gear, itemIcons) {
         <li class="achv-list__item">${itemIconImg(itemIcons[g.id], "achv-list__icon")}${escapeHtml(g.slotLabel)}: ${escapeHtml(g.name)}</li>
       `).join("")}
     </ul>
+  `;
+}
+
+// Honor Points — not a top-level stat yet, shown under Achievements in the
+// expanded panel only (Type view; there's no earned_at, so no place in the
+// Date view either). A plain current-value stat like Equipped Gear, not a
+// Collection, so it's shown whenever the field is present (including 0) —
+// only hidden for a stale characters.json from before this field existed
+// (honor_points undefined), same degrade-gracefully pattern equipped_gear
+// already uses.
+function renderHonorPoints(honorPoints) {
+  if (honorPoints === undefined) return "";
+  return `
+    <div class="achv-category">
+      <h4 class="achv-category__name">PvP</h4>
+      <ul class="achv-list">
+        <li class="achv-list__item"><img class="achv-list__icon" src="${HONOR_ICON}" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">Honor Points: ${formatNumber(honorPoints)}</li>
+      </ul>
+    </div>
   `;
 }
 

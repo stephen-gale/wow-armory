@@ -268,7 +268,8 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
     c.money,
     COALESCE(cap.total_points, 0),
     COALESCE(cap.total_achievements, 0),
-    c.totaltime
+    c.totaltime,
+    c.totalHonorPoints
   FROM acore_characters.characters c
   JOIN acore_auth.account a ON a.id = c.account
   LEFT JOIN acore_characters.character_achievement_points cap ON cap.guid = c.guid
@@ -412,7 +413,7 @@ for line in sys.stdin:
     if not line:
         continue
     (guid, name, account, race, race_name, cls, class_name,
-     faction, level, money, ap, ac, played) = line.split('\t')
+     faction, level, money, ap, ac, played, honor) = line.split('\t')
     guid = int(guid)
 
     equipped_ids = equipped_by_guid.get(guid, set())
@@ -444,6 +445,7 @@ for line in sys.stdin:
         'achievement_points': int(ap),
         'achievement_count': int(ac),
         'played_time_seconds': int(played),
+        'honor_points': int(honor),
         'achievements': sorted(achievements_by_guid.get(guid, []), key=lambda a: a['id']),
         'collections': collections,
         'equipped_gear': sorted(equipped_gear_by_guid.get(guid, []), key=lambda g: g['slot']),

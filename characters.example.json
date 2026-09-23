@@ -14,6 +14,7 @@
       "money_copper": 4582311,
       "achievement_points": 3120,
       "played_time_seconds": 1234567,
+      "honor_points": 15230,
       "achievement_count": 130,
       "achievements": [
         {
@@ -146,6 +147,7 @@
       "money_copper": 1122334,
       "achievement_points": 2895,
       "played_time_seconds": 987654,
+      "honor_points": 4310,
       "achievement_count": 121,
       "achievements": [
         {
@@ -241,6 +243,7 @@
       "money_copper": 355210,
       "achievement_points": 940,
       "played_time_seconds": 213456,
+      "honor_points": 0,
       "achievement_count": 39,
       "achievements": [
         {
@@ -270,6 +273,7 @@
       "money_copper": 6011234,
       "achievement_points": 3410,
       "played_time_seconds": 1456789,
+      "honor_points": 22875,
       "achievement_count": 142,
       "achievements": [
         {
@@ -361,6 +365,7 @@
       "money_copper": 2033445,
       "achievement_points": 2650,
       "played_time_seconds": 876543,
+      "honor_points": 9640,
       "achievement_count": 110,
       "achievements": [
         {
@@ -436,6 +441,7 @@
       "money_copper": 812345,
       "achievement_points": 1180,
       "played_time_seconds": 345678,
+      "honor_points": 1205,
       "achievement_count": 49,
       "achievements": [
         {
