@@ -35,7 +35,7 @@ CORRECTIONS = [
     ("Rokhan", "mounts", "item_8592", "2026-04-02T12:00:00Z"),       # Whistle of the Violet Raptor
     ("Rokhan", "companions", "item_10398", "2026-05-01T12:00:00Z"),  # Mechanical Chicken
     ("Rokhan", "companions", "item_31760", "2026-05-20T12:00:00Z"),  # Miniwing
-    ("Rokhan", "companions", "item_11474", "2026-05-01T12:00:00Z"),  # Sprite Darter Egg
+    ("Rokhan", "companions", "item_11474", "2026-05-03T12:00:00Z"),  # Sprite Darter Egg
     ("Tirion", "mounts", "item_25470", "2026-08-24T12:00:00Z"),      # Golden Gryphon
     ("Tirion", "mounts", "spell_13819", "2026-07-03T12:00:00Z"),     # Warhorse
     ("Tirion", "mounts", "spell_23214", "2026-07-31T12:00:00Z"),     # Charger
