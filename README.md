@@ -297,7 +297,13 @@ whenever that's wanted, not a data or schema change.
   uses. Bundled at `assets/icons/spell_holy_championsbond.png` (the small,
   hand-picked UI icon set, not `assets/icons/items/`, since it was
   resolved and fetched individually rather than as part of the bulk
-  equippable-item icon set).
+  equippable-item icon set). One icon for both factions is correct, not
+  an oversight: WotLK's post-3.2 honor rework made Honor Points a single
+  currency shared by both factions (unlike the older, faction-specific
+  Insignia items it replaced) — confirmed directly in `Item_3.3.5_12340.csv`,
+  where item `43307` (a different currency, Arena Points — not a
+  Horde-specific Honor Points) happens to share the same `DisplayInfoID`
+  as `43308`, but there is no separate Alliance/Horde item at all.
 
 ### `characters.json` shape
 

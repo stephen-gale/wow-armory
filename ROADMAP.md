@@ -23,7 +23,7 @@ From the feasibility review against AzerothCore's real schema, ranked by rough e
 | Stats (str/agi/stam/int/spirit, armor, crit%, etc.) | Low–medium | `character_stats` has a full computed snapshot updated on save — no simulation needed |
 | Titles | Low–medium | Not yet scoped in detail |
 | Skills | Medium | `character_skills` (guid, skill, value, max) — needs a skill-name lookup table |
-| Talent spec (name, not just points) | High | `character_talent` only stores spell id + spec mask, no tree/spec name — needs external Talent.dbc data |
+| Talent spec (name, not just points) | Medium–high | `character_talent` only stores spell id + spec mask, no tree/spec name directly — but `TalentTab_3.3.5_12340.csv`/`Talent_3.3.5_12340.csv` (real spec names + spell→tab mapping) are already in the same `r-o-b-o-t-o/azerothcore-armory` source used elsewhere, so no new data source is needed; still needs points-per-tab tallying logic to infer the dominant/active spec |
 | Screenshots gallery | Medium–high | Reframed per feedback: a general slideshow to browse, not sorted per character |
 | PvP: honor rolled up to faction/account | Trivial (when wanted) | Data shape already supports it — `honor_points` matches the fields `renderSummary`/`renderFactionPanel` already reduce over |
 | PvP: kills | Dropped for now | Bots are currently off, so kill counts wouldn't reflect real activity |
