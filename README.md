@@ -5,6 +5,11 @@ private server, hosted on GitHub Pages — named and styled after the same
 kind of "armory" sites/apps that exist for retail WoW. Starts with a
 character dashboard; more tools can be added later.
 
+This file is the technical reference — how each feature works, where its
+data comes from, and how to set up and run the publishing pipeline. For
+what's shipped, what's in progress, and the ranked backlog of ideas, see
+[ROADMAP.md](ROADMAP.md) instead.
+
 Live app (once Pages is enabled): `https://stephen-gale.github.io/wow-armory/`
 
 ## Character Dashboard
@@ -760,6 +765,28 @@ vars), useful for regenerating `characters.json` on its own without running
 a full backup. It still includes `account` — redact it yourself before
 publishing if you use it standalone for that purpose.
 
+### Keeping your live `wowbackup.sh` in sync
+
+`reference/wowbackup.sh` in this repo is the maintained copy of the block
+above — kept byte-identical to this README's copy of it via matching
+start/end markers, so both always describe the same script. Rather than
+hand-copying changes into your real, untracked `/home/deck/wowbackup.sh`
+every time it changes, run:
+
+```bash
+cd /home/deck/wow-armory-data   # or wherever this repo is cloned
+git pull origin main
+python3 scripts/patch-wowbackup.py /home/deck/wowbackup.sh
+```
+
+This finds the same "Saving characters.json..." block in your live script
+by those same start/end markers and replaces it with the current version
+from `reference/wowbackup.sh`, writing a `.bak` backup first. It aborts
+with no changes if either file's markers can't be found, so an
+already-hand-edited or unexpected file fails loudly instead of silently
+mangling something. Run this once after any `reference/wowbackup.sh`
+change, then run `wowbackup` as normal.
+
 ## GitHub Pages
 
 This repo is set up to be served straight from the root of `main` — no
@@ -770,8 +797,3 @@ build step. To turn it on (one-time):
    branch`, branch `main`, folder `/ (root)`.
 3. Save. The app will be live at
    `https://stephen-gale.github.io/wow-armory/` shortly after.
-
-## Roadmap
-
-- Additional dashboard views (achievements, playtime trends over multiple
-  backups, etc.).

@@ -1,6 +1,6 @@
 # WoW Armory Roadmap
 
-_Kept in the repo so it's always in context for future work, not stuck in a chat thread. Update this file directly as things ship or plans change._
+_Status and planning: what's shipped, what's in progress, and the backlog — kept in the repo so it's always in context for future work, not stuck in a chat thread. Update this file directly as things ship or plans change. For how any of this actually works (data sources, sync pipeline, setup), see [README.md](README.md) instead — this file doesn't repeat that._
 
 ## Shipped
 
@@ -27,16 +27,4 @@ From the feasibility review against AzerothCore's real schema, ranked by rough e
 | Screenshots gallery | Medium–high | Reframed per feedback: a general slideshow to browse, not sorted per character |
 | PvP: honor rolled up to faction/account | Trivial (when wanted) | Data shape already supports it — `honor_points` matches the fields `renderSummary`/`renderFactionPanel` already reduce over |
 | PvP: kills | Dropped for now | Bots are currently off, so kill counts wouldn't reflect real activity |
-
-## How this works
-
-- **Data pipeline**: `export-characters-json.sh` (dev/reference copy) and `reference/wowbackup.sh` (mirrored, what actually runs) query the live AzerothCore DB and publish `characters.json` to GitHub Pages.
-- **Icons**: resolved client-side from bundled DBC-derived data (`assets/data/item_icons.json`, achievement icons, etc.) — no DB dependency, since this client build (3.3.5.12340) is frozen and covers every item that could ever be equipped.
-- **Syncing a script change to the live Steam Deck script**:
-  ```bash
-  cd ~/wow-armory
-  git pull origin main
-  python3 scripts/patch-wowbackup.py /home/deck/wowbackup.sh
-  wowbackup
-  ```
-- `README.md` keeps an embedded copy of the "Saving characters.json…" block from `wowbackup.sh`, kept in sync via that same patch script's start/end markers.
+| Additional dashboard views (achievements/playtime trends over multiple backups, etc.) | Unscoped | Carried over from an earlier planning note, not yet reviewed against the real schema |
