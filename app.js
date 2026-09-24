@@ -513,17 +513,17 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     `;
   }
 
-  // Four independent modules, in this fixed order: Character Stats,
-  // Equipped, Collections/Achievements (with its own Type/Date toggle),
-  // PvP - each shown only when it has something to show. Character Stats,
-  // Equipped and PvP are all headed by .achv-section__name, which already
-  // grows its own top border whenever it isn't .char-achievements' literal
-  // first child, so they need no manual divider before or after them -
-  // adding one would double up against that automatic border. (Character
-  // Stats being first now, not Equipped, is exactly why this rule is
-  // driven by :first-child rather than by which module JS puts first -
-  // Equipped automatically picked up its own top border the moment
-  // something started coming before it, no CSS change needed.)
+  // Four independent modules, in this fixed order: Stats, Equipped,
+  // Collections/Achievements (with its own Type/Date toggle), PvP - each
+  // shown only when it has something to show. Stats, Equipped and PvP
+  // are all headed by .achv-section__name, which already grows its own
+  // top border whenever it isn't .char-achievements' literal first
+  // child, so they need no manual divider before or after them - adding
+  // one would double up against that automatic border. (Stats being
+  // first now, not Equipped, is exactly why this rule is driven by
+  // :first-child rather than by which module JS puts first - Equipped
+  // automatically picked up its own top border the moment something
+  // started coming before it, no CSS change needed.)
   // sortSectionHtml starts with .sort-row instead, which has no built-in
   // separator, so it's the only module that needs an explicit
   // .module-divider in front of it (and only when something already
@@ -549,7 +549,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
   return li;
 }
 
-// Character Stats: a full character_stats snapshot (see
+// Stats: a full character_stats snapshot (see
 // export-characters-json.sh/wowbackup.sh's `stats`), grouped and styled
 // identically to Collections/Achievements categories (.achv-category
 // cards) - same shape of data (a labelled group of lines), just a
@@ -602,17 +602,13 @@ const STAT_GROUPS = [
 // Stats where only some of a related set are relevant to a given class -
 // Warrior/Rogue/Death Knight are melee-only, Hunter is the one
 // ranged-physical class, Mage/Warlock/Priest are pure casters.
-// Shaman/Druid are hybrids (melee, healer or caster depending on spec,
-// which this app has no data for) - shown everything genuinely
-// spec-dependent rather than guessing a spec, per the character's own
-// call. Any class not listed at all in a set's byClass (a future
-// addition, or one this project doesn't yet name) falls back to the same
-// "show everything in the set" treatment. Paladin is the one hybrid
-// pinned to a known spec (melee/tank) instead of the default "show
-// everything" - the character's own call, since re-guessing per real
-// character isn't something this data-driven approach does; re-add
-// spell_crit_pct/spell_power for Paladin if that character switches to a
-// healer spec.
+// Paladin/Shaman/Druid are hybrids (melee, healer or caster depending on
+// spec, which this app has no data for) - shown everything genuinely
+// spec-dependent rather than guessing a spec, kept purely mechanical
+// (class-based) rather than pinned to any one character's current spec.
+// Any class not listed at all in a set's byClass (a future addition, or
+// one this project doesn't yet name) falls back to the same "show
+// everything in the set" treatment.
 //
 // Ranged Crit/Ranged AP are the one exception to "hybrids see everything"
 // - not spec-dependent for Paladin/Shaman/Druid the way melee-vs-spell
@@ -631,9 +627,7 @@ const CLASS_FILTERED_STAT_SETS = [
       Mage: ["spell_crit_pct"],
       Warlock: ["spell_crit_pct"],
       Priest: ["spell_crit_pct"],
-      // Paladin: melee/tank for now - re-add spell_crit_pct if that
-      // changes (Holy spec, or any other healer/caster respec).
-      Paladin: ["crit_pct"],
+      Paladin: ["crit_pct", "spell_crit_pct"],
       Shaman: ["crit_pct", "spell_crit_pct"],
       Druid: ["crit_pct", "spell_crit_pct"],
     },
@@ -668,9 +662,6 @@ const CLASS_FILTERED_STAT_SETS = [
       Mage: ["spell_power"],
       Warlock: ["spell_power"],
       Priest: ["spell_power"],
-      // Same as spell_crit_pct above - melee/tank for now, re-add if
-      // that changes.
-      Paladin: [],
     },
   },
 ];
@@ -702,7 +693,7 @@ function renderCharacterStats(stats, className) {
     </div>
   `;
   }).join("");
-  return `<h3 class="achv-section__name">Character Stats</h3>${groups}`;
+  return `<h3 class="achv-section__name">Stats</h3>${groups}`;
 }
 
 // Equipped Gear: the character's current loadout, slot by slot, straight

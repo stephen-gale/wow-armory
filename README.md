@@ -234,7 +234,7 @@ detection mechanism (no equip/spell query, a direct achievement lookup
 instead), different enough from the other six to get its own full
 section — see [Titles](#titles) below.
 
-### Character Stats
+### Stats
 
 A separate feature from Collections, sitting above every other module in
 each character's panel (the character's own request). A full
@@ -252,8 +252,24 @@ achievement counts are).
   needed, unlike Achievements/Equipped Gear/Known Spells). Every numeric
   column is wrapped in `COALESCE(..., 0)`, matching the pattern the
   achievement-points LEFT JOIN already used — a character with no
-  `character_stats` row (very rare; the table exists per-character from
-  first save) gets zeros, not a broken export.
+  `character_stats` row gets zeros, not a broken export.
+- **Prerequisite (server-side, one-time)**: `character_stats` ships
+  completely unpopulated on a stock AzerothCore server — not a rare
+  edge case, a guaranteed one. Confirmed directly against AzerothCore's
+  own source (`Player::_SaveStats()` in `PlayerStorage.cpp`) and default
+  `worldserver.conf`: `PlayerSave.Stats.MinLevel = 0` disables stat
+  saving entirely by default (`0` = disabled, per the config's own
+  description — "only for external usage"). To populate it: set
+  `PlayerSave.Stats.MinLevel = 1` (or higher) in `worldserver.conf` and
+  restart worldserver. That alone isn't enough, though — `_SaveStats()`
+  reads live values off the in-memory `Player` object, which only exists
+  while a character is loaded into the world, and with the also-default
+  `PlayerSave.Stats.SaveOnlyOnLogout = 1`, it only writes on an actual
+  logout. So each character needs one real login-then-logout after the
+  config change before its row appears — a worldserver restart alone
+  changes nothing for characters that never log in. (Set
+  `PlayerSave.Stats.SaveOnlyOnLogout = 0` instead if periodic autosave
+  writing it while still online, no logout required, is preferred.)
 - **Scope**: the export scripts collect the table's full column list,
   minus the 7 `maxpower*` columns (max Mana/Rage/Focus/Energy/Happiness/
   Rune/Runic Power) — deliberately left out per the character's own
@@ -272,19 +288,16 @@ achievement counts are).
   Attack Power in this era, not SP). The one ranged-physical class
   (Hunter) sees Ranged Crit and Ranged AP, no SP either, for the same
   reason. Pure casters (Mage, Warlock, Priest) see Spell Crit and SP, no
-  AP stat. Shaman and Druid are hybrids this app has no spec data for
-  (could be melee, healer, or caster) — shown Crit, Spell Crit, AP, and
-  SP (everything genuinely spec-dependent) rather than guessing, same as
-  any class this project hasn't explicitly categorized. Paladin is
-  pinned to melee/tank (Crit and AP only, no Spell Crit or SP) rather
-  than left on that same "show everything" default — the character's
-  own call for their actual Paladin, not a general rule; re-add
-  `spell_crit_pct`/`spell_power` to Paladin's entries in
-  `CLASS_FILTERED_STAT_SETS` if that character respecs to Holy. Ranged
-  Crit/Ranged AP are excluded for all three regardless of spec, since
-  it isn't a spec question for them — `RELIC_SLOT_CLASSES` already
-  establishes Paladin/Shaman/Druid equip a Relic in the ranged slot,
-  never a ranged weapon, in any spec.
+  AP stat. Paladin, Shaman, and Druid are hybrids this app has no spec
+  data for (could be melee, healer, or caster) — shown Crit, Spell Crit,
+  AP, and SP (everything genuinely spec-dependent) rather than guessing,
+  kept purely mechanical (class-based) rather than pinned to any one
+  character's current spec, same as any class this project hasn't
+  explicitly categorized. Ranged Crit/Ranged AP are the one exception:
+  not shown for these three even though they're hybrids, since it isn't
+  a spec question for them — `RELIC_SLOT_CLASSES` already establishes
+  Paladin/Shaman/Druid equip a Relic in the ranged slot, never a ranged
+  weapon, in any spec.
 - **Labels**: Blizzard's own client abbreviations where one actually
   exists — `Str`/`Agi`/`Sta`/`Int`/`Spi` confirmed straight from WotLK's
   own `GlobalStrings.lua` (note it's "Sta" not "Stam", and "Spi" not
@@ -364,7 +377,7 @@ reason.
 ### PvP
 
 Not a top-level stat yet — per character only, for now. The expanded
-panel is four independent modules (Character Stats, Equipped,
+panel is four independent modules (Stats, Equipped,
 Collections/Achievements, PvP), each shown only when it has something to
 show; PvP is a peer of the others, not nested inside Achievements or
 gated by its Type/Date toggle (no `earned_at`, so no place in either
@@ -553,8 +566,7 @@ client-side to Blizzard's own rarity colors.
 through — see [PvP](#pvp) above.
 
 `stats` is `character_stats`, one row per character, read straight
-through (each column `COALESCE`d to 0) — see
-[Character Stats](#character-stats) above.
+through (each column `COALESCE`d to 0) — see [Stats](#stats) above.
 
 ### Privacy note
 
@@ -627,7 +639,7 @@ The seventh category, Titles, isn't detected this way at all — see
 [Titles](#titles) above for why (it's a direct lookup against each
 character's own completed achievements, not a separate DB query).
 
-[Character Stats](#character-stats) needs no separate query either — a
+[Stats](#stats) needs no separate query either — a
 plain `LEFT JOIN acore_characters.character_stats cs ON cs.guid = c.guid`
 on the same main character query everything else in this section already
 comes from, since it's a guid-keyed 1:1 table, same relationship
@@ -1099,19 +1111,23 @@ here directly as things ship or plans change.
   against a bundled achievement-id → title-name map, so every entry
   always carries a real date, unlike the sticky-guess fallback the other
   six Collections categories need.
-- **Character Stats** — the new top module, ahead of Equipped. A full
+- **Stats** — the new top module, ahead of Equipped. A full
   `character_stats` snapshot (minus the 7 `maxpower*` columns, dropped
   per the character's own steer), grouped into Attributes/Defense/Combat
   cards styled identically to a Collections/Achievements category. Resil,
   the six resistances, Block, and Parry are hidden client-side (still
   collected in full); only the crit, AP, and SP stat(s) relevant to a
-  character's class are shown (Shaman/Druid default to everything
-  spec-dependent as true hybrids; Paladin is pinned to melee/tank for
-  now, per the character's own actual character). Labels use
-  Blizzard's own client abbreviations where one exists (`Str`/`Agi`/
-  `Sta`/`Int`/`Spi`,
+  character's class are shown, purely mechanically (class-based, not
+  pinned to any one character's current spec) — hybrids (Paladin,
+  Shaman, Druid) default to everything genuinely spec-dependent, since
+  this app has no spec data. Labels use Blizzard's own client
+  abbreviations where one exists (`Str`/`Agi`/`Sta`/`Int`/`Spi`,
   `Resil`), confirmed against WotLK's own `GlobalStrings.lua` — see
-  [Character Stats](#character-stats) above.
+  [Stats](#stats) above. Also required a one-time server-side fix on the
+  operator's end: `character_stats` ships unpopulated by default on
+  every AzerothCore server (`PlayerSave.Stats.MinLevel = 0` in
+  `worldserver.conf`), confirmed straight from AzerothCore's own source
+  and default config.
 
 ### Backlog ideas
 
