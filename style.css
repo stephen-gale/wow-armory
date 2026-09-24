@@ -244,16 +244,9 @@ main {
 }
 
 .char-card__level {
-  flex: 0 0 auto;
-  width: 2.4rem;
-  height: 2.4rem;
-  border-radius: 50%;
-  background: rgba(255,255,255,0.06);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: 0.9rem;
+  color: var(--text-dim);
+  font-weight: 500;
+  font-size: 0.85rem;
 }
 
 .char-card__icons {
