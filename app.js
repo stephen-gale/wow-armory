@@ -675,6 +675,13 @@ function visibleClassFilteredKeys(className) {
   return visible;
 }
 
+// The three groups render as their own 3-column row (.stats-columns)
+// rather than flowing into the outer auto-fill grid like every other
+// .achv-category does - that grid's minmax(220px, 1fr) columns mean only
+// one fits per row on mobile, so three short stat cards (a handful of
+// "Label: value" lines each) were taking up three screens' worth of
+// vertical space for content that's mostly empty horizontal space at
+// that width.
 function renderCharacterStats(stats, className) {
   if (!stats) return "";
   const visible = visibleClassFilteredKeys(className);
@@ -693,7 +700,7 @@ function renderCharacterStats(stats, className) {
     </div>
   `;
   }).join("");
-  return `<h3 class="achv-section__name">Stats</h3>${groups}`;
+  return `<h3 class="achv-section__name">Stats</h3><div class="stats-columns">${groups}</div>`;
 }
 
 // Equipped Gear: the character's current loadout, slot by slot, straight

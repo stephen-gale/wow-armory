@@ -446,6 +446,20 @@ main {
   margin-top: 0;
 }
 
+/* Stats only: its three groups (Attributes/Defense/Combat) sit in their
+   own 3-column row instead of flowing into .char-achievements' own
+   auto-fill grid, whose minmax(220px, 1fr) columns only fit one per row
+   on mobile - wasting most of the screen's width on cards that only
+   need a handful of short "Label: value" lines each. grid-column: 1/-1
+   makes this row itself span the full outer grid, same as
+   .module-divider/.achv-section__name already do. */
+.stats-columns {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem 0.7rem;
+}
+
 .achv-category__name {
   margin: 0 0 0.35rem;
   font-size: 0.72rem;

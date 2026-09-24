@@ -246,6 +246,17 @@ the Sort by: Date view, per-character only (never rolled into faction/
 account totals — averaging Str across a roster isn't meaningful the way
 achievement counts are).
 
+Unlike every other `.achv-category`, the three Stats cards render inside
+their own `.stats-columns` row (`grid-column: 1/-1`, `grid-template-
+columns: repeat(3, 1fr)`) rather than flowing into `.char-achievements`'
+own `minmax(220px, 1fr)` auto-fill grid — that grid only fits one column
+per row at mobile widths, so three short cards (a handful of "Label:
+value" lines each) were taking three screens' worth of vertical space
+for content that's mostly wasted horizontal space at that width. A
+longer line (e.g. "Spell Crit: 3.00%") can wrap to two lines within its
+column at narrow widths — an accepted trade-off for the vertical space
+saved, not a bug.
+
 - **Data source**: `character_stats`, LEFT JOINed onto the same main
   character query everything else already comes from (`character_stats`
   is guid-keyed 1:1 with `characters`, so no separate query/temp file is
