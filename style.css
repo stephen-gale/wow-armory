@@ -482,11 +482,13 @@ main {
    space above the line matches the ~0.9rem gap between modules
    (.char-achievements' grid gap + .module-divider's own margin), instead
    of just the 0.3rem every other item in this list gets, which read as
-   squashed against Honor Points above it. */
+   squashed against Honor Points above it. padding-top is deliberately
+   larger than .achv-section__name's matching 0.6rem - felt tight against
+   the Last Online text right under the line at that value. */
 .achv-list__item--divider {
   margin-top: 0.8rem;
   border-top: 1px solid rgba(255,255,255,0.08);
-  padding-top: 0.6rem;
+  padding-top: 0.9rem;
 }
 
 /* Equipped Gear only - real item icons, same 18px size settled on in the
