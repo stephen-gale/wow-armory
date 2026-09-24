@@ -286,10 +286,9 @@ saved, not a bug.
   Rune/Runic Power) — deliberately left out per the character's own
   steer, and mostly zero for any character anyway (only 1-2 are ever
   populated, depending on class). `app.js`'s `STAT_GROUPS` then hides
-  Resil, the six resistances, Block, and Parry client-side, also per the
-  character's own steer — still collected in full by the export scripts,
-  so re-adding any of them is a one-line change, not a data/schema
-  change.
+  Resil and the six resistances client-side, also per the character's
+  own steer — still collected in full by the export scripts, so
+  re-adding any of them is a one-line change, not a data/schema change.
 - **Crit, AP, and SP, by class**: same idea, three separate stat sets
   (`CLASS_FILTERED_STAT_SETS` in `app.js`) — of Crit/Ranged Crit/Spell
   Crit, of AP/Ranged AP, and of SP on its own, only the one(s) relevant
@@ -309,14 +308,24 @@ saved, not a bug.
   a spec question for them — `RELIC_SLOT_CLASSES` already establishes
   Paladin/Shaman/Druid equip a Relic in the ranged slot, never a ranged
   weapon, in any spec.
+- **Parry and Block, by class**: two more `CLASS_FILTERED_STAT_SETS`
+  entries. Parry is a melee-combat stat like Crit above, so it uses the
+  same relevance test — hidden only for Hunter (ranged kit) and
+  Mage/Warlock/Priest (pure casters); every melee-only class and hybrid
+  sees it. Block is different: it's gated by actual shield proficiency,
+  not spec ambiguity, confirmed directly against AzerothCore's own equip
+  check (`Player::CanEquipItem` in `PlayerStorage.cpp`) — only Warrior,
+  Paladin, and Shaman can equip a shield at all in this game version.
+  Druid is excluded even though it's a hybrid everywhere else in this
+  app, since that's a hard mechanical fact, not a guess about spec.
 - **Labels**: Blizzard's own client abbreviations where one actually
   exists — `Str`/`Agi`/`Sta`/`Int`/`Spi` confirmed straight from WotLK's
   own `GlobalStrings.lua` (note it's "Sta" not "Stam", and "Spi" not
   "Spir"), `Resil` confirmed the same way (`RESILIENCE_ABBR`). The rest
-  (Armor, AP/Ranged AP/SP, Crit/Ranged Crit/Spell Crit, Dodge) have no
-  official Blizzard short form in the client source, so they're spelled
-  out or use the AP/SP shorthand this game's community has used since
-  Vanilla.
+  (Armor, AP/Ranged AP/SP, Crit/Ranged Crit/Spell Crit, Dodge/Parry/
+  Block) have no official Blizzard short form in the client source, so
+  they're spelled out or use the AP/SP shorthand this game's community
+  has used since Vanilla.
 - **Freshness**: `character_stats` only updates when a character saves
   (logout or periodic autosave) — same "can't update without being in
   the game, and being in the game means the next backup already picks it
@@ -1125,13 +1134,15 @@ here directly as things ship or plans change.
 - **Stats** — the new top module, ahead of Equipped. A full
   `character_stats` snapshot (minus the 7 `maxpower*` columns, dropped
   per the character's own steer), grouped into Attributes/Defense/Combat
-  cards styled identically to a Collections/Achievements category. Resil,
-  the six resistances, Block, and Parry are hidden client-side (still
-  collected in full); only the crit, AP, and SP stat(s) relevant to a
+  cards styled identically to a Collections/Achievements category. Resil
+  and the six resistances are hidden client-side (still collected in
+  full); the crit, AP, SP, Parry, and Block stat(s) relevant to a
   character's class are shown, purely mechanically (class-based, not
   pinned to any one character's current spec) — hybrids (Paladin,
   Shaman, Druid) default to everything genuinely spec-dependent, since
-  this app has no spec data. Labels use Blizzard's own client
+  this app has no spec data, except Block, which is gated by actual
+  shield proficiency instead (Warrior/Paladin/Shaman only, confirmed
+  against AzerothCore's own equip check). Labels use Blizzard's own client
   abbreviations where one exists (`Str`/`Agi`/`Sta`/`Int`/`Spi`,
   `Resil`), confirmed against WotLK's own `GlobalStrings.lua` — see
   [Stats](#stats) above. Also required a one-time server-side fix on the

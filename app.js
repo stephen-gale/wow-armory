@@ -584,6 +584,8 @@ const STAT_GROUPS = [
       { key: "max_health", label: "HP" },
       { key: "armor", label: "Armor" },
       { key: "dodge_pct", label: "Dodge", isPct: true },
+      { key: "parry_pct", label: "Parry", isPct: true },
+      { key: "block_pct", label: "Block", isPct: true },
     ],
   },
   {
@@ -662,6 +664,43 @@ const CLASS_FILTERED_STAT_SETS = [
       Mage: ["spell_power"],
       Warlock: ["spell_power"],
       Priest: ["spell_power"],
+    },
+  },
+  {
+    // Parry is a melee-combat stat, same relevance test as crit_pct above
+    // - excluded only for the classes with no melee-combat use case
+    // (Hunter's kit is ranged; Mage/Warlock/Priest are pure casters).
+    // Melee-only classes and the melee/tank/healer/caster hybrids all
+    // fall through to the default "show it" treatment.
+    keys: ["parry_pct"],
+    byClass: {
+      Hunter: [],
+      Mage: [],
+      Warlock: [],
+      Priest: [],
+    },
+  },
+  {
+    // Block is gated by shield proficiency, not spec ambiguity like the
+    // sets above - confirmed directly against AzerothCore's own equip
+    // check (Player::CanEquipItem in PlayerStorage.cpp): only Warrior,
+    // Paladin, and Shaman can equip a shield at all in this game version.
+    // Every other class, Druid included even though it's a hybrid
+    // elsewhere in this file, genuinely cannot block - so this is the one
+    // set where "everyone but these" is spelled out explicitly rather
+    // than left to the default fallback.
+    keys: ["block_pct"],
+    byClass: {
+      Warrior: ["block_pct"],
+      Paladin: ["block_pct"],
+      Shaman: ["block_pct"],
+      Rogue: [],
+      "Death Knight": [],
+      Hunter: [],
+      Mage: [],
+      Warlock: [],
+      Priest: [],
+      Druid: [],
     },
   },
 ];
