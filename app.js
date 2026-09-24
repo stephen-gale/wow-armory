@@ -191,7 +191,6 @@ loadAchievementData();
 
 
 const fileInput = document.getElementById("file-input");
-const generatedAtEl = document.getElementById("generated-at");
 const emptyStateEl = document.getElementById("empty-state");
 const summaryBarEl = document.getElementById("summary-bar");
 const factionsEl = document.getElementById("factions");
@@ -229,10 +228,6 @@ function renderDashboard(data) {
   emptyStateEl.hidden = true;
   summaryBarEl.hidden = false;
   factionsEl.hidden = false;
-
-  generatedAtEl.textContent = data.generated_at
-    ? "Generated " + new Date(data.generated_at).toLocaleString()
-    : "";
 
   renderSummary(characters);
   renderFactions(characters);
