@@ -132,9 +132,12 @@ const RELIC_SLOT_CLASSES = new Set(["Paladin", "Druid", "Shaman"]);
 // coin icon instead of the word "Gold"). Used for both the per-faction
 // summary row and each character row, in the same Gold/Achievements/Played
 // order, so the two stay visually consistent.
-function statWithIcon(iconSrc, text, extraIconClass) {
+function statWithIcon(iconSrc, text, extraIconClass, iconAfter) {
   const cls = extraIconClass ? `stat-icon ${extraIconClass}` : "stat-icon";
-  return `<span class="stat"><img class="${cls}" src="${iconSrc}" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">${text}</span>`;
+  const icon = `<img class="${cls}" src="${iconSrc}" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">`;
+  return iconAfter
+    ? `<span class="stat">${text}${icon}</span>`
+    : `<span class="stat">${icon}${text}</span>`;
 }
 
 // Each Collections category lives in its own data file (mirroring the SQL
@@ -361,16 +364,16 @@ function renderCharCard(c) {
   const raceIcon = iconImg(RACE_ICON_SLUGS[c.race_name], "race-icon");
 
   li.innerHTML = `
+    <div class="char-card__icons">${raceIcon}${classIcon}</div>
     <div class="char-card__main">
       <p class="char-card__name" style="color:${classColor}">${escapeHtml(c.name)} <span class="char-card__level">${c.level}</span></p>
       <p class="char-card__meta">${escapeHtml(c.race_name)} ${escapeHtml(c.class_name)}${c.account ? " · " + escapeHtml(c.account) : ""}</p>
     </div>
     <div class="char-card__stats">
-      ${statWithIcon(STAT_ICONS.played, formatPlayedTime(c.played_time_seconds))}
-      ${statWithIcon(STAT_ICONS.achievements, formatAchievements(c.achievement_points, c.achievement_count), "stat-icon--achievement")}
-      ${statWithIcon(STAT_ICONS.gold, formatMoneyPlain(c.money_copper))}
+      ${statWithIcon(STAT_ICONS.played, formatPlayedTime(c.played_time_seconds), null, true)}
+      ${statWithIcon(STAT_ICONS.achievements, formatAchievements(c.achievement_points, c.achievement_count), "stat-icon--achievement", true)}
+      ${statWithIcon(STAT_ICONS.gold, formatMoneyPlain(c.money_copper), null, true)}
     </div>
-    <div class="char-card__icons">${raceIcon}${classIcon}</div>
   `;
 
   li.addEventListener("click", () => toggleAchievementsPanel(li, c));
