@@ -368,11 +368,11 @@ function renderCharCard(c) {
     <div class="char-card__main">
       <p class="char-card__name" style="color:${classColor}">${escapeHtml(c.name)}</p>
       <p class="char-card__level">${c.level}</p>
-    </div>
-    <div class="char-card__stats">
-      ${statWithIcon(STAT_ICONS.played, formatPlayedTime(c.played_time_seconds), null, true)}
-      ${statWithIcon(STAT_ICONS.achievements, formatAchievements(c.achievement_points, c.achievement_count), "stat-icon--achievement", true)}
-      ${statWithIcon(STAT_ICONS.gold, formatMoneyPlain(c.money_copper), null, true)}
+      <div class="char-card__stats">
+        ${statWithIcon(STAT_ICONS.played, formatPlayedTime(c.played_time_seconds), null, true)}
+        ${statWithIcon(STAT_ICONS.achievements, formatAchievements(c.achievement_points, c.achievement_count), "stat-icon--achievement", true)}
+        ${statWithIcon(STAT_ICONS.gold, formatMoneyPlain(c.money_copper), null, true)}
+      </div>
     </div>
   `;
 
