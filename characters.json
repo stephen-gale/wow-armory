@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-24T11:49:37Z",
+  "generated_at": "2026-09-24T22:46:26Z",
   "characters": [
     {
       "guid": 1006,
@@ -13,9 +13,9 @@
       "money_copper": 50365574,
       "achievement_points": 550,
       "achievement_count": 61,
-      "played_time_seconds": 612133,
+      "played_time_seconds": 612141,
       "honor_points": 172,
-      "last_online": "2026-09-24T09:45:16Z",
+      "last_online": "2026-09-24T22:06:33Z",
       "stats": {
         "max_health": 13569,
         "strength": 75,
@@ -431,7 +431,11 @@
           "name": "High-Strung Bow",
           "quality": 2
         }
-      ]
+      ],
+      "talents": {
+        "363": 16,
+        "361": 55
+      }
     },
     {
       "guid": 1007,
@@ -441,35 +445,35 @@
       "class_id": 2,
       "class_name": "Paladin",
       "faction": "Alliance",
-      "level": 72,
-      "money_copper": 22578007,
+      "level": 73,
+      "money_copper": 22675364,
       "achievement_points": 500,
       "achievement_count": 50,
-      "played_time_seconds": 413207,
+      "played_time_seconds": 416216,
       "honor_points": 0,
-      "last_online": "2026-09-24T11:49:20Z",
+      "last_online": "2026-09-24T22:46:10Z",
       "stats": {
-        "max_health": 9560,
-        "strength": 520,
-        "agility": 157,
-        "stamina": 584,
-        "intellect": 86,
-        "spirit": 123,
-        "armor": 7994,
+        "max_health": 9871,
+        "strength": 523,
+        "agility": 158,
+        "stamina": 586,
+        "intellect": 87,
+        "spirit": 125,
+        "armor": 7996,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
         "res_frost": 0,
         "res_shadow": 0,
         "res_arcane": 0,
-        "block_pct": 5.0,
-        "dodge_pct": 8.21795,
-        "parry_pct": 5.0,
-        "crit_pct": 19.4396,
-        "ranged_crit_pct": 5.03958,
+        "block_pct": 4.8,
+        "dodge_pct": 7.70456,
+        "parry_pct": 4.8,
+        "crit_pct": 18.6858,
+        "ranged_crit_pct": 4.28584,
         "spell_crit_pct": 0.0,
-        "attack_power": 1236,
-        "ranged_attack_power": 147,
+        "attack_power": 1245,
+        "ranged_attack_power": 148,
         "spell_power": 0,
         "resilience": 0
       },
@@ -800,7 +804,12 @@
           "name": "Libram of Wracking",
           "quality": 2
         }
-      ]
+      ],
+      "talents": {
+        "381": 57,
+        "382": 2,
+        "383": 5
+      }
     }
   ]
 }
