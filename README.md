@@ -335,9 +335,11 @@ whenever that's wanted, not a data or schema change.
   renders plain, the same weight/color as the "Last Online" label itself,
   not through the dim `.achv-list__date` styling Collections entries use
   — that styling means "the date this was unlocked" everywhere else in
-  this app, which is the wrong implication for a plain current fact.
-  Reuses the Played Time clock icon. Blank (not shown at all) for a
-  character that's never logged out, or for a `characters.json` exported
+  this app, which is the wrong implication for a plain current fact. No
+  icon, unlike every other `.achv-list__item` — there's no single
+  established icon for "last online" the way Played Time/Honor Points
+  each have one. Blank (not shown at all) for a character that's never
+  logged out, or for a `characters.json` exported
   before this field existed — same graceful fallback as everything else
   in this app.
 

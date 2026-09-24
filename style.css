@@ -476,8 +476,15 @@ main {
    (.module-divider) or a new heading - currently only Last Online within
    the PvP module, to keep it from reading as another PvP stat without
    introducing a header for just one line. Same border treatment as
-   .achv-section__name's own top border, for visual consistency. */
+   .achv-section__name's own top border, for visual consistency. margin-
+   top is on top of .achv-list's own 0.3rem flex gap, since this divider
+   sits inside that flex list rather than the outer grid - added so the
+   space above the line matches the ~0.9rem gap between modules
+   (.char-achievements' grid gap + .module-divider's own margin), instead
+   of just the 0.3rem every other item in this list gets, which read as
+   squashed against Honor Points above it. */
 .achv-list__item--divider {
+  margin-top: 0.8rem;
   border-top: 1px solid rgba(255,255,255,0.08);
   padding-top: 0.6rem;
 }

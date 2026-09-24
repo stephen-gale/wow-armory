@@ -598,11 +598,16 @@ function renderEquippedGear(gear, itemIcons, className) {
 // character's own request - see `characters.logout_time`, gated by the
 // same "PvP module exists" check rather than its own). A thin divider
 // (no header, not yet its own module) separates it from Honor Points so
-// it doesn't read as another PvP stat. Its date is rendered plain, not
-// through formatEarnedDate's dim .achv-list__date styling - that styling
-// means "the date this was unlocked" everywhere else in this app, which
-// is the wrong implication for a plain current fact like this. Blank
-// (not "Last Online" with no date) for a character exported before
+// it doesn't read as another PvP stat - same visual weight as the
+// divider between modules, not squashed against Honor Points above it.
+// No icon (unlike every other .achv-list__item): there's no single
+// established icon for "last online" the way Played Time/Honor Points
+// each have one, so it's left plain rather than reusing an icon that
+// implies the wrong thing. Its date is rendered plain, not through
+// formatEarnedDate's dim .achv-list__date styling - that styling means
+// "the date this was unlocked" everywhere else in this app, which is the
+// wrong implication for a plain current fact like this. Blank (not
+// "Last Online" with no date) for a character exported before
 // `last_online` existed, or one that's never logged out (logout_time = 0
 // -> iso() already returns null server-side).
 function renderPvP(honorPoints, faction, lastOnline) {
@@ -610,7 +615,7 @@ function renderPvP(honorPoints, faction, lastOnline) {
   const icon = HONOR_ICON[faction] || HONOR_ICON.Alliance;
   const lastOnlineDate = formatDDMMYY(lastOnline);
   const lastOnlineItem = lastOnlineDate
-    ? `<li class="achv-list__item achv-list__item--divider"><img class="achv-list__icon" src="${STAT_ICONS.played}" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">Last Online ${lastOnlineDate}</li>`
+    ? `<li class="achv-list__item achv-list__item--divider">Last Online ${lastOnlineDate}</li>`
     : "";
   return `
     <h3 class="achv-section__name">PvP</h3>
