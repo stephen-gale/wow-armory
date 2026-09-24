@@ -361,7 +361,6 @@ function renderCharCard(c) {
   const raceIcon = iconImg(RACE_ICON_SLUGS[c.race_name], "race-icon");
 
   li.innerHTML = `
-    <div class="char-card__icons">${raceIcon}${classIcon}</div>
     <div class="char-card__main">
       <p class="char-card__name" style="color:${classColor}">${escapeHtml(c.name)} <span class="char-card__level">${c.level}</span></p>
       <p class="char-card__meta">${escapeHtml(c.race_name)} ${escapeHtml(c.class_name)}${c.account ? " · " + escapeHtml(c.account) : ""}</p>
@@ -371,6 +370,7 @@ function renderCharCard(c) {
       ${statWithIcon(STAT_ICONS.achievements, formatAchievements(c.achievement_points, c.achievement_count), "stat-icon--achievement")}
       ${statWithIcon(STAT_ICONS.gold, formatMoneyPlain(c.money_copper))}
     </div>
+    <div class="char-card__icons">${raceIcon}${classIcon}</div>
   `;
 
   li.addEventListener("click", () => toggleAchievementsPanel(li, c));
