@@ -667,14 +667,18 @@ const CLASS_FILTERED_STAT_SETS = [
     },
   },
   {
-    // Parry is a melee-combat stat, same relevance test as crit_pct above
-    // - excluded only for the classes with no melee-combat use case
-    // (Hunter's kit is ranged; Mage/Warlock/Priest are pure casters).
-    // Melee-only classes and the melee/tank/healer/caster hybrids all
-    // fall through to the default "show it" treatment.
+    // Parry is excluded only for the classes with no real melee-combat
+    // use case at all - Mage/Warlock/Priest are pure casters. Hunter is
+    // NOT excluded, unlike its treatment everywhere else in this file:
+    // confirmed against real WotLK talent data that Parry is a genuine,
+    // designed-around Survival-tree stat for Hunters, not vestigial -
+    // Deflection (talent 19295) directly reads "Increases your chance to
+    // parry by X%", and Counterattack (19306) is a whole ability that
+    // "becomes active after parrying an opponent's attack". Melee-only
+    // classes and the melee/tank/healer/caster hybrids all fall through
+    // to the default "show it" treatment.
     keys: ["parry_pct"],
     byClass: {
-      Hunter: [],
       Mage: [],
       Warlock: [],
       Priest: [],

@@ -309,12 +309,18 @@ saved, not a bug.
   Paladin/Shaman/Druid equip a Relic in the ranged slot, never a ranged
   weapon, in any spec.
 - **Parry and Block, by class**: two more `CLASS_FILTERED_STAT_SETS`
-  entries. Parry is a melee-combat stat like Crit above, so it uses the
-  same relevance test — hidden only for Hunter (ranged kit) and
-  Mage/Warlock/Priest (pure casters); every melee-only class and hybrid
-  sees it. Block is different: it's gated by actual shield proficiency,
-  not spec ambiguity, confirmed directly against AzerothCore's own equip
-  check (`Player::CanEquipItem` in `PlayerStorage.cpp`) — only Warrior,
+  entries. Parry is hidden only for Mage/Warlock/Priest (pure casters,
+  genuinely no melee-combat use case) — every melee-only class and
+  hybrid sees it, and so does Hunter, unlike its treatment everywhere
+  else in this file: confirmed against real WotLK talent data (pulled
+  from the `r-o-b-o-t-o/azerothcore-armory` CSVs) that Parry is a
+  designed-around Survival-tree stat for Hunters, not vestigial —
+  Deflection directly reads "Increases your chance to parry by X%", and
+  Counterattack is a whole ability that "becomes active after parrying
+  an opponent's attack". Block is different: it's gated by actual shield
+  proficiency, not spec ambiguity, confirmed directly against
+  AzerothCore's own equip check (`Player::CanEquipItem` in
+  `PlayerStorage.cpp`) — only Warrior,
   Paladin, and Shaman can equip a shield at all in this game version.
   Druid is excluded even though it's a hybrid everywhere else in this
   app, since that's a hard mechanical fact, not a guess about spec.
