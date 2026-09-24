@@ -596,17 +596,21 @@ function renderEquippedGear(gear, itemIcons, className) {
 //
 // Last Online isn't a PvP stat, but it lives in this module too (the
 // character's own request - see `characters.logout_time`, gated by the
-// same "PvP module exists" check rather than its own). Reuses the clock
-// icon Played Time already uses and formatEarnedDate's dim dd/mm/yy
-// styling, same as every other date in this app; blank (not "Last
-// Online" with no date) for a character exported before `last_online`
-// existed, or one that's never logged out (logout_time = 0 -> iso()
-// already returns null server-side).
+// same "PvP module exists" check rather than its own). A thin divider
+// (no header, not yet its own module) separates it from Honor Points so
+// it doesn't read as another PvP stat. Its date is rendered plain, not
+// through formatEarnedDate's dim .achv-list__date styling - that styling
+// means "the date this was unlocked" everywhere else in this app, which
+// is the wrong implication for a plain current fact like this. Blank
+// (not "Last Online" with no date) for a character exported before
+// `last_online` existed, or one that's never logged out (logout_time = 0
+// -> iso() already returns null server-side).
 function renderPvP(honorPoints, faction, lastOnline) {
   if (honorPoints === undefined) return "";
   const icon = HONOR_ICON[faction] || HONOR_ICON.Alliance;
-  const lastOnlineItem = lastOnline
-    ? `<li class="achv-list__item"><img class="achv-list__icon" src="${STAT_ICONS.played}" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">Last Online${formatEarnedDate(lastOnline)}</li>`
+  const lastOnlineDate = formatDDMMYY(lastOnline);
+  const lastOnlineItem = lastOnlineDate
+    ? `<li class="achv-list__item achv-list__item--divider"><img class="achv-list__icon" src="${STAT_ICONS.played}" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">Last Online ${lastOnlineDate}</li>`
     : "";
   return `
     <h3 class="achv-section__name">PvP</h3>
@@ -690,17 +694,22 @@ function renderDateView(items) {
   return html;
 }
 
-// Blank when there's no date to show (e.g. the rare achievement whose
+// Blank when there's no date to parse (e.g. the rare achievement whose
 // completion date Blizzard never recorded) rather than a misleading blank
 // or placeholder date.
-function formatEarnedDate(earnedAt) {
-  if (!earnedAt) return "";
-  const date = new Date(earnedAt);
+function formatDDMMYY(dateStr) {
+  if (!dateStr) return "";
+  const date = new Date(dateStr);
   if (Number.isNaN(date.getTime())) return "";
   const dd = String(date.getDate()).padStart(2, "0");
   const mm = String(date.getMonth() + 1).padStart(2, "0");
   const yy = String(date.getFullYear()).slice(-2);
-  return ` <span class="achv-list__date">${dd}/${mm}/${yy}</span>`;
+  return `${dd}/${mm}/${yy}`;
+}
+
+function formatEarnedDate(earnedAt) {
+  const formatted = formatDDMMYY(earnedAt);
+  return formatted ? ` <span class="achv-list__date">${formatted}</span>` : "";
 }
 
 function formatPlayedTime(totalSeconds) {

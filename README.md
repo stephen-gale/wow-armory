@@ -330,11 +330,16 @@ whenever that's wanted, not a data or schema change.
   `iso()` unix-timestamp helper every other date field in this app
   already uses. Not a PvP stat, but shown as a second line in this same
   module rather than a fourth one, since it's a single plain fact with
-  nowhere else established for it — reuses the Played Time clock icon and
-  the same dim dd/mm/yy date styling Collections entries already use.
-  Blank (not shown at all) for a character that's never logged out, or
-  for a `characters.json` exported before this field existed — same
-  graceful fallback as everything else in this app.
+  nowhere else established for it — a thin divider (no header, not yet
+  its own module) keeps it from reading as another PvP stat. Its date
+  renders plain, the same weight/color as the "Last Online" label itself,
+  not through the dim `.achv-list__date` styling Collections entries use
+  — that styling means "the date this was unlocked" everywhere else in
+  this app, which is the wrong implication for a plain current fact.
+  Reuses the Played Time clock icon. Blank (not shown at all) for a
+  character that's never logged out, or for a `characters.json` exported
+  before this field existed — same graceful fallback as everything else
+  in this app.
 
 ### Titles
 

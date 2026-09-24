@@ -472,6 +472,16 @@ main {
   font-size: 0.82rem;
 }
 
+/* A thin separator within a single .achv-list, not a full module divider
+   (.module-divider) or a new heading - currently only Last Online within
+   the PvP module, to keep it from reading as another PvP stat without
+   introducing a header for just one line. Same border treatment as
+   .achv-section__name's own top border, for visual consistency. */
+.achv-list__item--divider {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding-top: 0.6rem;
+}
+
 /* Equipped Gear only - real item icons, same 18px size settled on in the
    earlier icon-size mockup. */
 .achv-list__icon {
