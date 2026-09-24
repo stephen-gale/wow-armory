@@ -263,13 +263,18 @@ achievement counts are).
   character's own steer — still collected in full by the export scripts,
   so re-adding any of them is a one-line change, not a data/schema
   change.
-- **Crit, by class**: only one of Crit/Ranged Crit/Spell Crit is shown
-  for classes where it's unambiguous — melee-only (Warrior, Rogue, Death
-  Knight) see Crit; the one ranged-physical class (Hunter) sees Ranged
-  Crit; pure casters (Mage, Warlock, Priest) see Spell Crit. Paladin,
-  Shaman, and Druid are hybrids this app has no spec data for (could be
-  melee, healer, or caster) — shown all three rather than guessing, per
-  the character's own call.
+- **Crit and AP, by class**: same idea, two separate stat sets
+  (`CLASS_FILTERED_STAT_SETS` in `app.js`). Of Crit/Ranged Crit/Spell
+  Crit, and separately of AP/Ranged AP, only the one(s) relevant to a
+  class are shown where it's unambiguous — melee-only (Warrior, Rogue,
+  Death Knight) see Crit and AP; the one ranged-physical class (Hunter)
+  sees Ranged Crit and Ranged AP; pure casters (Mage, Warlock, Priest)
+  see Spell Crit and neither AP stat (SP isn't filtered — every class has
+  *some* use for it via enchants/trinkets, unlike melee/ranged AP for a
+  caster). Paladin, Shaman, and Druid are hybrids this app has no spec
+  data for (could be melee, healer, or caster) — shown everything in both
+  sets rather than guessing, per the character's own call, same as any
+  class this project hasn't explicitly categorized.
 - **Labels**: Blizzard's own client abbreviations where one actually
   exists — `Str`/`Agi`/`Sta`/`Int`/`Spi` confirmed straight from WotLK's
   own `GlobalStrings.lua` (note it's "Sta" not "Stam", and "Spi" not
@@ -1089,9 +1094,10 @@ here directly as things ship or plans change.
   per the character's own steer), grouped into Attributes/Defense/Combat
   cards styled identically to a Collections/Achievements category. Resil,
   the six resistances, Block, and Parry are hidden client-side (still
-  collected in full); only the crit stat(s) relevant to a character's
-  class are shown, hybrids get all three. Labels use Blizzard's own
-  client abbreviations where one exists (`Str`/`Agi`/`Sta`/`Int`/`Spi`,
+  collected in full); only the crit stat(s) and AP stat(s) relevant to a
+  character's class are shown, hybrids get everything. Labels use
+  Blizzard's own client abbreviations where one exists (`Str`/`Agi`/
+  `Sta`/`Int`/`Spi`,
   `Resil`), confirmed against WotLK's own `GlobalStrings.lua` — see
   [Character Stats](#character-stats) above.
 

@@ -599,28 +599,56 @@ const STAT_GROUPS = [
   },
 ];
 
-// Which of the three crit stats a class actually uses - Warrior/Rogue/
-// Death Knight are melee-only, Hunter is the one ranged-physical class,
-// Mage/Warlock/Priest are pure casters. Paladin/Shaman/Druid are hybrids
-// (melee, healer or caster depending on spec, which this app has no data
-// for) - shown all three rather than guessing a spec, per the character's
-// own call.
-const CRIT_STAT_KEYS = new Set(["crit_pct", "ranged_crit_pct", "spell_crit_pct"]);
-const CRIT_STATS_BY_CLASS = {
-  Warrior: ["crit_pct"],
-  Rogue: ["crit_pct"],
-  "Death Knight": ["crit_pct"],
-  Hunter: ["ranged_crit_pct"],
-  Mage: ["spell_crit_pct"],
-  Warlock: ["spell_crit_pct"],
-  Priest: ["spell_crit_pct"],
-};
+// Stats where only some of a related set are relevant to a given class -
+// Warrior/Rogue/Death Knight are melee-only, Hunter is the one
+// ranged-physical class, Mage/Warlock/Priest are pure casters.
+// Paladin/Shaman/Druid are hybrids (melee, healer or caster depending on
+// spec, which this app has no data for) - shown everything in the set
+// rather than guessing a spec, per the character's own call; any class
+// not listed here (a future addition, or one this project doesn't yet
+// name) falls back to the same "show everything" treatment.
+const CLASS_FILTERED_STAT_SETS = [
+  {
+    keys: ["crit_pct", "ranged_crit_pct", "spell_crit_pct"],
+    byClass: {
+      Warrior: ["crit_pct"],
+      Rogue: ["crit_pct"],
+      "Death Knight": ["crit_pct"],
+      Hunter: ["ranged_crit_pct"],
+      Mage: ["spell_crit_pct"],
+      Warlock: ["spell_crit_pct"],
+      Priest: ["spell_crit_pct"],
+    },
+  },
+  {
+    keys: ["attack_power", "ranged_attack_power"],
+    byClass: {
+      Warrior: ["attack_power"],
+      Rogue: ["attack_power"],
+      "Death Knight": ["attack_power"],
+      Hunter: ["ranged_attack_power"],
+      // Pure casters don't rely on either kind of physical damage.
+      Mage: [],
+      Warlock: [],
+      Priest: [],
+    },
+  },
+];
+const CLASS_FILTERED_STAT_KEYS = new Set(CLASS_FILTERED_STAT_SETS.flatMap((s) => s.keys));
+
+function visibleClassFilteredKeys(className) {
+  const visible = new Set();
+  for (const { keys, byClass } of CLASS_FILTERED_STAT_SETS) {
+    for (const key of byClass[className] || keys) visible.add(key);
+  }
+  return visible;
+}
 
 function renderCharacterStats(stats, className) {
   if (!stats) return "";
-  const visibleCrit = new Set(CRIT_STATS_BY_CLASS[className] || [...CRIT_STAT_KEYS]);
+  const visible = visibleClassFilteredKeys(className);
   const groups = STAT_GROUPS.map((group) => {
-    const visibleStats = group.stats.filter((s) => !CRIT_STAT_KEYS.has(s.key) || visibleCrit.has(s.key));
+    const visibleStats = group.stats.filter((s) => !CLASS_FILTERED_STAT_KEYS.has(s.key) || visible.has(s.key));
     return `
     <div class="achv-category">
       <h4 class="achv-category__name">${escapeHtml(group.name)}</h4>
