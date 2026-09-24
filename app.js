@@ -438,7 +438,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
   li.className = "char-achievements";
 
   const equippedGearHtml = renderEquippedGear(c.equipped_gear || [], itemIcons, c.class_name);
-  const honorHtml = renderHonorPoints(c.honor_points, c.faction);
+  const pvpHtml = renderPvP(c.honor_points, c.faction, c.last_online);
 
   // One flat section per category — no sub-grouping by tier/expansion — in
   // COLLECTION_CATEGORIES' own declared order. factionLevel categories
@@ -477,7 +477,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     }))
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  if (collectionGroups.length === 0 && categoryGroups.length === 0 && !equippedGearHtml && !honorHtml) {
+  if (collectionGroups.length === 0 && categoryGroups.length === 0 && !equippedGearHtml && !pvpHtml) {
     li.innerHTML = `<p class="char-achievements__empty">No collections or achievements recorded.</p>`;
     return li;
   }
@@ -528,7 +528,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     if (parts.length > 0) parts.push(`<div class="module-divider"></div>`);
     parts.push(sortSectionHtml);
   }
-  if (honorHtml) parts.push(honorHtml);
+  if (pvpHtml) parts.push(pvpHtml);
   li.innerHTML = parts.join("");
 
   const views = li.querySelectorAll(".sort-view");
@@ -593,13 +593,26 @@ function renderEquippedGear(gear, itemIcons, className) {
 // roll up (see renderSummary/renderFactionPanel's .reduce() calls) - so
 // adding Honor Points there later is a one-line change whenever that's
 // wanted, not a data/schema change.
-function renderHonorPoints(honorPoints, faction) {
+//
+// Last Online isn't a PvP stat, but it lives in this module too (the
+// character's own request - see `characters.logout_time`, gated by the
+// same "PvP module exists" check rather than its own). Reuses the clock
+// icon Played Time already uses and formatEarnedDate's dim dd/mm/yy
+// styling, same as every other date in this app; blank (not "Last
+// Online" with no date) for a character exported before `last_online`
+// existed, or one that's never logged out (logout_time = 0 -> iso()
+// already returns null server-side).
+function renderPvP(honorPoints, faction, lastOnline) {
   if (honorPoints === undefined) return "";
   const icon = HONOR_ICON[faction] || HONOR_ICON.Alliance;
+  const lastOnlineItem = lastOnline
+    ? `<li class="achv-list__item"><img class="achv-list__icon" src="${STAT_ICONS.played}" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">Last Online${formatEarnedDate(lastOnline)}</li>`
+    : "";
   return `
     <h3 class="achv-section__name">PvP</h3>
     <ul class="achv-list">
       <li class="achv-list__item"><img class="achv-list__icon" src="${icon}" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">Honor Points: ${formatNumber(honorPoints)}</li>
+      ${lastOnlineItem}
     </ul>
   `;
 }

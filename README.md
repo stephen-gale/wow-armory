@@ -296,7 +296,7 @@ reason.
   step, ever — regenerating `item_icons.json` is only ever needed if this
   project moved to a different client build.
 
-### Honor Points
+### PvP
 
 Not a top-level stat yet — per character only, for now. The expanded
 panel is three independent modules (Equipped, Collections/Achievements,
@@ -325,6 +325,16 @@ whenever that's wanted, not a data or schema change.
   check: the actual in-game "Honor:" display uses the faction crest, not
   the currency's own icon. Corrected once real screenshots made the
   mismatch obvious, not caught by DBC data alone.
+- **Last Online**: `characters.logout_time`, one more existing column
+  added to the same main character query, converted through the same
+  `iso()` unix-timestamp helper every other date field in this app
+  already uses. Not a PvP stat, but shown as a second line in this same
+  module rather than a fourth one, since it's a single plain fact with
+  nowhere else established for it — reuses the Played Time clock icon and
+  the same dim dd/mm/yy date styling Collections entries already use.
+  Blank (not shown at all) for a character that's never logged out, or
+  for a `characters.json` exported before this field existed — same
+  graceful fallback as everything else in this app.
 
 ### Titles
 
@@ -384,6 +394,7 @@ dated the same way.
       "achievement_count": 130,
       "played_time_seconds": 1234567,
       "honor_points": 15230,
+      "last_online": "2026-09-20T19:42:00Z",
       "achievements": [
         {"id": 6, "earned_at": "2026-01-04T18:22:10Z"},
         {"id": 42, "earned_at": "2026-02-11T02:47:33Z"},
@@ -454,8 +465,9 @@ client-side against `assets/data/item_icons.json`; `quality` is
 `item_template.Quality` (0-7), read from the same row and mapped
 client-side to Blizzard's own rarity colors.
 
-`honor_points` is `characters.totalHonorPoints`, read straight through —
-see [Honor Points](#honor-points) above.
+`honor_points` is `characters.totalHonorPoints`, and `last_online` is
+`characters.logout_time` converted through `iso()`, both read straight
+through — see [PvP](#pvp) above.
 
 ### Privacy note
 
@@ -619,7 +631,8 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
     COALESCE(cap.total_points, 0),
     COALESCE(cap.total_achievements, 0),
     c.totaltime,
-    c.totalHonorPoints
+    c.totalHonorPoints,
+    c.logout_time
   FROM acore_characters.characters c
   JOIN acore_auth.account a ON a.id = c.account
   LEFT JOIN acore_characters.character_achievement_points cap ON cap.guid = c.guid
@@ -773,7 +786,7 @@ for line in sys.stdin:
     if not line:
         continue
     (guid, name, account, race, race_name, cls, class_name,
-     faction, level, money, ap, ac, played, honor) = line.split('\t')
+     faction, level, money, ap, ac, played, honor, logout) = line.split('\t')
     guid = int(guid)
 
     equipped_ids = equipped_by_guid.get(guid, set())
@@ -815,6 +828,7 @@ for line in sys.stdin:
         'achievement_count': int(ac),
         'played_time_seconds': int(played),
         'honor_points': int(honor),
+        'last_online': iso(logout),
         'achievements': sorted(achievements_by_guid.get(guid, []), key=lambda a: a['id']),
         'collections': collections,
         'equipped_gear': sorted(equipped_gear_by_guid.get(guid, []), key=lambda g: g['slot']),
@@ -914,13 +928,14 @@ here directly as things ship or plans change.
   unlike Collections. Icon border and item name are tinted by
   `item_template.Quality` using Blizzard's own rarity colors — see
   [Equipped Gear](#equipped-gear) above.
-- **Honor Points / PvP module** — an independent third module (peer of
-  Equipped and Collections/Achievements), not gated by the Sort toggle.
-  Data shape already matches the fields that roll up into faction/account
-  totals, so that rollup is a one-line change whenever it's wanted. Icon
-  is faction-specific (Alliance lion crest / Horde crest), verified
-  against real in-game screenshots after an initial DBC-only check
-  picked the wrong UI element — see [Honor Points](#honor-points) above.
+- **PvP module** — an independent third module (peer of Equipped and
+  Collections/Achievements), not gated by the Sort toggle. Honor Points'
+  data shape already matches the fields that roll up into faction/account
+  totals, so that rollup is a one-line change whenever it's wanted. Its
+  icon is faction-specific (Alliance lion crest / Horde crest), verified
+  against real in-game screenshots after an initial DBC-only check picked
+  the wrong UI element. Last Online (`characters.logout_time`) lives here
+  too, as a second line — see [PvP](#pvp) above.
 - **Titles** — a seventh Collections category, achievement-granted titles
   only (see [Titles](#titles) above for why, and the known gap — a
   handful of WotLK titles come from quests instead). No new DB query: a
@@ -936,7 +951,6 @@ rough effort.
 
 | Idea | Effort | Notes |
 | --- | --- | --- |
-| Last online | Trivial | `characters.logout_time`, a plain column |
 | Stats (str/agi/stam/int/spirit, armor, crit%, etc.) | Low–medium | `character_stats` has a full computed snapshot updated on save — no simulation needed |
 | Skills | Medium | `character_skills` (guid, skill, value, max) — needs a skill-name lookup table |
 | Talent spec (name, not just points) | Medium–high | `character_talent` only stores spell id + spec mask, no tree/spec name directly — but `TalentTab_3.3.5_12340.csv`/`Talent_3.3.5_12340.csv` (real spec names + spell→tab mapping) are already in the same `r-o-b-o-t-o/azerothcore-armory` source used elsewhere, so no new data source is needed; still needs points-per-tab tallying logic to infer the dominant/active spec |
