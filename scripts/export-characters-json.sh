@@ -89,13 +89,15 @@ COLLECTION_LEGENDARIES_DEFS="${COLLECTION_LEGENDARIES_DEFS:-$COLLECTIONS_DIR/leg
 COLLECTION_TABARDS_DEFS="${COLLECTION_TABARDS_DEFS:-$COLLECTIONS_DIR/tabards.json}"
 COLLECTION_HEIRLOOMS_DEFS="${COLLECTION_HEIRLOOMS_DEFS:-$COLLECTIONS_DIR/heirlooms.json}"
 COLLECTION_TITLES_DEFS="${COLLECTION_TITLES_DEFS:-$COLLECTIONS_DIR/titles.json}"
+TALENT_SPELLS_DEFS="${TALENT_SPELLS_DEFS:-$SCRIPT_DIR/../assets/data/talent_spells.json}"
 
 mkdir -p "$OUTPUT_DIR"
 
 ACHIEVEMENTS_TMP="$(mktemp)"
 EQUIPPED_TMP="$(mktemp)"
 KNOWN_SPELLS_TMP="$(mktemp)"
-trap 'rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP"' EXIT
+TALENTS_TMP="$(mktemp)"
+trap 'rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$TALENTS_TMP"' EXIT
 
 mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
   SELECT ca.guid, ca.achievement, ca.date
@@ -138,6 +140,22 @@ mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
   WHERE cs.spell IN ($SPELL_COLLECTION_IDS)
     AND a.username NOT LIKE 'RNDBOT%';
 " > "$KNOWN_SPELLS_TMP"
+
+# Every learned talent, every spec - specMask (bit 0 = spec 0, bit 1 =
+# spec 1) is what lets Python below pick out only the character's
+# CURRENTLY ACTIVE spec's points (characters.activeTalentGroup, added to
+# the main query below), same dual-spec bitmask AzerothCore's own
+# Player::GetActiveSpecMask() uses. Only the highest rank of a given
+# talent is ever a row here - confirmed directly against
+# Player::addTalent's own "remove old talent rank if any" behavior - so
+# no lower-rank rows ever need filtering out.
+mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
+  SELECT ct.guid, ct.spell, ct.specMask
+  FROM acore_characters.character_talent ct
+  JOIN acore_characters.characters c ON c.guid = ct.guid
+  JOIN acore_auth.account a ON a.id = c.account
+  WHERE a.username NOT LIKE 'RNDBOT%';
+" > "$TALENTS_TMP"
 
 read -r -d '' QUERY <<'SQL' || true
 SELECT
@@ -192,7 +210,8 @@ SELECT
   COALESCE(cs.attackPower, 0) AS attack_power,
   COALESCE(cs.rangedAttackPower, 0) AS ranged_attack_power,
   COALESCE(cs.spellPower, 0) AS spell_power,
-  COALESCE(cs.resilience, 0) AS resilience
+  COALESCE(cs.resilience, 0) AS resilience,
+  c.activeTalentGroup
 FROM acore_characters.characters c
 JOIN acore_auth.account a ON a.id = c.account
 LEFT JOIN acore_characters.character_achievement_points cap ON cap.guid = c.guid
@@ -202,19 +221,20 @@ ORDER BY faction, c.level DESC, c.name;
 SQL
 
 mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "$QUERY" | python3 - \
-  "$OUTPUT_FILE" "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" \
+  "$OUTPUT_FILE" "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$TALENTS_TMP" \
   "$COLLECTION_SETS_DEFS" "$COLLECTION_MOUNTS_DEFS" "$COLLECTION_COMPANIONS_DEFS" \
   "$COLLECTION_LEGENDARIES_DEFS" "$COLLECTION_TABARDS_DEFS" "$COLLECTION_HEIRLOOMS_DEFS" \
-  "$COLLECTION_TITLES_DEFS" <<'PYEOF'
+  "$COLLECTION_TITLES_DEFS" "$TALENT_SPELLS_DEFS" <<'PYEOF'
 import sys
 import json
 import datetime
 import os
 from collections import defaultdict
 
-(out_path, achievements_path, equipped_path, known_spells_path,
+(out_path, achievements_path, equipped_path, known_spells_path, talents_path,
  sets_defs_path, mounts_defs_path, companions_defs_path,
- legendaries_defs_path, tabards_defs_path, heirlooms_defs_path, titles_defs_path) = sys.argv[1:12]
+ legendaries_defs_path, tabards_defs_path, heirlooms_defs_path, titles_defs_path,
+ talent_spells_defs_path) = sys.argv[1:14]
 
 # (json key, detection kind, defs path) — "equip" entries have slot_groups,
 # "spell" entries have spell_ids. See the header comment above for what
@@ -293,6 +313,26 @@ with open(known_spells_path) as f:
         guid, spell_id = line.split("\t")
         known_spells_by_guid[int(guid)].add(int(spell_id))
 
+# Talent id -> {tab_id, points} (see scripts/generate-talent-data.py) —
+# turns each raw character_talent row into which tree it belongs to and
+# how many points that rank represents, mirroring how item_icons.json
+# turns an equipped item id into an icon.
+with open(talent_spells_defs_path) as f:
+    talent_spells = {int(k): v for k, v in json.load(f).items()}
+
+# Every learned talent per character, both specs - kept as (spell,
+# specMask) pairs rather than resolved yet, since resolving needs each
+# character's own activeTalentGroup (main query, below) to know which
+# spec's points to sum.
+talents_by_guid = defaultdict(list)
+with open(talents_path) as f:
+    for line in f:
+        line = line.rstrip("\n")
+        if not line:
+            continue
+        guid, spell_id, spec_mask = line.split("\t")
+        talents_by_guid[int(guid)].append((int(spell_id), int(spec_mask)))
+
 def detect_equip(equipped_ids, defs):
     """Earned when the character has at least one item from EVERY slot
     group equipped right now (each slot group is a list of interchangeable
@@ -362,7 +402,7 @@ MAIN_QUERY_FIELDS = [
     "armor", "res_holy", "res_fire", "res_nature", "res_frost", "res_shadow",
     "res_arcane", "block_pct", "dodge_pct", "parry_pct", "crit_pct",
     "ranged_crit_pct", "spell_crit_pct", "attack_power", "ranged_attack_power",
-    "spell_power", "resilience",
+    "spell_power", "resilience", "active_talent_group",
 ]
 
 characters = []
@@ -397,6 +437,21 @@ for line in sys.stdin:
         ),
         key=lambda t: t["id"],
     )
+
+    # Only the character's CURRENTLY ACTIVE spec's points count - a
+    # respec leaves the other spec's talents in character_talent too
+    # (specMask marks which spec(s) each row belongs to), so summing
+    # every row regardless of spec would double-count or mix two
+    # different builds together. Bit 0 = spec 0, bit 1 = spec 1, same
+    # bitmask AzerothCore's own GetActiveSpecMask() uses.
+    active_spec_bit = 1 << int(row["active_talent_group"])
+    talent_points = defaultdict(int)
+    for spell_id, spec_mask in talents_by_guid.get(guid, []):
+        if not (spec_mask & active_spec_bit):
+            continue
+        talent = talent_spells.get(spell_id)
+        if talent:
+            talent_points[talent["tab_id"]] += talent["points"]
 
     characters.append({
         "guid": guid,
@@ -442,6 +497,7 @@ for line in sys.stdin:
         "achievements": sorted(achievements_by_guid.get(guid, []), key=lambda a: a["id"]),
         "collections": collections,
         "equipped_gear": sorted(equipped_gear_by_guid.get(guid, []), key=lambda g: g["slot"]),
+        "talents": dict(talent_points),
     })
 
 data = {

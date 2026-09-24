@@ -460,6 +460,44 @@ main {
   gap: 0.6rem 0.7rem;
 }
 
+/* Talents: always exactly 3 trees, one column each - icon, tree name,
+   points, all centered, same grid-column: 1/-1 + repeat(3, 1fr) approach
+   .stats-columns already uses to sit as one row instead of flowing into
+   .char-achievements' own auto-fill grid. */
+.talent-columns {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem 0.7rem;
+}
+
+.talent-tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.3rem;
+}
+
+.talent-tab__icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 5px;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+
+.talent-tab__name {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+}
+
+.talent-tab__points {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
 .achv-category__name {
   margin: 0 0 0.35rem;
   font-size: 0.72rem;

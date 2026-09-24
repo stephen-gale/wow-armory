@@ -184,7 +184,8 @@
         {"slot": 10, "id": 23059, "name": "Ring of the Dreadnaught", "quality": 4},
         {"slot": 15, "id": 19019, "name": "Thunderfury, Blessed Blade of the Windseeker", "quality": 5},
         {"slot": 18, "id": 22999, "name": "Tabard of the Argent Dawn", "quality": 1}
-      ]
+      ],
+      "talents": {"161": 51, "164": 5, "163": 15}
     },
     {
       "guid": 2,

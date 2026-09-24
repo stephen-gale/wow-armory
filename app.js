@@ -438,6 +438,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
   li.className = "char-achievements";
 
   const statsHtml = renderCharacterStats(c.stats, c.class_name);
+  const talentsHtml = renderTalents(c.talents, c.class_name);
   const equippedGearHtml = renderEquippedGear(c.equipped_gear || [], itemIcons, c.class_name);
   const pvpHtml = renderPvP(c.honor_points, c.faction, c.last_online);
 
@@ -478,7 +479,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     }))
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  if (collectionGroups.length === 0 && categoryGroups.length === 0 && !statsHtml && !equippedGearHtml && !pvpHtml) {
+  if (collectionGroups.length === 0 && categoryGroups.length === 0 && !statsHtml && !talentsHtml && !equippedGearHtml && !pvpHtml) {
     li.innerHTML = `<p class="char-achievements__empty">No collections or achievements recorded.</p>`;
     return li;
   }
@@ -513,23 +514,25 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     `;
   }
 
-  // Four independent modules, in this fixed order: Stats, Equipped,
-  // Collections/Achievements (with its own Type/Date toggle), PvP - each
-  // shown only when it has something to show. Stats, Equipped and PvP
-  // are all headed by .achv-section__name, which already grows its own
-  // top border whenever it isn't .char-achievements' literal first
-  // child, so they need no manual divider before or after them - adding
-  // one would double up against that automatic border. (Stats being
-  // first now, not Equipped, is exactly why this rule is driven by
-  // :first-child rather than by which module JS puts first - Equipped
-  // automatically picked up its own top border the moment something
-  // started coming before it, no CSS change needed.)
+  // Five independent modules, in this fixed order: Stats, Talents,
+  // Equipped, Collections/Achievements (with its own Type/Date toggle),
+  // PvP - each shown only when it has something to show. Stats, Talents,
+  // Equipped and PvP are all headed by .achv-section__name, which
+  // already grows its own top border whenever it isn't
+  // .char-achievements' literal first child, so they need no manual
+  // divider before or after them - adding one would double up against
+  // that automatic border. (Stats being first now, not Equipped, is
+  // exactly why this rule is driven by :first-child rather than by which
+  // module JS puts first - Equipped automatically picked up its own top
+  // border the moment something started coming before it, no CSS change
+  // needed.)
   // sortSectionHtml starts with .sort-row instead, which has no built-in
   // separator, so it's the only module that needs an explicit
   // .module-divider in front of it (and only when something already
   // precedes it).
   const parts = [];
   if (statsHtml) parts.push(statsHtml);
+  if (talentsHtml) parts.push(talentsHtml);
   if (equippedGearHtml) parts.push(equippedGearHtml);
   if (sortSectionHtml) {
     if (parts.length > 0) parts.push(`<div class="module-divider"></div>`);
@@ -744,6 +747,87 @@ function renderCharacterStats(stats, className) {
   `;
   }).join("");
   return `<h3 class="achv-section__name">Stats</h3><div class="stats-columns">${groups}</div>`;
+}
+
+// Each class's 3 talent trees, in the same left-to-right order the real
+// client shows them (TalentTab.OrderIndex) - confirmed against the real
+// WotLK Talent/TalentTab DBC data (r-o-b-o-t-o/azerothcore-armory CSVs),
+// not assumed from memory. Tab ids match assets/data/talent_spells.json's
+// tab_id (see scripts/generate-talent-data.py) and each character's own
+// `talents` object (export-characters-json.sh/wowbackup.sh) - already
+// summed to points-per-tab server-side, for the character's own
+// currently active spec only (dual-spec's inactive spec is never
+// included). Icons are Blizzard's own tree icons, bundled at
+// assets/icons/talents/ - 27 of 30 fetched from the same
+// Gethe/wow-ui-textures mirror the rest of this app's icons use; Paladin
+// Protection and Druid Restoration have no icon in that mirror's current
+// snapshot, so those two just render with no icon, same graceful
+// fallback every other icon in this app already has.
+const TALENT_TABS_BY_CLASS = {
+  Warrior: [
+    { id: 161, name: "Arms", icon: "ability_rogue_eviscerate" },
+    { id: 164, name: "Fury", icon: "ability_warrior_innerrage" },
+    { id: 163, name: "Protection", icon: "inv_shield_06" },
+  ],
+  Paladin: [
+    { id: 382, name: "Holy", icon: "spell_holy_holybolt" },
+    { id: 383, name: "Protection", icon: "spell_holy_devotionaura" },
+    { id: 381, name: "Retribution", icon: "spell_holy_auraoflight" },
+  ],
+  Hunter: [
+    { id: 361, name: "Beast Mastery", icon: "ability_hunter_beasttaming" },
+    { id: 363, name: "Marksmanship", icon: "ability_marksmanship" },
+    { id: 362, name: "Survival", icon: "ability_hunter_swiftstrike" },
+  ],
+  Rogue: [
+    { id: 182, name: "Assassination", icon: "ability_rogue_eviscerate" },
+    { id: 181, name: "Combat", icon: "ability_backstab" },
+    { id: 183, name: "Subtlety", icon: "ability_stealth" },
+  ],
+  Priest: [
+    { id: 201, name: "Discipline", icon: "spell_holy_wordfortitude" },
+    { id: 202, name: "Holy", icon: "spell_holy_guardianspirit" },
+    { id: 203, name: "Shadow", icon: "spell_shadow_shadowwordpain" },
+  ],
+  "Death Knight": [
+    { id: 398, name: "Blood", icon: "spell_deathknight_bloodpresence" },
+    { id: 399, name: "Frost", icon: "spell_deathknight_frostpresence" },
+    { id: 400, name: "Unholy", icon: "spell_deathknight_unholypresence" },
+  ],
+  Shaman: [
+    { id: 261, name: "Elemental", icon: "spell_nature_lightning" },
+    { id: 263, name: "Enhancement", icon: "spell_nature_lightningshield" },
+    { id: 262, name: "Restoration", icon: "spell_nature_magicimmunity" },
+  ],
+  Mage: [
+    { id: 81, name: "Arcane", icon: "spell_holy_magicalsentry" },
+    { id: 41, name: "Fire", icon: "spell_fire_firebolt02" },
+    { id: 61, name: "Frost", icon: "spell_frost_frostbolt02" },
+  ],
+  Warlock: [
+    { id: 302, name: "Affliction", icon: "spell_shadow_deathcoil" },
+    { id: 303, name: "Demonology", icon: "spell_shadow_metamorphosis" },
+    { id: 301, name: "Destruction", icon: "spell_shadow_rainoffire" },
+  ],
+  Druid: [
+    { id: 283, name: "Balance", icon: "spell_nature_starfall" },
+    { id: 281, name: "Feral Combat", icon: "ability_racial_bearform" },
+    { id: 282, name: "Restoration", icon: "spell_nature_healingtouch" },
+  ],
+};
+
+function renderTalents(talents, className) {
+  if (!talents) return "";
+  const tabs = TALENT_TABS_BY_CLASS[className];
+  if (!tabs) return "";
+  const columns = tabs.map((tab) => `
+    <div class="talent-tab">
+      <img class="talent-tab__icon" src="assets/icons/talents/${tab.icon}.png" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">
+      <div class="talent-tab__name">${escapeHtml(tab.name)}</div>
+      <div class="talent-tab__points">${formatNumber(talents[tab.id])}</div>
+    </div>
+  `).join("");
+  return `<h3 class="achv-section__name">Talents</h3><div class="talent-columns">${columns}</div>`;
 }
 
 // Equipped Gear: the character's current loadout, slot by slot, straight

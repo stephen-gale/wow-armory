@@ -201,9 +201,11 @@ COLLECTION_LEGENDARIES_DEFS="$REPO_DATA_DIR/assets/data/collections/legendaries.
 COLLECTION_TABARDS_DEFS="$REPO_DATA_DIR/assets/data/collections/tabards.json"
 COLLECTION_HEIRLOOMS_DEFS="$REPO_DATA_DIR/assets/data/collections/heirlooms.json"
 COLLECTION_TITLES_DEFS="$REPO_DATA_DIR/assets/data/collections/titles.json"
+TALENT_SPELLS_DEFS="$REPO_DATA_DIR/assets/data/talent_spells.json"
 ACHIEVEMENTS_TMP="$(mktemp)"
 EQUIPPED_TMP="$(mktemp)"
 KNOWN_SPELLS_TMP="$(mktemp)"
+TALENTS_TMP="$(mktemp)"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT ca.guid, ca.achievement, ca.date
   FROM acore_characters.character_achievement ca
@@ -241,6 +243,13 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   WHERE cs.spell IN ($SPELL_COLLECTION_IDS)
     AND a.username NOT LIKE 'RNDBOT%';
 " > "$KNOWN_SPELLS_TMP"
+mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
+  SELECT ct.guid, ct.spell, ct.specMask
+  FROM acore_characters.character_talent ct
+  JOIN acore_characters.characters c ON c.guid = ct.guid
+  JOIN acore_auth.account a ON a.id = c.account
+  WHERE a.username NOT LIKE 'RNDBOT%';
+" > "$TALENTS_TMP"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT
     c.guid,
@@ -294,7 +303,8 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
     COALESCE(cs.attackPower, 0),
     COALESCE(cs.rangedAttackPower, 0),
     COALESCE(cs.spellPower, 0),
-    COALESCE(cs.resilience, 0)
+    COALESCE(cs.resilience, 0),
+    c.activeTalentGroup
   FROM acore_characters.characters c
   JOIN acore_auth.account a ON a.id = c.account
   LEFT JOIN acore_characters.character_achievement_points cap ON cap.guid = c.guid
@@ -359,6 +369,18 @@ with open('$KNOWN_SPELLS_TMP') as f:
             continue
         guid, spell_id = line.split('\t')
         known_spells_by_guid[int(guid)].add(int(spell_id))
+
+with open('$TALENT_SPELLS_DEFS') as f:
+    talent_spells = {int(k): v for k, v in json.load(f).items()}
+
+talents_by_guid = defaultdict(list)
+with open('$TALENTS_TMP') as f:
+    for line in f:
+        line = line.rstrip('\n')
+        if not line:
+            continue
+        guid, spell_id, spec_mask = line.split('\t')
+        talents_by_guid[int(guid)].append((int(spell_id), int(spec_mask)))
 
 # Titles: an achievement id -> title name map (see
 # scripts/generate-titles-collection-data.py). A character's titles are
@@ -455,7 +477,7 @@ MAIN_QUERY_FIELDS = [
     'armor', 'res_holy', 'res_fire', 'res_nature', 'res_frost', 'res_shadow',
     'res_arcane', 'block_pct', 'dodge_pct', 'parry_pct', 'crit_pct',
     'ranged_crit_pct', 'spell_crit_pct', 'attack_power', 'ranged_attack_power',
-    'spell_power', 'resilience',
+    'spell_power', 'resilience', 'active_talent_group',
 ]
 
 characters = []
@@ -489,6 +511,15 @@ for line in sys.stdin:
         ),
         key=lambda t: t['id'],
     )
+
+    active_spec_bit = 1 << int(row['active_talent_group'])
+    talent_points = defaultdict(int)
+    for spell_id, spec_mask in talents_by_guid.get(guid, []):
+        if not (spec_mask & active_spec_bit):
+            continue
+        talent = talent_spells.get(spell_id)
+        if talent:
+            talent_points[talent['tab_id']] += talent['points']
 
     characters.append({
         'guid': guid,
@@ -534,6 +565,7 @@ for line in sys.stdin:
         'achievements': sorted(achievements_by_guid.get(guid, []), key=lambda a: a['id']),
         'collections': collections,
         'equipped_gear': sorted(equipped_gear_by_guid.get(guid, []), key=lambda g: g['slot']),
+        'talents': dict(talent_points),
     })
 
 with open('$BACKUP_DIR/characters.json', 'w') as f:
@@ -545,7 +577,7 @@ with open('$REPO_DATA_DIR/characters.json', 'w') as f:
 
 print(f'  characters.json: wrote {len(characters)} characters')
 " || { echo "Failed: characters.json export"; exit 1; }
-rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP"
+rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$TALENTS_TMP"
 
 echo "  Publishing characters.json to GitHub..."
 (
