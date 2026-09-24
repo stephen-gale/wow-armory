@@ -437,7 +437,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
   const li = document.createElement("li");
   li.className = "char-achievements";
 
-  const statsHtml = renderCharacterStats(c.stats);
+  const statsHtml = renderCharacterStats(c.stats, c.class_name);
   const equippedGearHtml = renderEquippedGear(c.equipped_gear || [], itemIcons, c.class_name);
   const pvpHtml = renderPvP(c.honor_points, c.faction, c.last_online);
 
@@ -562,6 +562,11 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
 // GlobalStrings.lua; Resil from RESILIENCE_ABBR) - the rest have no
 // official short form, so they're spelled out or use the AP/SP shorthand
 // this game's own community has used since Vanilla.
+//
+// Resil, the six resistances, Block, and Parry are hidden client-side for
+// now (per the character's own steer) - still collected in full by the
+// export scripts (see `stats` there), so re-adding any of them here later
+// is a one-line change, not a data/schema change.
 const STAT_GROUPS = [
   {
     name: "Attributes",
@@ -579,15 +584,6 @@ const STAT_GROUPS = [
       { key: "max_health", label: "Max Health" },
       { key: "armor", label: "Armor" },
       { key: "dodge_pct", label: "Dodge", isPct: true },
-      { key: "parry_pct", label: "Parry", isPct: true },
-      { key: "block_pct", label: "Block", isPct: true },
-      { key: "resilience", label: "Resil" },
-      { key: "res_holy", label: "Holy Res" },
-      { key: "res_fire", label: "Fire Res" },
-      { key: "res_nature", label: "Nature Res" },
-      { key: "res_frost", label: "Frost Res" },
-      { key: "res_shadow", label: "Shadow Res" },
-      { key: "res_arcane", label: "Arcane Res" },
     ],
   },
   {
@@ -603,20 +599,41 @@ const STAT_GROUPS = [
   },
 ];
 
-function renderCharacterStats(stats) {
+// Which of the three crit stats a class actually uses - Warrior/Rogue/
+// Death Knight are melee-only, Hunter is the one ranged-physical class,
+// Mage/Warlock/Priest are pure casters. Paladin/Shaman/Druid are hybrids
+// (melee, healer or caster depending on spec, which this app has no data
+// for) - shown all three rather than guessing a spec, per the character's
+// own call.
+const CRIT_STAT_KEYS = new Set(["crit_pct", "ranged_crit_pct", "spell_crit_pct"]);
+const CRIT_STATS_BY_CLASS = {
+  Warrior: ["crit_pct"],
+  Rogue: ["crit_pct"],
+  "Death Knight": ["crit_pct"],
+  Hunter: ["ranged_crit_pct"],
+  Mage: ["spell_crit_pct"],
+  Warlock: ["spell_crit_pct"],
+  Priest: ["spell_crit_pct"],
+};
+
+function renderCharacterStats(stats, className) {
   if (!stats) return "";
-  const groups = STAT_GROUPS.map((group) => `
+  const visibleCrit = new Set(CRIT_STATS_BY_CLASS[className] || [...CRIT_STAT_KEYS]);
+  const groups = STAT_GROUPS.map((group) => {
+    const visibleStats = group.stats.filter((s) => !CRIT_STAT_KEYS.has(s.key) || visibleCrit.has(s.key));
+    return `
     <div class="achv-category">
       <h4 class="achv-category__name">${escapeHtml(group.name)}</h4>
       <ul class="achv-list">
-        ${group.stats.map((s) => {
+        ${visibleStats.map((s) => {
           const value = stats[s.key];
           const formatted = s.isPct ? `${Number(value || 0).toFixed(2)}%` : formatNumber(value);
           return `<li class="achv-list__item">${escapeHtml(s.label)}: ${formatted}</li>`;
         }).join("")}
       </ul>
     </div>
-  `).join("");
+  `;
+  }).join("");
   return `<h3 class="achv-section__name">Character Stats</h3>${groups}`;
 }
 

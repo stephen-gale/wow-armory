@@ -254,21 +254,30 @@ achievement counts are).
   achievement-points LEFT JOIN already used — a character with no
   `character_stats` row (very rare; the table exists per-character from
   first save) gets zeros, not a broken export.
-- **Scope**: the table's full column list, minus the 7 `maxpower*`
-  columns (max Mana/Rage/Focus/Energy/Happiness/Rune/Runic Power) —
-  deliberately left out per the character's own steer, and mostly zero
-  for any character anyway (only 1-2 are ever populated, depending on
-  class). Everything else — both primary attributes and every combat/
-  defense rating the table has — is collected and shown; nothing is
-  hidden client-side.
+- **Scope**: the export scripts collect the table's full column list,
+  minus the 7 `maxpower*` columns (max Mana/Rage/Focus/Energy/Happiness/
+  Rune/Runic Power) — deliberately left out per the character's own
+  steer, and mostly zero for any character anyway (only 1-2 are ever
+  populated, depending on class). `app.js`'s `STAT_GROUPS` then hides
+  Resil, the six resistances, Block, and Parry client-side, also per the
+  character's own steer — still collected in full by the export scripts,
+  so re-adding any of them is a one-line change, not a data/schema
+  change.
+- **Crit, by class**: only one of Crit/Ranged Crit/Spell Crit is shown
+  for classes where it's unambiguous — melee-only (Warrior, Rogue, Death
+  Knight) see Crit; the one ranged-physical class (Hunter) sees Ranged
+  Crit; pure casters (Mage, Warlock, Priest) see Spell Crit. Paladin,
+  Shaman, and Druid are hybrids this app has no spec data for (could be
+  melee, healer, or caster) — shown all three rather than guessing, per
+  the character's own call.
 - **Labels**: Blizzard's own client abbreviations where one actually
   exists — `Str`/`Agi`/`Sta`/`Int`/`Spi` confirmed straight from WotLK's
   own `GlobalStrings.lua` (note it's "Sta" not "Stam", and "Spi" not
   "Spir"), `Resil` confirmed the same way (`RESILIENCE_ABBR`). The rest
-  (Armor, the six resistances, AP/Ranged AP/SP, Crit/Ranged Crit/Spell
-  Crit, Dodge/Parry/Block) have no official Blizzard short form in the
-  client source, so they're spelled out or use the AP/SP shorthand this
-  game's community has used since Vanilla.
+  (Armor, AP/Ranged AP/SP, Crit/Ranged Crit/Spell Crit, Dodge) have no
+  official Blizzard short form in the client source, so they're spelled
+  out or use the AP/SP shorthand this game's community has used since
+  Vanilla.
 - **Freshness**: `character_stats` only updates when a character saves
   (logout or periodic autosave) — same "can't update without being in
   the game, and being in the game means the next backup already picks it
@@ -1078,10 +1087,13 @@ here directly as things ship or plans change.
 - **Character Stats** — the new top module, ahead of Equipped. A full
   `character_stats` snapshot (minus the 7 `maxpower*` columns, dropped
   per the character's own steer), grouped into Attributes/Defense/Combat
-  cards styled identically to a Collections/Achievements category. Labels
-  use Blizzard's own client abbreviations where one exists (`Str`/`Agi`/
-  `Sta`/`Int`/`Spi`, `Resil`), confirmed against WotLK's own
-  `GlobalStrings.lua` — see [Character Stats](#character-stats) above.
+  cards styled identically to a Collections/Achievements category. Resil,
+  the six resistances, Block, and Parry are hidden client-side (still
+  collected in full); only the crit stat(s) relevant to a character's
+  class are shown, hybrids get all three. Labels use Blizzard's own
+  client abbreviations where one exists (`Str`/`Agi`/`Sta`/`Int`/`Spi`,
+  `Resil`), confirmed against WotLK's own `GlobalStrings.lua` — see
+  [Character Stats](#character-stats) above.
 
 ### Backlog ideas
 
