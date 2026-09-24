@@ -169,10 +169,34 @@ SELECT
   COALESCE(cap.total_achievements, 0) AS achievement_count,
   c.totaltime AS played_time_seconds,
   c.totalHonorPoints AS honor_points,
-  c.logout_time AS last_online
+  c.logout_time AS last_online,
+  COALESCE(cs.maxhealth, 0) AS max_health,
+  COALESCE(cs.strength, 0) AS strength,
+  COALESCE(cs.agility, 0) AS agility,
+  COALESCE(cs.stamina, 0) AS stamina,
+  COALESCE(cs.intellect, 0) AS intellect,
+  COALESCE(cs.spirit, 0) AS spirit,
+  COALESCE(cs.armor, 0) AS armor,
+  COALESCE(cs.resHoly, 0) AS res_holy,
+  COALESCE(cs.resFire, 0) AS res_fire,
+  COALESCE(cs.resNature, 0) AS res_nature,
+  COALESCE(cs.resFrost, 0) AS res_frost,
+  COALESCE(cs.resShadow, 0) AS res_shadow,
+  COALESCE(cs.resArcane, 0) AS res_arcane,
+  COALESCE(cs.blockPct, 0) AS block_pct,
+  COALESCE(cs.dodgePct, 0) AS dodge_pct,
+  COALESCE(cs.parryPct, 0) AS parry_pct,
+  COALESCE(cs.critPct, 0) AS crit_pct,
+  COALESCE(cs.rangedCritPct, 0) AS ranged_crit_pct,
+  COALESCE(cs.spellCritPct, 0) AS spell_crit_pct,
+  COALESCE(cs.attackPower, 0) AS attack_power,
+  COALESCE(cs.rangedAttackPower, 0) AS ranged_attack_power,
+  COALESCE(cs.spellPower, 0) AS spell_power,
+  COALESCE(cs.resilience, 0) AS resilience
 FROM acore_characters.characters c
 JOIN acore_auth.account a ON a.id = c.account
 LEFT JOIN acore_characters.character_achievement_points cap ON cap.guid = c.guid
+LEFT JOIN acore_characters.character_stats cs ON cs.guid = c.guid
 WHERE a.username NOT LIKE 'RNDBOT%'
 ORDER BY faction, c.level DESC, c.name;
 SQL
@@ -326,16 +350,29 @@ if os.path.exists(out_path):
 
 generated_at = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
 
+# Named, not positional, unpacking below this point - the main query is now
+# wide enough (38 columns, once character_stats joined in) that a flat
+# tuple assignment is a silent-corruption risk (a single reorder swaps two
+# stats with no error, unlike a crash). Must stay in the exact order the
+# SELECT above lists its columns in.
+MAIN_QUERY_FIELDS = [
+    "guid", "name", "account", "race", "race_name", "cls", "class_name",
+    "faction", "level", "money", "ap", "ac", "played", "honor", "logout",
+    "max_health", "strength", "agility", "stamina", "intellect", "spirit",
+    "armor", "res_holy", "res_fire", "res_nature", "res_frost", "res_shadow",
+    "res_arcane", "block_pct", "dodge_pct", "parry_pct", "crit_pct",
+    "ranged_crit_pct", "spell_crit_pct", "attack_power", "ranged_attack_power",
+    "spell_power", "resilience",
+]
+
 characters = []
 
 for line in sys.stdin:
     line = line.rstrip("\n")
     if not line:
         continue
-    fields = line.split("\t")
-    (guid, name, account, race, race_name, cls, class_name,
-     faction, level, money, ap, ac, played, honor, logout) = fields
-    guid = int(guid)
+    row = dict(zip(MAIN_QUERY_FIELDS, line.split("\t")))
+    guid = int(row["guid"])
 
     equipped_ids = equipped_by_guid.get(guid, set())
     known_spells = known_spells_by_guid.get(guid, set())
@@ -363,20 +400,45 @@ for line in sys.stdin:
 
     characters.append({
         "guid": guid,
-        "name": name,
-        "account": account,
-        "race_id": int(race),
-        "race_name": race_name,
-        "class_id": int(cls),
-        "class_name": class_name,
-        "faction": faction,
-        "level": int(level),
-        "money_copper": int(money),
-        "achievement_points": int(ap),
-        "achievement_count": int(ac),
-        "played_time_seconds": int(played),
-        "honor_points": int(honor),
-        "last_online": iso(logout),
+        "name": row["name"],
+        "account": row["account"],
+        "race_id": int(row["race"]),
+        "race_name": row["race_name"],
+        "class_id": int(row["cls"]),
+        "class_name": row["class_name"],
+        "faction": row["faction"],
+        "level": int(row["level"]),
+        "money_copper": int(row["money"]),
+        "achievement_points": int(row["ap"]),
+        "achievement_count": int(row["ac"]),
+        "played_time_seconds": int(row["played"]),
+        "honor_points": int(row["honor"]),
+        "last_online": iso(row["logout"]),
+        "stats": {
+            "max_health": int(row["max_health"]),
+            "strength": int(row["strength"]),
+            "agility": int(row["agility"]),
+            "stamina": int(row["stamina"]),
+            "intellect": int(row["intellect"]),
+            "spirit": int(row["spirit"]),
+            "armor": int(row["armor"]),
+            "res_holy": int(row["res_holy"]),
+            "res_fire": int(row["res_fire"]),
+            "res_nature": int(row["res_nature"]),
+            "res_frost": int(row["res_frost"]),
+            "res_shadow": int(row["res_shadow"]),
+            "res_arcane": int(row["res_arcane"]),
+            "block_pct": float(row["block_pct"]),
+            "dodge_pct": float(row["dodge_pct"]),
+            "parry_pct": float(row["parry_pct"]),
+            "crit_pct": float(row["crit_pct"]),
+            "ranged_crit_pct": float(row["ranged_crit_pct"]),
+            "spell_crit_pct": float(row["spell_crit_pct"]),
+            "attack_power": int(row["attack_power"]),
+            "ranged_attack_power": int(row["ranged_attack_power"]),
+            "spell_power": int(row["spell_power"]),
+            "resilience": int(row["resilience"]),
+        },
         "achievements": sorted(achievements_by_guid.get(guid, []), key=lambda a: a["id"]),
         "collections": collections,
         "equipped_gear": sorted(equipped_gear_by_guid.get(guid, []), key=lambda g: g["slot"]),

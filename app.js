@@ -437,6 +437,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
   const li = document.createElement("li");
   li.className = "char-achievements";
 
+  const statsHtml = renderCharacterStats(c.stats);
   const equippedGearHtml = renderEquippedGear(c.equipped_gear || [], itemIcons, c.class_name);
   const pvpHtml = renderPvP(c.honor_points, c.faction, c.last_online);
 
@@ -477,7 +478,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     }))
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  if (collectionGroups.length === 0 && categoryGroups.length === 0 && !equippedGearHtml && !pvpHtml) {
+  if (collectionGroups.length === 0 && categoryGroups.length === 0 && !statsHtml && !equippedGearHtml && !pvpHtml) {
     li.innerHTML = `<p class="char-achievements__empty">No collections or achievements recorded.</p>`;
     return li;
   }
@@ -512,17 +513,23 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     `;
   }
 
-  // Three independent modules, in this fixed order: Equipped, Collections/
-  // Achievements (with its own Type/Date toggle), PvP - each shown only
-  // when it has something to show. Equipped and PvP are both headed by
-  // .achv-section__name, which already grows its own top border whenever
-  // it isn't .char-achievements' literal first child, so they need no
-  // manual divider before or after them - adding one would double up
-  // against that automatic border. sortSectionHtml starts with .sort-row
-  // instead, which has no built-in separator, so it's the only module that
-  // needs an explicit .module-divider in front of it (and only when
-  // something already precedes it).
+  // Four independent modules, in this fixed order: Character Stats,
+  // Equipped, Collections/Achievements (with its own Type/Date toggle),
+  // PvP - each shown only when it has something to show. Character Stats,
+  // Equipped and PvP are all headed by .achv-section__name, which already
+  // grows its own top border whenever it isn't .char-achievements' literal
+  // first child, so they need no manual divider before or after them -
+  // adding one would double up against that automatic border. (Character
+  // Stats being first now, not Equipped, is exactly why this rule is
+  // driven by :first-child rather than by which module JS puts first -
+  // Equipped automatically picked up its own top border the moment
+  // something started coming before it, no CSS change needed.)
+  // sortSectionHtml starts with .sort-row instead, which has no built-in
+  // separator, so it's the only module that needs an explicit
+  // .module-divider in front of it (and only when something already
+  // precedes it).
   const parts = [];
+  if (statsHtml) parts.push(statsHtml);
   if (equippedGearHtml) parts.push(equippedGearHtml);
   if (sortSectionHtml) {
     if (parts.length > 0) parts.push(`<div class="module-divider"></div>`);
@@ -540,6 +547,77 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
   }
 
   return li;
+}
+
+// Character Stats: a full character_stats snapshot (see
+// export-characters-json.sh/wowbackup.sh's `stats`), grouped and styled
+// identically to Collections/Achievements categories (.achv-category
+// cards) - same shape of data (a labelled group of lines), just a
+// different source. Per-character only, like Equipped/PvP - averaging
+// Str across a roster isn't meaningful the way achievement counts are.
+// Deliberately excludes the 7 maxpower columns (mana/rage/energy/rune/
+// runic power/etc) - not wanted per the character's own steer, and mostly
+// zero for any given class anyway. Labels are Blizzard's own client
+// abbreviations where one exists (Str/Agi/Sta/Int/Spi from WotLK's
+// GlobalStrings.lua; Resil from RESILIENCE_ABBR) - the rest have no
+// official short form, so they're spelled out or use the AP/SP shorthand
+// this game's own community has used since Vanilla.
+const STAT_GROUPS = [
+  {
+    name: "Attributes",
+    stats: [
+      { key: "strength", label: "Str" },
+      { key: "agility", label: "Agi" },
+      { key: "stamina", label: "Sta" },
+      { key: "intellect", label: "Int" },
+      { key: "spirit", label: "Spi" },
+    ],
+  },
+  {
+    name: "Defense",
+    stats: [
+      { key: "max_health", label: "Max Health" },
+      { key: "armor", label: "Armor" },
+      { key: "dodge_pct", label: "Dodge", isPct: true },
+      { key: "parry_pct", label: "Parry", isPct: true },
+      { key: "block_pct", label: "Block", isPct: true },
+      { key: "resilience", label: "Resil" },
+      { key: "res_holy", label: "Holy Res" },
+      { key: "res_fire", label: "Fire Res" },
+      { key: "res_nature", label: "Nature Res" },
+      { key: "res_frost", label: "Frost Res" },
+      { key: "res_shadow", label: "Shadow Res" },
+      { key: "res_arcane", label: "Arcane Res" },
+    ],
+  },
+  {
+    name: "Combat",
+    stats: [
+      { key: "attack_power", label: "AP" },
+      { key: "ranged_attack_power", label: "Ranged AP" },
+      { key: "spell_power", label: "SP" },
+      { key: "crit_pct", label: "Crit", isPct: true },
+      { key: "ranged_crit_pct", label: "Ranged Crit", isPct: true },
+      { key: "spell_crit_pct", label: "Spell Crit", isPct: true },
+    ],
+  },
+];
+
+function renderCharacterStats(stats) {
+  if (!stats) return "";
+  const groups = STAT_GROUPS.map((group) => `
+    <div class="achv-category">
+      <h4 class="achv-category__name">${escapeHtml(group.name)}</h4>
+      <ul class="achv-list">
+        ${group.stats.map((s) => {
+          const value = stats[s.key];
+          const formatted = s.isPct ? `${Number(value || 0).toFixed(2)}%` : formatNumber(value);
+          return `<li class="achv-list__item">${escapeHtml(s.label)}: ${formatted}</li>`;
+        }).join("")}
+      </ul>
+    </div>
+  `).join("");
+  return `<h3 class="achv-section__name">Character Stats</h3>${groups}`;
 }
 
 // Equipped Gear: the character's current loadout, slot by slot, straight

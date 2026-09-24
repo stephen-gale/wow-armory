@@ -234,6 +234,47 @@ detection mechanism (no equip/spell query, a direct achievement lookup
 instead), different enough from the other six to get its own full
 section — see [Titles](#titles) below.
 
+### Character Stats
+
+A separate feature from Collections, sitting above every other module in
+each character's panel (the character's own request). A full
+`character_stats` snapshot, grouped into three cards styled identically
+to a Collections/Achievements category (`.achv-category`) — same shape of
+data, a labelled group of lines, just a different source. Like Equipped
+Gear, it's a plain point-in-time snapshot: no `earned_at`, not part of
+the Sort by: Date view, per-character only (never rolled into faction/
+account totals — averaging Str across a roster isn't meaningful the way
+achievement counts are).
+
+- **Data source**: `character_stats`, LEFT JOINed onto the same main
+  character query everything else already comes from (`character_stats`
+  is guid-keyed 1:1 with `characters`, so no separate query/temp file is
+  needed, unlike Achievements/Equipped Gear/Known Spells). Every numeric
+  column is wrapped in `COALESCE(..., 0)`, matching the pattern the
+  achievement-points LEFT JOIN already used — a character with no
+  `character_stats` row (very rare; the table exists per-character from
+  first save) gets zeros, not a broken export.
+- **Scope**: the table's full column list, minus the 7 `maxpower*`
+  columns (max Mana/Rage/Focus/Energy/Happiness/Rune/Runic Power) —
+  deliberately left out per the character's own steer, and mostly zero
+  for any character anyway (only 1-2 are ever populated, depending on
+  class). Everything else — both primary attributes and every combat/
+  defense rating the table has — is collected and shown; nothing is
+  hidden client-side.
+- **Labels**: Blizzard's own client abbreviations where one actually
+  exists — `Str`/`Agi`/`Sta`/`Int`/`Spi` confirmed straight from WotLK's
+  own `GlobalStrings.lua` (note it's "Sta" not "Stam", and "Spi" not
+  "Spir"), `Resil` confirmed the same way (`RESILIENCE_ABBR`). The rest
+  (Armor, the six resistances, AP/Ranged AP/SP, Crit/Ranged Crit/Spell
+  Crit, Dodge/Parry/Block) have no official Blizzard short form in the
+  client source, so they're spelled out or use the AP/SP shorthand this
+  game's community has used since Vanilla.
+- **Freshness**: `character_stats` only updates when a character saves
+  (logout or periodic autosave) — same "can't update without being in
+  the game, and being in the game means the next backup already picks it
+  up" characteristic every other live-queried field in this app already
+  has.
+
 ### Equipped Gear
 
 A separate feature from Collections, sitting above it in each character's
@@ -299,11 +340,12 @@ reason.
 ### PvP
 
 Not a top-level stat yet — per character only, for now. The expanded
-panel is three independent modules (Equipped, Collections/Achievements,
-PvP), each shown only when it has something to show; PvP is a peer of
-the other two, not nested inside Achievements or gated by its Type/Date
-toggle (no `earned_at`, so no place in either view), same "plain
-current-value stat, always shown including 0" treatment as Equipped
+panel is four independent modules (Character Stats, Equipped,
+Collections/Achievements, PvP), each shown only when it has something to
+show; PvP is a peer of the others, not nested inside Achievements or
+gated by its Type/Date toggle (no `earned_at`, so no place in either
+view), same "plain current-value stat, always shown including 0"
+treatment as Equipped
 Gear. `honor_points` is already the same top-level-int shape as
 `achievement_points`/`money_copper`/`played_time_seconds`, which already
 roll up into the faction/account summary stats — so adding it there
@@ -402,6 +444,16 @@ dated the same way.
       "played_time_seconds": 1234567,
       "honor_points": 15230,
       "last_online": "2026-09-20T19:42:00Z",
+      "stats": {
+        "max_health": 18420, "strength": 612, "agility": 158,
+        "stamina": 721, "intellect": 33, "spirit": 41, "armor": 11280,
+        "res_holy": 0, "res_fire": 0, "res_nature": 0, "res_frost": 0,
+        "res_shadow": 0, "res_arcane": 0, "block_pct": 16.4,
+        "dodge_pct": 19.8, "parry_pct": 14.2, "crit_pct": 27.1,
+        "ranged_crit_pct": 5.3, "spell_crit_pct": 3.0,
+        "attack_power": 5120, "ranged_attack_power": 210,
+        "spell_power": 0, "resilience": 22
+      },
       "achievements": [
         {"id": 6, "earned_at": "2026-01-04T18:22:10Z"},
         {"id": 42, "earned_at": "2026-02-11T02:47:33Z"},
@@ -476,6 +528,10 @@ client-side to Blizzard's own rarity colors.
 `characters.logout_time` converted through `iso()`, both read straight
 through — see [PvP](#pvp) above.
 
+`stats` is `character_stats`, one row per character, read straight
+through (each column `COALESCE`d to 0) — see
+[Character Stats](#character-stats) above.
+
 ### Privacy note
 
 `wow-armory` is a **public** repo, and GitHub Pages serves it to anyone
@@ -546,6 +602,12 @@ accumulates.
 The seventh category, Titles, isn't detected this way at all — see
 [Titles](#titles) above for why (it's a direct lookup against each
 character's own completed achievements, not a separate DB query).
+
+[Character Stats](#character-stats) needs no separate query either — a
+plain `LEFT JOIN acore_characters.character_stats cs ON cs.guid = c.guid`
+on the same main character query everything else in this section already
+comes from, since it's a guid-keyed 1:1 table, same relationship
+`character_achievement_points` already has to it.
 
 ```bash
 echo "  Saving characters.json..."
@@ -639,10 +701,34 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
     COALESCE(cap.total_achievements, 0),
     c.totaltime,
     c.totalHonorPoints,
-    c.logout_time
+    c.logout_time,
+    COALESCE(cs.maxhealth, 0),
+    COALESCE(cs.strength, 0),
+    COALESCE(cs.agility, 0),
+    COALESCE(cs.stamina, 0),
+    COALESCE(cs.intellect, 0),
+    COALESCE(cs.spirit, 0),
+    COALESCE(cs.armor, 0),
+    COALESCE(cs.resHoly, 0),
+    COALESCE(cs.resFire, 0),
+    COALESCE(cs.resNature, 0),
+    COALESCE(cs.resFrost, 0),
+    COALESCE(cs.resShadow, 0),
+    COALESCE(cs.resArcane, 0),
+    COALESCE(cs.blockPct, 0),
+    COALESCE(cs.dodgePct, 0),
+    COALESCE(cs.parryPct, 0),
+    COALESCE(cs.critPct, 0),
+    COALESCE(cs.rangedCritPct, 0),
+    COALESCE(cs.spellCritPct, 0),
+    COALESCE(cs.attackPower, 0),
+    COALESCE(cs.rangedAttackPower, 0),
+    COALESCE(cs.spellPower, 0),
+    COALESCE(cs.resilience, 0)
   FROM acore_characters.characters c
   JOIN acore_auth.account a ON a.id = c.account
   LEFT JOIN acore_characters.character_achievement_points cap ON cap.guid = c.guid
+  LEFT JOIN acore_characters.character_stats cs ON cs.guid = c.guid
   WHERE a.username NOT LIKE 'RNDBOT%'
   ORDER BY c.totaltime DESC;
 " | python3 -c "
@@ -787,14 +873,28 @@ if os.path.exists(prev_path):
 
 generated_at = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 
+# Named, not positional, unpacking below this point - the main query is now
+# wide enough (38 columns, once character_stats joined in) that a flat
+# tuple assignment is a silent-corruption risk (a single reorder swaps two
+# stats with no error, unlike a crash). Must stay in the exact order the
+# SELECT above lists its columns in.
+MAIN_QUERY_FIELDS = [
+    'guid', 'name', 'account', 'race', 'race_name', 'cls', 'class_name',
+    'faction', 'level', 'money', 'ap', 'ac', 'played', 'honor', 'logout',
+    'max_health', 'strength', 'agility', 'stamina', 'intellect', 'spirit',
+    'armor', 'res_holy', 'res_fire', 'res_nature', 'res_frost', 'res_shadow',
+    'res_arcane', 'block_pct', 'dodge_pct', 'parry_pct', 'crit_pct',
+    'ranged_crit_pct', 'spell_crit_pct', 'attack_power', 'ranged_attack_power',
+    'spell_power', 'resilience',
+]
+
 characters = []
 for line in sys.stdin:
     line = line.rstrip('\n')
     if not line:
         continue
-    (guid, name, account, race, race_name, cls, class_name,
-     faction, level, money, ap, ac, played, honor, logout) = line.split('\t')
-    guid = int(guid)
+    row = dict(zip(MAIN_QUERY_FIELDS, line.split('\t')))
+    guid = int(row['guid'])
 
     equipped_ids = equipped_by_guid.get(guid, set())
     known_spells = known_spells_by_guid.get(guid, set())
@@ -822,20 +922,45 @@ for line in sys.stdin:
 
     characters.append({
         'guid': guid,
-        'name': name,
-        'account': account,
-        'race_id': int(race),
-        'race_name': race_name,
-        'class_id': int(cls),
-        'class_name': class_name,
-        'faction': faction,
-        'level': int(level),
-        'money_copper': int(money),
-        'achievement_points': int(ap),
-        'achievement_count': int(ac),
-        'played_time_seconds': int(played),
-        'honor_points': int(honor),
-        'last_online': iso(logout),
+        'name': row['name'],
+        'account': row['account'],
+        'race_id': int(row['race']),
+        'race_name': row['race_name'],
+        'class_id': int(row['cls']),
+        'class_name': row['class_name'],
+        'faction': row['faction'],
+        'level': int(row['level']),
+        'money_copper': int(row['money']),
+        'achievement_points': int(row['ap']),
+        'achievement_count': int(row['ac']),
+        'played_time_seconds': int(row['played']),
+        'honor_points': int(row['honor']),
+        'last_online': iso(row['logout']),
+        'stats': {
+            'max_health': int(row['max_health']),
+            'strength': int(row['strength']),
+            'agility': int(row['agility']),
+            'stamina': int(row['stamina']),
+            'intellect': int(row['intellect']),
+            'spirit': int(row['spirit']),
+            'armor': int(row['armor']),
+            'res_holy': int(row['res_holy']),
+            'res_fire': int(row['res_fire']),
+            'res_nature': int(row['res_nature']),
+            'res_frost': int(row['res_frost']),
+            'res_shadow': int(row['res_shadow']),
+            'res_arcane': int(row['res_arcane']),
+            'block_pct': float(row['block_pct']),
+            'dodge_pct': float(row['dodge_pct']),
+            'parry_pct': float(row['parry_pct']),
+            'crit_pct': float(row['crit_pct']),
+            'ranged_crit_pct': float(row['ranged_crit_pct']),
+            'spell_crit_pct': float(row['spell_crit_pct']),
+            'attack_power': int(row['attack_power']),
+            'ranged_attack_power': int(row['ranged_attack_power']),
+            'spell_power': int(row['spell_power']),
+            'resilience': int(row['resilience']),
+        },
         'achievements': sorted(achievements_by_guid.get(guid, []), key=lambda a: a['id']),
         'collections': collections,
         'equipped_gear': sorted(equipped_gear_by_guid.get(guid, []), key=lambda g: g['slot']),
@@ -950,6 +1075,13 @@ here directly as things ship or plans change.
   against a bundled achievement-id → title-name map, so every entry
   always carries a real date, unlike the sticky-guess fallback the other
   six Collections categories need.
+- **Character Stats** — the new top module, ahead of Equipped. A full
+  `character_stats` snapshot (minus the 7 `maxpower*` columns, dropped
+  per the character's own steer), grouped into Attributes/Defense/Combat
+  cards styled identically to a Collections/Achievements category. Labels
+  use Blizzard's own client abbreviations where one exists (`Str`/`Agi`/
+  `Sta`/`Int`/`Spi`, `Resil`), confirmed against WotLK's own
+  `GlobalStrings.lua` — see [Character Stats](#character-stats) above.
 
 ### Backlog ideas
 
@@ -958,7 +1090,6 @@ rough effort.
 
 | Idea | Effort | Notes |
 | --- | --- | --- |
-| Stats (str/agi/stam/int/spirit, armor, crit%, etc.) | Low–medium | `character_stats` has a full computed snapshot updated on save — no simulation needed |
 | Skills | Medium | `character_skills` (guid, skill, value, max) — needs a skill-name lookup table |
 | Talent spec (name, not just points) | Medium–high | `character_talent` only stores spell id + spec mask, no tree/spec name directly — but `TalentTab_3.3.5_12340.csv`/`Talent_3.3.5_12340.csv` (real spec names + spell→tab mapping) are already in the same `r-o-b-o-t-o/azerothcore-armory` source used elsewhere, so no new data source is needed; still needs points-per-tab tallying logic to infer the dominant/active spec |
 | Screenshots gallery | Medium–high | Reframed per feedback: a general slideshow to browse, not sorted per character |
