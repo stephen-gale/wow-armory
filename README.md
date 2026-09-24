@@ -447,7 +447,7 @@ reason.
 ### PvP
 
 Not a top-level stat yet — per character only, for now. The expanded
-panel is four independent modules (Stats, Equipped,
+panel is five independent modules (Talents, Equipped, Stats,
 Collections/Achievements, PvP), each shown only when it has something to
 show; PvP is a peer of the others, not nested inside Achievements or
 gated by its Type/Date toggle (no `earned_at`, so no place in either
@@ -474,21 +474,21 @@ whenever that's wanted, not a data or schema change.
   check: the actual in-game "Honor:" display uses the faction crest, not
   the currency's own icon. Corrected once real screenshots made the
   mismatch obvious, not caught by DBC data alone.
-- **Last Online**: `characters.logout_time`, one more existing column
+- **Last logged in**: `characters.logout_time`, one more existing column
   added to the same main character query, converted through the same
   `iso()` unix-timestamp helper every other date field in this app
   already uses. Not a PvP stat, but shown as a second line in this same
   module rather than a fourth one, since it's a single plain fact with
   nowhere else established for it — a thin divider (no header, not yet
   its own module) keeps it from reading as another PvP stat. Its date
-  renders plain, the same weight/color as the "Last Online" label itself,
-  not through the dim `.achv-list__date` styling Collections entries use
-  — that styling means "the date this was unlocked" everywhere else in
-  this app, which is the wrong implication for a plain current fact. No
-  icon, unlike every other `.achv-list__item` — there's no single
-  established icon for "last online" the way Played Time/Honor Points
-  each have one. Blank (not shown at all) for a character that's never
-  logged out, or for a `characters.json` exported
+  renders plain, the same weight/color as the "Last logged in" label
+  itself, not through the dim `.achv-list__date` styling Collections
+  entries use — that styling means "the date this was unlocked"
+  everywhere else in this app, which is the wrong implication for a
+  plain current fact. No icon, unlike every other `.achv-list__item` —
+  there's no single established icon for "last logged in" the way
+  Played Time/Honor Points each have one. Blank (not shown at all) for a
+  character that's never logged out, or for a `characters.json` exported
   before this field existed — same graceful fallback as everything else
   in this app.
 
@@ -1217,8 +1217,8 @@ here directly as things ship or plans change.
   totals, so that rollup is a one-line change whenever it's wanted. Its
   icon is faction-specific (Alliance lion crest / Horde crest), verified
   against real in-game screenshots after an initial DBC-only check picked
-  the wrong UI element. Last Online (`characters.logout_time`) lives here
-  too, as a second line — see [PvP](#pvp) above.
+  the wrong UI element. Last logged in (`characters.logout_time`) lives
+  here too, as a second line — see [PvP](#pvp) above.
 - **Titles** — a seventh Collections category, achievement-granted titles
   only (see [Titles](#titles) above for why, and the known gap — a
   handful of WotLK titles come from quests instead). No new DB query: a

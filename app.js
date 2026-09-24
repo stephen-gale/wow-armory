@@ -514,26 +514,26 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     `;
   }
 
-  // Five independent modules, in this fixed order: Stats, Talents,
-  // Equipped, Collections/Achievements (with its own Type/Date toggle),
-  // PvP - each shown only when it has something to show. Stats, Talents,
-  // Equipped and PvP are all headed by .achv-section__name, which
+  // Five independent modules, in this fixed order: Talents, Equipped,
+  // Stats, Collections/Achievements (with its own Type/Date toggle),
+  // PvP - each shown only when it has something to show. Talents,
+  // Equipped, Stats and PvP are all headed by .achv-section__name, which
   // already grows its own top border whenever it isn't
   // .char-achievements' literal first child, so they need no manual
   // divider before or after them - adding one would double up against
-  // that automatic border. (Stats being first now, not Equipped, is
-  // exactly why this rule is driven by :first-child rather than by which
-  // module JS puts first - Equipped automatically picked up its own top
-  // border the moment something started coming before it, no CSS change
-  // needed.)
+  // that automatic border. (Whichever of these ends up first is exactly
+  // why this rule is driven by :first-child rather than by which module
+  // JS puts first - each one automatically picks up its own top border
+  // the moment something starts coming before it, no CSS change needed
+  // when the order changes.)
   // sortSectionHtml starts with .sort-row instead, which has no built-in
   // separator, so it's the only module that needs an explicit
   // .module-divider in front of it (and only when something already
   // precedes it).
   const parts = [];
-  if (statsHtml) parts.push(statsHtml);
   if (talentsHtml) parts.push(talentsHtml);
   if (equippedGearHtml) parts.push(equippedGearHtml);
+  if (statsHtml) parts.push(statsHtml);
   if (sortSectionHtml) {
     if (parts.length > 0) parts.push(`<div class="module-divider"></div>`);
     parts.push(sortSectionHtml);
@@ -882,20 +882,20 @@ function renderEquippedGear(gear, itemIcons, className) {
 // adding Honor Points there later is a one-line change whenever that's
 // wanted, not a data/schema change.
 //
-// Last Online isn't a PvP stat, but it lives in this module too (the
-// character's own request - see `characters.logout_time`, gated by the
-// same "PvP module exists" check rather than its own). A thin divider
-// (no header, not yet its own module) separates it from Honor Points so
-// it doesn't read as another PvP stat - same visual weight as the
-// divider between modules, not squashed against Honor Points above it.
-// No icon (unlike every other .achv-list__item): there's no single
-// established icon for "last online" the way Played Time/Honor Points
-// each have one, so it's left plain rather than reusing an icon that
-// implies the wrong thing. Its date is rendered plain, not through
+// "Last logged in" isn't a PvP stat, but it lives in this module too
+// (the character's own request - see `characters.logout_time`, gated by
+// the same "PvP module exists" check rather than its own). A thin
+// divider (no header, not yet its own module) separates it from Honor
+// Points so it doesn't read as another PvP stat - same visual weight as
+// the divider between modules, not squashed against Honor Points above
+// it. No icon (unlike every other .achv-list__item): there's no single
+// established icon for "last logged in" the way Played Time/Honor
+// Points each have one, so it's left plain rather than reusing an icon
+// that implies the wrong thing. Its date is rendered plain, not through
 // formatEarnedDate's dim .achv-list__date styling - that styling means
 // "the date this was unlocked" everywhere else in this app, which is the
 // wrong implication for a plain current fact like this. Blank (not
-// "Last Online" with no date) for a character exported before
+// "Last logged in" with no date) for a character exported before
 // `last_online` existed, or one that's never logged out (logout_time = 0
 // -> iso() already returns null server-side).
 function renderPvP(honorPoints, faction, lastOnline) {
@@ -903,7 +903,7 @@ function renderPvP(honorPoints, faction, lastOnline) {
   const icon = HONOR_ICON[faction] || HONOR_ICON.Alliance;
   const lastOnlineDate = formatDDMMYY(lastOnline);
   const lastOnlineItem = lastOnlineDate
-    ? `<li class="achv-list__item achv-list__item--divider">Last Online ${lastOnlineDate}</li>`
+    ? `<li class="achv-list__item achv-list__item--divider">Last logged in ${lastOnlineDate}</li>`
     : "";
   return `
     <h3 class="achv-section__name">PvP</h3>
