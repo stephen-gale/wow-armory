@@ -364,7 +364,7 @@ function renderCharCard(c) {
   const raceIcon = iconImg(RACE_ICON_SLUGS[c.race_name], "race-icon");
 
   li.innerHTML = `
-    <div class="char-card__icons">${raceIcon}${classIcon}</div>
+    <div class="char-card__icons">${classIcon}${raceIcon}</div>
     <div class="char-card__main">
       <p class="char-card__name" style="color:${classColor}">${escapeHtml(c.name)} <span class="char-card__level">${c.level}</span></p>
       <div class="char-card__stats">
