@@ -581,7 +581,7 @@ const STAT_GROUPS = [
   {
     name: "Defense",
     stats: [
-      { key: "max_health", label: "Max Health" },
+      { key: "max_health", label: "HP" },
       { key: "armor", label: "Armor" },
       { key: "dodge_pct", label: "Dodge", isPct: true },
     ],
