@@ -603,10 +603,18 @@ const STAT_GROUPS = [
 // Warrior/Rogue/Death Knight are melee-only, Hunter is the one
 // ranged-physical class, Mage/Warlock/Priest are pure casters.
 // Paladin/Shaman/Druid are hybrids (melee, healer or caster depending on
-// spec, which this app has no data for) - shown everything in the set
-// rather than guessing a spec, per the character's own call; any class
-// not listed here (a future addition, or one this project doesn't yet
-// name) falls back to the same "show everything" treatment.
+// spec, which this app has no data for) - shown everything genuinely
+// spec-dependent rather than guessing a spec, per the character's own
+// call. Any class not listed at all in a set's byClass (a future
+// addition, or one this project doesn't yet name) falls back to the same
+// "show everything in the set" treatment.
+//
+// Ranged Crit/Ranged AP are the one exception to "hybrids see everything"
+// - not spec-dependent for Paladin/Shaman/Druid the way melee-vs-spell
+// is, just never applicable: RELIC_SLOT_CLASSES already establishes
+// these three equip a Relic in the ranged slot, never a ranged weapon,
+// in any spec. So they're explicitly excluded below rather than left to
+// the default fallback.
 const CLASS_FILTERED_STAT_SETS = [
   {
     keys: ["crit_pct", "ranged_crit_pct", "spell_crit_pct"],
@@ -618,6 +626,9 @@ const CLASS_FILTERED_STAT_SETS = [
       Mage: ["spell_crit_pct"],
       Warlock: ["spell_crit_pct"],
       Priest: ["spell_crit_pct"],
+      Paladin: ["crit_pct", "spell_crit_pct"],
+      Shaman: ["crit_pct", "spell_crit_pct"],
+      Druid: ["crit_pct", "spell_crit_pct"],
     },
   },
   {
@@ -631,6 +642,9 @@ const CLASS_FILTERED_STAT_SETS = [
       Mage: [],
       Warlock: [],
       Priest: [],
+      Paladin: ["attack_power"],
+      Shaman: ["attack_power"],
+      Druid: ["attack_power"],
     },
   },
   {

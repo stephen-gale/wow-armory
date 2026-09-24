@@ -273,9 +273,14 @@ achievement counts are).
   (Hunter) sees Ranged Crit and Ranged AP, no SP either, for the same
   reason. Pure casters (Mage, Warlock, Priest) see Spell Crit and SP, no
   AP stat. Paladin, Shaman, and Druid are hybrids this app has no spec
-  data for (could be melee, healer, or caster) — shown everything in all
-  three sets rather than guessing, per the character's own call, same as
-  any class this project hasn't explicitly categorized.
+  data for (could be melee, healer, or caster) — shown Crit, Spell Crit,
+  AP, and SP (everything genuinely spec-dependent) rather than guessing,
+  per the character's own call, same as any class this project hasn't
+  explicitly categorized. Ranged Crit/Ranged AP are the one exception:
+  not shown for these three even though they're hybrids, since it isn't
+  a spec question for them — `RELIC_SLOT_CLASSES` already establishes
+  Paladin/Shaman/Druid equip a Relic in the ranged slot, never a ranged
+  weapon, in any spec.
 - **Labels**: Blizzard's own client abbreviations where one actually
   exists — `Str`/`Agi`/`Sta`/`Int`/`Spi` confirmed straight from WotLK's
   own `GlobalStrings.lua` (note it's "Sta" not "Stam", and "Spi" not
