@@ -633,6 +633,22 @@ const CLASS_FILTERED_STAT_SETS = [
       Priest: [],
     },
   },
+  {
+    // No WotLK Warrior/Rogue/Death Knight/Hunter ability scales off Spell
+    // Power (Death Knight diseases scale off Attack Power, not SP, in this
+    // era) - SP reads as pure noise for those four, same reasoning as why
+    // they don't get the other class's AP/Crit variant.
+    keys: ["spell_power"],
+    byClass: {
+      Warrior: [],
+      Rogue: [],
+      "Death Knight": [],
+      Hunter: [],
+      Mage: ["spell_power"],
+      Warlock: ["spell_power"],
+      Priest: ["spell_power"],
+    },
+  },
 ];
 const CLASS_FILTERED_STAT_KEYS = new Set(CLASS_FILTERED_STAT_SETS.flatMap((s) => s.keys));
 

@@ -263,18 +263,19 @@ achievement counts are).
   character's own steer — still collected in full by the export scripts,
   so re-adding any of them is a one-line change, not a data/schema
   change.
-- **Crit and AP, by class**: same idea, two separate stat sets
-  (`CLASS_FILTERED_STAT_SETS` in `app.js`). Of Crit/Ranged Crit/Spell
-  Crit, and separately of AP/Ranged AP, only the one(s) relevant to a
-  class are shown where it's unambiguous — melee-only (Warrior, Rogue,
-  Death Knight) see Crit and AP; the one ranged-physical class (Hunter)
-  sees Ranged Crit and Ranged AP; pure casters (Mage, Warlock, Priest)
-  see Spell Crit and neither AP stat (SP isn't filtered — every class has
-  *some* use for it via enchants/trinkets, unlike melee/ranged AP for a
-  caster). Paladin, Shaman, and Druid are hybrids this app has no spec
-  data for (could be melee, healer, or caster) — shown everything in both
-  sets rather than guessing, per the character's own call, same as any
-  class this project hasn't explicitly categorized.
+- **Crit, AP, and SP, by class**: same idea, three separate stat sets
+  (`CLASS_FILTERED_STAT_SETS` in `app.js`) — of Crit/Ranged Crit/Spell
+  Crit, of AP/Ranged AP, and of SP on its own, only the one(s) relevant
+  to a class are shown where it's unambiguous. Melee-only (Warrior,
+  Rogue, Death Knight) see Crit and AP, no SP — no WotLK ability for
+  these three scales off Spell Power (Death Knight diseases scale off
+  Attack Power in this era, not SP). The one ranged-physical class
+  (Hunter) sees Ranged Crit and Ranged AP, no SP either, for the same
+  reason. Pure casters (Mage, Warlock, Priest) see Spell Crit and SP, no
+  AP stat. Paladin, Shaman, and Druid are hybrids this app has no spec
+  data for (could be melee, healer, or caster) — shown everything in all
+  three sets rather than guessing, per the character's own call, same as
+  any class this project hasn't explicitly categorized.
 - **Labels**: Blizzard's own client abbreviations where one actually
   exists — `Str`/`Agi`/`Sta`/`Int`/`Spi` confirmed straight from WotLK's
   own `GlobalStrings.lua` (note it's "Sta" not "Stam", and "Spi" not
@@ -1094,7 +1095,7 @@ here directly as things ship or plans change.
   per the character's own steer), grouped into Attributes/Defense/Combat
   cards styled identically to a Collections/Achievements category. Resil,
   the six resistances, Block, and Parry are hidden client-side (still
-  collected in full); only the crit stat(s) and AP stat(s) relevant to a
+  collected in full); only the crit, AP, and SP stat(s) relevant to a
   character's class are shown, hybrids get everything. Labels use
   Blizzard's own client abbreviations where one exists (`Str`/`Agi`/
   `Sta`/`Int`/`Spi`,
