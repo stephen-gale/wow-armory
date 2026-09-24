@@ -188,12 +188,6 @@ main {
   border: 1px solid rgba(255,255,255,0.2);
 }
 
-.faction-panel__count {
-  font-size: 0.78rem;
-  color: var(--text-dim);
-  font-weight: 500;
-}
-
 .faction-panel__stats {
   display: flex;
   gap: 1.25rem;

@@ -277,7 +277,7 @@ function renderFactionPanel(faction, characters) {
 
   const header = document.createElement("div");
   header.className = "faction-panel__header";
-  header.innerHTML = `<span class="faction-panel__title">${factionIcon}${faction}</span><span class="faction-panel__count">${characters.length} character${characters.length === 1 ? "" : "s"}</span>`;
+  header.innerHTML = `<span class="faction-panel__title">${factionIcon}${faction}</span>`;
   panel.appendChild(header);
 
   const stats = document.createElement("div");
