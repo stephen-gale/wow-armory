@@ -366,7 +366,8 @@ function renderCharCard(c) {
   li.innerHTML = `
     <div class="char-card__icons">${raceIcon}${classIcon}</div>
     <div class="char-card__main">
-      <p class="char-card__name" style="color:${classColor}">${escapeHtml(c.name)} <span class="char-card__level">${c.level}</span></p>
+      <p class="char-card__name" style="color:${classColor}">${escapeHtml(c.name)}</p>
+      <p class="char-card__level">${c.level}</p>
     </div>
     <div class="char-card__stats">
       ${statWithIcon(STAT_ICONS.played, formatPlayedTime(c.played_time_seconds), null, true)}
