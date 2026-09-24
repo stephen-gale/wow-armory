@@ -376,11 +376,13 @@ view.
   `app.js` — each class's 3 trees, in the client's own left-to-right
   order (`TalentTab.OrderIndex`), confirmed against the real DBC data,
   not assumed. Icons are Blizzard's own tree icons, bundled at
-  `assets/icons/talents/*.png` (27 of 30 fetched from the same
-  `Gethe/wow-ui-textures` mirror the rest of this app's icons use;
-  Paladin Protection and Druid Restoration have no icon in that mirror's
-  current snapshot, so those two render with no icon — same graceful
-  fallback every other icon in this app already has).
+  `assets/icons/talents/*.png`, all 30 fetched from the same
+  `Gethe/wow-ui-textures` mirror the rest of this app's icons use.
+  Paladin Protection (`Spell_Holy_DevotionAura`) and Druid Restoration
+  (`Spell_Nature_HealingTouch`) briefly appeared missing from that
+  mirror — turned out those two specific files are stored there in
+  ALL CAPS rather than the mirror's usual TitleCase, so the normal
+  TitleCase request 404'd until that was found.
 
 ### Equipped Gear
 
