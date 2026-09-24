@@ -274,12 +274,6 @@ main {
   margin: 0;
 }
 
-.char-card__meta {
-  margin: 0.15rem 0 0;
-  color: var(--text-dim);
-  font-size: 0.78rem;
-}
-
 .char-card__stats {
   flex: 0 0 auto;
   font-size: 0.78rem;
