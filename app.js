@@ -602,12 +602,17 @@ const STAT_GROUPS = [
 // Stats where only some of a related set are relevant to a given class -
 // Warrior/Rogue/Death Knight are melee-only, Hunter is the one
 // ranged-physical class, Mage/Warlock/Priest are pure casters.
-// Paladin/Shaman/Druid are hybrids (melee, healer or caster depending on
-// spec, which this app has no data for) - shown everything genuinely
+// Shaman/Druid are hybrids (melee, healer or caster depending on spec,
+// which this app has no data for) - shown everything genuinely
 // spec-dependent rather than guessing a spec, per the character's own
 // call. Any class not listed at all in a set's byClass (a future
 // addition, or one this project doesn't yet name) falls back to the same
-// "show everything in the set" treatment.
+// "show everything in the set" treatment. Paladin is the one hybrid
+// pinned to a known spec (melee/tank) instead of the default "show
+// everything" - the character's own call, since re-guessing per real
+// character isn't something this data-driven approach does; re-add
+// spell_crit_pct/spell_power for Paladin if that character switches to a
+// healer spec.
 //
 // Ranged Crit/Ranged AP are the one exception to "hybrids see everything"
 // - not spec-dependent for Paladin/Shaman/Druid the way melee-vs-spell
@@ -626,7 +631,9 @@ const CLASS_FILTERED_STAT_SETS = [
       Mage: ["spell_crit_pct"],
       Warlock: ["spell_crit_pct"],
       Priest: ["spell_crit_pct"],
-      Paladin: ["crit_pct", "spell_crit_pct"],
+      // Paladin: melee/tank for now - re-add spell_crit_pct if that
+      // changes (Holy spec, or any other healer/caster respec).
+      Paladin: ["crit_pct"],
       Shaman: ["crit_pct", "spell_crit_pct"],
       Druid: ["crit_pct", "spell_crit_pct"],
     },
@@ -661,6 +668,9 @@ const CLASS_FILTERED_STAT_SETS = [
       Mage: ["spell_power"],
       Warlock: ["spell_power"],
       Priest: ["spell_power"],
+      // Same as spell_crit_pct above - melee/tank for now, re-add if
+      // that changes.
+      Paladin: [],
     },
   },
 ];

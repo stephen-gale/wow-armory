@@ -272,15 +272,19 @@ achievement counts are).
   Attack Power in this era, not SP). The one ranged-physical class
   (Hunter) sees Ranged Crit and Ranged AP, no SP either, for the same
   reason. Pure casters (Mage, Warlock, Priest) see Spell Crit and SP, no
-  AP stat. Paladin, Shaman, and Druid are hybrids this app has no spec
-  data for (could be melee, healer, or caster) — shown Crit, Spell Crit,
-  AP, and SP (everything genuinely spec-dependent) rather than guessing,
-  per the character's own call, same as any class this project hasn't
-  explicitly categorized. Ranged Crit/Ranged AP are the one exception:
-  not shown for these three even though they're hybrids, since it isn't
-  a spec question for them — `RELIC_SLOT_CLASSES` already establishes
-  Paladin/Shaman/Druid equip a Relic in the ranged slot, never a ranged
-  weapon, in any spec.
+  AP stat. Shaman and Druid are hybrids this app has no spec data for
+  (could be melee, healer, or caster) — shown Crit, Spell Crit, AP, and
+  SP (everything genuinely spec-dependent) rather than guessing, same as
+  any class this project hasn't explicitly categorized. Paladin is
+  pinned to melee/tank (Crit and AP only, no Spell Crit or SP) rather
+  than left on that same "show everything" default — the character's
+  own call for their actual Paladin, not a general rule; re-add
+  `spell_crit_pct`/`spell_power` to Paladin's entries in
+  `CLASS_FILTERED_STAT_SETS` if that character respecs to Holy. Ranged
+  Crit/Ranged AP are excluded for all three regardless of spec, since
+  it isn't a spec question for them — `RELIC_SLOT_CLASSES` already
+  establishes Paladin/Shaman/Druid equip a Relic in the ranged slot,
+  never a ranged weapon, in any spec.
 - **Labels**: Blizzard's own client abbreviations where one actually
   exists — `Str`/`Agi`/`Sta`/`Int`/`Spi` confirmed straight from WotLK's
   own `GlobalStrings.lua` (note it's "Sta" not "Stam", and "Spi" not
@@ -1101,7 +1105,9 @@ here directly as things ship or plans change.
   cards styled identically to a Collections/Achievements category. Resil,
   the six resistances, Block, and Parry are hidden client-side (still
   collected in full); only the crit, AP, and SP stat(s) relevant to a
-  character's class are shown, hybrids get everything. Labels use
+  character's class are shown (Shaman/Druid default to everything
+  spec-dependent as true hybrids; Paladin is pinned to melee/tank for
+  now, per the character's own actual character). Labels use
   Blizzard's own client abbreviations where one exists (`Str`/`Agi`/
   `Sta`/`Int`/`Spi`,
   `Resil`), confirmed against WotLK's own `GlobalStrings.lua` — see
