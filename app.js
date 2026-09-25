@@ -376,7 +376,7 @@ function renderCharCard(c) {
   li.innerHTML = `
     <div class="char-card__icons">${classIcon}${raceIcon}</div>
     <div class="char-card__main">
-      <p class="char-card__name" style="color:${classColor}">${escapeHtml(c.name)} <span class="char-card__level">${c.level}</span></p>
+      <p class="char-card__name" style="color:${classColor}">${escapeHtml(c.name)} <span class="char-card__level">${c.level}</span><svg class="char-card__toggle" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></p>
       <p class="char-card__zone" hidden></p>
       <div class="char-card__stats">
         ${statWithIcon(STAT_ICONS.played, formatPlayedTime(c.played_time_seconds))}

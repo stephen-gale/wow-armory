@@ -249,6 +249,19 @@ main {
   font-size: 0.85rem;
 }
 
+.char-card__toggle {
+  width: 0.65rem;
+  height: 0.65rem;
+  margin-left: 0.4rem;
+  color: var(--text-dim);
+  vertical-align: middle;
+  transition: transform 0.15s ease;
+}
+
+.char-card--expanded .char-card__toggle {
+  transform: rotate(-180deg);
+}
+
 .char-card__icons {
   flex: 0 0 auto;
   display: flex;
