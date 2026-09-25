@@ -445,16 +445,28 @@ reason.
   resolves from data that was already complete. No re-fetching, no manual
   step, ever — regenerating `item_icons.json` is only ever needed if this
   project moved to a different client build.
+- **Avg Item Lvl**: a row under the item list, computed client-side from
+  `item_template.ItemLevel` (added as a fourth column to the same live
+  query names/icons/quality already come from). Shirt (slot 3) and
+  Tabard (slot 18) are excluded from the average — both are cosmetic,
+  stat-less slots, confirmed against the real `item_template` data that
+  their `ItemLevel` is mostly a nominal `1` with a handful of odd
+  nonzero outliers (e.g. Tabard of the Argent Dawn is `60`) rather than
+  anything reflecting actual gear power — same exclusion the real
+  in-game character pane's own average item level uses. Rounded to the
+  nearest whole number. A character with no gear carrying `item_level`
+  yet (exported before this field existed) shows no row, same graceful
+  fallback as every other optional field in this app.
 
 ### PvP
 
 Not a top-level stat yet — per character only, for now. The expanded
-panel is five independent modules (Talents, Equipped, Stats,
-Collections/Achievements, PvP), each shown only when it has something to
-show; PvP is a peer of the others, not nested inside Achievements or
-gated by its Type/Date toggle (no `earned_at`, so no place in either
-view), same "plain current-value stat, always shown including 0"
-treatment as Equipped
+panel is six independent modules (Talents, Equipped, Stats,
+Collections/Achievements, PvP, Quests), each shown only when it has
+something to show; PvP is a peer of the others, not nested inside
+Achievements or gated by its Type/Date toggle (no `earned_at`, so no
+place in either view), same "plain current-value stat, always shown
+including 0" treatment as Equipped
 Gear. `honor_points` is already the same top-level-int shape as
 `achievement_points`/`money_copper`/`played_time_seconds`, which already
 roll up into the faction/account summary stats — so adding it there
@@ -493,24 +505,28 @@ whenever that's wanted, not a data or schema change.
   character that's never logged out, or for a `characters.json` exported
   before this field existed — same graceful fallback as everything else
   in this app.
-- **Quests**: a labeled sub-section within this same module (`Quests`
-  sub-header, then `Completed: <n>`), not its own module — one number
-  doesn't yet justify a fifth `.achv-section__name` heading. Data source
-  is `character_queststatus_rewarded` (guid, quest, active), counted with
-  `WHERE active = 1` rather than a plain `COUNT(*)` — confirmed against
-  AzerothCore's own `CHAR_SEL_CHARACTER_QUESTSTATUSREW` prepared
-  statement (the query the server itself runs to rebuild a character's
-  rewarded-quest set on login), which uses that same filter. A dedicated
+
+### Quests
+
+Its own module, right after PvP — `Quests` heading, then `Completed:
+<n>`. Same "plain current-value stat, always shown including 0"
+treatment as PvP/Equipped: no `earned_at`, not gated by the Sort toggle,
+not rolled up into the faction/account summary yet.
+
+- **Data source**: `character_queststatus_rewarded` (guid, quest,
+  active), counted with `WHERE active = 1` rather than a plain
+  `COUNT(*)` — confirmed against AzerothCore's own
+  `CHAR_SEL_CHARACTER_QUESTSTATUSREW` prepared statement (the query the
+  server itself runs to rebuild a character's rewarded-quest set on
+  login), which uses that same filter. A dedicated
   `UPDATE ... SET active = 0` statement exists elsewhere in the core to
   flip a specific quest back off, so rows do accumulate with `active = 0`
   over a character's life — matching the server's own filter keeps this
   number meaning what the game itself currently considers "completed",
-  not a raw historical row count. Sub-header styling reuses
-  `.achv-category__name` (the same "small dim uppercase label" class
-  Collections/Achievements category cards and the Stats groups already
-  use) applied to a `<li>` instead of its usual `<h4>`, so it stays one
-  item in the PvP module's single list rather than becoming its own grid
-  cell.
+  not a raw historical row count.
+- **Blank fallback**: undefined (not 0) is what hides this module — a
+  `characters.json` exported before this field existed, same
+  graceful-degradation pattern as every other module.
 
 ### Titles
 
@@ -609,8 +625,8 @@ dated the same way.
         ]
       },
       "equipped_gear": [
-        {"slot": 0, "id": 22418, "name": "Dreadnaught Helmet", "quality": 4},
-        {"slot": 15, "id": 19019, "name": "Thunderfury, Blessed Blade of the Windseeker", "quality": 5}
+        {"slot": 0, "id": 22418, "name": "Dreadnaught Helmet", "quality": 4, "item_level": 88},
+        {"slot": 15, "id": 19019, "name": "Thunderfury, Blessed Blade of the Windseeker", "quality": 5, "item_level": 80}
       ],
       "talents": {"161": 51, "164": 5, "163": 15}
     }
@@ -784,7 +800,7 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   WHERE a.username NOT LIKE 'RNDBOT%';
 " > "$ACHIEVEMENTS_TMP"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
-  SELECT ci.guid, ci.slot, ii.itemEntry, it.name, it.Quality
+  SELECT ci.guid, ci.slot, ii.itemEntry, it.name, it.Quality, it.ItemLevel
   FROM acore_characters.character_inventory ci
   JOIN acore_characters.item_instance ii ON ii.guid = ci.item
   JOIN acore_characters.characters c ON c.guid = ci.guid
@@ -933,7 +949,7 @@ with open('$EQUIPPED_TMP') as f:
         line = line.rstrip('\n')
         if not line:
             continue
-        guid, slot, item_entry, item_name, quality = line.split('\t')
+        guid, slot, item_entry, item_name, quality, item_level = line.split('\t')
         guid = int(guid)
         equipped_by_guid[guid].add(int(item_entry))
         equipped_gear_by_guid[guid].append({
@@ -941,6 +957,7 @@ with open('$EQUIPPED_TMP') as f:
             'id': int(item_entry),
             'name': item_name,
             'quality': int(quality),
+            'item_level': int(item_level),
         })
 
 # Known mount/companion-learn spells per character (character_spell has no
@@ -1248,6 +1265,10 @@ here directly as things ship or plans change.
   unlike Collections. Icon border and item name are tinted by
   `item_template.Quality` using Blizzard's own rarity colors — see
   [Equipped Gear](#equipped-gear) above.
+- **Avg Item Lvl** — a row under the item list, averaging
+  `item_template.ItemLevel` across equipped gear, excluding the
+  stat-less Shirt/Tabard slots (same exclusion the real character pane
+  uses) — see [Equipped Gear](#equipped-gear) above.
 - **PvP module** — an independent third module (peer of Equipped and
   Collections/Achievements), not gated by the Sort toggle. Honor Points'
   data shape already matches the fields that roll up into faction/account
@@ -1291,10 +1312,10 @@ here directly as things ship or plans change.
   data (`Talent`/`TalentTab` CSVs), not assumed; icons are bundled from
   the same `Gethe/wow-ui-textures` mirror the rest of this app uses (all
   30) — see [Talents](#talents) above.
-- **Quests completed** — a `Quests` sub-header within the PvP module,
-  `Completed: <n>`. Counted from `character_queststatus_rewarded` with
-  the same `WHERE active = 1` filter the server's own login query uses,
-  not a plain row count — see [PvP](#pvp) above.
+- **Quests** — its own module, right after PvP: `Completed: <n>`.
+  Counted from `character_queststatus_rewarded` with the same
+  `WHERE active = 1` filter the server's own login query uses, not a
+  plain row count — see [Quests](#quests) above.
 
 ### Backlog ideas
 

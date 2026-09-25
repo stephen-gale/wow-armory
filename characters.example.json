@@ -174,17 +174,17 @@
         ]
       },
       "equipped_gear": [
-        {"slot": 0, "id": 22418, "name": "Dreadnaught Helmet", "quality": 4},
-        {"slot": 2, "id": 22419, "name": "Dreadnaught Pauldrons", "quality": 4},
-        {"slot": 4, "id": 22416, "name": "Dreadnaught Breastplate", "quality": 4},
-        {"slot": 5, "id": 22422, "name": "Dreadnaught Waistguard", "quality": 4},
-        {"slot": 6, "id": 22417, "name": "Dreadnaught Legplates", "quality": 4},
-        {"slot": 7, "id": 22420, "name": "Dreadnaught Sabatons", "quality": 4},
-        {"slot": 8, "id": 22423, "name": "Dreadnaught Bracers", "quality": 4},
-        {"slot": 9, "id": 22421, "name": "Dreadnaught Gauntlets", "quality": 4},
-        {"slot": 10, "id": 23059, "name": "Ring of the Dreadnaught", "quality": 4},
-        {"slot": 15, "id": 19019, "name": "Thunderfury, Blessed Blade of the Windseeker", "quality": 5},
-        {"slot": 18, "id": 22999, "name": "Tabard of the Argent Dawn", "quality": 1}
+        {"slot": 0, "id": 22418, "name": "Dreadnaught Helmet", "quality": 4, "item_level": 88},
+        {"slot": 2, "id": 22419, "name": "Dreadnaught Pauldrons", "quality": 4, "item_level": 86},
+        {"slot": 4, "id": 22416, "name": "Dreadnaught Breastplate", "quality": 4, "item_level": 92},
+        {"slot": 5, "id": 22422, "name": "Dreadnaught Waistguard", "quality": 4, "item_level": 88},
+        {"slot": 6, "id": 22417, "name": "Dreadnaught Legplates", "quality": 4, "item_level": 88},
+        {"slot": 7, "id": 22420, "name": "Dreadnaught Sabatons", "quality": 4, "item_level": 86},
+        {"slot": 8, "id": 22423, "name": "Dreadnaught Bracers", "quality": 4, "item_level": 88},
+        {"slot": 9, "id": 22421, "name": "Dreadnaught Gauntlets", "quality": 4, "item_level": 88},
+        {"slot": 10, "id": 23059, "name": "Ring of the Dreadnaught", "quality": 4, "item_level": 92},
+        {"slot": 15, "id": 19019, "name": "Thunderfury, Blessed Blade of the Windseeker", "quality": 5, "item_level": 80},
+        {"slot": 18, "id": 22999, "name": "Tabard of the Argent Dawn", "quality": 1, "item_level": 60}
       ],
       "talents": {"161": 51, "164": 5, "163": 15}
     },

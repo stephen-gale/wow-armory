@@ -489,33 +489,22 @@ main {
 }
 
 /* A thin separator within a single .achv-list, not a full module divider
-   (.module-divider) or a new heading - used within the PvP module (Last
-   logged in, and the Quests sub-header) to keep something from reading as
-   another Honor Points-level stat without introducing a header for just
-   one line. Same border treatment as .achv-section__name's own top
-   border, for visual consistency. margin-top is on top of .achv-list's
-   own 0.3rem flex gap, since this divider sits inside that flex list
-   rather than the outer grid - added so the space above the line matches
-   the ~0.9rem gap between modules (.char-achievements' grid gap +
-   .module-divider's own margin), instead of just the 0.3rem every other
-   item in this list gets, which read as squashed against Honor Points
-   above it. padding-top is deliberately larger than .achv-section__name's
-   matching 0.6rem - felt tight against the Last Online text right under
-   the line at that value. */
+   (.module-divider) or a new heading - currently only Last Online within
+   the PvP module, to keep it from reading as another PvP stat without
+   introducing a header for just one line. Same border treatment as
+   .achv-section__name's own top border, for visual consistency. margin-
+   top is on top of .achv-list's own 0.3rem flex gap, since this divider
+   sits inside that flex list rather than the outer grid - added so the
+   space above the line matches the ~0.9rem gap between modules
+   (.char-achievements' grid gap + .module-divider's own margin), instead
+   of just the 0.3rem every other item in this list gets, which read as
+   squashed against Honor Points above it. padding-top is deliberately
+   larger than .achv-section__name's matching 0.6rem - felt tight against
+   the Last Online text right under the line at that value. */
 .achv-list__item--divider {
   margin-top: 0.8rem;
   border-top: 1px solid rgba(255,255,255,0.08);
   padding-top: 0.9rem;
-}
-
-/* .achv-category__name is normally an <h4>; reused here on an <li> (the
-   Quests sub-header within PvP) so it stays one item in that module's
-   single .achv-list instead of becoming its own grid cell. .achv-list__item
-   sets a larger base font-size that would otherwise win the tie (equal
-   specificity, later in source) - this explicit override keeps the small
-   dim uppercase label intact. */
-.achv-list__item.achv-category__name {
-  font-size: 0.72rem;
 }
 
 /* Equipped Gear only - real item icons, same 18px size settled on in the

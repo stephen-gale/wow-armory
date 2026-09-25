@@ -436,7 +436,8 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
   const statsHtml = renderCharacterStats(c.stats, c.class_name);
   const talentsHtml = renderTalents(c.talents, c.class_name);
   const equippedGearHtml = renderEquippedGear(c.equipped_gear || [], itemIcons, c.class_name);
-  const pvpHtml = renderPvP(c.honor_points, c.faction, c.last_online, c.quests_completed);
+  const pvpHtml = renderPvP(c.honor_points, c.faction, c.last_online);
+  const questsHtml = renderQuests(c.quests_completed);
 
   // One flat section per category — no sub-grouping by tier/expansion — in
   // COLLECTION_CATEGORIES' own declared order. factionLevel categories
@@ -475,7 +476,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     }))
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  if (collectionGroups.length === 0 && categoryGroups.length === 0 && !statsHtml && !talentsHtml && !equippedGearHtml && !pvpHtml) {
+  if (collectionGroups.length === 0 && categoryGroups.length === 0 && !statsHtml && !talentsHtml && !equippedGearHtml && !pvpHtml && !questsHtml) {
     li.innerHTML = `<p class="char-achievements__empty">No collections or achievements recorded.</p>`;
     return li;
   }
@@ -510,11 +511,11 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     `;
   }
 
-  // Five independent modules, in this fixed order: Talents, Equipped,
-  // Stats, Collections/Achievements (with its own Type/Date toggle),
-  // PvP - each shown only when it has something to show. Talents,
-  // Equipped, Stats and PvP are all headed by .achv-section__name, which
-  // already grows its own top border whenever it isn't
+  // Six independent modules, in this fixed order: Talents, Equipped,
+  // Stats, Collections/Achievements (with its own Type/Date toggle), PvP,
+  // Quests - each shown only when it has something to show. Talents,
+  // Equipped, Stats, PvP and Quests are all headed by .achv-section__name,
+  // which already grows its own top border whenever it isn't
   // .char-achievements' literal first child, so they need no manual
   // divider before or after them - adding one would double up against
   // that automatic border. (Whichever of these ends up first is exactly
@@ -535,6 +536,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     parts.push(sortSectionHtml);
   }
   if (pvpHtml) parts.push(pvpHtml);
+  if (questsHtml) parts.push(questsHtml);
   li.innerHTML = parts.join("");
 
   const views = li.querySelectorAll(".sort-view");
@@ -837,6 +839,14 @@ function renderTalents(talents, className) {
 // QUALITY_COLORS) the same way retail colors item names by rarity; a
 // character exported before `quality` was added to equipped_gear just
 // renders with no tint, same graceful fallback.
+// Average item level excludes Shirt (slot 3) and Tabard (slot 18) - both
+// are cosmetic-only slots with no stats, and item_template.ItemLevel on
+// real shirts/tabards is mostly a nominal 1 with a handful of odd
+// nonzero outliers (confirmed against the real item_template data, not
+// assumed) rather than anything reflecting actual gear power. Same
+// exclusion the real character pane's own average item level uses.
+const ITEM_LEVEL_EXCLUDED_SLOTS = new Set([3, 18]);
+
 function renderEquippedGear(gear, itemIcons, className) {
   if (gear.length === 0) return "";
   const relicSlot = RELIC_SLOT_CLASSES.has(className);
@@ -845,6 +855,13 @@ function renderEquippedGear(gear, itemIcons, className) {
     .filter((g) => g.slotLabel)
     .sort((a, b) => a.slot - b.slot);
   if (items.length === 0) return "";
+  const levelItems = items.filter((g) => g.item_level !== undefined && !ITEM_LEVEL_EXCLUDED_SLOTS.has(g.slot));
+  const avgItemLevel = levelItems.length > 0
+    ? Math.round(levelItems.reduce((sum, g) => sum + g.item_level, 0) / levelItems.length)
+    : undefined;
+  const avgItemLevelItem = avgItemLevel === undefined
+    ? ""
+    : `<li class="achv-list__item achv-list__item--divider">Avg Item Lvl: ${formatNumber(avgItemLevel)}</li>`;
   return `
     <h3 class="achv-section__name">Equipped</h3>
     <ul class="achv-list">
@@ -856,6 +873,7 @@ function renderEquippedGear(gear, itemIcons, className) {
         <li class="achv-list__item">${itemIconImg(itemIcons[g.id], "achv-list__icon", iconStyle)}<span${nameStyle}>${escapeHtml(g.name)}</span> <span class="achv-list__date">${escapeHtml(g.slotLabel)}</span></li>
       `;
       }).join("")}
+      ${avgItemLevelItem}
     </ul>
   `;
 }
@@ -894,38 +912,33 @@ function renderEquippedGear(gear, itemIcons, className) {
 // "Last logged in" with no date) for a character exported before
 // `last_online` existed, or one that's never logged out (logout_time = 0
 // -> iso() already returns null server-side).
-//
-// Quests is its own labeled sub-section within this same module (not a
-// standalone module - not enough here yet to justify its own
-// .achv-section__name), same divider treatment as Last logged in for
-// the same reason: it needs separating from Honor Points above it
-// without introducing a new heading weight. The sub-header itself reuses
-// .achv-category__name - the exact class the Collections/Achievements
-// category cards and Stats' Attributes/Defense/Combat groups already use
-// for this "small dim uppercase label above a list" shape - applied to
-// an <li> here instead of the <h4> it's normally on, since this stays a
-// single .achv-list item flowing in the PvP module rather than its own
-// grid cell (matching how Honor Points/Last logged in already share one
-// list instead of separate grid cells each).
-function renderPvP(honorPoints, faction, lastOnline, questsCompleted) {
+function renderPvP(honorPoints, faction, lastOnline) {
   if (honorPoints === undefined) return "";
   const icon = HONOR_ICON[faction] || HONOR_ICON.Alliance;
   const lastOnlineDate = formatDDMMYY(lastOnline);
   const lastOnlineItem = lastOnlineDate
     ? `<li class="achv-list__item achv-list__item--divider">Last logged in ${lastOnlineDate}</li>`
     : "";
-  const questsItems = questsCompleted === undefined
-    ? ""
-    : `
-      <li class="achv-list__item achv-list__item--divider achv-category__name">Quests</li>
-      <li class="achv-list__item">Completed: ${formatNumber(questsCompleted)}</li>
-    `;
   return `
     <h3 class="achv-section__name">PvP</h3>
     <ul class="achv-list">
       <li class="achv-list__item"><img class="achv-list__icon" src="${icon}" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">Honor Points: ${formatNumber(honorPoints)}</li>
-      ${questsItems}
       ${lastOnlineItem}
+    </ul>
+  `;
+}
+
+// Quests — its own module, right after PvP. Same "plain current-value
+// stat, always shown including 0" treatment as PvP/Equipped: no
+// earned_at, not gated by the Sort toggle, undefined (not 0) is what
+// means "hide this" (a stale characters.json from before this field
+// existed), matching every other module's degrade-gracefully pattern.
+function renderQuests(questsCompleted) {
+  if (questsCompleted === undefined) return "";
+  return `
+    <h3 class="achv-section__name">Quests</h3>
+    <ul class="achv-list">
+      <li class="achv-list__item">Completed: ${formatNumber(questsCompleted)}</li>
     </ul>
   `;
 }
