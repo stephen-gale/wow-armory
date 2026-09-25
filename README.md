@@ -493,6 +493,24 @@ whenever that's wanted, not a data or schema change.
   character that's never logged out, or for a `characters.json` exported
   before this field existed — same graceful fallback as everything else
   in this app.
+- **Quests**: a labeled sub-section within this same module (`Quests`
+  sub-header, then `Completed: <n>`), not its own module — one number
+  doesn't yet justify a fifth `.achv-section__name` heading. Data source
+  is `character_queststatus_rewarded` (guid, quest, active), counted with
+  `WHERE active = 1` rather than a plain `COUNT(*)` — confirmed against
+  AzerothCore's own `CHAR_SEL_CHARACTER_QUESTSTATUSREW` prepared
+  statement (the query the server itself runs to rebuild a character's
+  rewarded-quest set on login), which uses that same filter. A dedicated
+  `UPDATE ... SET active = 0` statement exists elsewhere in the core to
+  flip a specific quest back off, so rows do accumulate with `active = 0`
+  over a character's life — matching the server's own filter keeps this
+  number meaning what the game itself currently considers "completed",
+  not a raw historical row count. Sub-header styling reuses
+  `.achv-category__name` (the same "small dim uppercase label" class
+  Collections/Achievements category cards and the Stats groups already
+  use) applied to a `<li>` instead of its usual `<h4>`, so it stays one
+  item in the PvP module's single list rather than becoming its own grid
+  cell.
 
 ### Titles
 
@@ -553,6 +571,7 @@ dated the same way.
       "played_time_seconds": 1234567,
       "honor_points": 15230,
       "last_online": "2026-09-20T19:42:00Z",
+      "quests_completed": 612,
       "stats": {
         "max_health": 18420, "strength": 612, "agility": 158,
         "stamina": 721, "intellect": 33, "spirit": 41, "armor": 11280,
@@ -801,6 +820,14 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   JOIN acore_auth.account a ON a.id = c.account
   WHERE a.username NOT LIKE 'RNDBOT%';
 " > "$TALENTS_TMP"
+# Quests: character_queststatus_rewarded holds one row per quest ever
+# turned in, but the server itself doesn't treat every row as currently
+# "completed" - its own CHAR_SEL_CHARACTER_QUESTSTATUSREW prepared
+# statement (which rebuilds a character's rewarded-quest set on login)
+# filters WHERE active = 1, and a dedicated UPDATE statement exists to
+# flip a specific quest back to active = 0. Matching that same filter
+# below, rather than a plain COUNT(*), keeps this in sync with what the
+# game itself currently considers "completed" for that character.
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT
     c.guid,
@@ -855,11 +882,18 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
     COALESCE(cs.rangedAttackPower, 0),
     COALESCE(cs.spellPower, 0),
     COALESCE(cs.resilience, 0),
-    c.activeTalentGroup
+    c.activeTalentGroup,
+    COALESCE(qc.quest_count, 0)
   FROM acore_characters.characters c
   JOIN acore_auth.account a ON a.id = c.account
   LEFT JOIN acore_characters.character_achievement_points cap ON cap.guid = c.guid
   LEFT JOIN acore_characters.character_stats cs ON cs.guid = c.guid
+  LEFT JOIN (
+    SELECT guid, COUNT(*) AS quest_count
+    FROM acore_characters.character_queststatus_rewarded
+    WHERE active = 1
+    GROUP BY guid
+  ) qc ON qc.guid = c.guid
   WHERE a.username NOT LIKE 'RNDBOT%'
   ORDER BY c.totaltime DESC;
 " | python3 -c "
@@ -1017,7 +1051,7 @@ if os.path.exists(prev_path):
 generated_at = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 
 # Named, not positional, unpacking below this point - the main query is now
-# wide enough (38 columns, once character_stats joined in) that a flat
+# wide enough (40 columns, once character_stats joined in) that a flat
 # tuple assignment is a silent-corruption risk (a single reorder swaps two
 # stats with no error, unlike a crash). Must stay in the exact order the
 # SELECT above lists its columns in.
@@ -1028,7 +1062,7 @@ MAIN_QUERY_FIELDS = [
     'armor', 'res_holy', 'res_fire', 'res_nature', 'res_frost', 'res_shadow',
     'res_arcane', 'block_pct', 'dodge_pct', 'parry_pct', 'crit_pct',
     'ranged_crit_pct', 'spell_crit_pct', 'attack_power', 'ranged_attack_power',
-    'spell_power', 'resilience', 'active_talent_group',
+    'spell_power', 'resilience', 'active_talent_group', 'quests_completed',
 ]
 
 characters = []
@@ -1088,6 +1122,7 @@ for line in sys.stdin:
         'played_time_seconds': int(row['played']),
         'honor_points': int(row['honor']),
         'last_online': iso(row['logout']),
+        'quests_completed': int(row['quests_completed']),
         'stats': {
             'max_health': int(row['max_health']),
             'strength': int(row['strength']),
@@ -1254,8 +1289,12 @@ here directly as things ship or plans change.
   correctly excluded, using the same bitmask AzerothCore's own
   `GetActiveSpecMask()` does. Tree names/icons come from real WotLK DBC
   data (`Talent`/`TalentTab` CSVs), not assumed; icons are bundled from
-  the same `Gethe/wow-ui-textures` mirror the rest of this app uses (27
-  of 30 found there) — see [Talents](#talents) above.
+  the same `Gethe/wow-ui-textures` mirror the rest of this app uses (all
+  30) — see [Talents](#talents) above.
+- **Quests completed** — a `Quests` sub-header within the PvP module,
+  `Completed: <n>`. Counted from `character_queststatus_rewarded` with
+  the same `WHERE active = 1` filter the server's own login query uses,
+  not a plain row count — see [PvP](#pvp) above.
 
 ### Backlog ideas
 

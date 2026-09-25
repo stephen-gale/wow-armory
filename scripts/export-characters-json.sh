@@ -157,6 +157,14 @@ mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
   WHERE a.username NOT LIKE 'RNDBOT%';
 " > "$TALENTS_TMP"
 
+# Quests: character_queststatus_rewarded holds one row per quest ever
+# turned in, but the server itself doesn't treat every row as currently
+# "completed" - its own CHAR_SEL_CHARACTER_QUESTSTATUSREW prepared
+# statement (which rebuilds a character's rewarded-quest set on login)
+# filters WHERE active = 1, and a dedicated UPDATE statement exists to
+# flip a specific quest back to active = 0. Matching that same filter
+# here, rather than a plain COUNT(*), keeps this in sync with what the
+# game itself currently considers "completed" for that character.
 read -r -d '' QUERY <<'SQL' || true
 SELECT
   c.guid,
@@ -211,11 +219,18 @@ SELECT
   COALESCE(cs.rangedAttackPower, 0) AS ranged_attack_power,
   COALESCE(cs.spellPower, 0) AS spell_power,
   COALESCE(cs.resilience, 0) AS resilience,
-  c.activeTalentGroup
+  c.activeTalentGroup,
+  COALESCE(qc.quest_count, 0) AS quests_completed
 FROM acore_characters.characters c
 JOIN acore_auth.account a ON a.id = c.account
 LEFT JOIN acore_characters.character_achievement_points cap ON cap.guid = c.guid
 LEFT JOIN acore_characters.character_stats cs ON cs.guid = c.guid
+LEFT JOIN (
+  SELECT guid, COUNT(*) AS quest_count
+  FROM acore_characters.character_queststatus_rewarded
+  WHERE active = 1
+  GROUP BY guid
+) qc ON qc.guid = c.guid
 WHERE a.username NOT LIKE 'RNDBOT%'
 ORDER BY faction, c.level DESC, c.name;
 SQL
@@ -391,7 +406,7 @@ if os.path.exists(out_path):
 generated_at = datetime.datetime.utcnow().strftime("%Y-%m-%dT%H:%M:%SZ")
 
 # Named, not positional, unpacking below this point - the main query is now
-# wide enough (38 columns, once character_stats joined in) that a flat
+# wide enough (40 columns, once character_stats joined in) that a flat
 # tuple assignment is a silent-corruption risk (a single reorder swaps two
 # stats with no error, unlike a crash). Must stay in the exact order the
 # SELECT above lists its columns in.
@@ -402,7 +417,7 @@ MAIN_QUERY_FIELDS = [
     "armor", "res_holy", "res_fire", "res_nature", "res_frost", "res_shadow",
     "res_arcane", "block_pct", "dodge_pct", "parry_pct", "crit_pct",
     "ranged_crit_pct", "spell_crit_pct", "attack_power", "ranged_attack_power",
-    "spell_power", "resilience", "active_talent_group",
+    "spell_power", "resilience", "active_talent_group", "quests_completed",
 ]
 
 characters = []
@@ -469,6 +484,7 @@ for line in sys.stdin:
         "played_time_seconds": int(row["played"]),
         "honor_points": int(row["honor"]),
         "last_online": iso(row["logout"]),
+        "quests_completed": int(row["quests_completed"]),
         "stats": {
             "max_health": int(row["max_health"]),
             "strength": int(row["strength"]),

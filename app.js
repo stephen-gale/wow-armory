@@ -436,7 +436,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
   const statsHtml = renderCharacterStats(c.stats, c.class_name);
   const talentsHtml = renderTalents(c.talents, c.class_name);
   const equippedGearHtml = renderEquippedGear(c.equipped_gear || [], itemIcons, c.class_name);
-  const pvpHtml = renderPvP(c.honor_points, c.faction, c.last_online);
+  const pvpHtml = renderPvP(c.honor_points, c.faction, c.last_online, c.quests_completed);
 
   // One flat section per category — no sub-grouping by tier/expansion — in
   // COLLECTION_CATEGORIES' own declared order. factionLevel categories
@@ -894,17 +894,37 @@ function renderEquippedGear(gear, itemIcons, className) {
 // "Last logged in" with no date) for a character exported before
 // `last_online` existed, or one that's never logged out (logout_time = 0
 // -> iso() already returns null server-side).
-function renderPvP(honorPoints, faction, lastOnline) {
+//
+// Quests is its own labeled sub-section within this same module (not a
+// standalone module - not enough here yet to justify its own
+// .achv-section__name), same divider treatment as Last logged in for
+// the same reason: it needs separating from Honor Points above it
+// without introducing a new heading weight. The sub-header itself reuses
+// .achv-category__name - the exact class the Collections/Achievements
+// category cards and Stats' Attributes/Defense/Combat groups already use
+// for this "small dim uppercase label above a list" shape - applied to
+// an <li> here instead of the <h4> it's normally on, since this stays a
+// single .achv-list item flowing in the PvP module rather than its own
+// grid cell (matching how Honor Points/Last logged in already share one
+// list instead of separate grid cells each).
+function renderPvP(honorPoints, faction, lastOnline, questsCompleted) {
   if (honorPoints === undefined) return "";
   const icon = HONOR_ICON[faction] || HONOR_ICON.Alliance;
   const lastOnlineDate = formatDDMMYY(lastOnline);
   const lastOnlineItem = lastOnlineDate
     ? `<li class="achv-list__item achv-list__item--divider">Last logged in ${lastOnlineDate}</li>`
     : "";
+  const questsItems = questsCompleted === undefined
+    ? ""
+    : `
+      <li class="achv-list__item achv-list__item--divider achv-category__name">Quests</li>
+      <li class="achv-list__item">Completed: ${formatNumber(questsCompleted)}</li>
+    `;
   return `
     <h3 class="achv-section__name">PvP</h3>
     <ul class="achv-list">
       <li class="achv-list__item"><img class="achv-list__icon" src="${icon}" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">Honor Points: ${formatNumber(honorPoints)}</li>
+      ${questsItems}
       ${lastOnlineItem}
     </ul>
   `;
