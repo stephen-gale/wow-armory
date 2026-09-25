@@ -202,10 +202,12 @@ COLLECTION_TABARDS_DEFS="$REPO_DATA_DIR/assets/data/collections/tabards.json"
 COLLECTION_HEIRLOOMS_DEFS="$REPO_DATA_DIR/assets/data/collections/heirlooms.json"
 COLLECTION_TITLES_DEFS="$REPO_DATA_DIR/assets/data/collections/titles.json"
 TALENT_SPELLS_DEFS="$REPO_DATA_DIR/assets/data/talent_spells.json"
+FACTION_BASELINES_DEFS="$REPO_DATA_DIR/assets/data/faction_baselines.json"
 ACHIEVEMENTS_TMP="$(mktemp)"
 EQUIPPED_TMP="$(mktemp)"
 KNOWN_SPELLS_TMP="$(mktemp)"
 TALENTS_TMP="$(mktemp)"
+REPUTATION_TMP="$(mktemp)"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT ca.guid, ca.achievement, ca.date
   FROM acore_characters.character_achievement ca
@@ -250,6 +252,21 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   JOIN acore_auth.account a ON a.id = c.account
   WHERE a.username NOT LIKE 'RNDBOT%';
 " > "$TALENTS_TMP"
+# Exalted Factions: character_reputation.standing is NOT the character's
+# total reputation with a faction - it's a delta on top of a race/class-
+# specific baseline, confirmed against ReputationMgr::GetReputation()
+# (returns GetBaseReputation(faction) + standing). Only the raw rows are
+# pulled here; the baseline lookup and the >= 42000 Exalted threshold
+# (also confirmed against AzerothCore's own ReputationMgr::
+# ReputationToRank(), a fixed universal cutoff, not faction-specific) are
+# computed in Python below against assets/data/faction_baselines.json.
+mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
+  SELECT cr.guid, cr.faction, cr.standing
+  FROM acore_characters.character_reputation cr
+  JOIN acore_characters.characters c ON c.guid = cr.guid
+  JOIN acore_auth.account a ON a.id = c.account
+  WHERE a.username NOT LIKE 'RNDBOT%';
+" > "$REPUTATION_TMP"
 # Quests: character_queststatus_rewarded holds one row per quest ever
 # turned in, but the server itself doesn't treat every row as currently
 # "completed" - its own CHAR_SEL_CHARACTER_QUESTSTATUSREW prepared
@@ -284,6 +301,7 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
     END,
     c.level,
     c.money,
+    c.zone,
     COALESCE(cap.total_points, 0),
     COALESCE(cap.total_achievements, 0),
     c.totaltime,
@@ -398,6 +416,46 @@ with open('$TALENTS_TMP') as f:
         guid, spell_id, spec_mask = line.split('\t')
         talents_by_guid[int(guid)].append((int(spell_id), int(spec_mask)))
 
+# faction id -> {reputation_list_id, [race_masks, class_masks, base_values]}
+# (see scripts/extract-faction-baselines.py) - only 'trackable' factions
+# (reputationListID >= 0) are in here at all; a race_masks/class_masks/
+# base_values array only exists for the minority with a nonzero baseline
+# for any race/class. Used below with each character's own race/class to
+# reproduce AzerothCore's ReputationMgr::GetBaseReputation() exactly.
+with open('$FACTION_BASELINES_DEFS') as f:
+    faction_baselines = json.load(f)
+
+reputation_by_guid = defaultdict(list)
+with open('$REPUTATION_TMP') as f:
+    for line in f:
+        line = line.rstrip('\n')
+        if not line:
+            continue
+        guid, faction_id, standing = line.split('\t')
+        reputation_by_guid[int(guid)].append((int(faction_id), int(standing)))
+
+EXALTED_THRESHOLD = 42000
+
+# Mirrors ReputationMgr::GetBaseReputation() exactly: the first of a
+# faction's 4 (raceMask, classMask, baseValue) slots whose raceMask
+# matches this character (or is 0 while classMask is set), and whose
+# classMask matches (or is 0), wins - not just any slot with a nonzero
+# value. A faction absent from faction_baselines (no nonzero baseline
+# for any race/class) short-circuits to 0 without needing the loop.
+def base_reputation(faction_id, race_mask, class_mask):
+    entry = faction_baselines.get(str(faction_id))
+    if not entry or 'base_values' not in entry:
+        return 0
+    race_masks = entry['race_masks']
+    class_masks = entry['class_masks']
+    base_values = entry['base_values']
+    for i in range(4):
+        race_ok = (race_masks[i] & race_mask) or (race_masks[i] == 0 and class_masks[i] != 0)
+        class_ok = (class_masks[i] & class_mask) or class_masks[i] == 0
+        if race_ok and class_ok:
+            return base_values[i]
+    return 0
+
 # Titles: an achievement id -> title name map (see
 # scripts/generate-titles-collection-data.py). A character's titles are
 # whichever of their own completed achievements (achievements_by_guid
@@ -482,13 +540,13 @@ if os.path.exists(prev_path):
 generated_at = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')
 
 # Named, not positional, unpacking below this point - the main query is now
-# wide enough (40 columns, once character_stats joined in) that a flat
+# wide enough (41 columns, once character_stats joined in) that a flat
 # tuple assignment is a silent-corruption risk (a single reorder swaps two
 # stats with no error, unlike a crash). Must stay in the exact order the
 # SELECT above lists its columns in.
 MAIN_QUERY_FIELDS = [
     'guid', 'name', 'account', 'race', 'race_name', 'cls', 'class_name',
-    'faction', 'level', 'money', 'ap', 'ac', 'played', 'honor', 'logout',
+    'faction', 'level', 'money', 'zone_id', 'ap', 'ac', 'played', 'honor', 'logout',
     'max_health', 'strength', 'agility', 'stamina', 'intellect', 'spirit',
     'armor', 'res_holy', 'res_fire', 'res_nature', 'res_frost', 'res_shadow',
     'res_arcane', 'block_pct', 'dodge_pct', 'parry_pct', 'crit_pct',
@@ -537,6 +595,16 @@ for line in sys.stdin:
         if talent:
             talent_points[talent['tab_id']] += talent['points']
 
+    # Same 1 << (id - 1) bitmask AzerothCore's own Unit::getRaceMask()/
+    # getClassMask() use, confirmed against Unit.h.
+    race_mask = 1 << (int(row['race']) - 1)
+    class_mask = 1 << (int(row['cls']) - 1)
+    exalted_factions = sorted(
+        faction_id
+        for faction_id, standing in reputation_by_guid.get(guid, [])
+        if base_reputation(faction_id, race_mask, class_mask) + standing >= EXALTED_THRESHOLD
+    )
+
     characters.append({
         'guid': guid,
         'name': row['name'],
@@ -548,6 +616,8 @@ for line in sys.stdin:
         'faction': row['faction'],
         'level': int(row['level']),
         'money_copper': int(row['money']),
+        'zone_id': int(row['zone_id']),
+        'exalted_factions': exalted_factions,
         'achievement_points': int(row['ap']),
         'achievement_count': int(row['ac']),
         'played_time_seconds': int(row['played']),

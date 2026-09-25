@@ -178,11 +178,13 @@ function loadAchievementData() {
       fetch("assets/data/achievements.json").then((r) => r.json()),
       fetch("assets/data/achievement_categories.json").then((r) => r.json()),
       fetch("assets/data/item_icons.json").then((r) => r.json()),
+      fetch("assets/data/faction_names.json").then((r) => r.json()),
       ...COLLECTION_CATEGORIES.map((cat) => fetch(cat.file).then((r) => r.json()).catch(() => [])),
-    ]).then(([achievements, categories, itemIcons, ...collectionLists]) => ({
+    ]).then(([achievements, categories, itemIcons, factionNames, ...collectionLists]) => ({
       achievementsById: new Map(achievements.map((a) => [a.id, a])),
       categoriesById: new Map(categories.map((c) => [c.id, c])),
       itemIcons,
+      factionNames,
       collectionsByCategory: new Map(
         COLLECTION_CATEGORIES.map((cat, i) => [cat.key, new Map(collectionLists[i].map((item) => [item.id, item]))])
       ),
@@ -191,6 +193,14 @@ function loadAchievementData() {
   return achievementDataPromise;
 }
 loadAchievementData();
+
+// Zone names (assets/data/area_names.json, id -> English name from the
+// real AreaTable.dbc - see scripts/extract-dbc-names.py) are needed on
+// the always-visible collapsed character row, not just inside the
+// expandable panel loadAchievementData() covers - fetched separately,
+// just as eagerly, so it's ready by the time renderCharCard runs for a
+// freshly loaded characters.json.
+let areaNamesPromise = fetch("assets/data/area_names.json").then((r) => r.json()).catch(() => ({}));
 
 
 const fileInput = document.getElementById("file-input");
@@ -367,6 +377,7 @@ function renderCharCard(c) {
     <div class="char-card__icons">${classIcon}${raceIcon}</div>
     <div class="char-card__main">
       <p class="char-card__name" style="color:${classColor}">${escapeHtml(c.name)} <span class="char-card__level">${c.level}</span></p>
+      <p class="char-card__zone" hidden></p>
       <div class="char-card__stats">
         ${statWithIcon(STAT_ICONS.played, formatPlayedTime(c.played_time_seconds))}
         ${statWithIcon(STAT_ICONS.achievements, formatAchievements(c.achievement_points, c.achievement_count), "stat-icon--achievement")}
@@ -382,6 +393,22 @@ function renderCharCard(c) {
       toggleAchievementsPanel(li, c);
     }
   });
+
+  // Zone name resolves async (see areaNamesPromise) - the .char-card__zone
+  // placeholder above starts hidden and empty so nothing shifts layout
+  // once it fills in a moment later. A character with no zone_id (a
+  // characters.json from before this field existed) or a zone_id
+  // area_names.json doesn't recognize just leaves it hidden, same
+  // graceful fallback as every other optional field in this app.
+  if (c.zone_id !== undefined) {
+    areaNamesPromise.then((areaNames) => {
+      const zoneName = areaNames[c.zone_id];
+      if (!zoneName) return;
+      const zoneEl = li.querySelector(".char-card__zone");
+      zoneEl.textContent = zoneName;
+      zoneEl.hidden = false;
+    });
+  }
 
   return li;
 }
@@ -404,8 +431,8 @@ function toggleAchievementsPanel(rowLi, c) {
   placeholder.innerHTML = `<p class="char-achievements__empty">Loading…</p>`;
   rowLi.after(placeholder);
 
-  loadAchievementData().then(({ achievementsById, categoriesById, collectionsByCategory, itemIcons }) => {
-    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory, itemIcons));
+  loadAchievementData().then(({ achievementsById, categoriesById, collectionsByCategory, itemIcons, factionNames }) => {
+    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory, itemIcons, factionNames));
   });
 }
 
@@ -429,15 +456,17 @@ function normalizeEntry(entry) {
     : { id: entry, earned_at: null };
 }
 
-function buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory, itemIcons) {
+function buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory, itemIcons, factionNames) {
   const li = document.createElement("li");
   li.className = "char-achievements";
 
   const statsHtml = renderCharacterStats(c.stats, c.class_name);
   const talentsHtml = renderTalents(c.talents, c.class_name);
   const equippedGearHtml = renderEquippedGear(c.equipped_gear || [], itemIcons, c.class_name);
-  const pvpHtml = renderPvP(c.honor_points, c.faction, c.last_online);
+  const pvpHtml = renderPvP(c.honor_points, c.faction);
   const questsHtml = renderQuests(c.quests_completed);
+  const exaltedFactionsHtml = renderExaltedFactions(c.exalted_factions, factionNames);
+  const lastLoggedInHtml = renderLastLoggedIn(c.last_online);
 
   // One flat section per category — no sub-grouping by tier/expansion — in
   // COLLECTION_CATEGORIES' own declared order. factionLevel categories
@@ -476,7 +505,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     }))
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  if (collectionGroups.length === 0 && categoryGroups.length === 0 && !statsHtml && !talentsHtml && !equippedGearHtml && !pvpHtml && !questsHtml) {
+  if (collectionGroups.length === 0 && categoryGroups.length === 0 && !statsHtml && !talentsHtml && !equippedGearHtml && !pvpHtml && !questsHtml && !exaltedFactionsHtml && !lastLoggedInHtml) {
     li.innerHTML = `<p class="char-achievements__empty">No collections or achievements recorded.</p>`;
     return li;
   }
@@ -511,22 +540,25 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     `;
   }
 
-  // Six independent modules, in this fixed order: Talents, Equipped,
+  // Seven independent modules, in this fixed order: Talents, Equipped,
   // Stats, Collections/Achievements (with its own Type/Date toggle), PvP,
-  // Quests - each shown only when it has something to show. Talents,
-  // Equipped, Stats, PvP and Quests are all headed by .achv-section__name,
-  // which already grows its own top border whenever it isn't
-  // .char-achievements' literal first child, so they need no manual
-  // divider before or after them - adding one would double up against
-  // that automatic border. (Whichever of these ends up first is exactly
-  // why this rule is driven by :first-child rather than by which module
-  // JS puts first - each one automatically picks up its own top border
-  // the moment something starts coming before it, no CSS change needed
-  // when the order changes.)
+  // Quests, Exalted Factions - each shown only when it has something to
+  // show. Talents, Equipped, Stats, PvP, Quests and Exalted Factions are
+  // all headed by .achv-section__name, which already grows its own top
+  // border whenever it isn't .char-achievements' literal first child, so
+  // they need no manual divider before or after them - adding one would
+  // double up against that automatic border. (Whichever of these ends up
+  // first is exactly why this rule is driven by :first-child rather than
+  // by which module JS puts first - each one automatically picks up its
+  // own top border the moment something starts coming before it, no CSS
+  // change needed when the order changes.)
   // sortSectionHtml starts with .sort-row instead, which has no built-in
   // separator, so it's the only module that needs an explicit
   // .module-divider in front of it (and only when something already
   // precedes it).
+  // Last logged in isn't one of the seven modules - a single trailing
+  // fact (the character's own request to keep it last), always pushed
+  // after everything else regardless of which modules are present.
   const parts = [];
   if (talentsHtml) parts.push(talentsHtml);
   if (equippedGearHtml) parts.push(equippedGearHtml);
@@ -537,6 +569,8 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
   }
   if (pvpHtml) parts.push(pvpHtml);
   if (questsHtml) parts.push(questsHtml);
+  if (exaltedFactionsHtml) parts.push(exaltedFactionsHtml);
+  if (lastLoggedInHtml) parts.push(lastLoggedInHtml);
   li.innerHTML = parts.join("");
 
   const views = li.querySelectorAll(".sort-view");
@@ -861,7 +895,7 @@ function renderEquippedGear(gear, itemIcons, className) {
     : undefined;
   const avgItemLevelItem = avgItemLevel === undefined
     ? ""
-    : `<li class="achv-list__item achv-list__item--divider">Avg Item Lvl: ${formatNumber(avgItemLevel)}</li>`;
+    : `<li class="achv-list__item achv-list__item--spaced">Avg Item Lvl: ${formatNumber(avgItemLevel)}</li>`;
   return `
     <h3 class="achv-section__name">Equipped</h3>
     <ul class="achv-list">
@@ -895,37 +929,34 @@ function renderEquippedGear(gear, itemIcons, className) {
 // roll up (see renderSummary/renderFactionPanel's .reduce() calls) - so
 // adding Honor Points there later is a one-line change whenever that's
 // wanted, not a data/schema change.
-//
-// "Last logged in" isn't a PvP stat, but it lives in this module too
-// (the character's own request - see `characters.logout_time`, gated by
-// the same "PvP module exists" check rather than its own). A thin
-// divider (no header, not yet its own module) separates it from Honor
-// Points so it doesn't read as another PvP stat - same visual weight as
-// the divider between modules, not squashed against Honor Points above
-// it. No icon (unlike every other .achv-list__item): there's no single
-// established icon for "last logged in" the way Played Time/Honor
-// Points each have one, so it's left plain rather than reusing an icon
-// that implies the wrong thing. Its date is rendered plain, not through
-// formatEarnedDate's dim .achv-list__date styling - that styling means
-// "the date this was unlocked" everywhere else in this app, which is the
-// wrong implication for a plain current fact like this. Blank (not
-// "Last logged in" with no date) for a character exported before
-// `last_online` existed, or one that's never logged out (logout_time = 0
-// -> iso() already returns null server-side).
-function renderPvP(honorPoints, faction, lastOnline) {
+function renderPvP(honorPoints, faction) {
   if (honorPoints === undefined) return "";
   const icon = HONOR_ICON[faction] || HONOR_ICON.Alliance;
-  const lastOnlineDate = formatDDMMYY(lastOnline);
-  const lastOnlineItem = lastOnlineDate
-    ? `<li class="achv-list__item achv-list__item--divider">Last logged in ${lastOnlineDate}</li>`
-    : "";
   return `
     <h3 class="achv-section__name">PvP</h3>
     <ul class="achv-list">
       <li class="achv-list__item"><img class="achv-list__icon" src="${icon}" alt="" onerror="console.warn('icon failed to load:', this.src); this.remove();">Honor Points: ${formatNumber(honorPoints)}</li>
-      ${lastOnlineItem}
     </ul>
   `;
+}
+
+// Last logged in - the very last thing in the whole panel, after every
+// other module (the character's own request), not tucked inside PvP.
+// No header (a single plain fact doesn't need one) and no icon (unlike
+// every other .achv-list__item): there's no single established icon for
+// "last logged in" the way Played Time/Honor Points each have one, so
+// it's left plain rather than reusing an icon that implies the wrong
+// thing. Rendered plain, not through formatEarnedDate's dim
+// .achv-list__date styling - that styling means "the date this was
+// unlocked" everywhere else in this app, which is the wrong implication
+// for a plain current fact like this. Blank (not "Last logged in" with
+// no date) for a character exported before `last_online` existed, or
+// one that's never logged out (logout_time = 0 -> iso() already returns
+// null server-side).
+function renderLastLoggedIn(lastOnline) {
+  const lastOnlineDate = formatDDMMYY(lastOnline);
+  if (!lastOnlineDate) return "";
+  return `<ul class="achv-list achv-list--divider"><li class="achv-list__item">Last logged in ${lastOnlineDate}</li></ul>`;
 }
 
 // Quests — its own module, right after PvP. Same "plain current-value
@@ -939,6 +970,34 @@ function renderQuests(questsCompleted) {
     <h3 class="achv-section__name">Quests</h3>
     <ul class="achv-list">
       <li class="achv-list__item">Completed: ${formatNumber(questsCompleted)}</li>
+    </ul>
+  `;
+}
+
+// Exalted Factions — the last module, right after Quests. A live snapshot
+// like Equipped/Avg Item Lvl, not a Collection: reputation standing keeps
+// moving, so there's no "earned_at" moment to record and no place in the
+// Sort by Type/Date toggle. `exalted_factions` (a plain array of faction
+// ids) is computed server-side in the export scripts - not just a
+// `standing >= 42000` check, since character_reputation.standing is a
+// delta on top of a race/class-specific baseline (confirmed against
+// AzerothCore's own ReputationMgr::GetReputation()), so getting this
+// right needed real baseline data (scripts/extract-faction-baselines.py)
+// the client doesn't have and doesn't need - only the already-computed
+// id list, resolved to names here the same way Titles resolves an
+// achievement id to a title string: from a bundled reference file
+// (assets/data/faction_names.json), not a second DB round-trip.
+function renderExaltedFactions(exaltedFactionIds, factionNames) {
+  if (!exaltedFactionIds || exaltedFactionIds.length === 0) return "";
+  const names = exaltedFactionIds
+    .map((id) => factionNames[id])
+    .filter(Boolean)
+    .sort((a, b) => a.localeCompare(b));
+  if (names.length === 0) return "";
+  return `
+    <h3 class="achv-section__name">Exalted Factions</h3>
+    <ul class="achv-list">
+      ${names.map((name) => `<li class="achv-list__item">${escapeHtml(name)}</li>`).join("")}
     </ul>
   `;
 }

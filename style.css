@@ -274,6 +274,12 @@ main {
   margin: 0;
 }
 
+.char-card__zone {
+  margin: 0.15rem 0 0;
+  color: var(--text-dim);
+  font-size: 0.78rem;
+}
+
 .char-card__stats {
   margin-top: 0.3rem;
   font-size: 0.78rem;
@@ -488,23 +494,34 @@ main {
   font-size: 0.82rem;
 }
 
-/* A thin separator within a single .achv-list, not a full module divider
-   (.module-divider) or a new heading - currently only Last Online within
-   the PvP module, to keep it from reading as another PvP stat without
-   introducing a header for just one line. Same border treatment as
-   .achv-section__name's own top border, for visual consistency. margin-
-   top is on top of .achv-list's own 0.3rem flex gap, since this divider
-   sits inside that flex list rather than the outer grid - added so the
-   space above the line matches the ~0.9rem gap between modules
-   (.char-achievements' grid gap + .module-divider's own margin), instead
-   of just the 0.3rem every other item in this list gets, which read as
-   squashed against Honor Points above it. padding-top is deliberately
-   larger than .achv-section__name's matching 0.6rem - felt tight against
-   the Last Online text right under the line at that value. */
-.achv-list__item--divider {
+/* Last logged in's own standalone .achv-list (not an <li> inside another
+   module's list) - a thin separator, not a full module divider
+   (.module-divider) or a new heading, to keep it reading as a plain
+   trailing fact rather than another module. grid-column: 1/-1 is the
+   important part: without a heading (.achv-section__name) of its own to
+   force a new row, this lone <ul> would otherwise auto-place into
+   whatever grid cell has room next to it - possibly beside another
+   module's content instead of stacked below everything, which would
+   break "always the last thing in the panel". Same border treatment as
+   .achv-section__name's own top border, for visual consistency; margin-
+   top/padding-top values match the module-to-module gap
+   (.char-achievements' grid gap + .module-divider's own margin) for the
+   same reason the old inline version needed them - a smaller gap read as
+   squashed against whatever module precedes it. */
+.achv-list--divider {
+  grid-column: 1 / -1;
   margin-top: 0.8rem;
   border-top: 1px solid rgba(255,255,255,0.08);
   padding-top: 0.9rem;
+}
+
+/* A little breathing room before a trailing summary line within a
+   single .achv-list (currently Avg Item Lvl, after Equipped's item
+   list) - lighter than .achv-list--divider's full separator treatment
+   (no border, no heading-sized gap), just enough that it doesn't read as
+   one more item in the list above it. */
+.achv-list__item--spaced {
+  margin-top: 0.5rem;
 }
 
 /* Equipped Gear only - real item icons, same 18px size settled on in the
