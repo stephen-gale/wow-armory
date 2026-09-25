@@ -502,17 +502,18 @@ main {
    force a new row, this lone <ul> would otherwise auto-place into
    whatever grid cell has room next to it - possibly beside another
    module's content instead of stacked below everything, which would
-   break "always the last thing in the panel". Same border treatment as
-   .achv-section__name's own top border, for visual consistency; margin-
-   top/padding-top values match the module-to-module gap
-   (.char-achievements' grid gap + .module-divider's own margin) for the
-   same reason the old inline version needed them - a smaller gap read as
-   squashed against whatever module precedes it. */
+   break "always the last thing in the panel". margin-top/padding-top
+   are copied exactly from .achv-section__name (not larger) - both sit
+   in the same grid, so both already get the grid's own row gap for
+   free; adding this module's-worth of extra top spacing on top of that
+   (as an earlier version of this rule did) made the gap above this
+   divider visibly bigger than the gap above every other module's own
+   heading, instead of matching it. */
 .achv-list--divider {
   grid-column: 1 / -1;
-  margin-top: 0.8rem;
+  margin-top: 0.2rem;
   border-top: 1px solid rgba(255,255,255,0.08);
-  padding-top: 0.9rem;
+  padding-top: 0.6rem;
 }
 
 /* A little breathing room before a trailing summary line within a
