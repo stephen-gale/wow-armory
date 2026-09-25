@@ -225,6 +225,7 @@ main {
 }
 
 .char-card {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -249,11 +250,19 @@ main {
   font-size: 0.85rem;
 }
 
+/* Positioned out of the flex row entirely (not a flex sibling of
+   .char-card__icons/.char-card__main) so it never reserves its own
+   column - a flex sibling here would shrink .char-card__main's width by
+   the toggle's own box plus a full gap, which is enough on narrow
+   phones to push the stats row (hours/achievements/gold) into wrapping.
+   Absolute positioning lets .char-card__main use the full remaining
+   width right up to the card's edge, same as before the caret existed,
+   while the caret still visually sits top-right over that empty space
+   in the name row. */
 .char-card__toggle {
-  flex: 0 0 auto;
-  align-self: flex-start;
-  margin-left: auto;
-  margin-top: 0.3rem;
+  position: absolute;
+  top: 1rem;
+  right: 1.1rem;
   width: 0.65rem;
   height: 0.65rem;
   color: var(--text-dim);
@@ -287,6 +296,10 @@ main {
 .char-card__name {
   font-weight: 700;
   margin: 0;
+  /* Room for the absolutely-positioned .char-card__toggle sitting on
+     top of this row's right edge - only this row needs it, since the
+     toggle never overlaps the zone/stats rows below it. */
+  padding-right: 1rem;
 }
 
 .char-card__zone {
