@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-25T13:45:58Z",
+  "generated_at": "2026-09-25T15:29:55Z",
   "characters": [
     {
       "guid": 1006,
@@ -470,22 +470,22 @@
       "class_name": "Paladin",
       "faction": "Alliance",
       "level": 73,
-      "money_copper": 22688349,
+      "money_copper": 22859371,
       "zone_id": 65,
       "exalted_factions": [
         72
       ],
       "achievement_points": 500,
       "achievement_count": 50,
-      "played_time_seconds": 416785,
+      "played_time_seconds": 417791,
       "honor_points": 0,
-      "last_online": "2026-09-25T13:45:40Z",
-      "quests_completed": 1094,
+      "last_online": "2026-09-25T15:29:33Z",
+      "quests_completed": 1100,
       "stats": {
-        "max_health": 9871,
-        "strength": 523,
+        "max_health": 10361,
+        "strength": 512,
         "agility": 158,
-        "stamina": 586,
+        "stamina": 635,
         "intellect": 87,
         "spirit": 125,
         "armor": 7996,
@@ -495,13 +495,13 @@
         "res_frost": 0,
         "res_shadow": 0,
         "res_arcane": 0,
-        "block_pct": 4.8,
-        "dodge_pct": 7.70456,
-        "parry_pct": 4.8,
-        "crit_pct": 18.8058,
+        "block_pct": 4.84,
+        "dodge_pct": 7.74456,
+        "parry_pct": 4.84,
+        "crit_pct": 18.8458,
         "ranged_crit_pct": 4.28584,
         "spell_crit_pct": 0.0,
-        "attack_power": 1245,
+        "attack_power": 1223,
         "ranged_attack_power": 148,
         "spell_power": 0,
         "resilience": 0
@@ -733,8 +733,8 @@
       "equipped_gear": [
         {
           "slot": 0,
-          "id": 38094,
-          "name": "Dalaran Sentry Headguard",
+          "id": 38104,
+          "name": "Stonepath Helm",
           "quality": 2,
           "item_level": 146
         },
