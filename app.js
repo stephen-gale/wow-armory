@@ -956,7 +956,7 @@ function renderPvP(honorPoints, faction) {
 function renderLastLoggedIn(lastOnline) {
   const lastOnlineDate = formatDDMMYY(lastOnline);
   if (!lastOnlineDate) return "";
-  return `<ul class="achv-list achv-list--divider"><li class="achv-list__item">Last logged in ${lastOnlineDate}</li></ul>`;
+  return `<ul class="achv-list achv-list--divider"><li class="achv-list__item">Last logged in: ${lastOnlineDate}</li></ul>`;
 }
 
 // Quests — its own module, right after PvP. Same "plain current-value
