@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-24T22:46:26Z",
+  "generated_at": "2026-09-25T09:16:29Z",
   "characters": [
     {
       "guid": 1006,
@@ -11,11 +11,17 @@
       "faction": "Horde",
       "level": 80,
       "money_copper": 50365574,
+      "zone_id": 1637,
+      "exalted_factions": [
+        76,
+        530
+      ],
       "achievement_points": 550,
       "achievement_count": 61,
       "played_time_seconds": 612141,
       "honor_points": 172,
       "last_online": "2026-09-24T22:06:33Z",
+      "quests_completed": 1425,
       "stats": {
         "max_health": 13569,
         "strength": 75,
@@ -327,109 +333,127 @@
           "slot": 0,
           "id": 44045,
           "name": "Crusader's Coif",
-          "quality": 3
+          "quality": 3,
+          "item_level": 174
         },
         {
           "slot": 1,
           "id": 39848,
           "name": "Neckcharm of the Bloodletter",
-          "quality": 2
+          "quality": 2,
+          "item_level": 158
         },
         {
           "slot": 2,
           "id": 39446,
           "name": "Pauldrons of Resolution",
-          "quality": 2
+          "quality": 2,
+          "item_level": 162
         },
         {
           "slot": 3,
           "id": 127,
           "name": "Trapper's Shirt",
-          "quality": 1
+          "quality": 1,
+          "item_level": 1
         },
         {
           "slot": 4,
           "id": 39799,
           "name": "Rescuer's Chestguard",
-          "quality": 2
+          "quality": 2,
+          "item_level": 158
         },
         {
           "slot": 5,
           "id": 39780,
           "name": "Valiant Belt of Battle",
-          "quality": 2
+          "quality": 2,
+          "item_level": 158
         },
         {
           "slot": 6,
           "id": 43202,
           "name": "Jormungar Hide Legguards",
-          "quality": 3
+          "quality": 3,
+          "item_level": 174
         },
         {
           "slot": 7,
           "id": 39441,
           "name": "Treads of Bound Life",
-          "quality": 2
+          "quality": 2,
+          "item_level": 162
         },
         {
           "slot": 8,
           "id": 41844,
           "name": "Bracers of Vengeful Flight",
-          "quality": 3
+          "quality": 3,
+          "item_level": 158
         },
         {
           "slot": 9,
           "id": 39867,
           "name": "Bat Fur Mitts",
-          "quality": 2
+          "quality": 2,
+          "item_level": 158
         },
         {
           "slot": 10,
           "id": 44039,
           "name": "Signet of Bridenbrad",
-          "quality": 3
+          "quality": 3,
+          "item_level": 174
         },
         {
           "slot": 11,
           "id": 39480,
           "name": "Bent Crocolisk Tooth",
-          "quality": 2
+          "quality": 2,
+          "item_level": 162
         },
         {
           "slot": 12,
           "id": 38081,
           "name": "Scarab of Isanoth",
-          "quality": 2
+          "quality": 2,
+          "item_level": 146
         },
         {
           "slot": 13,
           "id": 43829,
           "name": "Crusader's Locket",
-          "quality": 2
+          "quality": 2,
+          "item_level": 174
         },
         {
           "slot": 14,
           "id": 43889,
           "name": "Hulking Abomination Hide Cloak",
-          "quality": 2
+          "quality": 2,
+          "item_level": 174
         },
         {
           "slot": 15,
           "id": 43833,
           "name": "Blade of Echoes",
-          "quality": 2
+          "quality": 2,
+          "item_level": 174
         },
         {
           "slot": 16,
           "id": 42786,
           "name": "Daschal's Serrated Blade",
-          "quality": 2
+          "quality": 2,
+          "item_level": 174
         },
         {
           "slot": 17,
           "id": 39829,
           "name": "High-Strung Bow",
-          "quality": 2
+          "quality": 2,
+          "item_level": 158
         }
       ],
       "talents": {
@@ -447,11 +471,16 @@
       "faction": "Alliance",
       "level": 73,
       "money_copper": 22675364,
+      "zone_id": 65,
+      "exalted_factions": [
+        72
+      ],
       "achievement_points": 500,
       "achievement_count": 50,
       "played_time_seconds": 416216,
       "honor_points": 0,
       "last_online": "2026-09-24T22:46:10Z",
+      "quests_completed": 1093,
       "stats": {
         "max_health": 9871,
         "strength": 523,
@@ -706,103 +735,120 @@
           "slot": 0,
           "id": 38094,
           "name": "Dalaran Sentry Headguard",
-          "quality": 2
+          "quality": 2,
+          "item_level": 146
         },
         {
           "slot": 1,
           "id": 35886,
           "name": "Worgtooth Pendant",
-          "quality": 2
+          "quality": 2,
+          "item_level": 138
         },
         {
           "slot": 2,
           "id": 35920,
           "name": "Feather-Lined Shoulderpads",
-          "quality": 2
+          "quality": 2,
+          "item_level": 138
         },
         {
           "slot": 3,
           "id": 45,
           "name": "Squire's Shirt",
-          "quality": 1
+          "quality": 1,
+          "item_level": 1
         },
         {
           "slot": 4,
           "id": 38107,
           "name": "Stonepath Chestguard",
-          "quality": 2
+          "quality": 2,
+          "item_level": 146
         },
         {
           "slot": 5,
           "id": 44670,
           "name": "Soul-Sealed Belt",
-          "quality": 3
+          "quality": 3,
+          "item_level": 159
         },
         {
           "slot": 6,
           "id": 35835,
           "name": "Antique Reinforced Legguards",
-          "quality": 2
+          "quality": 2,
+          "item_level": 138
         },
         {
           "slot": 7,
           "id": 38084,
           "name": "Crustacean Stompers",
-          "quality": 2
+          "quality": 2,
+          "item_level": 146
         },
         {
           "slot": 8,
           "id": 38093,
           "name": "Dalaran Sentry Wristbraces",
-          "quality": 2
+          "quality": 2,
+          "item_level": 146
         },
         {
           "slot": 9,
           "id": 31180,
           "name": "Gauntlets of the Skullsplitter",
-          "quality": 3
+          "quality": 3,
+          "item_level": 97
         },
         {
           "slot": 10,
           "id": 36419,
           "name": "Glass Ring",
-          "quality": 2
+          "quality": 2,
+          "item_level": 138
         },
         {
           "slot": 11,
           "id": 36421,
           "name": "Devotional Band",
-          "quality": 2
+          "quality": 2,
+          "item_level": 146
         },
         {
           "slot": 12,
           "id": 36871,
           "name": "Fury of the Encroaching Storm",
-          "quality": 3
+          "quality": 3,
+          "item_level": 138
         },
         {
           "slot": 13,
           "id": 38259,
           "name": "First Mate's Pocketwatch",
-          "quality": 3
+          "quality": 3,
+          "item_level": 138
         },
         {
           "slot": 14,
           "id": 37566,
           "name": "Durable Worghide Cape",
-          "quality": 2
+          "quality": 2,
+          "item_level": 138
         },
         {
           "slot": 15,
           "id": 35812,
           "name": "Cragthumper",
-          "quality": 2
+          "quality": 2,
+          "item_level": 138
         },
         {
           "slot": 17,
           "id": 28065,
           "name": "Libram of Wracking",
-          "quality": 2
+          "quality": 2,
+          "item_level": 93
         }
       ],
       "talents": {
