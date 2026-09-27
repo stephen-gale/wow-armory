@@ -201,18 +201,39 @@ const COLLECTION_CATEGORIES = [
   { key: "titles", file: "assets/data/collections/titles.json", label: "Titles" },
 ];
 
-// Achievements-with-icons is a deliberate, narrow rollout, not "every
-// achievement" - real per-achievement icon data exists for ~1730 of 1817
-// achievements (assets/data/achievement_icons.json, see
-// scripts/generate-achievement-icons.py), but showing an icon next to
-// every single achievement across all ~15 categories is a much bigger
-// visual change than confirming the idea works at all. First Aid (172)
-// was the test case, then Cooking (170) and Fishing (171) - the only
-// other two categories under Blizzard's own "Professions" achievement
-// category - once that held up. Expanding this list further is how any
-// future category gets added - each one a deliberate choice, not a
-// blanket enable.
-const ACHIEVEMENT_ICON_CATEGORIES = new Set([170, 171, 172]); // Cooking, Fishing, First Aid
+// Achievements-with-icons started as a deliberate, narrow rollout (First
+// Aid/Cooking/Fishing only, to confirm the idea worked before a bigger
+// visual change), then widened once that held up into every category
+// verified against real data rather than a blanket "every achievement"
+// enable. The rule applied uniformly: walk each of Blizzard's own
+// top-level categories that are genuinely completable achievements (not
+// live Statistics-pane counters like "Total Deaths"/"Gold looted"/"Largest
+// hit dealt", which structurally never have a completion date and were
+// checked by name, not guessed), include its full subtree, and cut a
+// subtree at any branch whose own coverage or naming shows it's a counter
+// too (Rated Arenas, PvP's "World" duels tally - both children of Player
+// vs. Player but shaped like the Statistics-pane counters, not real
+// achievements). Two extra non-descendant categories (147 "Reputation",
+// 191 "Gear") were added by hand after checking their own achievement
+// names read as real one-time milestones, not counters, despite living
+// under Blizzard's Statistics tree. Result: 1268 achievements in scope,
+// 1261 (99.4%) with a real icon in achievement_icons.json - the remaining
+// 0.6% (all in Gear) degrade to no icon the same graceful way every other
+// icon miss in this app already does.
+const ACHIEVEMENT_ICON_CATEGORIES = new Set([
+  170, 171, 172, // Cooking, Fishing, First Aid
+  81, // Feats of Strength
+  92, // General
+  95, 165, 14801, 14802, 14803, 14804, 14881, 14901, 15003, // Player vs. Player + Arena/battlegrounds
+  96, 14861, 14862, 14863, // Quests (+ Classic/TBC/WotLK quest lines)
+  97, 14777, 14778, 14779, 14780, // Exploration (+ Eastern Kingdoms/Kalimdor/Outland/Northrend)
+  155, 156, 158, 159, 160, 161, 162, 163, 187, 14941, 14981, // World Events + every holiday
+  168, 14805, 14806, 14808, 14921, 14922, 14923, 14961, 14962, 15001, 15002, 15041, 15042, // Dungeons & Raids + raid tiers
+  169, // Professions (the Journeyman/Expert/.../Grand Master meta achievements)
+  201, 14864, 14865, 14866, // Reputation (+ Classic/TBC/WotLK)
+  147, // Reputation milestones ("N Exalted Reputations", etc.) - Statistics tree, verified real
+  191, // Gear milestones ("Equipped epic items in item slots", etc.) - Statistics tree, verified real
+]);
 
 // The three Professions categories each get their own single profession
 // icon on every achievement in that category, rather than each

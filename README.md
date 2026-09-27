@@ -92,37 +92,55 @@ is fetched once and committed — no runtime dependency. The per-character
 completed achievement IDs; the dashboard resolves names/categories/points
 against this bundled data at render time.
 
-#### Achievement icons (the three Professions categories, for now)
+#### Achievement icons (verified categories, not a blanket enable)
 
-A deliberately narrow rollout, not a blanket one. `ACHIEVEMENT_ICON_CATEGORIES`
-in `app.js` is the allowlist (currently `170`/`171`/`172` — Cooking,
-Fishing, First Aid, the three categories under Blizzard's own
-"Professions" achievement category, and the only three that category
-has: the primary gathering/crafting professions never got their own
-achievement category in WotLK) — expanding to any other category is a
-deliberate per-category choice, not automatic.
+Started as a deliberately narrow rollout (Cooking/Fishing/First Aid only,
+to confirm the idea worked before a bigger visual change), then widened
+once that held up — but still a deliberate, checked expansion, not
+"every achievement gets an icon." `ACHIEVEMENT_ICON_CATEGORIES` in
+`app.js` is the allowlist, built by one consistent rule: walk each of
+Blizzard's own top-level categories that are genuinely completable
+achievements (Feats of Strength, General, Player vs. Player, Quests,
+Exploration, World Events, Dungeons & Raids, Professions, Reputation),
+include its full subtree, and exclude any branch that's actually a live
+Statistics-pane counter rather than a real achievement — checked by
+reading the achievement names themselves, not guessed. "Total Deaths",
+"Gold looted", "Largest hit dealt", "Duels won" and their kin never have
+a completion date; they're running tallies Blizzard's own UI shows in a
+separate Statistics pane, not the Achievements one, and were excluded
+whole categories at a time (Deaths and all its children, Travel, Combat,
+Wealth, Consumables, Creatures, Honorable Kills, Killing Blows, Secondary
+Skills, Rated Arenas, PvP's "World" duels tally) even where their own
+icon coverage happened to be high — coverage alone wasn't the bar, being
+a real one-time achievement was. Two exceptions were added by hand after
+individually checking their achievement names read as real milestones
+despite living under Blizzard's Statistics category tree: `147`
+("N Exalted Reputations", "Most Northrend factions at Exalted", etc.) and
+`191` ("Equipped epic items in item slots", etc.).
 
-Each of the three shows one fixed **profession icon** on every
-achievement in that category (`PROFESSION_ACHIEVEMENT_ICONS` in
-`app.js`), rather than a different icon per achievement — a skill line
-reads as belonging to that skill at a glance this way. All three came
-from a real reference screenshot of WotLK's own profession-selection icon
-grid, cross-checked against data already verified while testing the idea:
-each profession's own rank achievements (Journeyman/Expert/.../Grand
-Master) already shared one Blizzard-assigned icon per profession
+Net result: 1,268 achievements across 51 categories are in scope, and
+1,261 of them (99.4%) resolve to a real icon — the remaining 7 (all in
+category `191`, Gear) degrade to no icon, the same graceful fallback
+every other icon miss in this app already uses.
+
+Cooking/Fishing/First Aid keep their original special-case treatment: one
+fixed **profession icon** on every achievement in the category
+(`PROFESSION_ACHIEVEMENT_ICONS` in `app.js`) rather than each
+achievement's own varied icon, since a skill line reads as belonging to
+that skill at a glance this way. Verified against a real reference
+screenshot of WotLK's own profession-selection icon grid, cross-checked
+against each profession's own rank achievements (Journeyman/Expert/.../
+Grand Master) already sharing one Blizzard-assigned icon
 (`INV_Misc_Food_15` for Cooking, `Trade_Fishing` for Fishing,
-`Spell_Holy_SealOfSacrifice` for First Aid — not the bandage icon a guess
-would've reached for), and all three matched the reference screenshot
-exactly, confirming they're the profession's real, canonical icon rather
-than one achievement's incidental one.
+`Spell_Holy_SealOfSacrifice` for First Aid). Every other category in the
+allowlist uses each achievement's own individual icon instead.
 
-Real, per-achievement icon data still exists for every achievement
+Real, per-achievement icon data exists for every achievement
 (`assets/data/achievement_icons.json`, `scripts/generate-achievement-icons.py`:
 `Achievement.IconID` joined against `SpellIcon_3.3.5_12340.csv`, the same
 CSV/join Mounts/Companions icons already use), resolving 1,730 of 1,817
-achievements — kept as the fallback for any future category added to
-`ACHIEVEMENT_ICON_CATEGORIES` that doesn't have a natural single
-representative icon the way a profession does.
+achievements overall — the source this whole feature (and any further
+category added to `ACHIEVEMENT_ICON_CATEGORIES`) draws from.
 
 ### Collections
 
@@ -525,7 +543,7 @@ Talents/Stats/Equipped Gear, a plain current-state snapshot: no
   a quill/inkwell — really is the right file, after an earlier, partial
   screenshot had made it look like a mismatch); Cooking/Fishing/First
   Aid's results additionally matched what the Achievement icon path
-  (see [Achievement icons](#achievement-icons-the-three-professions-categories-for-now))
+  (see [Achievement icons](#achievement-icons-verified-categories-not-a-blanket-enable))
   already found independently, cross-confirming the method.
 
 ### Equipped Gear
@@ -1683,22 +1701,22 @@ here directly as things ship or plans change.
   and 172/172 Companions resolving. Carries through to the Sort by: Date
   view too, where it doubles as an at-a-glance item-vs-achievement marker
   in the merged timeline — see [Icons](#icons) above.
-- **Achievement icons — the three Professions categories** — each shows
-  one fixed profession icon (`PROFESSION_ACHIEVEMENT_ICONS` in `app.js`)
-  on every achievement in that category, matched against a real reference
-  screenshot of WotLK's own profession-selection icon grid. Started as a
-  per-achievement rollout (real icon data for 1,730/1,817 achievements,
-  `Achievement.IconID` joined against `SpellIcon_3.3.5_12340.csv`,
-  verified sound via Cooking's/Fishing's own rank-achievement lines before
-  trusting First Aid's own less-obvious result) before switching to one
-  icon per profession for a cleaner, more consistent read — that
-  per-achievement data is kept as the fallback for any future category
-  without a natural single representative icon. `ACHIEVEMENT_ICON_CATEGORIES`
-  in `app.js` is the allowlist (Cooking/Fishing/First Aid, the only three
-  under Blizzard's own "Professions" achievement category); expanding to
-  any other category is still a deliberate per-category choice, not
-  automatic, see
-  [Achievement icons](#achievement-icons-the-three-professions-categories-for-now)
+- **Achievement icons — 51 categories, verified real** — Cooking/Fishing/
+  First Aid each show one fixed profession icon
+  (`PROFESSION_ACHIEVEMENT_ICONS` in `app.js`); every other category in
+  the allowlist shows each achievement's own individual icon, real data
+  from `assets/data/achievement_icons.json` (`Achievement.IconID` joined
+  against `SpellIcon_3.3.5_12340.csv`). `ACHIEVEMENT_ICON_CATEGORIES` in
+  `app.js` widened from the original 3-category test to every top-level
+  category that's a genuine completable achievement (Feats of Strength,
+  General, PvP, Quests, Exploration, World Events, Dungeons & Raids,
+  Professions, Reputation, plus their subtrees), with any branch that's
+  actually a live Statistics-pane counter ("Total Deaths", "Gold looted",
+  "Duels won", etc. — checked by name, not guessed) excluded whole
+  category at a time regardless of its own icon coverage. 1,268
+  achievements in scope, 99.4% with a real icon; expanding further is
+  still a deliberate, checked-by-name choice, not automatic — see
+  [Achievement icons](#achievement-icons-verified-categories-not-a-blanket-enable)
   above.
 - **Skills** — right after Stats: each known profession's name, icon,
   and current/max value. Filtered to the 14 real profession skill ids
