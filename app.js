@@ -504,7 +504,18 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     const items = entries
       .map((entry) => {
         const item = itemsById.get(entry.id);
-        return item && { ...item, earned_at: entry.earned_at, iconHtml: collectionItemIcon(cat.key, item, itemIcons) };
+        if (!item) return null;
+        // Sets' names come from intersecting common tokens across each
+        // piece's own name (see generate-collections-data.py's
+        // derive_set_name) - "of X" is a common result when pieces only
+        // share that suffix (e.g. "Boots of Wrath" + "Helm of Wrath"),
+        // which reads oddly right next to the item icon ("[icon] of
+        // Wrath"). Display-only: doesn't touch the underlying name, so a
+        // set literally named "of" (no space after, an edge case where
+        // even that was the only common token) is left alone rather than
+        // stripped to an empty string.
+        const name = cat.key === "sets" ? item.name.replace(/^of /, "") : item.name;
+        return { ...item, name, earned_at: entry.earned_at, iconHtml: collectionItemIcon(cat.key, item, itemIcons) };
       })
       .filter(Boolean);
     if (items.length === 0) continue;

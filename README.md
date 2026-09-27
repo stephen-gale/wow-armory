@@ -170,6 +170,14 @@ curated subset, spanning Classic through WotLK content.
   scratch, only added to. Each run unions its freshly-detected sets into
   whatever was already recorded in the previous `characters.json`, so
   swapping gear away later never removes it.
+- **Display name**: the stored name (e.g. "of Valor") is used as-is for
+  sorting, but a leading "of " is stripped client-side (`app.js`, the
+  Sets branch of the `collectionGroups` loop) before it's shown — reads
+  oddly sitting right next to the item icon ("[icon] of Valor"). Display
+  only: the 50 of 475 sets currently named this way just show "Valor" (and
+  sort under it too, since the strip happens before sorting); the one
+  edge case where token-intersection produced literally just "of" (no
+  word after it) is left untouched rather than stripped to nothing.
 
 #### Mounts
 
