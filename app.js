@@ -955,18 +955,16 @@ function renderTalents(talents, className) {
 // SQL comment), but every profession has real "Learn <Profession>" trainer
 // spells literally named after it in the already-bundled Spell CSV - every
 // one of those spells for a given profession shares the same SpellIconID,
-// and resolving that id gave the exact real trade icon (verified against
-// a reference screenshot of the actual in-game profession list for 11 of
-// 14 - the other 3 aren't shown in that screenshot at all). Cooking/
-// Fishing/First Aid's own icons matched exactly what the achievement-icon
-// path already found independently, cross-confirming the method.
-// Inscription is the one profession deliberately left out: its "Learn
-// Inscription" spells all resolve to inv_inscription_tradeskill01 (a
-// quill/inkwell), but that doesn't match what the reference screenshot
-// actually shows for it (a reddish rune/glyph shape) - several other
-// glyph-shaped candidates were checked and none matched either, so this
-// stays unresolved rather than shipping a guess. Falls back to no icon,
-// same graceful degradation every other icon in this app already uses.
+// and resolving that id gave the exact real trade icon - verified against
+// a reference screenshot of the actual in-game profession list, exact
+// match on all 14. Cooking/Fishing/First Aid's own icons additionally
+// matched exactly what the achievement-icon path already found
+// independently, cross-confirming the method. Inscription's own "Learn
+// Inscription" spells resolved the same way to inv_inscription_tradeskill01;
+// an earlier, partial reference screenshot made that look like a mismatch
+// (a plain quill/inkwell rather than the reddish rune/glyph shape it
+// seemed to show), but a fuller screenshot confirmed inv_inscription_tradeskill01
+// really is correct, so it's used as originally resolved.
 const SKILL_ICONS = {
   129: "spell_holy_sealofsacrifice", // First Aid
   164: "trade_blacksmithing", // Blacksmithing
@@ -977,10 +975,11 @@ const SKILL_ICONS = {
   186: "trade_mining", // Mining
   197: "trade_tailoring", // Tailoring
   202: "trade_engineering", // Engineering
-  333: "trade_engraving", // Enchanting - not in the reference screenshot, unverified by picture
+  333: "trade_engraving", // Enchanting
   356: "trade_fishing", // Fishing
   393: "inv_misc_pelt_wolf_01", // Skinning
-  755: "inv_misc_gem_02", // Jewelcrafting - not in the reference screenshot, unverified by picture
+  755: "inv_misc_gem_02", // Jewelcrafting
+  773: "inv_inscription_tradeskill01", // Inscription
 };
 
 // Skills — professions only (see export-characters-json.sh/wowbackup.sh's
