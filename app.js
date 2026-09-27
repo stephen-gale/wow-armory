@@ -365,40 +365,40 @@ const emptyStateEl = document.getElementById("empty-state");
 const summaryBarEl = document.getElementById("summary-bar");
 const factionsEl = document.getElementById("factions");
 
-// Hide all/Show all button label reflects real state, not just "last
-// bulk action taken" - checked fresh against every achv-category card
-// in the panel (both Type and Date views at once, same as the button's
-// own click handler collapses/expands) each time anything could have
-// changed it, individual chevrons included (see toggleCategoryCollapse
-// below). A panel with no Hide all button (Stats-only panels have none,
-// since Stats itself isn't collapsible; the per-faction Heirlooms panel
-// has cards but no Sort row/button at all) is a no-op.
-// Scoped to whichever of Type/Date is currently active, not both views at
-// once - a user collapsing every card they can actually see should see
-// this flip to "Show all" regardless of what the *other*, not-currently-
-// shown view's cards happen to be doing; scoring against a view nobody's
-// looking at would leave this stuck on "Hide all" long after everything
+// Collapse/Expand button label reflects real state, not just "last bulk
+// action taken" - checked fresh against every achv-category card in
+// whichever view (Type or Date) is currently active, each time anything
+// could have changed it: the button's own click, an individual chevron
+// toggle (see toggleCategoryCollapse below), or switching Type/Date (see
+// the Sort radio's own change listener, which calls this again on
+// switch so the label stays in sync with whichever view just became
+// active). Scoped to the active view specifically, not both at once - a
+// user collapsing every card they can actually see should see this flip
+// to "Expand" regardless of what the *other*, not-currently-shown
+// view's cards happen to be doing; scoring against a view nobody's
+// looking at would leave this stuck on "Collapse" long after everything
 // visible is collapsed. Each view tracks its own collapsed state
-// independently, same as their content already is independent - see the
-// Sort radio's own change listener, which calls this again on switch so
-// the label stays in sync with whichever view just became active.
+// independently, same as their content already is independent. A panel
+// with no button at all (Stats-only panels have none, since Stats itself
+// isn't collapsible; the per-faction Heirlooms panel has cards but no
+// Sort row/button at all) is a no-op.
 function updateHideAllButton(panel) {
   const button = panel.querySelector(".hideall-toggle");
   if (!button) return;
   const activeView = panel.querySelector(".sort-view.is-active");
   if (!activeView) return;
   // A category with zero earned achievements (achv-category--all-unobtained)
-  // is invisible whenever Unobtained is off - never collapsed because it
-  // can't be clicked, so counting it toward "is everything collapsed"
-  // would keep this stuck on "Hide all" forever. Excluded only while it's
-  // actually invisible; once Unobtained reveals it, it counts like any
-  // other card.
+  // is invisible whenever "Show all" hasn't been clicked - never
+  // collapsed because it can't be clicked, so counting it toward "is
+  // everything collapsed" would keep this stuck on "Collapse" forever.
+  // Excluded only while it's actually invisible; once "Show all" reveals
+  // it, it counts like any other card.
   const showingUnobtained = panel.classList.contains("show-unobtained");
   const cards = [...activeView.querySelectorAll(".achv-category")].filter(
     (card) => showingUnobtained || !card.classList.contains("achv-category--all-unobtained")
   );
   const allCollapsed = cards.length > 0 && cards.every((card) => card.classList.contains("achv-category--collapsed"));
-  button.textContent = allCollapsed ? "Show all" : "Hide all";
+  button.textContent = allCollapsed ? "Expand" : "Collapse";
 }
 
 // Chevron collapse/expand for achv-category subheadings - Type view's
@@ -416,9 +416,9 @@ function toggleCategoryCollapse(heading) {
   if (!card) return;
   const collapsed = card.classList.toggle("achv-category--collapsed");
   heading.setAttribute("aria-expanded", String(!collapsed));
-  // Keep the panel's own Hide all/Show all button (if any) in sync with
+  // Keep the panel's own Collapse/Expand button (if any) in sync with
   // whatever this individual toggle just did - collapsing the last open
-  // card should flip it to "Show all" exactly as if Hide all itself had
+  // card should flip it to "Expand" exactly as if Collapse itself had
   // been clicked, and expanding any one card once everything was
   // collapsed should flip it back.
   const panel = card.closest(".char-achievements");
@@ -811,11 +811,8 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, achievement
           <label class="sort-toggle__label" for="${toggleName}-date">Date</label>
         </div>
         <div class="sort-row__toggles">
-          <label class="panel-toggle unobtained-toggle" for="unobtained-${c.guid}">
-            <input type="checkbox" id="unobtained-${c.guid}">
-            Unobtained
-          </label>
-          <button type="button" class="panel-toggle hideall-toggle">Hide all</button>
+          <button type="button" class="panel-toggle unobtained-toggle">Show all</button>
+          <button type="button" class="panel-toggle hideall-toggle">Collapse</button>
         </div>
       </div>
       <div class="sort-view is-active" data-view="type">${typeViewHtml}</div>
@@ -862,26 +859,30 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, achievement
     radio.addEventListener("change", () => {
       const which = radio.id.endsWith("-date") ? "date" : "type";
       views.forEach((view) => view.classList.toggle("is-active", view.dataset.view === which));
-      // Unobtained only ever affects the Type view (see the checkbox's own
+      // Unobtained only ever affects the Type view (see the button's own
       // wiring below) - hide the control itself while Date is active
-      // rather than leave a checkbox visible that does nothing right now.
+      // rather than leave a button visible that does nothing right now.
       li.classList.toggle("date-view-active", which === "date");
-      // Hide all/Show all tracks whichever view is now active (see
+      // Collapse/Expand tracks whichever view is now active (see
       // updateHideAllButton) - the view just switched away from may be
       // left in a different collapsed state than the one just switched
-      // to, so the label needs recomputing here, not just after Hide
-      // all's own click or an individual chevron toggle.
+      // to, so the label needs recomputing here, not just after that
+      // button's own click or an individual chevron toggle.
       updateHideAllButton(li);
     });
   }
 
-  // Off by default (celebrating what's earned stays the default view,
-  // same as Collections) - CSS (`.show-unobtained`, see style.css) does
-  // the actual reveal, so toggling this never re-renders the panel.
-  const unobtainedCheckbox = li.querySelector(".unobtained-toggle input");
-  if (unobtainedCheckbox) {
-    unobtainedCheckbox.addEventListener("change", () => {
-      li.classList.toggle("show-unobtained", unobtainedCheckbox.checked);
+  // Starts on "Show all" - celebrating what's earned (only mine) stays
+  // the default view, matching Collections' own tenet - and flips to
+  // "Only mine" once clicked. The label is the action clicking performs,
+  // not the current state, same convention Collapse/Expand below uses.
+  // CSS (`.show-unobtained`, see style.css) does the actual reveal, so
+  // clicking this never re-renders the panel.
+  const unobtainedButton = li.querySelector(".unobtained-toggle");
+  if (unobtainedButton) {
+    unobtainedButton.addEventListener("click", () => {
+      const showingUnobtained = li.classList.toggle("show-unobtained");
+      unobtainedButton.textContent = showingUnobtained ? "Only mine" : "Show all";
     });
   }
 
@@ -890,19 +891,20 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, achievement
   // only in whichever view is currently active (see updateHideAllButton
   // for why: the label needs to mean "is everything you can actually see
   // collapsed", and scoring that against a hidden view nobody's looking
-  // at would make it lie). Unlike Unobtained, this control itself stays
-  // visible and useful in both views - Date view's month cards can get
-  // just as long as Type view's categories - it just tracks/acts on each
-  // view independently, the same way their content already is
-  // independent. Label reflects real state rather than which direction
-  // it was last clicked, so it stays correct even after an individual
-  // chevron toggle changes whether everything happens to be collapsed.
+  // at would make it lie). Unlike "Show all"/"Only mine", this control
+  // itself stays visible and useful in both views - Date view's month
+  // cards can get just as long as Type view's categories - it just
+  // tracks/acts on each view independently, the same way their content
+  // already is independent. Label reflects real state rather than which
+  // direction it was last clicked, so it stays correct even after an
+  // individual chevron toggle changes whether everything happens to be
+  // collapsed.
   const hideAllButton = li.querySelector(".hideall-toggle");
   if (hideAllButton) {
     hideAllButton.addEventListener("click", () => {
       const activeView = li.querySelector(".sort-view.is-active");
       if (!activeView) return;
-      const collapse = hideAllButton.textContent.trim() !== "Show all";
+      const collapse = hideAllButton.textContent.trim() !== "Expand";
       for (const card of activeView.querySelectorAll(".achv-category")) {
         card.classList.toggle("achv-category--collapsed", collapse);
         const heading = card.querySelector(".achv-category__name--collapsible");

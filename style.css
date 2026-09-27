@@ -393,8 +393,8 @@ main {
   margin-bottom: 0.4rem;
 }
 
-/* Row default is flex-start so the Unobtained checkbox (see below) lines
-   up with the top of the Type/Date pill rather than its vertical center -
+/* Row default is flex-start so the Show all/Only mine button (see below)
+   lines up with the top of the Type/Date pill rather than its vertical center -
    but "Sort" itself needs the opposite: centering it against the pill's
    own text (which sits lower than the pill's top edge, pushed down by
    .sort-toggle__label's own padding) reads better than top-aligning it
@@ -454,12 +454,12 @@ main {
 .sort-toggle__label:hover { color: var(--text); }
 .sort-toggle input:checked + .sort-toggle__label:hover { color: var(--gold); }
 
-/* Stacks Unobtained above Hide all (see .sort-row's HTML in app.js) as
-   one right-aligned unit - margin-left: auto lives here, not on either
-   individual .panel-toggle, so the pair moves as a block away from the
-   Type/Date pill rather than each fighting for the row's remaining
-   space independently. align-items: flex-end keeps both checkboxes'
-   right edges flush, matching the row's own right-alignment. */
+/* Stacks "Show all"/"Only mine" above Collapse/Expand (see .sort-row's
+   HTML in app.js) as one right-aligned unit - margin-left: auto lives
+   here, not on either individual .panel-toggle, so the pair moves as a
+   block away from the Type/Date pill rather than each fighting for the
+   row's remaining space independently. align-items: flex-end keeps both
+   buttons' right edges flush, matching the row's own right-alignment. */
 .sort-row__toggles {
   display: flex;
   flex-direction: column;
@@ -468,12 +468,11 @@ main {
   margin-left: auto;
 }
 
-/* Shared look for every small control in the sort row (Unobtained's
-   checkbox+label, Hide all's plain button) - not a sort-toggle pill,
-   since neither is a mutually-exclusive alternative to Type/Date the way
-   those two are. border/background/padding/font resets are only for
-   Hide all's <button> - a <label> never had browser default chrome to
-   begin with, so they're no-ops there. */
+/* Shared look for both small buttons in the sort row ("Show all"/"Only
+   mine", Collapse/Expand) - not a sort-toggle pill, since neither is a
+   mutually-exclusive alternative to Type/Date the way those two are.
+   border/background/padding/font resets undo the browser's default
+   <button> chrome. */
 .panel-toggle {
   display: inline-flex;
   align-items: center;
@@ -493,27 +492,21 @@ main {
 
 .panel-toggle:hover { color: var(--text); }
 
-.panel-toggle input {
-  width: 13px;
-  height: 13px;
-  accent-color: var(--gold);
-  cursor: pointer;
-}
-
-/* Show unobtained: an independent on/off layered on top of the Type view
-   only (see .achv-list__item--unobtained below - Date never has
-   unobtained entries to begin with, no special-casing needed there). Off
-   by default: celebrating what's earned stays the default view, matching
-   Collections' own "nothing here ever counts what a character doesn't
-   have" tenet - this is an opt-in exception to that, not a replacement
-   for it. */
+/* "Show all"/"Only mine": reveals unobtained achievements, layered on top
+   of the Type view only (see .achv-list__item--unobtained below - Date
+   never has unobtained entries to begin with, no special-casing needed
+   there). Starts on "Show all": celebrating what's earned (only mine)
+   stays the default view, matching Collections' own "nothing here ever
+   counts what a character doesn't have" tenet - clicking through to
+   "Only mine"'s counterpart state is an opt-in exception to that, not a
+   replacement for it. */
 
 /* Only meaningful in the Type view (see the comment above) - hidden
    rather than just inert while Date is active, so there's nothing
-   visible that looks interactive but currently does nothing. Hide all
-   (its sibling in .sort-row__toggles) stays visible in both views -
-   unlike Unobtained, collapsing cards is just as useful for Date view's
-   month cards. */
+   visible that looks interactive but currently does nothing.
+   Collapse/Expand (its sibling in .sort-row__toggles) stays visible in
+   both views - unlike this one, collapsing cards is just as useful for
+   Date view's month cards. */
 .date-view-active .unobtained-toggle {
   display: none;
 }

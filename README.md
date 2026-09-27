@@ -167,28 +167,32 @@ category added to `ACHIEVEMENT_ICON_CATEGORIES`) draws from.
 
 #### Unobtained achievements (opt-in, off by default)
 
-An **Unobtained** checkbox next to the Sort by Type/Date toggle, top-aligned
-with it and pushed to the row's far right edge, off
-by default — checking it reveals every not-yet-earned achievement in the
+A **Show all** / **Only mine** button next to the Sort by Type/Date
+toggle, top-aligned with it and pushed to the row's far right edge —
+starts on "Show all" (the action clicking performs, not the current
+state — the panel starts out showing only mine, i.e. earned, achievements),
+and clicking it reveals every not-yet-earned achievement in the
 Achievements list, greyscale and dimmed rather than hidden, interleaved
-alphabetically alongside the real earned ones in the same category card.
+alphabetically alongside the real earned ones in the same category card,
+while the button itself flips to "Only mine" (click again to go back).
 Each category's count badge switches from `(earned)` to
 `(earned/total)` at the same time (e.g. `Quests (5)` becomes
-`Quests (5/30)` once checked). A category with zero earned achievements
+`Quests (5/30)` once clicked). A category with zero earned achievements
 so far — invisible by default, the same as an empty Collections category
-— appears too once checked, fully dimmed, e.g. `World Events (0/45)`.
+— appears too once revealed, fully dimmed, e.g. `World Events (0/45)`.
 
 This is a deliberate, opt-in exception to Collections' own "celebrate
 accomplishments, not the unobtained" tenet (see [Collections](#collections)
-below) rather than a quiet reversal of it: off by default keeps that the
-real default experience everywhere in the app, Collections included
-(this checkbox has no effect there — Collections categories never carry
-a `total` at all, so they keep their single `(n)` count and never reveal
-an empty category, checkbox or not). Scoped to the exact same
-verified-real category allowlist `ACHIEVEMENT_ICON_CATEGORIES` already
-uses for icons (see above) — a Statistics-pane counter like "Total
-Deaths" never really "unlocks", so it's never offered as something to
-chase, same reasoning that already excludes it from icons.
+below) rather than a quiet reversal of it: starting on "Show all" (i.e.
+showing only earned achievements) keeps that the real default experience
+everywhere in the app, Collections included (this button has no effect
+there — Collections categories never carry a `total` at all, so they
+keep their single `(n)` count and never reveal an empty category, either
+way). Scoped to the exact same verified-real category allowlist
+`ACHIEVEMENT_ICON_CATEGORIES` already uses for icons (see above) — a
+Statistics-pane counter like "Total Deaths" never really "unlocks", so
+it's never offered as something to chase, same reasoning that already
+excludes it from icons.
 
 - **No new data or icons needed**: `assets/data/achievements.json`
   already carries the full ~1,817-achievement catalog client-side, not
@@ -200,16 +204,16 @@ chase, same reasoning that already excludes it from icons.
 - **Never touches the Date view**: unobtained achievements have no
   `earned_at`, so they're built entirely separately from the array that
   feeds [Sort by Type/Date](#collections)'s Date view — not filtered out
-  there, structurally never even reach it. The checkbox itself is hidden
+  there, structurally never even reach it. The button itself is hidden
   (not just inert) while Date is selected, so there's nothing visible
   that looks interactive but currently has no effect — it reappears the
   moment Type is selected again, in whatever state it was left in.
-- **No re-render on toggle**: both states (earned-only counts/cards, and
+- **No re-render on click**: both states (earned-only counts/cards, and
   the full earned-plus-unobtained versions) render into the DOM
-  up front; checking the box just toggles a `show-unobtained` class that
-  CSS uses to reveal the rest — the same "precompute both, let CSS pick"
-  approach the Type/Date toggle itself already uses, rather than
-  re-rendering the panel.
+  up front; clicking the button just toggles a `show-unobtained` class
+  that CSS uses to reveal the rest and updates the button's own label —
+  the same "precompute both, let CSS pick" approach the Type/Date toggle
+  itself already uses, rather than re-rendering the panel.
 
 #### Collapsible categories and months
 
@@ -238,22 +242,22 @@ accessible (`Enter`/`Space`, `tabindex="0"`, `aria-expanded`), same as
 the roster's own character-row expand/collapse toggle whose caret icon
 this reuses.
 
-A **Hide all** button stacked under Unobtained (same right-aligned,
-top-aligned-with-the-toggle treatment) collapses every category/month
-card in whichever view — Type or Date — is currently active, and its own
-label reflects real state: once every card in that view is collapsed, it
-becomes **Show all**, which expands them again. Scoped to the active
-view specifically, not both at once — the label means "is everything
-you can currently see collapsed", and checking that against a view
-nobody's looking at would leave it stuck on "Hide all" long after
-everything visible actually is. Each view tracks its own collapsed state
-independently (the same way their content already is independent):
-switching from Type to Date re-checks and relabels the button for
-whatever state Date's own cards happen to be in, which may differ from
-Type's. The label also updates after any individual chevron toggle, not
-just its own clicks — collapsing the last open card by hand flips it to
-"Show all" exactly as if the button itself had been clicked, and
-expanding any one card once everything was collapsed flips it back.
+A **Collapse** button stacked under Show all/Only mine (same
+right-aligned, top-aligned-with-the-toggle treatment) collapses every
+category/month card in whichever view — Type or Date — is currently
+active, and its own label reflects real state: once every card in that
+view is collapsed, it becomes **Expand**, which expands them again.
+Scoped to the active view specifically, not both at once — the label
+means "is everything you can currently see collapsed", and checking that
+against a view nobody's looking at would leave it stuck on "Collapse"
+long after everything visible actually is. Each view tracks its own
+collapsed state independently (the same way their content already is
+independent): switching from Type to Date re-checks and relabels the
+button for whatever state Date's own cards happen to be in, which may
+differ from Type's. The label also updates after any individual chevron
+toggle, not just its own clicks — collapsing the last open card by hand
+flips it to "Expand" exactly as if the button itself had been clicked,
+and expanding any one card once everything was collapsed flips it back.
 
 ### Collections
 
@@ -1846,18 +1850,19 @@ here directly as things ship or plans change.
   but each profession's own "Learn `<Profession>`" spells (already
   bundled) share one icon, verified against a real screenshot of the
   actual in-game profession list for all 14 — see [Skills](#skills) above.
-- **Unobtained achievements (opt-in)** — an "Unobtained" checkbox next
-  to Sort by Type/Date, top-aligned with it and pushed to the row's far
-  right, off by default, that reveals every not-yet-earned
+- **Unobtained achievements (opt-in)** — a "Show all" / "Only mine"
+  button next to Sort by Type/Date, top-aligned with it and pushed to the
+  row's far right, starting on "Show all" (only mine - earned achievements
+  only - is the default view), that reveals every not-yet-earned
   achievement dimmed/greyscale, interleaved with the real earned ones,
   with each category's count switching from `(earned)` to
   `(earned/total)`. Scoped to the same verified-real category allowlist
   icons already use; no new data, DB query, or icon fetch needed —
   computed entirely client-side from the achievement catalog this app
-  already bundles. Deliberately off by default, an opt-in exception to
-  (not a reversal of) Collections' own "celebrate accomplishments, not
-  the unobtained" tenet, which this checkbox never touches — see
-  [Unobtained achievements](#unobtained-achievements-opt-in-off-by-default)
+  already bundles. Deliberately starts on the earned-only view, an
+  opt-in exception to (not a reversal of) Collections' own "celebrate
+  accomplishments, not the unobtained" tenet, which this button never
+  touches — see [Unobtained achievements](#unobtained-achievements-opt-in-off-by-default)
   above.
 - **Collapsible categories and months** — a chevron on every Type view
   category card and Date view month card. Tap/click the heading to
@@ -1868,18 +1873,18 @@ here directly as things ship or plans change.
   plain, non-collapsible heading and stay always visible — see
   [Collapsible categories and months](#collapsible-categories-and-months)
   above.
-- **Hide all / Show all** — a button stacked under Unobtained that
+- **Collapse / Expand** — a button stacked under Show all/Only mine that
   collapses every category/month card in whichever view (Type or Date)
-  is currently active, relabeling itself to Show all once that view is
+  is currently active, relabeling itself to Expand once that view is
   fully collapsed. Scoped to the active view, not both at once, and its
   label reflects real state rather than which direction it was last
   clicked — recomputed on every individual chevron toggle and on
   switching Type/Date, not just its own clicks — see [Collapsible
   categories and months](#collapsible-categories-and-months) above.
-- **Unobtained hidden outside Type view** — the checkbox only ever affects
-  the Type view, so it's hidden (not just inert) while Date is selected,
-  reappearing in whatever state it was left in once Type is selected
-  again — see [Unobtained achievements](#unobtained-achievements-opt-in-off-by-default)
+- **Show all/Only mine hidden outside Type view** — the button only ever
+  affects the Type view, so it's hidden (not just inert) while Date is
+  selected, reappearing in whatever state it was left in once Type is
+  selected again — see [Unobtained achievements](#unobtained-achievements-opt-in-off-by-default)
   above.
 - **Auto-hiding header** — fixed to the viewport instead of scrolling
   away; scrolling down hides it, scrolling up reveals it immediately from
