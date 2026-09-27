@@ -67,10 +67,21 @@ panel — a character with no `zone_id` (a stale `characters.json`) or an
 id the bundled file doesn't recognize just shows no line, same graceful
 fallback as everything else in this app.
 
-### Achievement & Collections detail (tap a character)
+### Character panel (tap a character)
 
-Tapping/clicking a character row expands a panel with two separate,
-clearly-labeled systems:
+Tapping/clicking a character row expands a panel built from eight
+independent modules, in this fixed order — **Talents, Equipped Gear,
+Stats, Skills, Collections/Achievements, PvP, Quests, Exalted
+Factions** — plus a trailing **Last logged in** fact after all of them.
+Each module is shown only when the character actually has data for
+it, so a fresh alt with nothing recorded yet just shows fewer modules,
+not empty placeholders. Every module gets its own section further down
+this README ([Stats](#stats), [Talents](#talents), [Skills](#skills),
+[Equipped Gear](#equipped-gear), [PvP](#pvp), [Quests](#quests),
+[Exalted Factions](#exalted-factions), [Last logged in](#last-logged-in)).
+
+Collections/Achievements is really **two separate, clearly-labeled
+systems** sharing one module and one Sort by Type/Date toggle:
 
 - **Achievements** — the character's real completed Blizzard achievements,
   grouped by category exactly as Blizzard's own category tree has them, no
@@ -356,8 +367,9 @@ section — see [Titles](#titles) below.
 
 ### Stats
 
-A separate feature from Collections, sitting above every other module in
-each character's panel (the character's own request). A full
+A separate feature from Collections, the third of the panel's eight
+modules — after Talents and Equipped Gear (see [Character
+panel](#character-panel-tap-a-character) above for the full order). A full
 `character_stats` snapshot, grouped into three cards styled identically
 to a Collections/Achievements category (`.achv-category`) — same shape of
 data, a labelled group of lines, just a different source. Like Equipped
@@ -460,9 +472,9 @@ saved, not a bug.
 
 ### Talents
 
-Sits right after Stats — a character's current talent point spread,
-one column per tree, each centered on its tree icon with the tree name
-and point total underneath. Like Stats and Equipped Gear, it's a plain
+The first of the panel's eight modules — a character's current talent
+point spread, one column per tree, each centered on its tree icon with
+the tree name and point total underneath. Like Stats and Equipped Gear, it's a plain
 current-state snapshot: no `earned_at`, not part of the Sort by: Date
 view.
 
@@ -548,8 +560,10 @@ Talents/Stats/Equipped Gear, a plain current-state snapshot: no
 
 ### Equipped Gear
 
-A separate feature from Collections, sitting above it in each character's
-panel: the character's full current loadout, slot by slot, with a real
+A separate feature from Collections — the second of the panel's eight
+modules, right after Talents and ahead of Stats/Skills/Collections (see
+[Character panel](#character-panel-tap-a-character) above) — the
+character's full current loadout, slot by slot, with a real
 item icon next to each piece. Unlike every Collections category, this is
 **not sticky** — it's a plain point-in-time snapshot of
 `character_inventory`, fully replaced every run, since "what you're
@@ -623,7 +637,7 @@ reason.
 ### PvP
 
 Not a top-level stat yet — per character only, for now. The expanded
-panel is seven independent modules (Talents, Equipped, Stats,
+panel is eight independent modules (Talents, Equipped, Stats, Skills,
 Collections/Achievements, PvP, Quests, Exalted Factions), each shown
 only when it has something to show; PvP is a peer of the others, not nested inside
 Achievements or gated by its Type/Date toggle (no `earned_at`, so no
@@ -719,7 +733,7 @@ moment to record and no place in the Sort by Type/Date toggle.
 The very last thing in the whole panel, after every other module (the
 character's own request) — `characters.logout_time`, converted through
 the same `iso()` unix-timestamp helper every other date field in this
-app already uses. Not one of the seven modules — a single trailing fact
+app already uses. Not one of the eight modules — a single trailing fact
 with nowhere else established for it, so it's plain, not gated by the
 Sort toggle, and always pushed after whichever modules a given character
 actually has, rather than sitting at a fixed position within one of
@@ -1624,8 +1638,9 @@ here directly as things ship or plans change.
   `item_template.ItemLevel` across equipped gear, excluding the
   stat-less Shirt/Tabard slots (same exclusion the real character pane
   uses) — see [Equipped Gear](#equipped-gear) above.
-- **PvP module** — an independent third module (peer of Equipped and
-  Collections/Achievements), not gated by the Sort toggle. Honor Points'
+- **PvP module** — an independent module, peer of the panel's other
+  seven (see [Character panel](#character-panel-tap-a-character) above
+  for the current full order), not gated by the Sort toggle. Honor Points'
   data shape already matches the fields that roll up into faction/account
   totals, so that rollup is a one-line change whenever it's wanted. Its
   icon is faction-specific (Alliance lion crest / Horde crest), verified
@@ -1641,7 +1656,7 @@ here directly as things ship or plans change.
   against a bundled achievement-id → title-name map, so every entry
   always carries a real date, unlike the sticky-guess fallback the other
   six Collections categories need.
-- **Stats** — the new top module, ahead of Equipped. A full
+- **Stats** — the third module, after Talents and Equipped Gear. A full
   `character_stats` snapshot (minus the 7 `maxpower*` columns, dropped
   per the character's own steer), grouped into Attributes/Defense/Combat
   cards styled identically to a Collections/Achievements category. Resil
@@ -1660,7 +1675,7 @@ here directly as things ship or plans change.
   every AzerothCore server (`PlayerSave.Stats.MinLevel = 0` in
   `worldserver.conf`), confirmed straight from AzerothCore's own source
   and default config.
-- **Talents** — right after Stats. One column per talent tree, each
+- **Talents** — the first module, ahead of Equipped Gear and Stats. One column per talent tree, each
   centered on its icon with the tree name and point total underneath.
   Points are summed server-side from `character_talent`, for the
   character's currently active spec only — dual-spec's inactive spec is
