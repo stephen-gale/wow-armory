@@ -208,6 +208,7 @@ EQUIPPED_TMP="$(mktemp)"
 KNOWN_SPELLS_TMP="$(mktemp)"
 TALENTS_TMP="$(mktemp)"
 REPUTATION_TMP="$(mktemp)"
+SKILLS_TMP="$(mktemp)"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT ca.guid, ca.achievement, ca.date
   FROM acore_characters.character_achievement ca
@@ -267,6 +268,23 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   JOIN acore_auth.account a ON a.id = c.account
   WHERE a.username NOT LIKE 'RNDBOT%';
 " > "$REPUTATION_TMP"
+# Skills: the 14 real profession skill ids (11 primary + Cooking/Fishing/
+# First Aid), confirmed straight from AzerothCore's own SharedDefines.h
+# SKILL_* enum, not guessed - character_skills also holds every weapon/
+# armor/language skill a character has, which nobody wants surfaced here.
+# Names are joined live against acore_world.skillline_dbc (client-build-
+# locked reference data, ships pre-populated on any normal AzerothCore
+# install) rather than a bundled file - same "live join" reasoning
+# Equipped Gear's item names already use.
+mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
+  SELECT cs.guid, cs.skill, sl.DisplayName_Lang_enUS, cs.value, cs.max
+  FROM acore_characters.character_skills cs
+  JOIN acore_characters.characters c ON c.guid = cs.guid
+  JOIN acore_auth.account a ON a.id = c.account
+  JOIN acore_world.skillline_dbc sl ON sl.ID = cs.skill
+  WHERE cs.skill IN (129,164,165,171,182,185,186,197,202,333,356,393,755,773)
+    AND a.username NOT LIKE 'RNDBOT%';
+" > "$SKILLS_TMP"
 # Quests: character_queststatus_rewarded holds one row per quest ever
 # turned in, but the server itself doesn't treat every row as currently
 # "completed" - its own CHAR_SEL_CHARACTER_QUESTSTATUSREW prepared
@@ -433,6 +451,23 @@ with open('$REPUTATION_TMP') as f:
             continue
         guid, faction_id, standing = line.split('\t')
         reputation_by_guid[int(guid)].append((int(faction_id), int(standing)))
+
+# Profession skills only (see the SQL comment above for the verified skill
+# id list) - name already resolved live against skillline_dbc by the SQL
+# itself, so this is just grouping by guid.
+skills_by_guid = defaultdict(list)
+with open('$SKILLS_TMP') as f:
+    for line in f:
+        line = line.rstrip('\n')
+        if not line:
+            continue
+        guid, skill_id, name, value, max_value = line.split('\t')
+        skills_by_guid[int(guid)].append({
+            'id': int(skill_id),
+            'name': name,
+            'value': int(value),
+            'max': int(max_value),
+        })
 
 EXALTED_THRESHOLD = 42000
 
@@ -653,6 +688,7 @@ for line in sys.stdin:
         'collections': collections,
         'equipped_gear': sorted(equipped_gear_by_guid.get(guid, []), key=lambda g: g['slot']),
         'talents': dict(talent_points),
+        'skills': sorted(skills_by_guid.get(guid, []), key=lambda s: s['name']),
     })
 
 with open('$BACKUP_DIR/characters.json', 'w') as f:
@@ -664,7 +700,7 @@ with open('$REPO_DATA_DIR/characters.json', 'w') as f:
 
 print(f'  characters.json: wrote {len(characters)} characters')
 " || { echo "Failed: characters.json export"; exit 1; }
-rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$TALENTS_TMP"
+rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$TALENTS_TMP" "$REPUTATION_TMP" "$SKILLS_TMP"
 
 echo "  Publishing characters.json to GitHub..."
 (

@@ -486,6 +486,41 @@ view.
   ALL CAPS rather than the mirror's usual TitleCase, so the normal
   TitleCase request 404'd until that was found.
 
+### Skills
+
+Sits right after Talents — each of the character's known profession
+skills, name and current/max value (e.g. `Cooking: 375/450`). Like
+Talents/Stats/Equipped Gear, a plain current-state snapshot: no
+`earned_at`, not part of the Sort by: Date view.
+
+- **Data source**: `character_skills` (guid, skill, value, max) — a new
+  query, same pattern as every other per-character table this app pulls.
+- **Professions only, not every skill**: `character_skills` holds every
+  skill a character has — weapon skills, Defense, language skills, not
+  just professions — which would be noisy and mostly uninteresting here.
+  Filtered to the 14 real profession skill ids (the 11 primary
+  professions plus Cooking/Fishing/First Aid), confirmed straight from
+  AzerothCore's own `SharedDefines.h` `SKILL_*` enum (`src/server/shared/
+  SharedDefines.h`) rather than guessed from general WoW knowledge.
+- **Names, resolved live, not bundled**: unlike every DBC-derived
+  reference file elsewhere in this app (`item_icons.json`,
+  `spell_icons.json`, `achievements.json`, etc.), skill names don't need
+  a bundled file or a DBC extraction step at all. AzerothCore ships a
+  `skillline_dbc` table pre-populated directly in `acore_world` on any
+  normal install — standard client-build-locked content, not anything
+  specific to this server — so the export scripts join it live
+  (`JOIN acore_world.skillline_dbc sl ON sl.ID = cs.skill`), the same
+  "live join, simplest and most accurate source" reasoning Equipped
+  Gear's item names already use.
+- **No icons yet**: `skillline_dbc` does carry a `SpellIconID` per skill,
+  but AzerothCore's world DB has no `spellicon_dbc` table to resolve that
+  against (checked the full list of `_dbc` tables it ships — icon
+  resolution just isn't something the server itself needs, so it was
+  never loaded in). A real per-skill icon would need the actual
+  `skillline_dbc` row data from a DBC extraction (same kind of one-time
+  pull Zone/Exalted Factions needed), not yet done — tracked in the
+  Backlog rather than guessed at.
+
 ### Equipped Gear
 
 A separate feature from Collections, sitting above it in each character's
@@ -781,7 +816,11 @@ dated the same way.
         {"slot": 0, "id": 22418, "name": "Dreadnaught Helmet", "quality": 4, "item_level": 88},
         {"slot": 15, "id": 19019, "name": "Thunderfury, Blessed Blade of the Windseeker", "quality": 5, "item_level": 80}
       ],
-      "talents": {"161": 51, "164": 5, "163": 15}
+      "talents": {"161": 51, "164": 5, "163": 15},
+      "skills": [
+        {"id": 202, "name": "Engineering", "value": 450, "max": 450},
+        {"id": 186, "name": "Mining", "value": 450, "max": 450}
+      ]
     }
   ]
 }
@@ -832,6 +871,10 @@ through (each column `COALESCE`d to 0) — see [Stats](#stats) above.
 `talents` is `{tab_id: points}` for the character's currently active
 spec only, computed server-side from `character_talent` — see
 [Talents](#talents) above.
+
+`skills` is the character's known profession skills only (not every
+skill), `id`/`name`/`value`/`max` per entry, `name` resolved live against
+`acore_world.skillline_dbc` — see [Skills](#skills) above.
 
 `quests_completed` is a `character_queststatus_rewarded` row count
 (`WHERE active = 1`) — see [Quests](#quests) above.
@@ -975,6 +1018,7 @@ EQUIPPED_TMP="$(mktemp)"
 KNOWN_SPELLS_TMP="$(mktemp)"
 TALENTS_TMP="$(mktemp)"
 REPUTATION_TMP="$(mktemp)"
+SKILLS_TMP="$(mktemp)"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT ca.guid, ca.achievement, ca.date
   FROM acore_characters.character_achievement ca
@@ -1034,6 +1078,23 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   JOIN acore_auth.account a ON a.id = c.account
   WHERE a.username NOT LIKE 'RNDBOT%';
 " > "$REPUTATION_TMP"
+# Skills: the 14 real profession skill ids (11 primary + Cooking/Fishing/
+# First Aid), confirmed straight from AzerothCore's own SharedDefines.h
+# SKILL_* enum, not guessed - character_skills also holds every weapon/
+# armor/language skill a character has, which nobody wants surfaced here.
+# Names are joined live against acore_world.skillline_dbc (client-build-
+# locked reference data, ships pre-populated on any normal AzerothCore
+# install) rather than a bundled file - same "live join" reasoning
+# Equipped Gear's item names already use.
+mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
+  SELECT cs.guid, cs.skill, sl.DisplayName_Lang_enUS, cs.value, cs.max
+  FROM acore_characters.character_skills cs
+  JOIN acore_characters.characters c ON c.guid = cs.guid
+  JOIN acore_auth.account a ON a.id = c.account
+  JOIN acore_world.skillline_dbc sl ON sl.ID = cs.skill
+  WHERE cs.skill IN (129,164,165,171,182,185,186,197,202,333,356,393,755,773)
+    AND a.username NOT LIKE 'RNDBOT%';
+" > "$SKILLS_TMP"
 # Quests: character_queststatus_rewarded holds one row per quest ever
 # turned in, but the server itself doesn't treat every row as currently
 # "completed" - its own CHAR_SEL_CHARACTER_QUESTSTATUSREW prepared
@@ -1200,6 +1261,23 @@ with open('$REPUTATION_TMP') as f:
             continue
         guid, faction_id, standing = line.split('\t')
         reputation_by_guid[int(guid)].append((int(faction_id), int(standing)))
+
+# Profession skills only (see the SQL comment above for the verified skill
+# id list) - name already resolved live against skillline_dbc by the SQL
+# itself, so this is just grouping by guid.
+skills_by_guid = defaultdict(list)
+with open('$SKILLS_TMP') as f:
+    for line in f:
+        line = line.rstrip('\n')
+        if not line:
+            continue
+        guid, skill_id, name, value, max_value = line.split('\t')
+        skills_by_guid[int(guid)].append({
+            'id': int(skill_id),
+            'name': name,
+            'value': int(value),
+            'max': int(max_value),
+        })
 
 EXALTED_THRESHOLD = 42000
 
@@ -1420,6 +1498,7 @@ for line in sys.stdin:
         'collections': collections,
         'equipped_gear': sorted(equipped_gear_by_guid.get(guid, []), key=lambda g: g['slot']),
         'talents': dict(talent_points),
+        'skills': sorted(skills_by_guid.get(guid, []), key=lambda s: s['name']),
     })
 
 with open('$BACKUP_DIR/characters.json', 'w') as f:
@@ -1431,7 +1510,7 @@ with open('$REPO_DATA_DIR/characters.json', 'w') as f:
 
 print(f'  characters.json: wrote {len(characters)} characters')
 " || { echo "Failed: characters.json export"; exit 1; }
-rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$TALENTS_TMP"
+rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$TALENTS_TMP" "$REPUTATION_TMP" "$SKILLS_TMP"
 
 echo "  Publishing characters.json to GitHub..."
 (
@@ -1614,6 +1693,16 @@ here directly as things ship or plans change.
   automatic, see
   [Achievement icons](#achievement-icons-the-three-professions-categories-for-now)
   above.
+- **Skills** — right after Talents: each known profession's name and
+  current/max value. Filtered to the 14 real profession skill ids
+  (verified against AzerothCore's own `SharedDefines.h`, not guessed),
+  names resolved via a live join against `acore_world.skillline_dbc`
+  rather than a bundled reference file — that table ships pre-populated
+  on any normal AzerothCore install, so unlike Zone/Exalted Factions this
+  needed no DBC extraction step at all. No icons yet — the world DB has
+  no `spellicon_dbc` table to resolve `skillline_dbc`'s `SpellIconID`
+  against locally, so that part stays in the Backlog — see
+  [Skills](#skills) above.
 
 ### Backlog ideas
 
@@ -1622,7 +1711,7 @@ rough effort.
 
 | Idea | Effort | Notes |
 | --- | --- | --- |
-| Skills | Medium | `character_skills` (guid, skill, value, max) — needs a skill-name lookup table |
+| Skill icons | Low–medium, once unblocked | Unlike every other icon in this app, `skillline_dbc`'s real row data (the ~14 profession rows' `SpellIconID`) isn't reachable from a bundled CSV source the way Item/Achievement/Talent/Spell data was — AzerothCore's world DB doesn't ship a `spellicon_dbc` table to resolve it against locally either. Needs a DBC extraction (same kind of one-time pull Zone/Exalted Factions needed) before this can be built, not guessed at |
 | Screenshots gallery | Medium–high | Reframed per feedback: a general slideshow to browse, not sorted per character |
 | PvP: honor rolled up to faction/account | Trivial (when wanted) | Data shape already supports it — `honor_points` matches the fields `renderSummary`/`renderFactionPanel` already reduce over |
 | PvP: kills | Dropped for now | Bots are currently off, so kill counts wouldn't reflect real activity |

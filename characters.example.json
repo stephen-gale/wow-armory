@@ -188,7 +188,11 @@
         {"slot": 15, "id": 19019, "name": "Thunderfury, Blessed Blade of the Windseeker", "quality": 5, "item_level": 80},
         {"slot": 18, "id": 22999, "name": "Tabard of the Argent Dawn", "quality": 1, "item_level": 60}
       ],
-      "talents": {"161": 51, "164": 5, "163": 15}
+      "talents": {"161": 51, "164": 5, "163": 15},
+      "skills": [
+        {"id": 202, "name": "Engineering", "value": 450, "max": 450},
+        {"id": 186, "name": "Mining", "value": 450, "max": 450}
+      ]
     },
     {
       "guid": 2,
@@ -298,7 +302,11 @@
             "earned_at": "2026-02-08T13:00:00Z"
           }
         ]
-      }
+      },
+      "skills": [
+        {"id": 182, "name": "Herbalism", "value": 425, "max": 450},
+        {"id": 171, "name": "Alchemy", "value": 400, "max": 450}
+      ]
     },
     {
       "guid": 3,
@@ -512,7 +520,12 @@
             "earned_at": "2026-06-14T11:20:00Z"
           }
         ]
-      }
+      },
+      "skills": [
+        {"id": 333, "name": "Enchanting", "value": 375, "max": 450},
+        {"id": 197, "name": "Tailoring", "value": 340, "max": 450},
+        {"id": 185, "name": "Cooking", "value": 300, "max": 450}
+      ]
     },
     {
       "guid": 6,

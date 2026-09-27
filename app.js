@@ -530,6 +530,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
 
   const statsHtml = renderCharacterStats(c.stats, c.class_name);
   const talentsHtml = renderTalents(c.talents, c.class_name);
+  const skillsHtml = renderSkills(c.skills);
   const equippedGearHtml = renderEquippedGear(c.equipped_gear || [], itemIcons, c.class_name);
   const pvpHtml = renderPvP(c.honor_points, c.faction);
   const questsHtml = renderQuests(c.quests_completed);
@@ -590,7 +591,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     }))
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  if (collectionGroups.length === 0 && categoryGroups.length === 0 && !statsHtml && !talentsHtml && !equippedGearHtml && !pvpHtml && !questsHtml && !exaltedFactionsHtml && !lastLoggedInHtml) {
+  if (collectionGroups.length === 0 && categoryGroups.length === 0 && !statsHtml && !talentsHtml && !skillsHtml && !equippedGearHtml && !pvpHtml && !questsHtml && !exaltedFactionsHtml && !lastLoggedInHtml) {
     li.innerHTML = `<p class="char-achievements__empty">No collections or achievements recorded.</p>`;
     return li;
   }
@@ -625,27 +626,28 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     `;
   }
 
-  // Seven independent modules, in this fixed order: Talents, Equipped,
-  // Stats, Collections/Achievements (with its own Type/Date toggle), PvP,
-  // Quests, Exalted Factions - each shown only when it has something to
-  // show. Talents, Equipped, Stats, PvP, Quests and Exalted Factions are
-  // all headed by .achv-section__name, which already grows its own top
-  // border whenever it isn't .char-achievements' literal first child, so
-  // they need no manual divider before or after them - adding one would
-  // double up against that automatic border. (Whichever of these ends up
-  // first is exactly why this rule is driven by :first-child rather than
-  // by which module JS puts first - each one automatically picks up its
-  // own top border the moment something starts coming before it, no CSS
-  // change needed when the order changes.)
+  // Eight independent modules, in this fixed order: Talents, Skills,
+  // Equipped, Stats, Collections/Achievements (with its own Type/Date
+  // toggle), PvP, Quests, Exalted Factions - each shown only when it has
+  // something to show. Talents, Skills, Equipped, Stats, PvP, Quests and
+  // Exalted Factions are all headed by .achv-section__name, which already
+  // grows its own top border whenever it isn't .char-achievements' literal
+  // first child, so they need no manual divider before or after them -
+  // adding one would double up against that automatic border. (Whichever
+  // of these ends up first is exactly why this rule is driven by
+  // :first-child rather than by which module JS puts first - each one
+  // automatically picks up its own top border the moment something starts
+  // coming before it, no CSS change needed when the order changes.)
   // sortSectionHtml starts with .sort-row instead, which has no built-in
   // separator, so it's the only module that needs an explicit
   // .module-divider in front of it (and only when something already
   // precedes it).
-  // Last logged in isn't one of the seven modules - a single trailing
+  // Last logged in isn't one of the eight modules - a single trailing
   // fact (the character's own request to keep it last), always pushed
   // after everything else regardless of which modules are present.
   const parts = [];
   if (talentsHtml) parts.push(talentsHtml);
+  if (skillsHtml) parts.push(skillsHtml);
   if (equippedGearHtml) parts.push(equippedGearHtml);
   if (statsHtml) parts.push(statsHtml);
   if (sortSectionHtml) {
@@ -945,6 +947,24 @@ function renderTalents(talents, className) {
     </div>
   `).join("");
   return `<h3 class="achv-section__name">Talents</h3><div class="talent-columns">${columns}</div>`;
+}
+
+// Skills — professions only (see export-characters-json.sh/wowbackup.sh's
+// SQL comment for the verified skill id list), right after Talents: a
+// live snapshot like Equipped/Stats, not a Collection - skill points keep
+// climbing, so there's no "earned_at" moment and no place in the Sort by
+// Type/Date toggle. Names are already resolved server-side via a live
+// join against acore_world.skillline_dbc (see the export scripts), so no
+// client-side lookup is needed here, unlike Exalted Factions/Titles.
+function renderSkills(skills) {
+  if (!skills || skills.length === 0) return "";
+  const sorted = [...skills].sort((a, b) => a.name.localeCompare(b.name));
+  return `
+    <h3 class="achv-section__name">Skills</h3>
+    <ul class="achv-list">
+      ${sorted.map((s) => `<li class="achv-list__item">${escapeHtml(s.name)}: ${formatNumber(s.value)}/${formatNumber(s.max)}</li>`).join("")}
+    </ul>
+  `;
 }
 
 // Equipped Gear: the character's current loadout, slot by slot, straight

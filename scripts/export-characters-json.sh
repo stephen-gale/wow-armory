@@ -99,7 +99,8 @@ EQUIPPED_TMP="$(mktemp)"
 KNOWN_SPELLS_TMP="$(mktemp)"
 TALENTS_TMP="$(mktemp)"
 REPUTATION_TMP="$(mktemp)"
-trap 'rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$TALENTS_TMP" "$REPUTATION_TMP"' EXIT
+SKILLS_TMP="$(mktemp)"
+trap 'rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$TALENTS_TMP" "$REPUTATION_TMP" "$SKILLS_TMP"' EXIT
 
 mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
   SELECT ca.guid, ca.achievement, ca.date
@@ -174,6 +175,27 @@ mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
   JOIN acore_auth.account a ON a.id = c.account
   WHERE a.username NOT LIKE 'RNDBOT%';
 " > "$REPUTATION_TMP"
+
+# Skills: the 14 real profession skill ids (11 primary + Cooking/Fishing/
+# First Aid), confirmed straight from AzerothCore's own SharedDefines.h
+# SKILL_* enum, not guessed - character_skills also holds every weapon/
+# armor/language skill a character has, which nobody wants surfaced here.
+# Names are joined live against acore_world.skillline_dbc (the same
+# client-build-locked reference data every other bundled *_dbc table in
+# this project's icon work already comes from) rather than hardcoded -
+# same "live join, simplest and most accurate source" reasoning Equipped
+# Gear's item names already use, and skillline_dbc ships pre-populated on
+# any normal AzerothCore install, so this needs no bundled reference file
+# and no DBC extraction step.
+mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
+  SELECT cs.guid, cs.skill, sl.DisplayName_Lang_enUS, cs.value, cs.max
+  FROM acore_characters.character_skills cs
+  JOIN acore_characters.characters c ON c.guid = cs.guid
+  JOIN acore_auth.account a ON a.id = c.account
+  JOIN acore_world.skillline_dbc sl ON sl.ID = cs.skill
+  WHERE cs.skill IN (129,164,165,171,182,185,186,197,202,333,356,393,755,773)
+    AND a.username NOT LIKE 'RNDBOT%';
+" > "$SKILLS_TMP"
 
 # Quests: character_queststatus_rewarded holds one row per quest ever
 # turned in, but the server itself doesn't treat every row as currently
@@ -255,7 +277,7 @@ ORDER BY faction, c.level DESC, c.name;
 SQL
 
 mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "$QUERY" | python3 - \
-  "$OUTPUT_FILE" "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$TALENTS_TMP" "$REPUTATION_TMP" \
+  "$OUTPUT_FILE" "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$TALENTS_TMP" "$REPUTATION_TMP" "$SKILLS_TMP" \
   "$COLLECTION_SETS_DEFS" "$COLLECTION_MOUNTS_DEFS" "$COLLECTION_COMPANIONS_DEFS" \
   "$COLLECTION_LEGENDARIES_DEFS" "$COLLECTION_TABARDS_DEFS" "$COLLECTION_HEIRLOOMS_DEFS" \
   "$COLLECTION_TITLES_DEFS" "$TALENT_SPELLS_DEFS" "$FACTION_BASELINES_DEFS" <<'PYEOF'
@@ -265,10 +287,10 @@ import datetime
 import os
 from collections import defaultdict
 
-(out_path, achievements_path, equipped_path, known_spells_path, talents_path, reputation_path,
+(out_path, achievements_path, equipped_path, known_spells_path, talents_path, reputation_path, skills_path,
  sets_defs_path, mounts_defs_path, companions_defs_path,
  legendaries_defs_path, tabards_defs_path, heirlooms_defs_path, titles_defs_path,
- talent_spells_defs_path, faction_baselines_defs_path) = sys.argv[1:16]
+ talent_spells_defs_path, faction_baselines_defs_path) = sys.argv[1:17]
 
 # (json key, detection kind, defs path) — "equip" entries have slot_groups,
 # "spell" entries have spell_ids. See the header comment above for what
@@ -390,6 +412,23 @@ with open(reputation_path) as f:
         reputation_by_guid[int(guid)].append((int(faction_id), int(standing)))
 
 EXALTED_THRESHOLD = 42000
+
+# Profession skills only (see the SQL comment above for the verified skill
+# id list) - name already resolved live against skillline_dbc by the SQL
+# itself, so this is just grouping by guid, no further lookup needed.
+skills_by_guid = defaultdict(list)
+with open(skills_path) as f:
+    for line in f:
+        line = line.rstrip("\n")
+        if not line:
+            continue
+        guid, skill_id, name, value, max_value = line.split("\t")
+        skills_by_guid[int(guid)].append({
+            "id": int(skill_id),
+            "name": name,
+            "value": int(value),
+            "max": int(max_value),
+        })
 
 def base_reputation(faction_id, race_mask, class_mask):
     """Mirrors ReputationMgr::GetBaseReputation() exactly: the first of a
@@ -590,6 +629,7 @@ for line in sys.stdin:
         "collections": collections,
         "equipped_gear": sorted(equipped_gear_by_guid.get(guid, []), key=lambda g: g["slot"]),
         "talents": dict(talent_points),
+        "skills": sorted(skills_by_guid.get(guid, []), key=lambda s: s["name"]),
     })
 
 data = {
