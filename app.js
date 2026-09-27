@@ -323,6 +323,34 @@ const emptyStateEl = document.getElementById("empty-state");
 const summaryBarEl = document.getElementById("summary-bar");
 const factionsEl = document.getElementById("factions");
 
+// Chevron collapse/expand for achv-category cards - Type view's category
+// cards (Collections and Achievements alike) and Date view's month cards,
+// both from renderAchievementGroups/renderDateView, marked with
+// achv-category__name--collapsible. Stats' own Attributes/Defense/Combat
+// cards reuse the same .achv-category markup but never get that modifier
+// class, so this never touches them. One delegated listener here (rather
+// than wiring each card right after it renders, the pattern Sort/
+// Unobtained use) covers every card this produces - multiple characters'
+// panels, the per-faction Heirlooms panel, and any panel opened later -
+// without separate wiring code at each call site.
+function toggleCategoryCollapse(heading) {
+  const card = heading.closest(".achv-category");
+  if (!card) return;
+  const collapsed = card.classList.toggle("achv-category--collapsed");
+  heading.setAttribute("aria-expanded", String(!collapsed));
+}
+factionsEl.addEventListener("click", (event) => {
+  const heading = event.target.closest(".achv-category__name--collapsible");
+  if (heading) toggleCategoryCollapse(heading);
+});
+factionsEl.addEventListener("keydown", (event) => {
+  if (event.key !== "Enter" && event.key !== " ") return;
+  const heading = event.target.closest(".achv-category__name--collapsible");
+  if (!heading) return;
+  event.preventDefault();
+  toggleCategoryCollapse(heading);
+});
+
 fileInput.addEventListener("change", (event) => {
   const file = event.target.files[0];
   if (!file) return;
@@ -1231,6 +1259,22 @@ function renderExaltedFactions(exaltedFactionIds, factionNames) {
   `;
 }
 
+// Shared by renderAchievementGroups (category cards) and renderDateView
+// (month cards) - the same collapse/expand caret the character card's own
+// expand/collapse toggle already uses (.char-card__toggle), reused here
+// rather than a new icon. Collapsing/expanding is wired up once, by
+// delegation, in the factionsEl listener above - this only needs to mark
+// which headings are collapsible (achv-category__name--collapsible),
+// not attach anything itself.
+function collapsibleCategoryHeading(innerHtml) {
+  return `
+    <h4 class="achv-category__name achv-category__name--collapsible" role="button" tabindex="0" aria-expanded="true">
+      <span>${innerHtml}</span>
+      <svg class="achv-category__chevron" viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </h4>
+  `;
+}
+
 // Returns achv-category blocks as siblings (not wrapped in a container), so
 // they keep flowing into the same auto-fill grid as `.char-achievements`
 // uses for every category — an optional full-width heading is inserted
@@ -1262,7 +1306,7 @@ function renderAchievementGroups(groups, sectionLabel, showPoints) {
         : "achv-category";
       return `
       <div class="${cardClass}">
-        <h4 class="achv-category__name">${escapeHtml(group.name)} ${countHtml}</h4>
+        ${collapsibleCategoryHeading(`${escapeHtml(group.name)} ${countHtml}`)}
         <ul class="achv-list">
           ${items.map((a) => `
             <li class="achv-list__item${a.unobtained ? " achv-list__item--unobtained" : ""}">${a.iconHtml || ""}${escapeHtml(a.name)}${showPoints ? ` <span class="achv-list__points">${a.points} pts</span>` : ""}${formatEarnedDate(a.earned_at)}</li>
@@ -1311,7 +1355,7 @@ function renderDateView(items) {
     for (const [month, monthItems] of byMonth) {
       html += `
         <div class="achv-category">
-          <h4 class="achv-category__name">${MONTH_NAMES[month]}</h4>
+          ${collapsibleCategoryHeading(MONTH_NAMES[month])}
           <ul class="achv-list">
             ${monthItems.map((item) => `
               <li class="achv-list__item">${item.iconHtml || ""}${escapeHtml(item.name)}${formatEarnedDate(item.earned_at)}</li>

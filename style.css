@@ -545,6 +545,41 @@ main {
   color: var(--text-dim);
 }
 
+/* Collapsible category cards (Type view categories, Date view months -
+   see collapsibleCategoryHeading in app.js). A bigger touch target than
+   just the chevron: the whole heading row toggles, not only the small
+   caret. Stats' own cards reuse .achv-category__name but never get this
+   modifier, so they're never clickable. */
+.achv-category__name--collapsible {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+}
+
+.achv-category__name--collapsible:hover { color: var(--text); }
+
+/* Same caret glyph as .char-card__toggle, reused rather than a new icon -
+   default (expanded) points up, same "already collapsible, tap to close"
+   direction that toggle uses once .char-card--expanded rotates it. */
+.achv-category__chevron {
+  flex: 0 0 auto;
+  width: 0.55rem;
+  height: 0.55rem;
+  color: var(--text-dim);
+  transform: rotate(-180deg);
+  transition: transform 0.15s ease;
+}
+
+.achv-category--collapsed .achv-category__chevron {
+  transform: rotate(0deg);
+}
+
+.achv-category--collapsed .achv-list {
+  display: none;
+}
+
 .achv-category__count {
   color: var(--text-dim);
   font-weight: 400;

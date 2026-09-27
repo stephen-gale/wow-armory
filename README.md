@@ -196,6 +196,33 @@ chase, same reasoning that already excludes it from icons.
   approach the Type/Date toggle itself already uses, rather than
   re-rendering the panel.
 
+#### Collapsible categories and months
+
+Every category card in the Type view (Collections and Achievements alike)
+and every month card in the Date view has a chevron in its heading —
+tap/click the whole heading, not just the small caret, to collapse or
+expand that one card's list. Expanded (list visible) is the default,
+matching how every panel already looked before this existed; collapsing
+is purely a per-card, in-session convenience for cards that have grown
+long (Feats of Strength alone is 158 achievements, more once
+[Unobtained](#unobtained-achievements-opt-in-off-by-default) is checked)
+— nothing about which achievements exist or are earned changes, and
+collapse state isn't saved anywhere, so every panel opens fully expanded
+again next time. Stats' own Attributes/Defense/Combat cards reuse the
+same `.achv-category` markup but never get a chevron — they're a fixed
+handful of lines each, nothing to collapse, and outside the Type/Date
+views this feature is scoped to.
+
+Wired up with a single delegated click/keydown listener (`app.js`) rather
+than attaching one per card at render time, the way the Sort and
+Unobtained toggles do — this covers every category/month card in every
+character's panel, and the per-faction Heirlooms panel (which lives
+outside any one character's panel, see [Heirlooms](#heirlooms) above),
+without needing separate wiring at each of those call sites. Keyboard-
+accessible (`Enter`/`Space`, `tabindex="0"`, `aria-expanded`), same as
+the roster's own character-row expand/collapse toggle whose caret icon
+this reuses.
+
 ### Collections
 
 A custom tracking system for things worth showing off that aren't part of
@@ -1800,6 +1827,15 @@ here directly as things ship or plans change.
   the unobtained" tenet, which this checkbox never touches — see
   [Unobtained achievements](#unobtained-achievements-opt-in-off-by-default)
   above.
+- **Collapsible categories and months** — a chevron on every Type view
+  category card and Date view month card; tap/click the heading to
+  collapse or expand that one card's list, expanded by default, not
+  persisted across panel opens. One delegated click/keydown listener
+  covers every card (every character's panel, plus the per-faction
+  Heirlooms panel) rather than per-card wiring; Stats' own cards reuse
+  the same markup but never get a chevron, since they're outside the
+  Type/Date views this is scoped to — see [Collapsible categories and
+  months](#collapsible-categories-and-months) above.
 
 ### Backlog ideas
 
