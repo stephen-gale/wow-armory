@@ -365,23 +365,23 @@ const emptyStateEl = document.getElementById("empty-state");
 const summaryBarEl = document.getElementById("summary-bar");
 const factionsEl = document.getElementById("factions");
 
-// Collapse/Expand button label reflects real state, not just "last bulk
-// action taken" - checked fresh against every achv-category card in
-// whichever view (Type or Date) is currently active, each time anything
-// could have changed it: the button's own click, an individual chevron
-// toggle (see toggleCategoryCollapse below), or switching Type/Date (see
-// the Sort radio's own change listener, which calls this again on
-// switch so the label stays in sync with whichever view just became
-// active). Scoped to the active view specifically, not both at once - a
-// user collapsing every card they can actually see should see this flip
-// to "Expand" regardless of what the *other*, not-currently-shown
-// view's cards happen to be doing; scoring against a view nobody's
-// looking at would leave this stuck on "Collapse" long after everything
-// visible is collapsed. Each view tracks its own collapsed state
-// independently, same as their content already is independent. A panel
-// with no button at all (Stats-only panels have none, since Stats itself
-// isn't collapsible; the per-faction Heirlooms panel has cards but no
-// Sort row/button at all) is a no-op.
+// Collapse all/Expand all button label reflects real state, not just
+// "last bulk action taken" - checked fresh against every achv-category
+// card in whichever view (Type or Date) is currently active, each time
+// anything could have changed it: the button's own click, an individual
+// chevron toggle (see toggleCategoryCollapse below), or switching
+// Type/Date (see the Sort radio's own change listener, which calls this
+// again on switch so the label stays in sync with whichever view just
+// became active). Scoped to the active view specifically, not both at
+// once - a user collapsing every card they can actually see should see
+// this flip to "Expand all" regardless of what the *other*, not-
+// currently-shown view's cards happen to be doing; scoring against a
+// view nobody's looking at would leave this stuck on "Collapse all" long
+// after everything visible is collapsed. Each view tracks its own
+// collapsed state independently, same as their content already is
+// independent. A panel with no button at all (Stats-only panels have
+// none, since Stats itself isn't collapsible; the per-faction Heirlooms
+// panel has cards but no Sort row/button at all) is a no-op.
 function updateHideAllButton(panel) {
   const button = panel.querySelector(".hideall-toggle");
   if (!button) return;
@@ -390,7 +390,7 @@ function updateHideAllButton(panel) {
   // A category with zero earned achievements (achv-category--all-unobtained)
   // is invisible whenever "Show all" hasn't been clicked - never
   // collapsed because it can't be clicked, so counting it toward "is
-  // everything collapsed" would keep this stuck on "Collapse" forever.
+  // everything collapsed" would keep this stuck on "Collapse all" forever.
   // Excluded only while it's actually invisible; once "Show all" reveals
   // it, it counts like any other card.
   const showingUnobtained = panel.classList.contains("show-unobtained");
@@ -398,7 +398,7 @@ function updateHideAllButton(panel) {
     (card) => showingUnobtained || !card.classList.contains("achv-category--all-unobtained")
   );
   const allCollapsed = cards.length > 0 && cards.every((card) => card.classList.contains("achv-category--collapsed"));
-  button.textContent = allCollapsed ? "Expand" : "Collapse";
+  button.textContent = allCollapsed ? "Expand all" : "Collapse all";
 }
 
 // Chevron collapse/expand for achv-category subheadings - Type view's
@@ -416,11 +416,11 @@ function toggleCategoryCollapse(heading) {
   if (!card) return;
   const collapsed = card.classList.toggle("achv-category--collapsed");
   heading.setAttribute("aria-expanded", String(!collapsed));
-  // Keep the panel's own Collapse/Expand button (if any) in sync with
-  // whatever this individual toggle just did - collapsing the last open
-  // card should flip it to "Expand" exactly as if Collapse itself had
-  // been clicked, and expanding any one card once everything was
-  // collapsed should flip it back.
+  // Keep the panel's own Collapse all/Expand all button (if any) in sync
+  // with whatever this individual toggle just did - collapsing the last
+  // open card should flip it to "Expand all" exactly as if Collapse all
+  // itself had been clicked, and expanding any one card once everything
+  // was collapsed should flip it back.
   const panel = card.closest(".char-achievements");
   if (panel) updateHideAllButton(panel);
 }
@@ -816,7 +816,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, achievement
           <input type="radio" name="${toggleName}" id="${toggleName}-date">
           <label class="sort-toggle__label" for="${toggleName}-date">Date</label>
         </div>
-        <button type="button" class="panel-toggle hideall-toggle">Collapse</button>
+        <button type="button" class="panel-toggle hideall-toggle">Collapse all</button>
       </div>
       <div class="sort-view is-active" data-view="type">${typeViewHtml}</div>
       <div class="sort-view" data-view="date">${dateViewHtml}</div>
@@ -903,7 +903,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, achievement
     hideAllButton.addEventListener("click", () => {
       const activeView = li.querySelector(".sort-view.is-active");
       if (!activeView) return;
-      const collapse = hideAllButton.textContent.trim() !== "Expand";
+      const collapse = hideAllButton.textContent.trim() !== "Expand all";
       for (const card of activeView.querySelectorAll(".achv-category")) {
         card.classList.toggle("achv-category--collapsed", collapse);
         const heading = card.querySelector(".achv-category__name--collapsible");

@@ -247,7 +247,7 @@ accessible (`Enter`/`Space`, `tabindex="0"`, `aria-expanded`), same as
 the roster's own character-row expand/collapse toggle whose caret icon
 this reuses.
 
-A **Collapse** button stays in the Sort row itself (right-aligned,
+A **Collapse all** button stays in the Sort row itself (right-aligned,
 vertically centered with the Type/Date toggle) rather than moving to the
 Achievements heading the way Show all/Only mine did — it affects
 Collections cards too, not just Achievements, so it belongs on the row
@@ -255,18 +255,19 @@ shared by both, not a heading specific to one. It collapses every
 category/month card in whichever view — Type or
 Date — is currently active, and its own label reflects real state: once
 every card in that
-view is collapsed, it becomes **Expand**, which expands them again.
+view is collapsed, it becomes **Expand all**, which expands them again.
 Scoped to the active view specifically, not both at once — the label
 means "is everything you can currently see collapsed", and checking that
-against a view nobody's looking at would leave it stuck on "Collapse"
-long after everything visible actually is. Each view tracks its own
+against a view nobody's looking at would leave it stuck on "Collapse
+all" long after everything visible actually is. Each view tracks its own
 collapsed state independently (the same way their content already is
 independent): switching from Type to Date re-checks and relabels the
 button for whatever state Date's own cards happen to be in, which may
 differ from Type's. The label also updates after any individual chevron
 toggle, not just its own clicks — collapsing the last open card by hand
-flips it to "Expand" exactly as if the button itself had been clicked,
-and expanding any one card once everything was collapsed flips it back.
+flips it to "Expand all" exactly as if the button itself had been
+clicked, and expanding any one card once everything was collapsed flips
+it back.
 
 ### Collections
 
@@ -1883,10 +1884,10 @@ here directly as things ship or plans change.
   plain, non-collapsible heading and stay always visible — see
   [Collapsible categories and months](#collapsible-categories-and-months)
   above.
-- **Collapse / Expand** — a button in the Sort row (right-aligned,
+- **Collapse all / Expand all** — a button in the Sort row (right-aligned,
   vertically centered with the Type/Date toggle) that collapses every
   category/month card in whichever view (Type or Date)
-  is currently active, relabeling itself to Expand once that view is
+  is currently active, relabeling itself to Expand all once that view is
   fully collapsed. Scoped to the active view, not both at once, and its
   label reflects real state rather than which direction it was last
   clicked — recomputed on every individual chevron toggle and on
@@ -1894,8 +1895,8 @@ here directly as things ship or plans change.
   categories and months](#collapsible-categories-and-months) above.
 - **Show all/Only mine moved to the Achievements heading** — the button
   only ever affects Achievements, never Collections, so it moved off the
-  shared Sort row (where Collapse/Expand still lives, since that one
-  does affect both) onto the Achievements section heading itself,
+  shared Sort row (where Collapse all/Expand all still lives, since that
+  one does affect both) onto the Achievements section heading itself,
   right-aligned on that row. Naturally absent from the Date view as a
   result, rather than present-but-hidden: `renderDateView` never renders
   an "Achievements" heading at all — see [Unobtained
