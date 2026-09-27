@@ -207,12 +207,17 @@ const COLLECTION_CATEGORIES = [
 // scripts/generate-achievement-icons.py), but showing an icon next to
 // every single achievement across all ~15 categories is a much bigger
 // visual change than confirming the idea works at all. First Aid (172)
-// is the test case: a real skill line whose whole point is showing icons
+// was the test case: a real skill line whose whole point is showing icons
 // meaningfully group (all 5 rank achievements share one real, verified
-// profession-specific icon). Expanding this list is how any future
+// profession-specific icon). Cooking (170) and Fishing (171) - the only
+// other two categories under Blizzard's own "Professions" achievement
+// category - followed the same verification before enabling: 100% of
+// both categories' achievements resolve, to varied, genuinely thematic
+// icons (food items per dish, fish/fishing gear per achievement), not
+// repetitive placeholders. Expanding this list further is how any future
 // category gets added - each one a deliberate choice, not a blanket
 // enable.
-const ACHIEVEMENT_ICON_CATEGORIES = new Set([172]); // First Aid
+const ACHIEVEMENT_ICON_CATEGORIES = new Set([170, 171, 172]); // Cooking, Fishing, First Aid
 
 // Fetched once, eagerly, so it's usually already resolved by the time
 // someone taps a character to expand their achievements/collections.

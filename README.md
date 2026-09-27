@@ -92,19 +92,23 @@ is fetched once and committed — no runtime dependency. The per-character
 completed achievement IDs; the dashboard resolves names/categories/points
 against this bundled data at render time.
 
-#### Achievement icons (First Aid only, for now)
+#### Achievement icons (the three Professions categories, for now)
 
-A deliberately narrow test, not a blanket rollout — real, per-achievement
+A deliberately narrow rollout, not a blanket one — real, per-achievement
 icon data exists for every achievement (`assets/data/achievement_icons.json`,
 `scripts/generate-achievement-icons.py`: `Achievement.IconID` joined
 against `SpellIcon_3.3.5_12340.csv`, the same CSV/join Mounts/Companions
 icons already use), resolving 1,730 of 1,817 achievements — but showing an
 icon on every achievement across all ~15 categories at once is a much
 bigger visual change than confirming the idea works. `ACHIEVEMENT_ICON_CATEGORIES`
-in `app.js` is the allowlist (currently just `172`, First Aid) — expanding
-it to more categories is a deliberate per-category choice, not automatic.
+in `app.js` is the allowlist (currently `170`/`171`/`172` — Cooking,
+Fishing, First Aid, the three categories under Blizzard's own
+"Professions" achievement category, and the only three that category
+has: the primary gathering/crafting professions never got their own
+achievement category in WotLK) — expanding to any other category is a
+deliberate per-category choice, not automatic.
 
-First Aid was the test case because its whole 5-achievement rank line
+First Aid was the test case, because its whole 5-achievement rank line
 (Journeyman/Expert/Artisan/Master/Grand Master) shares one real,
 Blizzard-assigned icon, and that data was verified before trusting it —
 Cooking's and Fishing's own 5-rank lines were checked the same way first
@@ -112,7 +116,11 @@ and each resolved to their own correct, profession-specific icon
 (`INV_Misc_Food_15`, `Trade_Fishing`), confirming the join is sound rather
 than assuming First Aid's own result (`Spell_Holy_SealOfSacrifice` — not
 the bandage icon a guess would've reached for) was right just because it
-resolved to *something*.
+resolved to *something*. Cooking and Fishing followed once that held up:
+100% of both categories' achievements resolve, to genuinely varied,
+thematic icons (a cake for "The Cake Is Not A Lie", a murloc head for
+"Deadliest Catch", a fishing rod for "Northrend Angler") rather than
+repeating a handful of generic ones.
 
 ### Collections
 
@@ -1587,15 +1595,19 @@ here directly as things ship or plans change.
   and 172/172 Companions resolving. Carries through to the Sort by: Date
   view too, where it doubles as an at-a-glance item-vs-achievement marker
   in the merged timeline — see [Icons](#icons) above.
-- **Achievement icons — First Aid only, as a deliberate test** — real
+- **Achievement icons — the three Professions categories** — real
   per-achievement icon data now exists for 1,730/1,817 achievements
-  (`Achievement.IconID` joined against `SpellIcon_3.3.5_12340.csv`,
-  verified sound by checking Cooking's/Fishing's own rank-achievement
-  lines resolve correctly before trusting First Aid's own less-obvious
-  result), but only First Aid (`ACHIEVEMENT_ICON_CATEGORIES` in `app.js`)
-  actually shows one yet — expanding to more categories is a deliberate
-  per-category choice, not automatic, see
-  [Achievement icons](#achievement-icons-first-aid-only-for-now) above.
+  (`Achievement.IconID` joined against `SpellIcon_3.3.5_12340.csv`),
+  starting from First Aid as a deliberate test (verified sound by
+  checking Cooking's/Fishing's own rank-achievement lines resolve
+  correctly before trusting First Aid's own less-obvious result), then
+  expanded to Cooking and Fishing too once that held up — the only other
+  two categories under Blizzard's own "Professions" achievement category.
+  `ACHIEVEMENT_ICON_CATEGORIES` in `app.js` is the allowlist; expanding to
+  any other category is still a deliberate per-category choice, not
+  automatic, see
+  [Achievement icons](#achievement-icons-the-three-professions-categories-for-now)
+  above.
 
 ### Backlog ideas
 
