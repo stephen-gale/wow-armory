@@ -803,7 +803,6 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, achievement
     const toggleName = `sort-${c.guid}`;
     sortSectionHtml = `
       <div class="sort-row">
-        <span class="sort-row__label">Sort</span>
         <div class="sort-toggle" role="radiogroup" aria-label="Sort by">
           <input type="radio" name="${toggleName}" id="${toggleName}-type" checked>
           <label class="sort-toggle__label" for="${toggleName}-type">Type</label>

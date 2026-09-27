@@ -168,7 +168,8 @@ category added to `ACHIEVEMENT_ICON_CATEGORIES`) draws from.
 #### Unobtained achievements (opt-in, off by default)
 
 A **Show all** / **Only mine** button next to the Sort by Type/Date
-toggle, top-aligned with it and pushed to the row's far right edge —
+toggle, top-aligned with it and pushed to the row's far right edge,
+alongside Collapse/Expand with a thin vertical rule between the two —
 starts on "Show all" (the action clicking performs, not the current
 state — the panel starts out showing only mine, i.e. earned, achievements),
 and clicking it reveals every not-yet-earned achievement in the
@@ -242,10 +243,12 @@ accessible (`Enter`/`Space`, `tabindex="0"`, `aria-expanded`), same as
 the roster's own character-row expand/collapse toggle whose caret icon
 this reuses.
 
-A **Collapse** button stacked under Show all/Only mine (same
-right-aligned, top-aligned-with-the-toggle treatment) collapses every
-category/month card in whichever view — Type or Date — is currently
-active, and its own label reflects real state: once every card in that
+A **Collapse** button sits alongside Show all/Only mine (same
+right-aligned, top-aligned-with-the-toggle treatment, a thin vertical
+rule between the two rather than each reading as an unrelated control)
+and collapses every category/month card in whichever view — Type or
+Date — is currently active, and its own label reflects real state: once
+every card in that
 view is collapsed, it becomes **Expand**, which expands them again.
 Scoped to the active view specifically, not both at once — the label
 means "is everything you can currently see collapsed", and checking that
@@ -1873,8 +1876,9 @@ here directly as things ship or plans change.
   plain, non-collapsible heading and stay always visible — see
   [Collapsible categories and months](#collapsible-categories-and-months)
   above.
-- **Collapse / Expand** — a button stacked under Show all/Only mine that
-  collapses every category/month card in whichever view (Type or Date)
+- **Collapse / Expand** — a button next to Show all/Only mine (separated
+  by a thin vertical rule) that collapses every category/month card in
+  whichever view (Type or Date)
   is currently active, relabeling itself to Expand once that view is
   fully collapsed. Scoped to the active view, not both at once, and its
   label reflects real state rather than which direction it was last
