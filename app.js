@@ -699,7 +699,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, achievement
         </div>
         <label class="unobtained-toggle" for="unobtained-${c.guid}">
           <input type="checkbox" id="unobtained-${c.guid}">
-          Show unobtained
+          Unobtained
         </label>
       </div>
       <div class="sort-view is-active" data-view="type">${typeViewHtml}</div>

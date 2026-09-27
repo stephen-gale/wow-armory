@@ -155,7 +155,8 @@ category added to `ACHIEVEMENT_ICON_CATEGORIES`) draws from.
 
 #### Unobtained achievements (opt-in, off by default)
 
-A **Show unobtained** checkbox next to the Sort by Type/Date toggle, off
+An **Unobtained** checkbox next to the Sort by Type/Date toggle, top-aligned
+with it and pushed to the row's far right edge, off
 by default — checking it reveals every not-yet-earned achievement in the
 Achievements list, greyscale and dimmed rather than hidden, interleaved
 alphabetically alongside the real earned ones in the same category card.
@@ -1786,8 +1787,9 @@ here directly as things ship or plans change.
   but each profession's own "Learn `<Profession>`" spells (already
   bundled) share one icon, verified against a real screenshot of the
   actual in-game profession list for all 14 — see [Skills](#skills) above.
-- **Unobtained achievements (opt-in)** — a "Show unobtained" checkbox next
-  to Sort by Type/Date, off by default, that reveals every not-yet-earned
+- **Unobtained achievements (opt-in)** — an "Unobtained" checkbox next
+  to Sort by Type/Date, top-aligned with it and pushed to the row's far
+  right, off by default, that reveals every not-yet-earned
   achievement dimmed/greyscale, interleaved with the real earned ones,
   with each category's count switching from `(earned)` to
   `(earned/total)`. Scoped to the same verified-real category allowlist
