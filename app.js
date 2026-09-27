@@ -207,17 +207,29 @@ const COLLECTION_CATEGORIES = [
 // scripts/generate-achievement-icons.py), but showing an icon next to
 // every single achievement across all ~15 categories is a much bigger
 // visual change than confirming the idea works at all. First Aid (172)
-// was the test case: a real skill line whose whole point is showing icons
-// meaningfully group (all 5 rank achievements share one real, verified
-// profession-specific icon). Cooking (170) and Fishing (171) - the only
+// was the test case, then Cooking (170) and Fishing (171) - the only
 // other two categories under Blizzard's own "Professions" achievement
-// category - followed the same verification before enabling: 100% of
-// both categories' achievements resolve, to varied, genuinely thematic
-// icons (food items per dish, fish/fishing gear per achievement), not
-// repetitive placeholders. Expanding this list further is how any future
-// category gets added - each one a deliberate choice, not a blanket
-// enable.
+// category - once that held up. Expanding this list further is how any
+// future category gets added - each one a deliberate choice, not a
+// blanket enable.
 const ACHIEVEMENT_ICON_CATEGORIES = new Set([170, 171, 172]); // Cooking, Fishing, First Aid
+
+// The three Professions categories each get their own single profession
+// icon on every achievement in that category, rather than each
+// achievement's own individually varied Blizzard icon - a skill line
+// reads as belonging to that skill at a glance this way. Verified real
+// (not guessed): all three already matched a reference screenshot of
+// WotLK's actual profession-selection icon grid, and were already
+// confirmed correct earlier via Journeyman/Expert/.../Grand Master's own
+// shared achievement icon for each profession (see achievement_icons.json).
+// Any category added to ACHIEVEMENT_ICON_CATEGORIES without a natural
+// single representative icon like this falls through to
+// achievement_icons.json's per-achievement lookup instead (see below).
+const PROFESSION_ACHIEVEMENT_ICONS = {
+  170: "inv_misc_food_15", // Cooking
+  171: "trade_fishing", // Fishing
+  172: "spell_holy_sealofsacrifice", // First Aid
+};
 
 // Fetched once, eagerly, so it's usually already resolved by the time
 // someone taps a character to expand their achievements/collections.
@@ -561,9 +573,12 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
   for (const entry of achievementEntries) {
     const achievement = achievementsById.get(entry.id);
     if (!achievement) continue;
-    const iconHtml = ACHIEVEMENT_ICON_CATEGORIES.has(achievement.category_id)
-      ? itemIconImg(achievementIcons[achievement.id], "achv-list__icon")
-      : "";
+    let iconHtml = "";
+    if (achievement.category_id in PROFESSION_ACHIEVEMENT_ICONS) {
+      iconHtml = itemIconImg(PROFESSION_ACHIEVEMENT_ICONS[achievement.category_id], "achv-list__icon");
+    } else if (ACHIEVEMENT_ICON_CATEGORIES.has(achievement.category_id)) {
+      iconHtml = itemIconImg(achievementIcons[achievement.id], "achv-list__icon");
+    }
     const list = byCategory.get(achievement.category_id) || [];
     list.push({ ...achievement, earned_at: entry.earned_at, iconHtml });
     byCategory.set(achievement.category_id, list);
