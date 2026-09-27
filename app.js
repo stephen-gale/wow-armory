@@ -111,24 +111,26 @@ function itemIconImg(slug, className, style) {
   return `<img class="${className}" src="assets/icons/items/${slug}.png" alt=""${styleAttr} onerror="console.warn('icon failed to load:', this.src); this.remove();">`;
 }
 
-// A single fixed icon for every Sets entry, rather than a per-item lookup -
-// a set spans multiple armor pieces, so no one item icon represents "the
-// set" the way a single item id does for Legendaries/Tabards/Heirlooms.
-const SET_ICON_SLUG = "inv_helmet_01";
-
-// Collections icons, category by category - only where a real per-item (or
-// per-category) icon actually resolves. Mounts/Companions need a spell-icon
-// lookup this project doesn't have yet (their `item_*` ids are mostly
-// InventoryType 0, excluded from item_icons.json's own generation -
-// confirmed 0/310 current Mounts entries resolve); Titles have no natural
-// item to hang an icon off. Both stay icon-less rather than guessing.
-function collectionItemIcon(categoryKey, itemId, itemIcons) {
-  if (categoryKey === "sets") {
-    return itemIconImg(SET_ICON_SLUG, "achv-list__icon");
-  }
-  if (categoryKey === "legendaries" || categoryKey === "tabards" || categoryKey === "heirlooms") {
-    const numericId = itemId.split("_")[1];
-    return itemIconImg(itemIcons[numericId], "achv-list__icon");
+// Collections icons, category by category - only where a real per-item icon
+// actually resolves. Mounts/Companions need a spell-icon lookup this project
+// doesn't have yet (their `item_*` ids are mostly InventoryType 0, excluded
+// from item_icons.json's own generation - confirmed 0/310 current Mounts
+// entries resolve); Titles have no natural item to hang an icon off. Both
+// stay icon-less rather than guessing.
+//
+// Legendaries/Tabards/Heirlooms are single-item entries (`slot_groups:
+// [[id]]`), so their own item id is `slot_groups[0][0]` trivially. Sets
+// share the same field, but generate-collections-data.py sorts each set's
+// slot_groups by real InventoryType ascending - so slot_groups[0] is
+// whichever piece the set actually leads with: the head piece when the set
+// has one (InventoryType 1 is always lowest), otherwise some other real
+// piece of that exact set. A single fixed icon (e.g. always a helm) would
+// misrepresent the 107 of 475 current sets that have no head piece at all -
+// this always shows a real item from the set in hand instead.
+function collectionItemIcon(categoryKey, item, itemIcons) {
+  if (categoryKey === "sets" || categoryKey === "legendaries" || categoryKey === "tabards" || categoryKey === "heirlooms") {
+    const firstItemId = item.slot_groups?.[0]?.[0];
+    return itemIconImg(itemIcons[firstItemId], "achv-list__icon");
   }
   return "";
 }
@@ -371,7 +373,7 @@ function buildFactionHeirloomsPanel(characters, collectionsByCategory, itemIcons
   const items = [...earliestByItemId.entries()]
     .map(([id, earned_at]) => {
       const item = heirloomsById.get(id);
-      return item && { ...item, earned_at, iconHtml: collectionItemIcon("heirlooms", id, itemIcons) };
+      return item && { ...item, earned_at, iconHtml: collectionItemIcon("heirlooms", item, itemIcons) };
     })
     .filter(Boolean)
     .sort((a, b) => a.name.localeCompare(b.name));
@@ -502,7 +504,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     const items = entries
       .map((entry) => {
         const item = itemsById.get(entry.id);
-        return item && { ...item, earned_at: entry.earned_at, iconHtml: collectionItemIcon(cat.key, item.id, itemIcons) };
+        return item && { ...item, earned_at: entry.earned_at, iconHtml: collectionItemIcon(cat.key, item, itemIcons) };
       })
       .filter(Boolean);
     if (items.length === 0) continue;

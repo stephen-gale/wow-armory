@@ -115,13 +115,21 @@ scripts) — no other code changes.
 #### Icons
 
 Sets, Legendaries, Tabards, and Heirlooms show a small icon to the left of
-each entry, resolved client-side in `app.js` (`collectionItemIcon`) —
-Legendaries/Tabards/Heirlooms each resolve their own `item_*` id against
+each entry, resolved client-side in `app.js` (`collectionItemIcon`) against
 the same bundled `assets/data/item_icons.json` Equipped Gear already uses
-(confirmed every current entry in all three files resolves — 76/76
-Tabards, 27/27 Legendaries, 39/39 Heirlooms), while Sets always shows one
-fixed icon (`inv_helmet_01`) since a set spans several armor pieces, so no
-single item id represents "the set" the way it does for the other three.
+(confirmed every current entry in all three single-item files resolves —
+76/76 Tabards, 27/27 Legendaries, 39/39 Heirlooms). Legendaries/Tabards/
+Heirlooms are each a single item, so their own id is the obvious (and only)
+choice. Sets are different — a set spans several armor pieces, so there's
+no single item id that's inherently "the set" — but `slot_groups` (see
+[Sets](#sets) below) is already sorted by real `InventoryType` ascending,
+so `slot_groups[0]` reliably resolves to the set's head piece when it has
+one, or some other real piece of that exact set when it doesn't (107 of
+475 current sets have no head piece at all — confirmed by checking every
+set's first slot_group icon against `item_icons.json`'s own helm-shaped
+icon names). An earlier version used one fixed helm icon for every Sets
+entry regardless of contents, which misrepresented those 107; this always
+shows a real item that's actually in the set.
 The same icon carries through to the Sort by: Date view, where Collections
 entries sit interleaved with Achievements in one chronological list —
 Achievements (and Mounts/Companions/Titles) stay icon-less there, so the
@@ -1522,13 +1530,15 @@ here directly as things ship or plans change.
   second DBC extraction (`scripts/extract-faction-baselines.py`) rather
   than assumed — see [Exalted Factions](#exalted-factions) above.
 - **Icons on Sets, Legendaries, Tabards, Heirlooms** — a small icon to
-  the left of each entry, real per-item icons for the latter three
-  (confirmed every current entry across all three files already resolves
-  against the bundled `item_icons.json` — no new data source needed) and
-  one fixed helm icon for Sets, since a set spans several armor pieces
-  with no single item to represent it. Carries through to the Sort by:
-  Date view too, where it doubles as an at-a-glance item-vs-achievement
-  marker in the merged timeline — see [Icons](#icons) above.
+  the left of each entry, resolved against the bundled `item_icons.json`
+  (confirmed every current entry across all four files resolves). Sets
+  uses the set's own first slot group (already sorted by real
+  `InventoryType`, so it's the head piece when the set has one) rather
+  than one fixed icon for every set — an earlier version used a single
+  fixed helm regardless of contents, which misrepresented the 107 of 475
+  sets with no head piece at all. Carries through to the Sort by: Date
+  view too, where it doubles as an at-a-glance item-vs-achievement marker
+  in the merged timeline — see [Icons](#icons) above.
 
 ### Backlog ideas
 
