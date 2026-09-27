@@ -384,16 +384,14 @@ main {
    / achv-category cards) flow directly into the parent's grid, same as if
    there were no wrapper at all — display:none removes the inactive one
    from layout entirely. */
-/* flex-start (not center) so the Show all/Only mine and Collapse/Expand
-   buttons (see .sort-row__toggles below) line up with the top of the
-   Type/Date pill rather than its vertical center - the pill's own text
-   sits lower than its outer edge, pushed down by .sort-toggle__label's
-   own padding, and top-edge alignment reads cleaner than chasing that
-   text baseline. */
+/* center so the Show all/Only mine and Collapse/Expand buttons (see
+   .sort-row__toggles below) align with the Type/Date pill's own vertical
+   center, matching how the pill's text sits within its own padding
+   rather than its outer edge. */
 .sort-row {
   grid-column: 1 / -1;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   flex-wrap: wrap;
   gap: 0.4rem 0.6rem;
   margin-bottom: 0.4rem;

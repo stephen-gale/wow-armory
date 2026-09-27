@@ -168,9 +168,9 @@ category added to `ACHIEVEMENT_ICON_CATEGORIES`) draws from.
 #### Unobtained achievements (opt-in, off by default)
 
 A **Show all** / **Only mine** button next to the Sort by Type/Date
-toggle, top-aligned with it and pushed to the row's far right edge,
-alongside Collapse/Expand with a thin vertical rule between the two —
-starts on "Show all" (the action clicking performs, not the current
+toggle, vertically centered against it and pushed to the row's far right
+edge, alongside Collapse/Expand with a thin vertical rule between the
+two — starts on "Show all" (the action clicking performs, not the current
 state — the panel starts out showing only mine, i.e. earned, achievements),
 and clicking it reveals every not-yet-earned achievement in the
 Achievements list, greyscale and dimmed rather than hidden, interleaved
@@ -244,9 +244,9 @@ the roster's own character-row expand/collapse toggle whose caret icon
 this reuses.
 
 A **Collapse** button sits alongside Show all/Only mine (same
-right-aligned, top-aligned-with-the-toggle treatment, a thin vertical
-rule between the two rather than each reading as an unrelated control)
-and collapses every category/month card in whichever view — Type or
+right-aligned, vertically-centered-with-the-toggle treatment, a thin
+vertical rule between the two rather than each reading as an unrelated
+control) and collapses every category/month card in whichever view — Type or
 Date — is currently active, and its own label reflects real state: once
 every card in that
 view is collapsed, it becomes **Expand**, which expands them again.
@@ -1854,8 +1854,8 @@ here directly as things ship or plans change.
   bundled) share one icon, verified against a real screenshot of the
   actual in-game profession list for all 14 — see [Skills](#skills) above.
 - **Unobtained achievements (opt-in)** — a "Show all" / "Only mine"
-  button next to Sort by Type/Date, top-aligned with it and pushed to the
-  row's far right, starting on "Show all" (only mine - earned achievements
+  button next to Sort by Type/Date, vertically centered against it and
+  pushed to the row's far right, starting on "Show all" (only mine - earned achievements
   only - is the default view), that reveals every not-yet-earned
   achievement dimmed/greyscale, interleaved with the real earned ones,
   with each category's count switching from `(earned)` to
