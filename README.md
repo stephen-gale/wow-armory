@@ -213,18 +213,20 @@ chase, same reasoning that already excludes it from icons.
 
 #### Collapsible categories and months
 
-Every `achv-category` subheading in the app has a chevron — Type view's
-category cards (Collections and Achievements alike), Date view's month
-cards, and Stats' own Attributes/Defense/Combat cards. Tap/click the
-whole heading, not just the small caret, to collapse or expand that one
-card's list. Expanded (list visible) is the default, matching how every
-panel already looked before this existed; collapsing is purely a
+Every category card in the Type view (Collections and Achievements alike)
+and every month card in the Date view has a chevron — tap/click the
+whole heading, not just the small caret, to collapse or expand that
+one card's list. Expanded (list visible) is the default, matching how
+every panel already looked before this existed; collapsing is purely a
 per-card, in-session convenience for cards that have grown long (Feats
 of Strength alone is 158 achievements, more once
 [Unobtained](#unobtained-achievements-opt-in-off-by-default) is checked)
 — nothing about which achievements exist or are earned changes, and
 collapse state isn't saved anywhere, so every panel opens fully expanded
-again next time.
+again next time. Stats' own Attributes/Defense/Combat cards render a
+plain, non-collapsible heading instead — always fully visible, the
+character's own request; they're a fixed handful of lines each, and
+outside the Type/Date views this feature is scoped to.
 
 Wired up with a single delegated click/keydown listener (`app.js`) rather
 than attaching one per card at render time, the way the Sort and
@@ -236,18 +238,22 @@ accessible (`Enter`/`Space`, `tabindex="0"`, `aria-expanded`), same as
 the roster's own character-row expand/collapse toggle whose caret icon
 this reuses.
 
-A **Hide all** checkbox stacked under Unobtained (same right-aligned,
+A **Hide all** button stacked under Unobtained (same right-aligned,
 top-aligned-with-the-toggle treatment) collapses every category/month
-card in the panel at once — a bulk version of the same per-card chevron.
-Unlike Unobtained, it stays visible and useful in both the Type and Date
-views (a long list of month cards in Date view is just as real a
-scrolling problem as a long achievement category), and checking it
-collapses cards in *both* views at once, not just whichever is currently
-showing, so switching views afterward doesn't undo it. It's a one-way
-master switch, not a live reflection of every card's state: manually
-re-expanding one card afterward doesn't uncheck it, and unchecking it
-simply expands everything again rather than restoring whatever each card
-was individually before.
+card in whichever view — Type or Date — is currently active, and its own
+label reflects real state: once every card in that view is collapsed, it
+becomes **Show all**, which expands them again. Scoped to the active
+view specifically, not both at once — the label means "is everything
+you can currently see collapsed", and checking that against a view
+nobody's looking at would leave it stuck on "Hide all" long after
+everything visible actually is. Each view tracks its own collapsed state
+independently (the same way their content already is independent):
+switching from Type to Date re-checks and relabels the button for
+whatever state Date's own cards happen to be in, which may differ from
+Type's. The label also updates after any individual chevron toggle, not
+just its own clicks — collapsing the last open card by hand flips it to
+"Show all" exactly as if the button itself had been clicked, and
+expanding any one card once everything was collapsed flips it back.
 
 ### Collections
 
@@ -1853,20 +1859,23 @@ here directly as things ship or plans change.
   the unobtained" tenet, which this checkbox never touches — see
   [Unobtained achievements](#unobtained-achievements-opt-in-off-by-default)
   above.
-- **Collapsible categories and months** — a chevron on every `achv-category`
-  subheading in the app: Type view category cards, Date view month cards,
-  and Stats' Attributes/Defense/Combat cards. Tap/click the heading to
+- **Collapsible categories and months** — a chevron on every Type view
+  category card and Date view month card. Tap/click the heading to
   collapse or expand that one card's list, expanded by default, not
   persisted across panel opens. One delegated click/keydown listener
   covers every card (every character's panel, plus the per-faction
-  Heirlooms panel) rather than per-card wiring — see [Collapsible
+  Heirlooms panel) rather than per-card wiring; Stats' own cards render a
+  plain, non-collapsible heading and stay always visible — see
+  [Collapsible categories and months](#collapsible-categories-and-months)
+  above.
+- **Hide all / Show all** — a button stacked under Unobtained that
+  collapses every category/month card in whichever view (Type or Date)
+  is currently active, relabeling itself to Show all once that view is
+  fully collapsed. Scoped to the active view, not both at once, and its
+  label reflects real state rather than which direction it was last
+  clicked — recomputed on every individual chevron toggle and on
+  switching Type/Date, not just its own clicks — see [Collapsible
   categories and months](#collapsible-categories-and-months) above.
-- **Hide all** — a checkbox stacked under Unobtained that collapses every
-  category/month card in the panel at once, in both the Type and Date
-  views simultaneously (not just whichever is active). A one-way master
-  switch, not synced to individual cards' state — manually re-expanding
-  one afterward doesn't uncheck it — see [Collapsible categories and
-  months](#collapsible-categories-and-months) above.
 - **Unobtained hidden outside Type view** — the checkbox only ever affects
   the Type view, so it's hidden (not just inert) while Date is selected,
   reappearing in whatever state it was left in once Type is selected

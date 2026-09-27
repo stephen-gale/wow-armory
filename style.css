@@ -468,13 +468,20 @@ main {
   margin-left: auto;
 }
 
-/* Shared look for every small checkbox+label control in the sort row
-   (Unobtained, Hide all) - not a sort-toggle pill, since neither is a
-   mutually-exclusive alternative to Type/Date the way those two are. */
+/* Shared look for every small control in the sort row (Unobtained's
+   checkbox+label, Hide all's plain button) - not a sort-toggle pill,
+   since neither is a mutually-exclusive alternative to Type/Date the way
+   those two are. border/background/padding/font resets are only for
+   Hide all's <button> - a <label> never had browser default chrome to
+   begin with, so they're no-ops there. */
 .panel-toggle {
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
+  border: none;
+  background: none;
+  padding: 0;
+  font-family: inherit;
   font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -588,11 +595,12 @@ main {
   color: var(--text-dim);
 }
 
-/* Collapsible category cards - every achv-category subheading in the app
-   (Type view categories, Date view months, Stats' Attributes/Defense/
-   Combat - see collapsibleCategoryHeading in app.js). A bigger touch
-   target than just the chevron: the whole heading row toggles, not only
-   the small caret. */
+/* Collapsible category cards - Type view categories and Date view months
+   (see collapsibleCategoryHeading in app.js). Stats' own cards render a
+   plain, non-collapsible heading instead (renderCharacterStats) - always
+   fully visible, the character's own request. A bigger touch target than
+   just the chevron: the whole heading row toggles, not only the small
+   caret. */
 .achv-category__name--collapsible {
   cursor: pointer;
   display: flex;
