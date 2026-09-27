@@ -787,9 +787,16 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, achievement
   // character with gear equipped but nothing recorded yet).
   let sortSectionHtml = "";
   if (collectionGroups.length > 0 || hasRealAchievements) {
+    // Lives on the "Achievements" heading itself (see renderAchievementGroups'
+    // headingActionHtml), not the shared Sort row - Show all/Only mine only
+    // ever affects Achievements, never Collections, and this way it's
+    // structurally absent from the Date view entirely (renderDateView
+    // never renders an "Achievements" heading at all) rather than needing
+    // separate CSS to hide it there.
+    const unobtainedButtonHtml = `<button type="button" class="panel-toggle unobtained-toggle">Show all</button>`;
     const typeViewHtml =
       renderAchievementGroups(collectionGroups, "Collections", false) +
-      renderAchievementGroups(categoryGroups, "Achievements", false);
+      renderAchievementGroups(categoryGroups, "Achievements", false, unobtainedButtonHtml);
     // Unobtained achievements never enter the Date view - they have no
     // earned_at, so renderDateView's own `dated` filter would drop them
     // anyway, but building allItems from `.achievements` (not
@@ -809,10 +816,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, achievement
           <input type="radio" name="${toggleName}" id="${toggleName}-date">
           <label class="sort-toggle__label" for="${toggleName}-date">Date</label>
         </div>
-        <div class="sort-row__toggles">
-          <button type="button" class="panel-toggle unobtained-toggle">Show all</button>
-          <button type="button" class="panel-toggle hideall-toggle">Collapse</button>
-        </div>
+        <button type="button" class="panel-toggle hideall-toggle">Collapse</button>
       </div>
       <div class="sort-view is-active" data-view="type">${typeViewHtml}</div>
       <div class="sort-view" data-view="date">${dateViewHtml}</div>
@@ -858,10 +862,6 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, achievement
     radio.addEventListener("change", () => {
       const which = radio.id.endsWith("-date") ? "date" : "type";
       views.forEach((view) => view.classList.toggle("is-active", view.dataset.view === which));
-      // Unobtained only ever affects the Type view (see the button's own
-      // wiring below) - hide the control itself while Date is active
-      // rather than leave a button visible that does nothing right now.
-      li.classList.toggle("date-view-active", which === "date");
       // Collapse/Expand tracks whichever view is now active (see
       // updateHideAllButton) - the view just switched away from may be
       // left in a different collapsed state than the one just switched
@@ -1416,10 +1416,18 @@ function collapsibleCategoryHeading(innerHtml) {
 // already use. A category with zero earned achievements gets
 // achv-category--all-unobtained so the whole card, not just its count,
 // stays hidden until the checkbox reveals it.
-function renderAchievementGroups(groups, sectionLabel, showPoints) {
+//
+// headingActionHtml (only ever passed for the "Achievements" call - see
+// buildAchievementsPanel) sits right-aligned on the same row as
+// sectionLabel itself, for a control that's specific to this section, not
+// the module as a whole - Show all/Only mine only ever affects
+// Achievements, never Collections, so it lives on the row it actually
+// controls rather than a shared row that implies it touches both.
+function renderAchievementGroups(groups, sectionLabel, showPoints, headingActionHtml) {
   if (groups.length === 0) return "";
+  const headingClass = headingActionHtml ? "achv-section__name achv-section__name--with-action" : "achv-section__name";
   const heading = sectionLabel
-    ? `<h3 class="achv-section__name">${escapeHtml(sectionLabel)}</h3>`
+    ? `<h3 class="${headingClass}">${escapeHtml(sectionLabel)}${headingActionHtml || ""}</h3>`
     : "";
   const categories = groups
     .map((group) => {

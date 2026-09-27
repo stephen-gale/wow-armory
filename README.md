@@ -167,12 +167,13 @@ category added to `ACHIEVEMENT_ICON_CATEGORIES`) draws from.
 
 #### Unobtained achievements (opt-in, off by default)
 
-A **Show all** / **Only mine** button next to the Sort by Type/Date
-toggle, vertically centered against it and pushed to the row's far right
-edge, alongside Collapse/Expand with a thin vertical rule between the
-two — starts on "Show all" (the action clicking performs, not the current
-state — the panel starts out showing only mine, i.e. earned, achievements),
-and clicking it reveals every not-yet-earned achievement in the
+A **Show all** / **Only mine** button on the Achievements heading itself
+(right-aligned on the same row as the "Achievements" title, in the Type
+view) — not the shared Sort row, since this only ever affects
+Achievements, never Collections, so it lives on the row it actually
+controls. Starts on "Show all" (the action clicking performs, not the
+current state — the panel starts out showing only mine, i.e. earned,
+achievements), and clicking it reveals every not-yet-earned achievement in the
 Achievements list, greyscale and dimmed rather than hidden, interleaved
 alphabetically alongside the real earned ones in the same category card,
 while the button itself flips to "Only mine" (click again to go back).
@@ -205,10 +206,13 @@ excludes it from icons.
 - **Never touches the Date view**: unobtained achievements have no
   `earned_at`, so they're built entirely separately from the array that
   feeds [Sort by Type/Date](#collections)'s Date view — not filtered out
-  there, structurally never even reach it. The button itself is hidden
-  (not just inert) while Date is selected, so there's nothing visible
-  that looks interactive but currently has no effect — it reappears the
-  moment Type is selected again, in whatever state it was left in.
+  there, structurally never even reach it. The button itself is naturally
+  absent from the Date view too, rather than present-but-hidden: it's
+  part of the "Achievements" heading (`renderAchievementGroups`'
+  `headingActionHtml`), and `renderDateView` never renders an
+  "Achievements" heading at all — no separate CSS rule needed to hide it
+  there, and its state (Show all vs. Only mine) simply carries over
+  underneath whichever view is active.
 - **No re-render on click**: both states (earned-only counts/cards, and
   the full earned-plus-unobtained versions) render into the DOM
   up front; clicking the button just toggles a `show-unobtained` class
@@ -243,10 +247,12 @@ accessible (`Enter`/`Space`, `tabindex="0"`, `aria-expanded`), same as
 the roster's own character-row expand/collapse toggle whose caret icon
 this reuses.
 
-A **Collapse** button sits alongside Show all/Only mine (same
-right-aligned, vertically-centered-with-the-toggle treatment, a thin
-vertical rule between the two rather than each reading as an unrelated
-control) and collapses every category/month card in whichever view — Type or
+A **Collapse** button stays in the Sort row itself (right-aligned,
+vertically centered with the Type/Date toggle) rather than moving to the
+Achievements heading the way Show all/Only mine did — it affects
+Collections cards too, not just Achievements, so it belongs on the row
+shared by both, not a heading specific to one. It collapses every
+category/month card in whichever view — Type or
 Date — is currently active, and its own label reflects real state: once
 every card in that
 view is collapsed, it becomes **Expand**, which expands them again.
@@ -1854,9 +1860,10 @@ here directly as things ship or plans change.
   bundled) share one icon, verified against a real screenshot of the
   actual in-game profession list for all 14 — see [Skills](#skills) above.
 - **Unobtained achievements (opt-in)** — a "Show all" / "Only mine"
-  button next to Sort by Type/Date, vertically centered against it and
-  pushed to the row's far right, starting on "Show all" (only mine - earned achievements
-  only - is the default view), that reveals every not-yet-earned
+  button right-aligned on the Achievements heading itself, not the
+  shared Sort row, since it only ever affects Achievements, never
+  Collections. Starts on "Show all" (only mine - earned achievements
+  only - is the default view), and reveals every not-yet-earned
   achievement dimmed/greyscale, interleaved with the real earned ones,
   with each category's count switching from `(earned)` to
   `(earned/total)`. Scoped to the same verified-real category allowlist
@@ -1876,20 +1883,23 @@ here directly as things ship or plans change.
   plain, non-collapsible heading and stay always visible — see
   [Collapsible categories and months](#collapsible-categories-and-months)
   above.
-- **Collapse / Expand** — a button next to Show all/Only mine (separated
-  by a thin vertical rule) that collapses every category/month card in
-  whichever view (Type or Date)
+- **Collapse / Expand** — a button in the Sort row (right-aligned,
+  vertically centered with the Type/Date toggle) that collapses every
+  category/month card in whichever view (Type or Date)
   is currently active, relabeling itself to Expand once that view is
   fully collapsed. Scoped to the active view, not both at once, and its
   label reflects real state rather than which direction it was last
   clicked — recomputed on every individual chevron toggle and on
   switching Type/Date, not just its own clicks — see [Collapsible
   categories and months](#collapsible-categories-and-months) above.
-- **Show all/Only mine hidden outside Type view** — the button only ever
-  affects the Type view, so it's hidden (not just inert) while Date is
-  selected, reappearing in whatever state it was left in once Type is
-  selected again — see [Unobtained achievements](#unobtained-achievements-opt-in-off-by-default)
-  above.
+- **Show all/Only mine moved to the Achievements heading** — the button
+  only ever affects Achievements, never Collections, so it moved off the
+  shared Sort row (where Collapse/Expand still lives, since that one
+  does affect both) onto the Achievements section heading itself,
+  right-aligned on that row. Naturally absent from the Date view as a
+  result, rather than present-but-hidden: `renderDateView` never renders
+  an "Achievements" heading at all — see [Unobtained
+  achievements](#unobtained-achievements-opt-in-off-by-default) above.
 - **Auto-hiding header** — fixed to the viewport instead of scrolling
   away; scrolling down hides it, scrolling up reveals it immediately from
   anywhere on the page. Tapping/clicking the header's crest icon scrolls

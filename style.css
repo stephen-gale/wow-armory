@@ -379,6 +379,17 @@ main {
   margin-top: 0;
 }
 
+/* Achievements' own heading only - Show all/Only mine (see
+   renderAchievementGroups' headingActionHtml in app.js) sits
+   right-aligned on the same row as the section title, since it's a
+   control specific to this one section, not shared with Collections. */
+.achv-section__name--with-action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
 /* Sort-by toggle (Type/Date) and its two view containers. Each .sort-view
    uses display:contents when active so its own children (achv-section__name
    / achv-category cards) flow directly into the parent's grid, same as if
@@ -443,32 +454,19 @@ main {
 .sort-toggle__label:hover { color: var(--text); }
 .sort-toggle input:checked + .sort-toggle__label:hover { color: var(--gold); }
 
-/* "Show all"/"Only mine" and Collapse/Expand (see .sort-row's HTML in
-   app.js) sit side by side as one right-aligned unit, a thin vertical
-   rule between them rather than each reading as a separate, unrelated
-   control - the same divider treatment .sort-toggle__label already uses
-   between Type and Date. margin-left: auto lives on this wrapper, not on
-   either individual .panel-toggle, so the pair moves as a block away
-   from the Type/Date pill rather than each fighting for the row's
-   remaining space independently. */
-.sort-row__toggles {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+/* Collapse/Expand is the only control left in the Sort row itself (Show
+   all/Only mine now lives on the Achievements heading instead - see
+   .achv-section__name--with-action above) - pushed to the row's far
+   right on its own, same as it did as part of the pair before. */
+.hideall-toggle {
   margin-left: auto;
 }
 
-.sort-row__toggles > :not(:first-child) {
-  border-left: 1px solid var(--panel-border);
-  padding-left: 0.5rem;
-}
-
-/* Shared look for both small buttons in the sort row ("Show all"/"Only
-   mine", Collapse/Expand) - not a sort-toggle pill, since neither is a
-   mutually-exclusive alternative to Type/Date the way those two are.
-   border/background/padding/font resets undo the browser's default
-   <button> chrome (the separator above adds border-left back in
-   specifically, so it isn't lost to this reset). */
+/* Shared look for both small buttons that use this app's plain-text
+   toggle treatment ("Show all"/"Only mine", Collapse/Expand) - not a
+   sort-toggle pill, since neither is a mutually-exclusive alternative to
+   Type/Date the way those two are. border/background/padding/font resets
+   undo the browser's default <button> chrome. */
 .panel-toggle {
   display: inline-flex;
   align-items: center;
@@ -495,26 +493,9 @@ main {
    stays the default view, matching Collections' own "nothing here ever
    counts what a character doesn't have" tenet - clicking through to
    "Only mine"'s counterpart state is an opt-in exception to that, not a
-   replacement for it. */
-
-/* Only meaningful in the Type view (see the comment above) - hidden
-   rather than just inert while Date is active, so there's nothing
-   visible that looks interactive but currently does nothing.
-   Collapse/Expand (its sibling in .sort-row__toggles) stays visible in
-   both views - unlike this one, collapsing cards is just as useful for
-   Date view's month cards. */
-.date-view-active .unobtained-toggle {
-  display: none;
-}
-
-/* With Show all/Only mine hidden (above), Collapse/Expand would otherwise
-   still carry the :not(:first-child) separator meant to sit between the
-   two buttons - a stray rule with nothing to its left. Cleared whenever
-   Date is active, so it sits flush right on its own instead. */
-.date-view-active .sort-row__toggles > :not(:first-child) {
-  border-left: none;
-  padding-left: 0;
-}
+   replacement for it. Lives on the Achievements heading itself now (see
+   .achv-section__name--with-action), which Date view never renders at
+   all - naturally absent there, no CSS needed to hide it.*/
 
 .sort-view { display: none; }
 .sort-view.is-active { display: contents; }
