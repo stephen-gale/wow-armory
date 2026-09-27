@@ -201,6 +201,19 @@ const COLLECTION_CATEGORIES = [
   { key: "titles", file: "assets/data/collections/titles.json", label: "Titles" },
 ];
 
+// Achievements-with-icons is a deliberate, narrow rollout, not "every
+// achievement" - real per-achievement icon data exists for ~1730 of 1817
+// achievements (assets/data/achievement_icons.json, see
+// scripts/generate-achievement-icons.py), but showing an icon next to
+// every single achievement across all ~15 categories is a much bigger
+// visual change than confirming the idea works at all. First Aid (172)
+// is the test case: a real skill line whose whole point is showing icons
+// meaningfully group (all 5 rank achievements share one real, verified
+// profession-specific icon). Expanding this list is how any future
+// category gets added - each one a deliberate choice, not a blanket
+// enable.
+const ACHIEVEMENT_ICON_CATEGORIES = new Set([172]); // First Aid
+
 // Fetched once, eagerly, so it's usually already resolved by the time
 // someone taps a character to expand their achievements/collections.
 let achievementDataPromise = null;
@@ -212,13 +225,15 @@ function loadAchievementData() {
       fetch("assets/data/achievement_categories.json").then((r) => r.json()),
       fetch("assets/data/item_icons.json").then((r) => r.json()),
       fetch("assets/data/spell_icons.json").then((r) => r.json()),
+      fetch("assets/data/achievement_icons.json").then((r) => r.json()),
       fetch("assets/data/faction_names.json").then((r) => r.json()),
       ...COLLECTION_CATEGORIES.map((cat) => fetch(cat.file).then((r) => r.json()).catch(() => [])),
-    ]).then(([achievements, categories, itemIcons, spellIcons, factionNames, ...collectionLists]) => ({
+    ]).then(([achievements, categories, itemIcons, spellIcons, achievementIcons, factionNames, ...collectionLists]) => ({
       achievementsById: new Map(achievements.map((a) => [a.id, a])),
       categoriesById: new Map(categories.map((c) => [c.id, c])),
       itemIcons,
       spellIcons,
+      achievementIcons,
       factionNames,
       collectionsByCategory: new Map(
         COLLECTION_CATEGORIES.map((cat, i) => [cat.key, new Map(collectionLists[i].map((item) => [item.id, item]))])
@@ -467,8 +482,8 @@ function toggleAchievementsPanel(rowLi, c) {
   placeholder.innerHTML = `<p class="char-achievements__empty">Loading…</p>`;
   rowLi.after(placeholder);
 
-  loadAchievementData().then(({ achievementsById, categoriesById, collectionsByCategory, itemIcons, spellIcons, factionNames }) => {
-    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory, itemIcons, spellIcons, factionNames));
+  loadAchievementData().then(({ achievementsById, categoriesById, collectionsByCategory, itemIcons, spellIcons, achievementIcons, factionNames }) => {
+    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory, itemIcons, spellIcons, achievementIcons, factionNames));
   });
 }
 
@@ -492,7 +507,7 @@ function normalizeEntry(entry) {
     : { id: entry, earned_at: null };
 }
 
-function buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory, itemIcons, spellIcons, factionNames) {
+function buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory, itemIcons, spellIcons, achievementIcons, factionNames) {
   const li = document.createElement("li");
   li.className = "char-achievements";
 
@@ -541,8 +556,11 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
   for (const entry of achievementEntries) {
     const achievement = achievementsById.get(entry.id);
     if (!achievement) continue;
+    const iconHtml = ACHIEVEMENT_ICON_CATEGORIES.has(achievement.category_id)
+      ? itemIconImg(achievementIcons[achievement.id], "achv-list__icon")
+      : "";
     const list = byCategory.get(achievement.category_id) || [];
-    list.push({ ...achievement, earned_at: entry.earned_at });
+    list.push({ ...achievement, earned_at: entry.earned_at, iconHtml });
     byCategory.set(achievement.category_id, list);
   }
   const categoryGroups = [...byCategory.entries()]
