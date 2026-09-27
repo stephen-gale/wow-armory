@@ -374,7 +374,14 @@ main {
   margin-bottom: 0.4rem;
 }
 
+/* Row default is flex-start so the Unobtained checkbox (see below) lines
+   up with the top of the Type/Date pill rather than its vertical center -
+   but "Sort" itself needs the opposite: centering it against the pill's
+   own text (which sits lower than the pill's top edge, pushed down by
+   .sort-toggle__label's own padding) reads better than top-aligning it
+   to the pill's outer edge, so it gets its own align-self override. */
 .sort-row__label {
+  align-self: center;
   font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
