@@ -252,6 +252,17 @@ const PROFESSION_ACHIEVEMENT_ICONS = {
   172: "spell_holy_sealofsacrifice", // First Aid
 };
 
+// Shared by earned and unobtained achievements alike, so an achievement
+// gets the exact same icon regardless of which list it's rendered in.
+function achievementIconHtml(achievement, achievementIcons) {
+  if (achievement.category_id in PROFESSION_ACHIEVEMENT_ICONS) {
+    return itemIconImg(PROFESSION_ACHIEVEMENT_ICONS[achievement.category_id], "achv-list__icon");
+  } else if (ACHIEVEMENT_ICON_CATEGORIES.has(achievement.category_id)) {
+    return itemIconImg(achievementIcons[achievement.id], "achv-list__icon");
+  }
+  return "";
+}
+
 // Fetched once, eagerly, so it's usually already resolved by the time
 // someone taps a character to expand their achievements/collections.
 let achievementDataPromise = null;
@@ -266,17 +277,33 @@ function loadAchievementData() {
       fetch("assets/data/achievement_icons.json").then((r) => r.json()),
       fetch("assets/data/faction_names.json").then((r) => r.json()),
       ...COLLECTION_CATEGORIES.map((cat) => fetch(cat.file).then((r) => r.json()).catch(() => [])),
-    ]).then(([achievements, categories, itemIcons, spellIcons, achievementIcons, factionNames, ...collectionLists]) => ({
-      achievementsById: new Map(achievements.map((a) => [a.id, a])),
-      categoriesById: new Map(categories.map((c) => [c.id, c])),
-      itemIcons,
-      spellIcons,
-      achievementIcons,
-      factionNames,
-      collectionsByCategory: new Map(
-        COLLECTION_CATEGORIES.map((cat, i) => [cat.key, new Map(collectionLists[i].map((item) => [item.id, item]))])
-      ),
-    }));
+    ]).then(([achievements, categories, itemIcons, spellIcons, achievementIcons, factionNames, ...collectionLists]) => {
+      // The "Show unobtained" catalog, scoped to the exact same verified-
+      // real categories ACHIEVEMENT_ICON_CATEGORIES already uses for icons
+      // (Statistics-pane counters like "Total Deaths" never really
+      // "unlock", so they're never offered as something to chase) - one
+      // consistent allowlist for both purposes, not two separately
+      // maintained ones.
+      const achievementsByCategory = new Map();
+      for (const a of achievements) {
+        if (!ACHIEVEMENT_ICON_CATEGORIES.has(a.category_id)) continue;
+        const list = achievementsByCategory.get(a.category_id) || [];
+        list.push(a);
+        achievementsByCategory.set(a.category_id, list);
+      }
+      return {
+        achievementsById: new Map(achievements.map((a) => [a.id, a])),
+        categoriesById: new Map(categories.map((c) => [c.id, c])),
+        achievementsByCategory,
+        itemIcons,
+        spellIcons,
+        achievementIcons,
+        factionNames,
+        collectionsByCategory: new Map(
+          COLLECTION_CATEGORIES.map((cat, i) => [cat.key, new Map(collectionLists[i].map((item) => [item.id, item]))])
+        ),
+      };
+    });
   }
   return achievementDataPromise;
 }
@@ -520,8 +547,8 @@ function toggleAchievementsPanel(rowLi, c) {
   placeholder.innerHTML = `<p class="char-achievements__empty">Loading…</p>`;
   rowLi.after(placeholder);
 
-  loadAchievementData().then(({ achievementsById, categoriesById, collectionsByCategory, itemIcons, spellIcons, achievementIcons, factionNames }) => {
-    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory, itemIcons, spellIcons, achievementIcons, factionNames));
+  loadAchievementData().then(({ achievementsById, categoriesById, achievementsByCategory, collectionsByCategory, itemIcons, spellIcons, achievementIcons, factionNames }) => {
+    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById, achievementsByCategory, collectionsByCategory, itemIcons, spellIcons, achievementIcons, factionNames));
   });
 }
 
@@ -545,7 +572,7 @@ function normalizeEntry(entry) {
     : { id: entry, earned_at: null };
 }
 
-function buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory, itemIcons, spellIcons, achievementIcons, factionNames) {
+function buildAchievementsPanel(c, achievementsById, categoriesById, achievementsByCategory, collectionsByCategory, itemIcons, spellIcons, achievementIcons, factionNames) {
   const li = document.createElement("li");
   li.className = "char-achievements";
 
@@ -595,24 +622,49 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
   for (const entry of achievementEntries) {
     const achievement = achievementsById.get(entry.id);
     if (!achievement) continue;
-    let iconHtml = "";
-    if (achievement.category_id in PROFESSION_ACHIEVEMENT_ICONS) {
-      iconHtml = itemIconImg(PROFESSION_ACHIEVEMENT_ICONS[achievement.category_id], "achv-list__icon");
-    } else if (ACHIEVEMENT_ICON_CATEGORIES.has(achievement.category_id)) {
-      iconHtml = itemIconImg(achievementIcons[achievement.id], "achv-list__icon");
-    }
     const list = byCategory.get(achievement.category_id) || [];
-    list.push({ ...achievement, earned_at: entry.earned_at, iconHtml });
+    list.push({ ...achievement, earned_at: entry.earned_at, iconHtml: achievementIconHtml(achievement, achievementIcons) });
     byCategory.set(achievement.category_id, list);
   }
-  const categoryGroups = [...byCategory.entries()]
-    .map(([categoryId, achievements]) => ({
-      name: categoriesById.get(categoryId)?.name || "Other",
-      achievements: achievements.sort((a, b) => a.name.localeCompare(b.name)),
-    }))
+
+  // "Show unobtained" (see the checkbox below) needs every category that
+  // *could* show unobtained achievements in the DOM up front, not just the
+  // ones the character has already earned into - including categories with
+  // zero earned achievements so far, invisible by default the same way an
+  // empty Collections category already is. achievementsByCategory (see
+  // loadAchievementData) already scopes this to the verified-real
+  // categories, so a category outside that allowlist (which shouldn't earn
+  // achievements in practice, but isn't hard-blocked from it either) just
+  // never gets a `total`/unobtained list - same graceful "falls back to
+  // earned-only" behavior every optional field in this app already uses.
+  const allCategoryIds = new Set([...byCategory.keys(), ...achievementsByCategory.keys()]);
+  const categoryGroups = [...allCategoryIds]
+    .map((categoryId) => {
+      const earned = (byCategory.get(categoryId) || []).sort((a, b) => a.name.localeCompare(b.name));
+      const group = { name: categoriesById.get(categoryId)?.name || "Other", achievements: earned };
+      const catalog = achievementsByCategory.get(categoryId);
+      if (catalog) {
+        const earnedIds = new Set(earned.map((a) => a.id));
+        const unobtained = catalog
+          .filter((a) => !earnedIds.has(a.id))
+          .map((a) => ({ ...a, earned_at: null, iconHtml: achievementIconHtml(a, achievementIcons), unobtained: true }));
+        group.total = catalog.length;
+        group.allAchievements = [...earned, ...unobtained].sort((a, b) => a.name.localeCompare(b.name));
+      }
+      return group;
+    })
+    .filter((group) => group.achievements.length > 0 || group.total !== undefined)
     .sort((a, b) => a.name.localeCompare(b.name));
 
-  if (collectionGroups.length === 0 && categoryGroups.length === 0 && !statsHtml && !talentsHtml && !skillsHtml && !equippedGearHtml && !pvpHtml && !questsHtml && !exaltedFactionsHtml && !lastLoggedInHtml) {
+  // Whether there's any *earned* achievement to show - categoryGroups now
+  // always carries one entry per verified-real category (for the
+  // unobtained checklist), even for a character with none of them earned
+  // yet, so the empty-state message and the Sort row's own appear-at-all
+  // condition below need this rather than a raw categoryGroups.length
+  // check, or they'd both wrongly fire for every character.
+  const hasRealAchievements = categoryGroups.some((group) => group.achievements.length > 0);
+
+  if (collectionGroups.length === 0 && !hasRealAchievements && !statsHtml && !talentsHtml && !skillsHtml && !equippedGearHtml && !pvpHtml && !questsHtml && !exaltedFactionsHtml && !lastLoggedInHtml) {
     li.innerHTML = `<p class="char-achievements__empty">No collections or achievements recorded.</p>`;
     return li;
   }
@@ -621,10 +673,14 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
   // Achievements data to sort - skip it entirely otherwise (e.g. a
   // character with gear equipped but nothing recorded yet).
   let sortSectionHtml = "";
-  if (collectionGroups.length > 0 || categoryGroups.length > 0) {
+  if (collectionGroups.length > 0 || hasRealAchievements) {
     const typeViewHtml =
       renderAchievementGroups(collectionGroups, "Collections", false) +
       renderAchievementGroups(categoryGroups, "Achievements", false);
+    // Unobtained achievements never enter the Date view - they have no
+    // earned_at, so renderDateView's own `dated` filter would drop them
+    // anyway, but building allItems from `.achievements` (not
+    // `.allAchievements`) keeps that implicit rather than relying on it.
     const allItems = [...collectionGroups, ...categoryGroups].flatMap((group) => group.achievements);
     const dateViewHtml = renderDateView(allItems);
 
@@ -641,6 +697,10 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
           <input type="radio" name="${toggleName}" id="${toggleName}-date">
           <label class="sort-toggle__label" for="${toggleName}-date">Date</label>
         </div>
+        <label class="unobtained-toggle" for="unobtained-${c.guid}">
+          <input type="checkbox" id="unobtained-${c.guid}">
+          Show unobtained
+        </label>
       </div>
       <div class="sort-view is-active" data-view="type">${typeViewHtml}</div>
       <div class="sort-view" data-view="date">${dateViewHtml}</div>
@@ -686,6 +746,16 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     radio.addEventListener("change", () => {
       const which = radio.id.endsWith("-date") ? "date" : "type";
       views.forEach((view) => view.classList.toggle("is-active", view.dataset.view === which));
+    });
+  }
+
+  // Off by default (celebrating what's earned stays the default view,
+  // same as Collections) - CSS (`.show-unobtained`, see style.css) does
+  // the actual reveal, so toggling this never re-renders the panel.
+  const unobtainedCheckbox = li.querySelector(".unobtained-toggle input");
+  if (unobtainedCheckbox) {
+    unobtainedCheckbox.addEventListener("change", () => {
+      li.classList.toggle("show-unobtained", unobtainedCheckbox.checked);
     });
   }
 
@@ -1165,22 +1235,42 @@ function renderExaltedFactions(exaltedFactionIds, factionNames) {
 // they keep flowing into the same auto-fill grid as `.char-achievements`
 // uses for every category — an optional full-width heading is inserted
 // ahead of this group's own categories to label the section.
+//
+// A group with `total` set (only ever true for Achievements categories -
+// see buildAchievementsPanel) also carries `allAchievements`, the earned
+// list plus every unobtained one for that category, each tagged
+// `unobtained: true`. Both the "(earned)" and "(earned/total)" count and
+// every unobtained <li> render unconditionally, hidden by CSS
+// (`.show-unobtained`, style.css) rather than re-rendered on toggle - same
+// "precompute both states, let CSS pick" approach the Type/Date views
+// already use. A category with zero earned achievements gets
+// achv-category--all-unobtained so the whole card, not just its count,
+// stays hidden until the checkbox reveals it.
 function renderAchievementGroups(groups, sectionLabel, showPoints) {
   if (groups.length === 0) return "";
   const heading = sectionLabel
     ? `<h3 class="achv-section__name">${escapeHtml(sectionLabel)}</h3>`
     : "";
   const categories = groups
-    .map((group) => `
-      <div class="achv-category">
-        <h4 class="achv-category__name">${escapeHtml(group.name)} <span class="achv-category__count">(${group.achievements.length})</span></h4>
+    .map((group) => {
+      const items = group.allAchievements || group.achievements;
+      const countHtml = group.total !== undefined
+        ? `<span class="achv-category__count achv-category__count--obtained">(${group.achievements.length})</span><span class="achv-category__count achv-category__count--total">(${group.achievements.length}/${group.total})</span>`
+        : `<span class="achv-category__count">(${group.achievements.length})</span>`;
+      const cardClass = group.achievements.length === 0 && group.total !== undefined
+        ? "achv-category achv-category--all-unobtained"
+        : "achv-category";
+      return `
+      <div class="${cardClass}">
+        <h4 class="achv-category__name">${escapeHtml(group.name)} ${countHtml}</h4>
         <ul class="achv-list">
-          ${group.achievements.map((a) => `
-            <li class="achv-list__item">${a.iconHtml || ""}${escapeHtml(a.name)}${showPoints ? ` <span class="achv-list__points">${a.points} pts</span>` : ""}${formatEarnedDate(a.earned_at)}</li>
+          ${items.map((a) => `
+            <li class="achv-list__item${a.unobtained ? " achv-list__item--unobtained" : ""}">${a.iconHtml || ""}${escapeHtml(a.name)}${showPoints ? ` <span class="achv-list__points">${a.points} pts</span>` : ""}${formatEarnedDate(a.earned_at)}</li>
           `).join("")}
         </ul>
       </div>
-    `)
+    `;
+    })
     .join("");
   return heading + categories;
 }

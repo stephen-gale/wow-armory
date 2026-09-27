@@ -369,7 +369,8 @@ main {
   grid-column: 1 / -1;
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.6rem;
   margin-bottom: 0.4rem;
 }
 
@@ -426,6 +427,39 @@ main {
 
 .sort-toggle__label:hover { color: var(--text); }
 .sort-toggle input:checked + .sort-toggle__label:hover { color: var(--gold); }
+
+/* "Show unobtained" - a plain checkbox, not a second sort-toggle pill:
+   it's not a mutually-exclusive alternative to Type/Date the way those
+   two are, it's an independent on/off layered on top of the Type view
+   only (see .achv-list__item--unobtained below - Date never has
+   unobtained entries to begin with, no special-casing needed there).
+   Off by default: celebrating what's earned stays the default view,
+   matching Collections' own "nothing here ever counts what a character
+   doesn't have" tenet - this is an opt-in exception to that, not a
+   replacement for it. margin-left: auto pushes it to the row's far end,
+   away from the Type/Date pill. */
+.unobtained-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-left: auto;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  cursor: pointer;
+  user-select: none;
+}
+
+.unobtained-toggle:hover { color: var(--text); }
+
+.unobtained-toggle input {
+  width: 13px;
+  height: 13px;
+  accent-color: var(--gold);
+  cursor: pointer;
+}
 
 .sort-view { display: none; }
 .sort-view.is-active { display: contents; }
@@ -509,6 +543,23 @@ main {
   font-weight: 400;
 }
 
+/* Both counts always render (see renderAchievementGroups) - CSS picks
+   which one shows rather than JS re-rendering the heading text on
+   toggle, same "precompute both, let CSS pick" approach .sort-view
+   already uses for Type/Date. */
+.achv-category__count--total { display: none; }
+.show-unobtained .achv-category__count--total { display: inline; }
+.show-unobtained .achv-category__count--obtained { display: none; }
+
+/* A category the character hasn't earned a single achievement in yet
+   (only ever true for Achievements categories - see buildAchievementsPanel)
+   stays fully hidden, card and all, until Show unobtained reveals it -
+   otherwise every character would show an empty-looking card per
+   never-touched category (Feats of Strength, World Events, etc.) even
+   with the checkbox off. */
+.achv-category--all-unobtained { display: none; }
+.show-unobtained .achv-category--all-unobtained { display: block; }
+
 .achv-list {
   list-style: none;
   margin: 0;
@@ -520,6 +571,22 @@ main {
 
 .achv-list__item {
   font-size: 0.82rem;
+}
+
+/* Unobtained achievements: hidden by default (see .unobtained-toggle
+   above), greyscale + dimmed rather than removed when revealed - reads as
+   "not yet", not as broken/missing data the way a plain blank-icon entry
+   elsewhere in this app does. Text and icon both dim; the icon also loses
+   color entirely (grayscale), since a dimmed-but-still-colorful trade
+   icon still reads as "obtained" at a glance next to a genuinely earned
+   one right above or below it in the same alphabetical list. */
+.achv-list__item--unobtained { display: none; }
+.show-unobtained .achv-list__item--unobtained {
+  display: block;
+  opacity: 0.45;
+}
+.show-unobtained .achv-list__item--unobtained .achv-list__icon {
+  filter: grayscale(100%);
 }
 
 /* Last logged in's own standalone .achv-list (not an <li> inside another

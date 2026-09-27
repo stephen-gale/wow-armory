@@ -153,6 +153,48 @@ CSV/join Mounts/Companions icons already use), resolving 1,730 of 1,817
 achievements overall — the source this whole feature (and any further
 category added to `ACHIEVEMENT_ICON_CATEGORIES`) draws from.
 
+#### Unobtained achievements (opt-in, off by default)
+
+A **Show unobtained** checkbox next to the Sort by Type/Date toggle, off
+by default — checking it reveals every not-yet-earned achievement in the
+Achievements list, greyscale and dimmed rather than hidden, interleaved
+alphabetically alongside the real earned ones in the same category card.
+Each category's count badge switches from `(earned)` to
+`(earned/total)` at the same time (e.g. `Quests (5)` becomes
+`Quests (5/30)` once checked). A category with zero earned achievements
+so far — invisible by default, the same as an empty Collections category
+— appears too once checked, fully dimmed, e.g. `World Events (0/45)`.
+
+This is a deliberate, opt-in exception to Collections' own "celebrate
+accomplishments, not the unobtained" tenet (see [Collections](#collections)
+below) rather than a quiet reversal of it: off by default keeps that the
+real default experience everywhere in the app, Collections included
+(this checkbox has no effect there — Collections categories never carry
+a `total` at all, so they keep their single `(n)` count and never reveal
+an empty category, checkbox or not). Scoped to the exact same
+verified-real category allowlist `ACHIEVEMENT_ICON_CATEGORIES` already
+uses for icons (see above) — a Statistics-pane counter like "Total
+Deaths" never really "unlocks", so it's never offered as something to
+chase, same reasoning that already excludes it from icons.
+
+- **No new data or icons needed**: `assets/data/achievements.json`
+  already carries the full ~1,817-achievement catalog client-side, not
+  just earned ones, so "unobtained" is just catalog-minus-earned,
+  computed in `app.js` at render time. Icons reuse the exact same
+  per-achievement lookup earned achievements already use
+  (`achievementIconHtml` in `app.js`), so coverage is the same 99.4%
+  either way.
+- **Never touches the Date view**: unobtained achievements have no
+  `earned_at`, so they're built entirely separately from the array that
+  feeds [Sort by Type/Date](#collections)'s Date view — not filtered out
+  there, structurally never even reach it.
+- **No re-render on toggle**: both states (earned-only counts/cards, and
+  the full earned-plus-unobtained versions) render into the DOM
+  up front; checking the box just toggles a `show-unobtained` class that
+  CSS uses to reveal the rest — the same "precompute both, let CSS pick"
+  approach the Type/Date toggle itself already uses, rather than
+  re-rendering the panel.
+
 ### Collections
 
 A custom tracking system for things worth showing off that aren't part of
@@ -1744,6 +1786,18 @@ here directly as things ship or plans change.
   but each profession's own "Learn `<Profession>`" spells (already
   bundled) share one icon, verified against a real screenshot of the
   actual in-game profession list for all 14 — see [Skills](#skills) above.
+- **Unobtained achievements (opt-in)** — a "Show unobtained" checkbox next
+  to Sort by Type/Date, off by default, that reveals every not-yet-earned
+  achievement dimmed/greyscale, interleaved with the real earned ones,
+  with each category's count switching from `(earned)` to
+  `(earned/total)`. Scoped to the same verified-real category allowlist
+  icons already use; no new data, DB query, or icon fetch needed —
+  computed entirely client-side from the achievement catalog this app
+  already bundles. Deliberately off by default, an opt-in exception to
+  (not a reversal of) Collections' own "celebrate accomplishments, not
+  the unobtained" tenet, which this checkbox never touches — see
+  [Unobtained achievements](#unobtained-achievements-opt-in-off-by-default)
+  above.
 
 ### Backlog ideas
 
