@@ -8,6 +8,48 @@ if ("serviceWorker" in navigator) {
   });
 }
 
+// Auto-hiding header: scrolling down hides it (screen space back for the
+// roster, the point of this on a phone-sized viewport), scrolling up
+// reveals it again immediately, from anywhere on the page - not just back
+// at the top. .app-header is `position: fixed` (style.css) to actually
+// leave that space behind when hidden, which means body needs real
+// padding-top to compensate, computed from the header's own real height
+// (it wraps to a taller two-line block at narrow widths) rather than a
+// guessed constant that would drift out of sync with a CSS-only change.
+const appHeaderEl = document.querySelector(".app-header");
+const appHeaderIconEl = document.querySelector(".app-header__icon");
+
+function syncHeaderHeight() {
+  document.body.style.paddingTop = appHeaderEl.offsetHeight + "px";
+}
+syncHeaderHeight();
+window.addEventListener("resize", syncHeaderHeight);
+
+// A small threshold avoids flicker from sub-pixel/rubber-band scroll
+// deltas (most noticeable on iOS's overscroll bounce), and the header
+// always shows right at the top of the page regardless of direction -
+// scrolling up into the very top shouldn't leave it hidden.
+let lastScrollY = window.scrollY;
+const SCROLL_HIDE_THRESHOLD = 8;
+window.addEventListener("scroll", () => {
+  const currentY = window.scrollY;
+  const delta = currentY - lastScrollY;
+  if (currentY <= 0) {
+    appHeaderEl.classList.remove("app-header--hidden");
+    lastScrollY = currentY;
+  } else if (delta > SCROLL_HIDE_THRESHOLD) {
+    appHeaderEl.classList.add("app-header--hidden");
+    lastScrollY = currentY;
+  } else if (delta < -SCROLL_HIDE_THRESHOLD) {
+    appHeaderEl.classList.remove("app-header--hidden");
+    lastScrollY = currentY;
+  }
+}, { passive: true });
+
+appHeaderIconEl.addEventListener("click", () => {
+  window.scrollTo({ top: 0, behavior: "smooth" });
+});
+
 const CLASS_COLORS = {
   Warrior: "#C79C6E",
   Paladin: "#F58CBA",
@@ -323,16 +365,15 @@ const emptyStateEl = document.getElementById("empty-state");
 const summaryBarEl = document.getElementById("summary-bar");
 const factionsEl = document.getElementById("factions");
 
-// Chevron collapse/expand for achv-category cards - Type view's category
-// cards (Collections and Achievements alike) and Date view's month cards,
-// both from renderAchievementGroups/renderDateView, marked with
-// achv-category__name--collapsible. Stats' own Attributes/Defense/Combat
-// cards reuse the same .achv-category markup but never get that modifier
-// class, so this never touches them. One delegated listener here (rather
-// than wiring each card right after it renders, the pattern Sort/
-// Unobtained use) covers every card this produces - multiple characters'
-// panels, the per-faction Heirlooms panel, and any panel opened later -
-// without separate wiring code at each call site.
+// Chevron collapse/expand for every achv-category subheading in the app -
+// Type view's category cards (Collections and Achievements alike), Date
+// view's month cards, and Stats' Attributes/Defense/Combat cards, all
+// marked achv-category__name--collapsible by collapsibleCategoryHeading.
+// One delegated listener here (rather than wiring each card right after
+// it renders, the pattern Sort/Unobtained use) covers every card this
+// produces - multiple characters' panels, the per-faction Heirlooms
+// panel, and any panel opened later - without separate wiring code at
+// each call site.
 function toggleCategoryCollapse(heading) {
   const card = heading.closest(".achv-category");
   if (!card) return;
@@ -774,6 +815,10 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, achievement
     radio.addEventListener("change", () => {
       const which = radio.id.endsWith("-date") ? "date" : "type";
       views.forEach((view) => view.classList.toggle("is-active", view.dataset.view === which));
+      // Unobtained only ever affects the Type view (see the checkbox's own
+      // wiring below) - hide the control itself while Date is active
+      // rather than leave a checkbox visible that does nothing right now.
+      li.classList.toggle("date-view-active", which === "date");
     });
   }
 
@@ -973,7 +1018,7 @@ function renderCharacterStats(stats, className) {
     const visibleStats = group.stats.filter((s) => !CLASS_FILTERED_STAT_KEYS.has(s.key) || visible.has(s.key));
     return `
     <div class="achv-category">
-      <h4 class="achv-category__name">${escapeHtml(group.name)}</h4>
+      ${collapsibleCategoryHeading(escapeHtml(group.name))}
       <ul class="achv-list">
         ${visibleStats.map((s) => {
           const value = stats[s.key];
@@ -1259,13 +1304,14 @@ function renderExaltedFactions(exaltedFactionIds, factionNames) {
   `;
 }
 
-// Shared by renderAchievementGroups (category cards) and renderDateView
-// (month cards) - the same collapse/expand caret the character card's own
-// expand/collapse toggle already uses (.char-card__toggle), reused here
-// rather than a new icon. Collapsing/expanding is wired up once, by
-// delegation, in the factionsEl listener above - this only needs to mark
-// which headings are collapsible (achv-category__name--collapsible),
-// not attach anything itself.
+// Shared by every achv-category subheading in the app - renderAchievementGroups
+// (Type view category cards), renderDateView (Date view month cards), and
+// renderCharacterStats (Attributes/Defense/Combat) - the same collapse/
+// expand caret the character card's own expand/collapse toggle already
+// uses (.char-card__toggle), reused here rather than a new icon.
+// Collapsing/expanding is wired up once, by delegation, in the factionsEl
+// listener above - this only needs to mark which headings are collapsible
+// (achv-category__name--collapsible), not attach anything itself.
 function collapsibleCategoryHeading(innerHtml) {
   return `
     <h4 class="achv-category__name achv-category__name--collapsible" role="button" tabindex="0" aria-expanded="true">

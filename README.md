@@ -20,6 +20,18 @@ manual step needed. A small `Load characters.json manually` link at the
 bottom of the page is kept as a fallback, in case the auto-publish step
 ever fails and you want to load a file directly.
 
+**Header**: fixed to the top of the viewport rather than scrolling away
+with the page, but auto-hiding — scrolling down hides it (screen space
+back for the roster, the point on a phone-sized viewport), and scrolling
+up reveals it again immediately, from anywhere on the page, not just back
+at the very top. `app.js` reads the header's own real height
+(`offsetHeight`, recomputed on resize) to set `body`'s `padding-top`
+instead of a guessed pixel constant, since it wraps to a taller two-line
+block at narrow widths. A small scroll-delta threshold avoids flicker
+from sub-pixel/rubber-band scroll events (most noticeable on iOS's
+overscroll bounce). Tapping/clicking the header's own crest icon scrolls
+back to the top of the page.
+
 Faction crests, class icons, and race icons are bundled directly in this
 repo at `assets/icons/*.png` (originally sourced from
 [Gethe/wow-ui-textures](https://github.com/Gethe/wow-ui-textures), a
@@ -188,7 +200,10 @@ chase, same reasoning that already excludes it from icons.
 - **Never touches the Date view**: unobtained achievements have no
   `earned_at`, so they're built entirely separately from the array that
   feeds [Sort by Type/Date](#collections)'s Date view — not filtered out
-  there, structurally never even reach it.
+  there, structurally never even reach it. The checkbox itself is hidden
+  (not just inert) while Date is selected, so there's nothing visible
+  that looks interactive but currently has no effect — it reappears the
+  moment Type is selected again, in whatever state it was left in.
 - **No re-render on toggle**: both states (earned-only counts/cards, and
   the full earned-plus-unobtained versions) render into the DOM
   up front; checking the box just toggles a `show-unobtained` class that
@@ -198,20 +213,18 @@ chase, same reasoning that already excludes it from icons.
 
 #### Collapsible categories and months
 
-Every category card in the Type view (Collections and Achievements alike)
-and every month card in the Date view has a chevron in its heading —
-tap/click the whole heading, not just the small caret, to collapse or
-expand that one card's list. Expanded (list visible) is the default,
-matching how every panel already looked before this existed; collapsing
-is purely a per-card, in-session convenience for cards that have grown
-long (Feats of Strength alone is 158 achievements, more once
+Every `achv-category` subheading in the app has a chevron — Type view's
+category cards (Collections and Achievements alike), Date view's month
+cards, and Stats' own Attributes/Defense/Combat cards. Tap/click the
+whole heading, not just the small caret, to collapse or expand that one
+card's list. Expanded (list visible) is the default, matching how every
+panel already looked before this existed; collapsing is purely a
+per-card, in-session convenience for cards that have grown long (Feats
+of Strength alone is 158 achievements, more once
 [Unobtained](#unobtained-achievements-opt-in-off-by-default) is checked)
 — nothing about which achievements exist or are earned changes, and
 collapse state isn't saved anywhere, so every panel opens fully expanded
-again next time. Stats' own Attributes/Defense/Combat cards reuse the
-same `.achv-category` markup but never get a chevron — they're a fixed
-handful of lines each, nothing to collapse, and outside the Type/Date
-views this feature is scoped to.
+again next time.
 
 Wired up with a single delegated click/keydown listener (`app.js`) rather
 than attaching one per card at render time, the way the Sort and
@@ -1827,15 +1840,26 @@ here directly as things ship or plans change.
   the unobtained" tenet, which this checkbox never touches — see
   [Unobtained achievements](#unobtained-achievements-opt-in-off-by-default)
   above.
-- **Collapsible categories and months** — a chevron on every Type view
-  category card and Date view month card; tap/click the heading to
+- **Collapsible categories and months** — a chevron on every `achv-category`
+  subheading in the app: Type view category cards, Date view month cards,
+  and Stats' Attributes/Defense/Combat cards. Tap/click the heading to
   collapse or expand that one card's list, expanded by default, not
   persisted across panel opens. One delegated click/keydown listener
   covers every card (every character's panel, plus the per-faction
-  Heirlooms panel) rather than per-card wiring; Stats' own cards reuse
-  the same markup but never get a chevron, since they're outside the
-  Type/Date views this is scoped to — see [Collapsible categories and
-  months](#collapsible-categories-and-months) above.
+  Heirlooms panel) rather than per-card wiring — see [Collapsible
+  categories and months](#collapsible-categories-and-months) above.
+- **Unobtained hidden outside Type view** — the checkbox only ever affects
+  the Type view, so it's hidden (not just inert) while Date is selected,
+  reappearing in whatever state it was left in once Type is selected
+  again — see [Unobtained achievements](#unobtained-achievements-opt-in-off-by-default)
+  above.
+- **Auto-hiding header** — fixed to the viewport instead of scrolling
+  away; scrolling down hides it, scrolling up reveals it immediately from
+  anywhere on the page. Tapping/clicking the header's crest icon scrolls
+  back to the top. `body`'s `padding-top` (to compensate for the header
+  leaving normal flow) is set from the header's own real `offsetHeight`,
+  not a guessed constant, since it wraps taller at narrow widths — see
+  the [Character Dashboard](#character-dashboard) intro above.
 
 ### Backlog ideas
 

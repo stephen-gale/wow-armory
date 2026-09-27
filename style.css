@@ -21,7 +21,17 @@ body {
   min-height: 100vh;
 }
 
+/* Fixed (not sticky) so it actually leaves its space behind when hidden
+   (app.js's scroll listener toggles .app-header--hidden) rather than just
+   visually sliding over content that hasn't reflowed - body's own
+   padding-top (set from this element's real offsetHeight in app.js)
+   reserves the space normal flow would have given it. */
 .app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -30,6 +40,11 @@ body {
   padding: 1.25rem 1.5rem;
   border-bottom: 1px solid var(--panel-border);
   background: linear-gradient(180deg, #1a1d24, #14171c);
+  transition: transform 0.25s ease;
+}
+
+.app-header--hidden {
+  transform: translateY(-100%);
 }
 
 .app-header__title h1 {
@@ -42,11 +57,15 @@ body {
   gap: 0.5rem;
 }
 
+/* Clicking the icon scrolls back to the top (app.js) - cursor:pointer is
+   the only visual affordance; it already looks like a fixed brand mark,
+   not a button, so a heavier hover treatment would look out of place. */
 .app-header__icon {
   width: 28px;
   height: 28px;
   border-radius: 6px;
   border: 1px solid rgba(255,255,255,0.2);
+  cursor: pointer;
 }
 
 .app-header__subtitle {
@@ -461,6 +480,13 @@ main {
 
 .unobtained-toggle:hover { color: var(--text); }
 
+/* Only meaningful in the Type view (see the comment above) - hidden
+   rather than just inert while Date is active, so there's nothing
+   visible that looks interactive but currently does nothing. */
+.date-view-active .unobtained-toggle {
+  display: none;
+}
+
 .unobtained-toggle input {
   width: 13px;
   height: 13px;
@@ -545,11 +571,11 @@ main {
   color: var(--text-dim);
 }
 
-/* Collapsible category cards (Type view categories, Date view months -
-   see collapsibleCategoryHeading in app.js). A bigger touch target than
-   just the chevron: the whole heading row toggles, not only the small
-   caret. Stats' own cards reuse .achv-category__name but never get this
-   modifier, so they're never clickable. */
+/* Collapsible category cards - every achv-category subheading in the app
+   (Type view categories, Date view months, Stats' Attributes/Defense/
+   Combat - see collapsibleCategoryHeading in app.js). A bigger touch
+   target than just the chevron: the whole heading row toggles, not only
+   the small caret. */
 .achv-category__name--collapsible {
   cursor: pointer;
   display: flex;
