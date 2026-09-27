@@ -949,6 +949,40 @@ function renderTalents(talents, className) {
   return `<h3 class="achv-section__name">Talents</h3><div class="talent-columns">${columns}</div>`;
 }
 
+// One fixed icon per profession, same treatment PROFESSION_ACHIEVEMENT_ICONS
+// already gives Cooking/Fishing/First Aid. Found without needing a DBC pull
+// from the deck: acore_world has no spellicon_dbc table (see Skills'
+// SQL comment), but every profession has real "Learn <Profession>" trainer
+// spells literally named after it in the already-bundled Spell CSV - every
+// one of those spells for a given profession shares the same SpellIconID,
+// and resolving that id gave the exact real trade icon (verified against
+// a reference screenshot of the actual in-game profession list for 11 of
+// 14 - the other 3 aren't shown in that screenshot at all). Cooking/
+// Fishing/First Aid's own icons matched exactly what the achievement-icon
+// path already found independently, cross-confirming the method.
+// Inscription is the one profession deliberately left out: its "Learn
+// Inscription" spells all resolve to inv_inscription_tradeskill01 (a
+// quill/inkwell), but that doesn't match what the reference screenshot
+// actually shows for it (a reddish rune/glyph shape) - several other
+// glyph-shaped candidates were checked and none matched either, so this
+// stays unresolved rather than shipping a guess. Falls back to no icon,
+// same graceful degradation every other icon in this app already uses.
+const SKILL_ICONS = {
+  129: "spell_holy_sealofsacrifice", // First Aid
+  164: "trade_blacksmithing", // Blacksmithing
+  165: "inv_misc_armorkit_17", // Leatherworking
+  171: "trade_alchemy", // Alchemy
+  182: "trade_herbalism", // Herbalism
+  185: "inv_misc_food_15", // Cooking
+  186: "trade_mining", // Mining
+  197: "trade_tailoring", // Tailoring
+  202: "trade_engineering", // Engineering
+  333: "trade_engraving", // Enchanting - not in the reference screenshot, unverified by picture
+  356: "trade_fishing", // Fishing
+  393: "inv_misc_pelt_wolf_01", // Skinning
+  755: "inv_misc_gem_02", // Jewelcrafting - not in the reference screenshot, unverified by picture
+};
+
 // Skills — professions only (see export-characters-json.sh/wowbackup.sh's
 // SQL comment for the verified skill id list), right after Stats: a
 // live snapshot like Equipped/Stats, not a Collection - skill points keep
@@ -962,7 +996,7 @@ function renderSkills(skills) {
   return `
     <h3 class="achv-section__name">Skills</h3>
     <ul class="achv-list">
-      ${sorted.map((s) => `<li class="achv-list__item">${escapeHtml(s.name)}: ${formatNumber(s.value)}/${formatNumber(s.max)}</li>`).join("")}
+      ${sorted.map((s) => `<li class="achv-list__item">${itemIconImg(SKILL_ICONS[s.id], "achv-list__icon")}${escapeHtml(s.name)}: ${formatNumber(s.value)}/${formatNumber(s.max)}</li>`).join("")}
     </ul>
   `;
 }

@@ -512,14 +512,26 @@ Talents/Stats/Equipped Gear, a plain current-state snapshot: no
   (`JOIN acore_world.skillline_dbc sl ON sl.ID = cs.skill`), the same
   "live join, simplest and most accurate source" reasoning Equipped
   Gear's item names already use.
-- **No icons yet**: `skillline_dbc` does carry a `SpellIconID` per skill,
-  but AzerothCore's world DB has no `spellicon_dbc` table to resolve that
-  against (checked the full list of `_dbc` tables it ships — icon
-  resolution just isn't something the server itself needs, so it was
-  never loaded in). A real per-skill icon would need the actual
-  `skillline_dbc` row data from a DBC extraction (same kind of one-time
-  pull Zone/Exalted Factions needed), not yet done — tracked in the
-  Backlog rather than guessed at.
+- **Icons, 13 of 14** (`SKILL_ICONS` in `app.js`): `skillline_dbc`'s
+  `SpellIconID` isn't reachable without a DBC extraction (AzerothCore's
+  world DB has no `spellicon_dbc` table to resolve it against locally),
+  but every profession has real "Learn `<Profession>`" trainer spells
+  literally named after it in the already-bundled Spell CSV — every
+  matching spell for a given profession shares one `SpellIconID`,
+  resolving to the profession's real trade icon with no DBC pull needed.
+  Verified against a real screenshot of WotLK's own profession-selection
+  icon grid for 11 of 14 (exact match on all 11); Cooking/Fishing/First
+  Aid's results additionally matched what the Achievement icon path
+  (see [Achievement icons](#achievement-icons-the-three-professions-categories-for-now))
+  already found independently, cross-confirming the method. Enchanting
+  and Jewelcrafting aren't in that reference screenshot, so their icons
+  rest on the method alone, not a picture match. **Inscription is
+  deliberately left without an icon**: its matching spells all resolve to
+  a quill/inkwell icon that doesn't match what the reference screenshot
+  actually shows for it (a reddish rune/glyph shape) — several glyph-
+  shaped candidates were checked and none matched, so this stays
+  unresolved rather than shipping a guess. Same graceful "no icon" fallback
+  every other icon in this app already uses when nothing resolves.
 
 ### Equipped Gear
 
@@ -1693,15 +1705,19 @@ here directly as things ship or plans change.
   automatic, see
   [Achievement icons](#achievement-icons-the-three-professions-categories-for-now)
   above.
-- **Skills** — right after Stats: each known profession's name and
-  current/max value. Filtered to the 14 real profession skill ids
+- **Skills** — right after Stats: each known profession's name, icon,
+  and current/max value. Filtered to the 14 real profession skill ids
   (verified against AzerothCore's own `SharedDefines.h`, not guessed),
   names resolved via a live join against `acore_world.skillline_dbc`
   rather than a bundled reference file — that table ships pre-populated
   on any normal AzerothCore install, so unlike Zone/Exalted Factions this
-  needed no DBC extraction step at all. No icons yet — the world DB has
-  no `spellicon_dbc` table to resolve `skillline_dbc`'s `SpellIconID`
-  against locally, so that part stays in the Backlog — see
+  needed no DBC extraction step at all. Icons for 13 of 14 professions,
+  found the same way — no `spellicon_dbc` table to join against locally,
+  but each profession's own "Learn `<Profession>`" spells (already
+  bundled) share one icon, verified against a real screenshot of the
+  actual in-game profession list for 11 of 14. Inscription alone stays
+  icon-less — its matching spells resolve to an icon that doesn't match
+  the reference screenshot, and no better candidate was found — see
   [Skills](#skills) above.
 
 ### Backlog ideas
@@ -1711,7 +1727,7 @@ rough effort.
 
 | Idea | Effort | Notes |
 | --- | --- | --- |
-| Skill icons | Low–medium, once unblocked | Unlike every other icon in this app, `skillline_dbc`'s real row data (the ~14 profession rows' `SpellIconID`) isn't reachable from a bundled CSV source the way Item/Achievement/Talent/Spell data was — AzerothCore's world DB doesn't ship a `spellicon_dbc` table to resolve it against locally either. Needs a DBC extraction (same kind of one-time pull Zone/Exalted Factions needed) before this can be built, not guessed at |
+| Inscription's skill icon | Low, once someone spots it | The other 13 professions all got a verified real icon (see Shipped above). Inscription's own "Learn Inscription" spells all resolve to `inv_inscription_tradeskill01` (a quill/inkwell), which doesn't match what a real screenshot of the in-game profession list shows for it (a reddish rune/glyph shape) — several glyph-shaped candidates (`INV_Inscription_MajorGlyph*`, class glyph icons) were checked and ruled out too. Whoever's at their own client next can just check what the real Inscription icon is named in-game/via an addon and drop it into `SKILL_ICONS` in `app.js` |
 | Screenshots gallery | Medium–high | Reframed per feedback: a general slideshow to browse, not sorted per character |
 | PvP: honor rolled up to faction/account | Trivial (when wanted) | Data shape already supports it — `honor_points` matches the fields `renderSummary`/`renderFactionPanel` already reduce over |
 | PvP: kills | Dropped for now | Bots are currently off, so kill counts wouldn't reflect real activity |
