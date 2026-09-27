@@ -112,6 +112,32 @@ further one later is purely a data-file + one-line registration change
 (`COLLECTION_CATEGORIES` in `app.js`, the `CATEGORIES` list in the export
 scripts) — no other code changes.
 
+#### Icons
+
+Sets, Legendaries, Tabards, and Heirlooms show a small icon to the left of
+each entry, resolved client-side in `app.js` (`collectionItemIcon`) —
+Legendaries/Tabards/Heirlooms each resolve their own `item_*` id against
+the same bundled `assets/data/item_icons.json` Equipped Gear already uses
+(confirmed every current entry in all three files resolves — 76/76
+Tabards, 27/27 Legendaries, 39/39 Heirlooms), while Sets always shows one
+fixed icon (`inv_helmet_01`) since a set spans several armor pieces, so no
+single item id represents "the set" the way it does for the other three.
+The same icon carries through to the Sort by: Date view, where Collections
+entries sit interleaved with Achievements in one chronological list —
+Achievements (and Mounts/Companions/Titles) stay icon-less there, so the
+icon itself doubles as an at-a-glance "this is an item, not a plain
+achievement" marker, with no per-entry category label needed.
+
+Mounts and Companions don't get one: their `item_*` ids are mostly
+`InventoryType 0` (non-equippable "use" items), which
+`scripts/generate-item-icons.py` explicitly excludes — confirmed 0 of the
+310 current item-backed Mounts entries resolve against
+`item_icons.json`. A real per-item icon for these would need a different
+DBC table entirely (`Spell.dbc`/`SpellIcon.dbc`, keyed by the mount's
+learn-spell id rather than an item id) that hasn't been pulled into this
+project — tracked in the Backlog rather than guessed at with a generic
+icon.
+
 #### Sets
 
 Equipping every piece of a named gear set — every set in the game, not a
@@ -1495,6 +1521,14 @@ here directly as things ship or plans change.
   `ReputationMgr::GetReputation()`, and computed correctly using a
   second DBC extraction (`scripts/extract-faction-baselines.py`) rather
   than assumed — see [Exalted Factions](#exalted-factions) above.
+- **Icons on Sets, Legendaries, Tabards, Heirlooms** — a small icon to
+  the left of each entry, real per-item icons for the latter three
+  (confirmed every current entry across all three files already resolves
+  against the bundled `item_icons.json` — no new data source needed) and
+  one fixed helm icon for Sets, since a set spans several armor pieces
+  with no single item to represent it. Carries through to the Sort by:
+  Date view too, where it doubles as an at-a-glance item-vs-achievement
+  marker in the merged timeline — see [Icons](#icons) above.
 
 ### Backlog ideas
 
@@ -1508,7 +1542,7 @@ rough effort.
 | PvP: honor rolled up to faction/account | Trivial (when wanted) | Data shape already supports it — `honor_points` matches the fields `renderSummary`/`renderFactionPanel` already reduce over |
 | PvP: kills | Dropped for now | Bots are currently off, so kill counts wouldn't reflect real activity |
 | Additional dashboard views (achievements/playtime trends over multiple backups, etc.) | Unscoped | Carried over from an earlier planning note, not yet reviewed against the real schema |
-| Icons on Mounts, Tabards, Companions, Legendaries, Heirlooms (same treatment as Equipped Gear) | Low–medium, varies by category | Tabards/Legendaries/Heirlooms are equippable items, so their `item_*` ids likely already resolve against the existing `assets/data/item_icons.json` (needs confirming per category, not assumed). Mounts/Companions are mostly summoned via spell (`spell_*` ids) or a non-equippable item (`InventoryType 0`, excluded from `item_icons.json`'s own generation) — those need a spell-icon lookup instead (`Spell_3.3.5_12340.csv`'s icon field, same `r-o-b-o-t-o/azerothcore-armory` source, not yet pulled into this project). Achievements/Titles/Sets are still undecided: no icon, or a single generic achievement icon, when shown in the Date view (mixes categories in one list, so no per-item icon source applies uniformly) |
+| Icons on Mounts, Companions | Low–medium | Sets/Legendaries/Tabards/Heirlooms already shipped (see Shipped above). These two are different: their `item_*` ids are mostly `InventoryType 0` (non-equippable "use" items), confirmed excluded from `item_icons.json`'s own generation — 0/310 current Mounts entries resolve. Needs a genuinely different DBC table (`Spell.dbc`/`SpellIcon.dbc`, keyed by the mount/companion's learn-spell id rather than an item id) that hasn't been pulled into this project |
 | Secondary (dimmer/smaller) sub-value on the top Played Time and Gold stat tiles | Low | `formatPlayedTime` currently only ever shows whole hours (`Math.floor(totalSeconds / 3600) + "h"`, dropping the remaining minutes/seconds); `formatMoneyPlain` currently only ever shows gold (`goldAmount(copper) + "g"`, dropping the remaining silver/copper). Add the dropped remainder as a `.ap-count`-style secondary span (e.g. `12h (34m 56s)`, `1,050g (34s 12c)`), reusing the same markup/class the achievement count already uses in the summary tile, so all three top stat tiles carry a matching primary+secondary shape instead of only Achievements having one |
 | Tap-an-item tooltip (live item data from an external DB, e.g. Wowhead) | Investigated, blocked | Wowhead's standard tooltip widget (`wow.zamimg.com/js/tooltips.js`) was the obvious candidate — this app already carries every item id needed (`g.id` in `renderEquippedGear`, `item_*`/`spell_*` ids in Collections) so wiring it in would be small. Tested with a throwaway page (real item links, the exact script tag) on a real phone over a normal connection: the script never loads and no tooltip appears on tap. Whether that's the widget being genuinely dead/retired, this account/network specifically blocking `wow.zamimg.com`, or the wrong script URL entirely wasn't narrowed down. wotlkdb.com wasn't tried for real (no confirmed embed snippet was found for it, and the placeholder guess in the test page was never expected to work). Next step if revisited: check wotlkdb.com for its own widgets/embed page, or open Wowhead's `/widgets` page directly to get a fresh snippet, before trying again |
 | Character sort within each faction: by Name or by Last logged in | Low–medium | Currently fixed, not user-toggleable: `renderFactionPanel`'s `sorted` is always `level` descending then `name` alphabetically (`app.js` line ~280). Both new fields already exist per-character (`name`; `last_online`, which `renderLastLoggedIn`/`formatDDMMYY` already parse) — no new data needed. Would need its own sort-mode control on the roster itself, separate from the existing per-character achievements Sort by Type/Date toggle (that one only reorders one expanded panel's contents, not the character list) |

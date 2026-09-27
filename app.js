@@ -111,6 +111,28 @@ function itemIconImg(slug, className, style) {
   return `<img class="${className}" src="assets/icons/items/${slug}.png" alt=""${styleAttr} onerror="console.warn('icon failed to load:', this.src); this.remove();">`;
 }
 
+// A single fixed icon for every Sets entry, rather than a per-item lookup -
+// a set spans multiple armor pieces, so no one item icon represents "the
+// set" the way a single item id does for Legendaries/Tabards/Heirlooms.
+const SET_ICON_SLUG = "inv_helmet_01";
+
+// Collections icons, category by category - only where a real per-item (or
+// per-category) icon actually resolves. Mounts/Companions need a spell-icon
+// lookup this project doesn't have yet (their `item_*` ids are mostly
+// InventoryType 0, excluded from item_icons.json's own generation -
+// confirmed 0/310 current Mounts entries resolve); Titles have no natural
+// item to hang an icon off. Both stay icon-less rather than guessing.
+function collectionItemIcon(categoryKey, itemId, itemIcons) {
+  if (categoryKey === "sets") {
+    return itemIconImg(SET_ICON_SLUG, "achv-list__icon");
+  }
+  if (categoryKey === "legendaries" || categoryKey === "tabards" || categoryKey === "heirlooms") {
+    const numericId = itemId.split("_")[1];
+    return itemIconImg(itemIcons[numericId], "achv-list__icon");
+  }
+  return "";
+}
+
 // WoW's fixed EQUIPMENT_SLOT_* order (0-18) - stable across the game's
 // entire history, matches the character_inventory.slot values the export
 // scripts already filter to (bag=0, slot 0-18).
@@ -313,8 +335,8 @@ function renderFactionPanel(faction, characters) {
   heirloomsPlaceholder.className = "char-achievements faction-heirlooms";
   heirloomsPlaceholder.innerHTML = `<p class="char-achievements__empty">Loading…</p>`;
   panel.appendChild(heirloomsPlaceholder);
-  loadAchievementData().then(({ collectionsByCategory }) => {
-    const panel = buildFactionHeirloomsPanel(characters, collectionsByCategory);
+  loadAchievementData().then(({ collectionsByCategory, itemIcons }) => {
+    const panel = buildFactionHeirloomsPanel(characters, collectionsByCategory, itemIcons);
     if (panel) {
       heirloomsPlaceholder.replaceWith(panel);
     } else {
@@ -334,7 +356,7 @@ function renderFactionPanel(faction, characters) {
 // one character's expandable panel. Returns null when the faction has none
 // at all, so the caller can render nothing rather than an empty-state
 // message — Collections celebrates what's earned, never flags what isn't.
-function buildFactionHeirloomsPanel(characters, collectionsByCategory) {
+function buildFactionHeirloomsPanel(characters, collectionsByCategory, itemIcons) {
   const heirloomsById = collectionsByCategory.get("heirlooms");
   const earliestByItemId = new Map();
   for (const c of characters) {
@@ -349,7 +371,7 @@ function buildFactionHeirloomsPanel(characters, collectionsByCategory) {
   const items = [...earliestByItemId.entries()]
     .map(([id, earned_at]) => {
       const item = heirloomsById.get(id);
-      return item && { ...item, earned_at };
+      return item && { ...item, earned_at, iconHtml: collectionItemIcon("heirlooms", id, itemIcons) };
     })
     .filter(Boolean)
     .sort((a, b) => a.name.localeCompare(b.name));
@@ -480,7 +502,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     const items = entries
       .map((entry) => {
         const item = itemsById.get(entry.id);
-        return item && { ...item, earned_at: entry.earned_at };
+        return item && { ...item, earned_at: entry.earned_at, iconHtml: collectionItemIcon(cat.key, item.id, itemIcons) };
       })
       .filter(Boolean);
     if (items.length === 0) continue;
@@ -1018,7 +1040,7 @@ function renderAchievementGroups(groups, sectionLabel, showPoints) {
         <h4 class="achv-category__name">${escapeHtml(group.name)} <span class="achv-category__count">(${group.achievements.length})</span></h4>
         <ul class="achv-list">
           ${group.achievements.map((a) => `
-            <li class="achv-list__item">${escapeHtml(a.name)}${showPoints ? ` <span class="achv-list__points">${a.points} pts</span>` : ""}${formatEarnedDate(a.earned_at)}</li>
+            <li class="achv-list__item">${a.iconHtml || ""}${escapeHtml(a.name)}${showPoints ? ` <span class="achv-list__points">${a.points} pts</span>` : ""}${formatEarnedDate(a.earned_at)}</li>
           `).join("")}
         </ul>
       </div>
@@ -1066,7 +1088,7 @@ function renderDateView(items) {
           <h4 class="achv-category__name">${MONTH_NAMES[month]}</h4>
           <ul class="achv-list">
             ${monthItems.map((item) => `
-              <li class="achv-list__item">${escapeHtml(item.name)}${formatEarnedDate(item.earned_at)}</li>
+              <li class="achv-list__item">${item.iconHtml || ""}${escapeHtml(item.name)}${formatEarnedDate(item.earned_at)}</li>
             `).join("")}
           </ul>
         </div>
