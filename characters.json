@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-27T18:34:01Z",
+  "generated_at": "2026-09-27T22:57:04Z",
   "characters": [
     {
       "guid": 1006,
@@ -471,17 +471,17 @@
       "class_name": "Paladin",
       "faction": "Alliance",
       "level": 73,
-      "money_copper": 23542575,
+      "money_copper": 24654208,
       "zone_id": 65,
       "exalted_factions": [
         72
       ],
-      "achievement_points": 530,
-      "achievement_count": 54,
-      "played_time_seconds": 427180,
+      "achievement_points": 540,
+      "achievement_count": 55,
+      "played_time_seconds": 431458,
       "honor_points": 0,
-      "last_online": "2026-09-26T23:04:07Z",
-      "quests_completed": 1124,
+      "last_online": "2026-09-27T22:56:40Z",
+      "quests_completed": 1132,
       "stats": {
         "max_health": 9721,
         "strength": 555,
@@ -499,8 +499,8 @@
         "block_pct": 5.0,
         "dodge_pct": 7.90456,
         "parry_pct": 5.0,
-        "crit_pct": 18.1949,
-        "ranged_crit_pct": 3.59491,
+        "crit_pct": 19.7586,
+        "ranged_crit_pct": 5.15859,
         "spell_crit_pct": 0.0,
         "attack_power": 1309,
         "ranged_attack_power": 148,
@@ -535,6 +535,10 @@
         {
           "id": 12,
           "earned_at": "2026-09-11T09:57:08Z"
+        },
+        {
+          "id": 31,
+          "earned_at": "2026-09-27T22:26:15Z"
         },
         {
           "id": 34,
@@ -841,10 +845,10 @@
         },
         {
           "slot": 13,
-          "id": 38259,
-          "name": "First Mate's Pocketwatch",
-          "quality": 3,
-          "item_level": 138
+          "id": 38080,
+          "name": "Automated Weapon Coater",
+          "quality": 2,
+          "item_level": 146
         },
         {
           "slot": 14,
