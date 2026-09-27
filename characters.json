@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-26T22:41:08Z",
+  "generated_at": "2026-09-27T18:34:01Z",
   "characters": [
     {
       "guid": 1006,
@@ -459,7 +459,8 @@
       "talents": {
         "363": 16,
         "361": 55
-      }
+      },
+      "skills": []
     },
     {
       "guid": 1007,
@@ -477,9 +478,9 @@
       ],
       "achievement_points": 530,
       "achievement_count": 54,
-      "played_time_seconds": 427123,
+      "played_time_seconds": 427180,
       "honor_points": 0,
-      "last_online": "2026-09-26T22:40:54Z",
+      "last_online": "2026-09-26T23:04:07Z",
       "quests_completed": 1124,
       "stats": {
         "max_health": 9721,
@@ -871,7 +872,8 @@
         "381": 57,
         "382": 2,
         "383": 5
-      }
+      },
+      "skills": []
     }
   ]
 }
