@@ -454,21 +454,27 @@ main {
 .sort-toggle__label:hover { color: var(--text); }
 .sort-toggle input:checked + .sort-toggle__label:hover { color: var(--gold); }
 
-/* "Show unobtained" - a plain checkbox, not a second sort-toggle pill:
-   it's not a mutually-exclusive alternative to Type/Date the way those
-   two are, it's an independent on/off layered on top of the Type view
-   only (see .achv-list__item--unobtained below - Date never has
-   unobtained entries to begin with, no special-casing needed there).
-   Off by default: celebrating what's earned stays the default view,
-   matching Collections' own "nothing here ever counts what a character
-   doesn't have" tenet - this is an opt-in exception to that, not a
-   replacement for it. margin-left: auto pushes it to the row's far end,
-   away from the Type/Date pill. */
-.unobtained-toggle {
+/* Stacks Unobtained above Hide all (see .sort-row's HTML in app.js) as
+   one right-aligned unit - margin-left: auto lives here, not on either
+   individual .panel-toggle, so the pair moves as a block away from the
+   Type/Date pill rather than each fighting for the row's remaining
+   space independently. align-items: flex-end keeps both checkboxes'
+   right edges flush, matching the row's own right-alignment. */
+.sort-row__toggles {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+  margin-left: auto;
+}
+
+/* Shared look for every small checkbox+label control in the sort row
+   (Unobtained, Hide all) - not a sort-toggle pill, since neither is a
+   mutually-exclusive alternative to Type/Date the way those two are. */
+.panel-toggle {
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  margin-left: auto;
   font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -478,20 +484,31 @@ main {
   user-select: none;
 }
 
-.unobtained-toggle:hover { color: var(--text); }
+.panel-toggle:hover { color: var(--text); }
 
-/* Only meaningful in the Type view (see the comment above) - hidden
-   rather than just inert while Date is active, so there's nothing
-   visible that looks interactive but currently does nothing. */
-.date-view-active .unobtained-toggle {
-  display: none;
-}
-
-.unobtained-toggle input {
+.panel-toggle input {
   width: 13px;
   height: 13px;
   accent-color: var(--gold);
   cursor: pointer;
+}
+
+/* Show unobtained: an independent on/off layered on top of the Type view
+   only (see .achv-list__item--unobtained below - Date never has
+   unobtained entries to begin with, no special-casing needed there). Off
+   by default: celebrating what's earned stays the default view, matching
+   Collections' own "nothing here ever counts what a character doesn't
+   have" tenet - this is an opt-in exception to that, not a replacement
+   for it. */
+
+/* Only meaningful in the Type view (see the comment above) - hidden
+   rather than just inert while Date is active, so there's nothing
+   visible that looks interactive but currently does nothing. Hide all
+   (its sibling in .sort-row__toggles) stays visible in both views -
+   unlike Unobtained, collapsing cards is just as useful for Date view's
+   month cards. */
+.date-view-active .unobtained-toggle {
+  display: none;
 }
 
 .sort-view { display: none; }

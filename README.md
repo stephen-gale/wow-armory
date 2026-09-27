@@ -236,6 +236,19 @@ accessible (`Enter`/`Space`, `tabindex="0"`, `aria-expanded`), same as
 the roster's own character-row expand/collapse toggle whose caret icon
 this reuses.
 
+A **Hide all** checkbox stacked under Unobtained (same right-aligned,
+top-aligned-with-the-toggle treatment) collapses every category/month
+card in the panel at once — a bulk version of the same per-card chevron.
+Unlike Unobtained, it stays visible and useful in both the Type and Date
+views (a long list of month cards in Date view is just as real a
+scrolling problem as a long achievement category), and checking it
+collapses cards in *both* views at once, not just whichever is currently
+showing, so switching views afterward doesn't undo it. It's a one-way
+master switch, not a live reflection of every card's state: manually
+re-expanding one card afterward doesn't uncheck it, and unchecking it
+simply expands everything again rather than restoring whatever each card
+was individually before.
+
 ### Collections
 
 A custom tracking system for things worth showing off that aren't part of
@@ -1848,6 +1861,12 @@ here directly as things ship or plans change.
   covers every card (every character's panel, plus the per-faction
   Heirlooms panel) rather than per-card wiring — see [Collapsible
   categories and months](#collapsible-categories-and-months) above.
+- **Hide all** — a checkbox stacked under Unobtained that collapses every
+  category/month card in the panel at once, in both the Type and Date
+  views simultaneously (not just whichever is active). A one-way master
+  switch, not synced to individual cards' state — manually re-expanding
+  one afterward doesn't uncheck it — see [Collapsible categories and
+  months](#collapsible-categories-and-months) above.
 - **Unobtained hidden outside Type view** — the checkbox only ever affects
   the Type view, so it's hidden (not just inert) while Date is selected,
   reappearing in whatever state it was left in once Type is selected

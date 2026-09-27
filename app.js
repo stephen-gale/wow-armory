@@ -766,10 +766,16 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, achievement
           <input type="radio" name="${toggleName}" id="${toggleName}-date">
           <label class="sort-toggle__label" for="${toggleName}-date">Date</label>
         </div>
-        <label class="unobtained-toggle" for="unobtained-${c.guid}">
-          <input type="checkbox" id="unobtained-${c.guid}">
-          Unobtained
-        </label>
+        <div class="sort-row__toggles">
+          <label class="panel-toggle unobtained-toggle" for="unobtained-${c.guid}">
+            <input type="checkbox" id="unobtained-${c.guid}">
+            Unobtained
+          </label>
+          <label class="panel-toggle hideall-toggle" for="hideall-${c.guid}">
+            <input type="checkbox" id="hideall-${c.guid}">
+            Hide all
+          </label>
+        </div>
       </div>
       <div class="sort-view is-active" data-view="type">${typeViewHtml}</div>
       <div class="sort-view" data-view="date">${dateViewHtml}</div>
@@ -829,6 +835,26 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, achievement
   if (unobtainedCheckbox) {
     unobtainedCheckbox.addEventListener("change", () => {
       li.classList.toggle("show-unobtained", unobtainedCheckbox.checked);
+    });
+  }
+
+  // A bulk version of the same per-card chevron toggle (toggleCategoryCollapse
+  // above) - sets every achv-category card's collapsed state directly to
+  // match the checkbox, in both the Type and Date views (not just
+  // whichever is active), rather than only the currently-visible ones.
+  // Unlike Unobtained, this stays visible and useful in both views - Date
+  // view's month cards can get just as long as Type view's categories.
+  // A one-way master switch, not a live reflection of individual cards:
+  // manually expanding one card afterward doesn't uncheck this.
+  const hideAllCheckbox = li.querySelector(".hideall-toggle input");
+  if (hideAllCheckbox) {
+    hideAllCheckbox.addEventListener("change", () => {
+      const collapse = hideAllCheckbox.checked;
+      for (const card of li.querySelectorAll(".sort-view .achv-category")) {
+        card.classList.toggle("achv-category--collapsed", collapse);
+        const heading = card.querySelector(".achv-category__name--collapsible");
+        if (heading) heading.setAttribute("aria-expanded", String(!collapse));
+      }
     });
   }
 
