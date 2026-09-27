@@ -626,10 +626,10 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
     `;
   }
 
-  // Eight independent modules, in this fixed order: Talents, Skills,
-  // Equipped, Stats, Collections/Achievements (with its own Type/Date
+  // Eight independent modules, in this fixed order: Talents, Equipped,
+  // Stats, Skills, Collections/Achievements (with its own Type/Date
   // toggle), PvP, Quests, Exalted Factions - each shown only when it has
-  // something to show. Talents, Skills, Equipped, Stats, PvP, Quests and
+  // something to show. Talents, Equipped, Stats, Skills, PvP, Quests and
   // Exalted Factions are all headed by .achv-section__name, which already
   // grows its own top border whenever it isn't .char-achievements' literal
   // first child, so they need no manual divider before or after them -
@@ -647,9 +647,9 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
   // after everything else regardless of which modules are present.
   const parts = [];
   if (talentsHtml) parts.push(talentsHtml);
-  if (skillsHtml) parts.push(skillsHtml);
   if (equippedGearHtml) parts.push(equippedGearHtml);
   if (statsHtml) parts.push(statsHtml);
+  if (skillsHtml) parts.push(skillsHtml);
   if (sortSectionHtml) {
     if (parts.length > 0) parts.push(`<div class="module-divider"></div>`);
     parts.push(sortSectionHtml);
@@ -950,7 +950,7 @@ function renderTalents(talents, className) {
 }
 
 // Skills — professions only (see export-characters-json.sh/wowbackup.sh's
-// SQL comment for the verified skill id list), right after Talents: a
+// SQL comment for the verified skill id list), right after Stats: a
 // live snapshot like Equipped/Stats, not a Collection - skill points keep
 // climbing, so there's no "earned_at" moment and no place in the Sort by
 // Type/Date toggle. Names are already resolved server-side via a live

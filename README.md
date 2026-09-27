@@ -488,7 +488,7 @@ view.
 
 ### Skills
 
-Sits right after Talents — each of the character's known profession
+Sits right after Stats — each of the character's known profession
 skills, name and current/max value (e.g. `Cooking: 375/450`). Like
 Talents/Stats/Equipped Gear, a plain current-state snapshot: no
 `earned_at`, not part of the Sort by: Date view.
@@ -1693,7 +1693,7 @@ here directly as things ship or plans change.
   automatic, see
   [Achievement icons](#achievement-icons-the-three-professions-categories-for-now)
   above.
-- **Skills** — right after Talents: each known profession's name and
+- **Skills** — right after Stats: each known profession's name and
   current/max value. Filtered to the 14 real profession skill ids
   (verified against AzerothCore's own `SharedDefines.h`, not guessed),
   names resolved via a live join against `acore_world.skillline_dbc`
