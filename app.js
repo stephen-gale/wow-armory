@@ -112,11 +112,8 @@ function itemIconImg(slug, className, style) {
 }
 
 // Collections icons, category by category - only where a real per-item icon
-// actually resolves. Mounts/Companions need a spell-icon lookup this project
-// doesn't have yet (their `item_*` ids are mostly InventoryType 0, excluded
-// from item_icons.json's own generation - confirmed 0/310 current Mounts
-// entries resolve); Titles have no natural item to hang an icon off. Both
-// stay icon-less rather than guessing.
+// actually resolves. Titles have no natural item or spell to hang an icon
+// off, so they stay icon-less rather than guessing.
 //
 // Legendaries/Tabards/Heirlooms are single-item entries (`slot_groups:
 // [[id]]`), so their own item id is `slot_groups[0][0]` trivially. Sets
@@ -127,10 +124,22 @@ function itemIconImg(slug, className, style) {
 // piece of that exact set. A single fixed icon (e.g. always a helm) would
 // misrepresent the 107 of 475 current sets that have no head piece at all -
 // this always shows a real item from the set in hand instead.
-function collectionItemIcon(categoryKey, item, itemIcons) {
+//
+// Mounts/Companions can't use item_icons.json the way the other four do:
+// their `item_*` ids are mostly InventoryType 0, excluded from that file's
+// own generation. Icons for these instead come from spell_icons.json (see
+// scripts/generate-spell-icons.py), keyed by the entry's own first
+// `spell_ids` value - any single variant's icon is representative of the
+// whole entry, same "any one spell id is enough" reasoning the export
+// scripts already use for detection.
+function collectionItemIcon(categoryKey, item, itemIcons, spellIcons) {
   if (categoryKey === "sets" || categoryKey === "legendaries" || categoryKey === "tabards" || categoryKey === "heirlooms") {
     const firstItemId = item.slot_groups?.[0]?.[0];
     return itemIconImg(itemIcons[firstItemId], "achv-list__icon");
+  }
+  if (categoryKey === "mounts" || categoryKey === "companions") {
+    const firstSpellId = item.spell_ids?.[0];
+    return itemIconImg(spellIcons[firstSpellId], "achv-list__icon");
   }
   return "";
 }
@@ -202,12 +211,14 @@ function loadAchievementData() {
       fetch("assets/data/achievements.json").then((r) => r.json()),
       fetch("assets/data/achievement_categories.json").then((r) => r.json()),
       fetch("assets/data/item_icons.json").then((r) => r.json()),
+      fetch("assets/data/spell_icons.json").then((r) => r.json()),
       fetch("assets/data/faction_names.json").then((r) => r.json()),
       ...COLLECTION_CATEGORIES.map((cat) => fetch(cat.file).then((r) => r.json()).catch(() => [])),
-    ]).then(([achievements, categories, itemIcons, factionNames, ...collectionLists]) => ({
+    ]).then(([achievements, categories, itemIcons, spellIcons, factionNames, ...collectionLists]) => ({
       achievementsById: new Map(achievements.map((a) => [a.id, a])),
       categoriesById: new Map(categories.map((c) => [c.id, c])),
       itemIcons,
+      spellIcons,
       factionNames,
       collectionsByCategory: new Map(
         COLLECTION_CATEGORIES.map((cat, i) => [cat.key, new Map(collectionLists[i].map((item) => [item.id, item]))])
@@ -456,8 +467,8 @@ function toggleAchievementsPanel(rowLi, c) {
   placeholder.innerHTML = `<p class="char-achievements__empty">Loading…</p>`;
   rowLi.after(placeholder);
 
-  loadAchievementData().then(({ achievementsById, categoriesById, collectionsByCategory, itemIcons, factionNames }) => {
-    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory, itemIcons, factionNames));
+  loadAchievementData().then(({ achievementsById, categoriesById, collectionsByCategory, itemIcons, spellIcons, factionNames }) => {
+    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory, itemIcons, spellIcons, factionNames));
   });
 }
 
@@ -481,7 +492,7 @@ function normalizeEntry(entry) {
     : { id: entry, earned_at: null };
 }
 
-function buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory, itemIcons, factionNames) {
+function buildAchievementsPanel(c, achievementsById, categoriesById, collectionsByCategory, itemIcons, spellIcons, factionNames) {
   const li = document.createElement("li");
   li.className = "char-achievements";
 
@@ -515,7 +526,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, collections
         // even that was the only common token) is left alone rather than
         // stripped to an empty string.
         const name = cat.key === "sets" ? item.name.replace(/^of /, "") : item.name;
-        return { ...item, name, earned_at: entry.earned_at, iconHtml: collectionItemIcon(cat.key, item, itemIcons) };
+        return { ...item, name, earned_at: entry.earned_at, iconHtml: collectionItemIcon(cat.key, item, itemIcons, spellIcons) };
       })
       .filter(Boolean);
     if (items.length === 0) continue;

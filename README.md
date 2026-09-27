@@ -114,37 +114,49 @@ scripts) — no other code changes.
 
 #### Icons
 
-Sets, Legendaries, Tabards, and Heirlooms show a small icon to the left of
-each entry, resolved client-side in `app.js` (`collectionItemIcon`) against
-the same bundled `assets/data/item_icons.json` Equipped Gear already uses
-(confirmed every current entry in all three single-item files resolves —
-76/76 Tabards, 27/27 Legendaries, 39/39 Heirlooms). Legendaries/Tabards/
-Heirlooms are each a single item, so their own id is the obvious (and only)
-choice. Sets are different — a set spans several armor pieces, so there's
-no single item id that's inherently "the set" — but `slot_groups` (see
-[Sets](#sets) below) is already sorted by real `InventoryType` ascending,
-so `slot_groups[0]` reliably resolves to the set's head piece when it has
-one, or some other real piece of that exact set when it doesn't (107 of
-475 current sets have no head piece at all — confirmed by checking every
-set's first slot_group icon against `item_icons.json`'s own helm-shaped
-icon names). An earlier version used one fixed helm icon for every Sets
-entry regardless of contents, which misrepresented those 107; this always
-shows a real item that's actually in the set.
-The same icon carries through to the Sort by: Date view, where Collections
-entries sit interleaved with Achievements in one chronological list —
-Achievements (and Mounts/Companions/Titles) stay icon-less there, so the
-icon itself doubles as an at-a-glance "this is an item, not a plain
-achievement" marker, with no per-entry category label needed.
+Every Collections category except Titles shows a small icon to the left of
+each entry, resolved client-side in `app.js` (`collectionItemIcon`).
+Sets/Legendaries/Tabards/Heirlooms resolve against the same bundled
+`assets/data/item_icons.json` Equipped Gear already uses (confirmed every
+current entry in all three single-item files resolves — 76/76 Tabards,
+27/27 Legendaries, 39/39 Heirlooms). Legendaries/Tabards/Heirlooms are each
+a single item, so their own id is the obvious (and only) choice. Sets are
+different — a set spans several armor pieces, so there's no single item id
+that's inherently "the set" — but `slot_groups` (see [Sets](#sets) below)
+is already sorted by real `InventoryType` ascending, so `slot_groups[0]`
+reliably resolves to the set's head piece when it has one, or some other
+real piece of that exact set when it doesn't (107 of 475 current sets have
+no head piece at all — confirmed by checking every set's first slot_group
+icon against `item_icons.json`'s own helm-shaped icon names). An earlier
+version used one fixed helm icon for every Sets entry regardless of
+contents, which misrepresented those 107; this always shows a real item
+that's actually in the set.
 
-Mounts and Companions don't get one: their `item_*` ids are mostly
-`InventoryType 0` (non-equippable "use" items), which
-`scripts/generate-item-icons.py` explicitly excludes — confirmed 0 of the
-310 current item-backed Mounts entries resolve against
-`item_icons.json`. A real per-item icon for these would need a different
-DBC table entirely (`Spell.dbc`/`SpellIcon.dbc`, keyed by the mount's
-learn-spell id rather than an item id) that hasn't been pulled into this
-project — tracked in the Backlog rather than guessed at with a generic
-icon.
+Mounts and Companions can't use `item_icons.json` the same way — their
+`item_*` ids are mostly `InventoryType 0` (non-equippable "use" items),
+which `scripts/generate-item-icons.py` explicitly excludes (confirmed
+0/310 Mounts entries resolve that way). They instead resolve against
+`assets/data/spell_icons.json` (`scripts/generate-spell-icons.py`), keyed
+by each entry's own first `spell_ids` value (any one variant's icon is
+representative — same "any single spell id is enough" reasoning the
+export scripts already use for detection) — two more DBC-derived CSVs from
+the same `r-o-b-o-t-o/azerothcore-armory` source everything else in this
+section came from: `Spell_3.3.5_12340.csv` (spell → `SpellIconID`) joined
+against `SpellIcon_3.3.5_12340.csv` (`SpellIconID` → texture name).
+Verified end-to-end before building anything — the join resolves
+315/315 Mounts and 172/172 Companions, and a known example (Acherus
+Deathcharger's spell) resolves to the exact right texture
+(`Spell_DeathKnight_SummonDeathCharger`). Same PNG source as every other
+icon in this app (`Gethe/wow-ui-textures`) — of 208 distinct icons these
+two categories need, 164 weren't already bundled from the item icon
+fetch and were pulled in as their own one-time addition (100% found, no
+gaps).
+
+The icon carries through to the Sort by: Date view too, where Collections
+entries sit interleaved with Achievements in one chronological list —
+Achievements (and Titles) stay icon-less there, so the icon itself doubles
+as an at-a-glance "this is an item, not a plain achievement" marker, with
+no per-entry category label needed.
 
 #### Sets
 
@@ -1537,14 +1549,20 @@ here directly as things ship or plans change.
   `ReputationMgr::GetReputation()`, and computed correctly using a
   second DBC extraction (`scripts/extract-faction-baselines.py`) rather
   than assumed — see [Exalted Factions](#exalted-factions) above.
-- **Icons on Sets, Legendaries, Tabards, Heirlooms** — a small icon to
-  the left of each entry, resolved against the bundled `item_icons.json`
-  (confirmed every current entry across all four files resolves). Sets
-  uses the set's own first slot group (already sorted by real
-  `InventoryType`, so it's the head piece when the set has one) rather
-  than one fixed icon for every set — an earlier version used a single
-  fixed helm regardless of contents, which misrepresented the 107 of 475
-  sets with no head piece at all. Carries through to the Sort by: Date
+- **Icons on every Collections category except Titles** — a small icon to
+  the left of each entry, real per-item icons for Sets/Legendaries/
+  Tabards/Heirlooms resolved against the bundled `item_icons.json`
+  (confirmed every current entry across all four files resolves; Sets
+  uses the set's own first slot group — already sorted by real
+  `InventoryType`, so it's the head piece when the set has one — rather
+  than one fixed icon for every set, since an earlier version's single
+  fixed helm misrepresented the 107 of 475 sets with no head piece at
+  all). Mounts/Companions needed a genuinely different source — their
+  `item_*` ids are mostly non-equippable, excluded from `item_icons.json`
+  entirely — resolved instead via a new `assets/data/spell_icons.json`
+  (`scripts/generate-spell-icons.py`, joining two more DBC-derived CSVs
+  from the same source everything else here came from), 315/315 Mounts
+  and 172/172 Companions resolving. Carries through to the Sort by: Date
   view too, where it doubles as an at-a-glance item-vs-achievement marker
   in the merged timeline — see [Icons](#icons) above.
 
@@ -1560,7 +1578,6 @@ rough effort.
 | PvP: honor rolled up to faction/account | Trivial (when wanted) | Data shape already supports it — `honor_points` matches the fields `renderSummary`/`renderFactionPanel` already reduce over |
 | PvP: kills | Dropped for now | Bots are currently off, so kill counts wouldn't reflect real activity |
 | Additional dashboard views (achievements/playtime trends over multiple backups, etc.) | Unscoped | Carried over from an earlier planning note, not yet reviewed against the real schema |
-| Icons on Mounts, Companions | Low–medium | Sets/Legendaries/Tabards/Heirlooms already shipped (see Shipped above). These two are different: their `item_*` ids are mostly `InventoryType 0` (non-equippable "use" items), confirmed excluded from `item_icons.json`'s own generation — 0/310 current Mounts entries resolve. Needs a genuinely different DBC table (`Spell.dbc`/`SpellIcon.dbc`, keyed by the mount/companion's learn-spell id rather than an item id) that hasn't been pulled into this project |
 | Secondary (dimmer/smaller) sub-value on the top Played Time and Gold stat tiles | Low | `formatPlayedTime` currently only ever shows whole hours (`Math.floor(totalSeconds / 3600) + "h"`, dropping the remaining minutes/seconds); `formatMoneyPlain` currently only ever shows gold (`goldAmount(copper) + "g"`, dropping the remaining silver/copper). Add the dropped remainder as a `.ap-count`-style secondary span (e.g. `12h (34m 56s)`, `1,050g (34s 12c)`), reusing the same markup/class the achievement count already uses in the summary tile, so all three top stat tiles carry a matching primary+secondary shape instead of only Achievements having one |
 | Tap-an-item tooltip (live item data from an external DB, e.g. Wowhead) | Investigated, blocked | Wowhead's standard tooltip widget (`wow.zamimg.com/js/tooltips.js`) was the obvious candidate — this app already carries every item id needed (`g.id` in `renderEquippedGear`, `item_*`/`spell_*` ids in Collections) so wiring it in would be small. Tested with a throwaway page (real item links, the exact script tag) on a real phone over a normal connection: the script never loads and no tooltip appears on tap. Whether that's the widget being genuinely dead/retired, this account/network specifically blocking `wow.zamimg.com`, or the wrong script URL entirely wasn't narrowed down. wotlkdb.com wasn't tried for real (no confirmed embed snippet was found for it, and the placeholder guess in the test page was never expected to work). Next step if revisited: check wotlkdb.com for its own widgets/embed page, or open Wowhead's `/widgets` page directly to get a fresh snippet, before trying again |
 | Character sort within each faction: by Name or by Last logged in | Low–medium | Currently fixed, not user-toggleable: `renderFactionPanel`'s `sorted` is always `level` descending then `name` alphabetically (`app.js` line ~280). Both new fields already exist per-character (`name`; `last_online`, which `renderLastLoggedIn`/`formatDDMMYY` already parse) — no new data needed. Would need its own sort-mode control on the roster itself, separate from the existing per-character achievements Sort by Type/Date toggle (that one only reorders one expanded panel's contents, not the character list) |
