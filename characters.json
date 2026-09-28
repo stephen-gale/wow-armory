@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-28T14:33:47Z",
+  "generated_at": "2026-09-28T21:47:52Z",
   "characters": [
     {
       "guid": 1006,
@@ -470,40 +470,40 @@
       "class_id": 2,
       "class_name": "Paladin",
       "faction": "Alliance",
-      "level": 73,
-      "money_copper": 25573627,
+      "level": 74,
+      "money_copper": 25937426,
       "zone_id": 394,
       "exalted_factions": [
         72
       ],
       "achievement_points": 550,
       "achievement_count": 56,
-      "played_time_seconds": 434861,
+      "played_time_seconds": 437328,
       "honor_points": 0,
-      "last_online": "2026-09-28T14:33:27Z",
-      "quests_completed": 1140,
+      "last_online": "2026-09-28T17:20:04Z",
+      "quests_completed": 1146,
       "stats": {
-        "max_health": 9721,
-        "strength": 555,
-        "agility": 158,
-        "stamina": 571,
-        "intellect": 87,
-        "spirit": 125,
-        "armor": 8210,
+        "max_health": 10053,
+        "strength": 583,
+        "agility": 139,
+        "stamina": 573,
+        "intellect": 89,
+        "spirit": 126,
+        "armor": 8172,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
         "res_frost": 0,
         "res_shadow": 0,
         "res_arcane": 0,
-        "block_pct": 5.0,
-        "dodge_pct": 7.90456,
-        "parry_pct": 5.0,
-        "crit_pct": 19.7586,
-        "ranged_crit_pct": 5.15859,
+        "block_pct": 5.12,
+        "dodge_pct": 7.2283,
+        "parry_pct": 5.12,
+        "crit_pct": 18.961,
+        "ranged_crit_pct": 4.24097,
         "spell_crit_pct": 0.0,
-        "attack_power": 1309,
-        "ranged_attack_power": 148,
+        "attack_power": 1368,
+        "ranged_attack_power": 129,
         "spell_power": 0,
         "resilience": 0
       },
@@ -765,8 +765,8 @@
         },
         {
           "slot": 1,
-          "id": 35886,
-          "name": "Worgtooth Pendant",
+          "id": 36433,
+          "name": "Snake Entwined Necklace",
           "quality": 2,
           "item_level": 138
         },
@@ -828,9 +828,9 @@
         },
         {
           "slot": 10,
-          "id": 36419,
-          "name": "Glass Ring",
-          "quality": 2,
+          "id": 37819,
+          "name": "Milan's Mastercraft Band",
+          "quality": 3,
           "item_level": 138
         },
         {
@@ -878,8 +878,8 @@
       ],
       "talents": {
         "381": 57,
-        "382": 2,
-        "383": 5
+        "383": 5,
+        "382": 3
       },
       "skills": []
     }
