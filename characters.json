@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-28T22:48:39Z",
+  "generated_at": "2026-09-29T14:19:55Z",
   "characters": [
     {
       "guid": 1006,
@@ -471,25 +471,25 @@
       "class_name": "Paladin",
       "faction": "Alliance",
       "level": 74,
-      "money_copper": 26591105,
+      "money_copper": 26736687,
       "zone_id": 394,
       "exalted_factions": [
         72
       ],
-      "achievement_points": 550,
-      "achievement_count": 56,
-      "played_time_seconds": 440555,
+      "achievement_points": 560,
+      "achievement_count": 57,
+      "played_time_seconds": 442980,
       "honor_points": 0,
-      "last_online": "2026-09-28T22:48:17Z",
-      "quests_completed": 1156,
+      "last_online": "2026-09-29T14:18:56Z",
+      "quests_completed": 1159,
       "stats": {
-        "max_health": 9873,
-        "strength": 608,
+        "max_health": 10053,
+        "strength": 609,
         "agility": 139,
-        "stamina": 555,
+        "stamina": 573,
         "intellect": 89,
         "spirit": 126,
-        "armor": 8274,
+        "armor": 8398,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
@@ -499,10 +499,10 @@
         "block_pct": 5.24,
         "dodge_pct": 7.3483,
         "parry_pct": 5.24,
-        "crit_pct": 10.5349,
+        "crit_pct": 20.0549,
         "ranged_crit_pct": 5.2549,
         "spell_crit_pct": 0.0,
-        "attack_power": 1418,
+        "attack_power": 1420,
         "ranged_attack_power": 129,
         "spell_power": 0,
         "resilience": 0
@@ -587,6 +587,10 @@
         {
           "id": 547,
           "earned_at": "2026-09-26T22:09:55Z"
+        },
+        {
+          "id": 621,
+          "earned_at": "2026-09-29T13:42:17Z"
         },
         {
           "id": 701,
@@ -751,7 +755,12 @@
         ],
         "companions": [],
         "legendaries": [],
-        "tabards": [],
+        "tabards": [
+          {
+            "id": "item_5976",
+            "earned_at": "2026-09-29T14:19:55Z"
+          }
+        ],
         "heirlooms": [],
         "titles": []
       },
@@ -800,10 +809,10 @@
         },
         {
           "slot": 6,
-          "id": 35835,
-          "name": "Antique Reinforced Legguards",
+          "id": 39096,
+          "name": "Snaptooth Legplates",
           "quality": 2,
-          "item_level": 138
+          "item_level": 154
         },
         {
           "slot": 7,
@@ -874,6 +883,13 @@
           "name": "Libram of Wracking",
           "quality": 2,
           "item_level": 93
+        },
+        {
+          "slot": 18,
+          "id": 5976,
+          "name": "Guild Tabard",
+          "quality": 1,
+          "item_level": 1
         }
       ],
       "talents": {
