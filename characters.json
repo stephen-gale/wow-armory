@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-30T14:11:27Z",
+  "generated_at": "2026-09-30T23:08:41Z",
   "characters": [
     {
       "guid": 1006,
@@ -471,24 +471,24 @@
       "class_name": "Paladin",
       "faction": "Alliance",
       "level": 74,
-      "money_copper": 27655137,
+      "money_copper": 28902081,
       "zone_id": 394,
       "exalted_factions": [
         72
       ],
       "achievement_points": 560,
       "achievement_count": 57,
-      "played_time_seconds": 447118,
+      "played_time_seconds": 449185,
       "honor_points": 0,
-      "last_online": "2026-09-30T14:11:11Z",
-      "quests_completed": 1175,
+      "last_online": "2026-09-30T23:08:17Z",
+      "quests_completed": 1185,
       "stats": {
-        "max_health": 10053,
-        "strength": 609,
+        "max_health": 10473,
+        "strength": 577,
         "agility": 139,
-        "stamina": 573,
+        "stamina": 615,
         "intellect": 89,
-        "spirit": 126,
+        "spirit": 97,
         "armor": 8398,
         "res_holy": 0,
         "res_fire": 0,
@@ -499,10 +499,10 @@
         "block_pct": 5.24,
         "dodge_pct": 7.3483,
         "parry_pct": 5.24,
-        "crit_pct": 20.0549,
-        "ranged_crit_pct": 5.2549,
+        "crit_pct": 19.9535,
+        "ranged_crit_pct": 5.15351,
         "spell_crit_pct": 0.0,
-        "attack_power": 1420,
+        "attack_power": 1356,
         "ranged_attack_power": 129,
         "spell_power": 0,
         "resilience": 0
@@ -837,17 +837,17 @@
         },
         {
           "slot": 10,
-          "id": 37819,
-          "name": "Milan's Mastercraft Band",
-          "quality": 3,
-          "item_level": 138
+          "id": 38749,
+          "name": "Thane-Reaper's Signet",
+          "quality": 2,
+          "item_level": 154
         },
         {
           "slot": 11,
-          "id": 36421,
-          "name": "Devotional Band",
+          "id": 38747,
+          "name": "Mildly Tarnished Ring",
           "quality": 2,
-          "item_level": 146
+          "item_level": 154
         },
         {
           "slot": 12,
