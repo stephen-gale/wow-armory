@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-29T23:13:42Z",
+  "generated_at": "2026-09-30T14:11:27Z",
   "characters": [
     {
       "guid": 1006,
@@ -471,17 +471,17 @@
       "class_name": "Paladin",
       "faction": "Alliance",
       "level": 74,
-      "money_copper": 27016687,
+      "money_copper": 27655137,
       "zone_id": 394,
       "exalted_factions": [
         72
       ],
       "achievement_points": 560,
       "achievement_count": 57,
-      "played_time_seconds": 444272,
+      "played_time_seconds": 447118,
       "honor_points": 0,
-      "last_online": "2026-09-29T23:13:13Z",
-      "quests_completed": 1167,
+      "last_online": "2026-09-30T14:11:11Z",
+      "quests_completed": 1175,
       "stats": {
         "max_health": 10053,
         "strength": 609,
@@ -851,10 +851,10 @@
         },
         {
           "slot": 12,
-          "id": 36871,
-          "name": "Fury of the Encroaching Storm",
-          "quality": 3,
-          "item_level": 138
+          "id": 38761,
+          "name": "Talon of Hatred",
+          "quality": 2,
+          "item_level": 154
         },
         {
           "slot": 13,
