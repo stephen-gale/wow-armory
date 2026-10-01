@@ -811,15 +811,15 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, achievement
     sortSectionHtml = `
       <div class="sort-row">
         <div class="sort-toggle" role="radiogroup" aria-label="Sort by">
-          <input type="radio" name="${toggleName}" id="${toggleName}-type" checked>
-          <label class="sort-toggle__label" for="${toggleName}-type">Type</label>
-          <input type="radio" name="${toggleName}" id="${toggleName}-date">
+          <input type="radio" name="${toggleName}" id="${toggleName}-date" checked>
           <label class="sort-toggle__label" for="${toggleName}-date">Date</label>
+          <input type="radio" name="${toggleName}" id="${toggleName}-type">
+          <label class="sort-toggle__label" for="${toggleName}-type">Type</label>
         </div>
         <button type="button" class="panel-toggle hideall-toggle">Collapse all</button>
       </div>
-      <div class="sort-view is-active" data-view="type">${typeViewHtml}</div>
-      <div class="sort-view" data-view="date">${dateViewHtml}</div>
+      <div class="sort-view" data-view="type">${typeViewHtml}</div>
+      <div class="sort-view is-active" data-view="date">${dateViewHtml}</div>
     `;
   }
 

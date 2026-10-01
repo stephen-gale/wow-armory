@@ -1741,9 +1741,9 @@ here directly as things ship or plans change.
   and Heirlooms (shown once per faction, not per character); mechanical
   spell/item detection, junk-bucket recovery, a trainer-taught-mounts
   exception, and one-time date corrections against real DB data.
-- **Sort by Type/Date** — a toggle on the Collections/Achievements module;
-  Type groups by category, Date groups by year then month with a
-  consistent dd/mm/yy format.
+- **Sort by Date/Type** — a toggle on the Collections/Achievements module,
+  Date listed first and selected by default; Date groups by year then
+  month with a consistent dd/mm/yy format, Type groups by category.
 - **Equipped Gear** — the character's current loadout, slot by slot, with
   real item icons resolved client-side from bundled DBC data (2,742/2,747
   icons, 99.8% coverage). Not sticky — a plain point-in-time snapshot,
