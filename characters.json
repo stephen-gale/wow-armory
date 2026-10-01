@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-01T13:28:09Z",
+  "generated_at": "2026-10-01T23:01:46Z",
   "characters": [
     {
       "guid": 1006,
@@ -470,40 +470,40 @@
       "class_id": 2,
       "class_name": "Paladin",
       "faction": "Alliance",
-      "level": 74,
-      "money_copper": 29639704,
+      "level": 75,
+      "money_copper": 29715110,
       "zone_id": 394,
       "exalted_factions": [
         72
       ],
       "achievement_points": 570,
       "achievement_count": 58,
-      "played_time_seconds": 453386,
+      "played_time_seconds": 455090,
       "honor_points": 0,
-      "last_online": "2026-10-01T13:27:56Z",
-      "quests_completed": 1197,
+      "last_online": "2026-10-01T23:01:27Z",
+      "quests_completed": 1199,
       "stats": {
-        "max_health": 10343,
-        "strength": 618,
-        "agility": 139,
-        "stamina": 602,
-        "intellect": 89,
-        "spirit": 97,
-        "armor": 8561,
+        "max_health": 10699,
+        "strength": 621,
+        "agility": 140,
+        "stamina": 604,
+        "intellect": 90,
+        "spirit": 99,
+        "armor": 8563,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
         "res_frost": 0,
         "res_shadow": 0,
         "res_arcane": 0,
-        "block_pct": 5.24,
-        "dodge_pct": 7.3483,
-        "parry_pct": 5.24,
-        "crit_pct": 22.0828,
-        "ranged_crit_pct": 7.28277,
+        "block_pct": 5.16,
+        "dodge_pct": 7.00213,
+        "parry_pct": 5.16,
+        "crit_pct": 21.3067,
+        "ranged_crit_pct": 6.30668,
         "spell_crit_pct": 0.0,
-        "attack_power": 1438,
-        "ranged_attack_power": 129,
+        "attack_power": 1447,
+        "ranged_attack_power": 130,
         "spell_power": 0,
         "resilience": 0
       },
@@ -899,7 +899,7 @@
       "talents": {
         "381": 57,
         "383": 5,
-        "382": 3
+        "382": 4
       },
       "skills": []
     }
