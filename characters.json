@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-02T22:17:08Z",
+  "generated_at": "2026-10-03T14:17:21Z",
   "characters": [
     {
       "guid": 1006,
@@ -471,22 +471,22 @@
       "class_name": "Paladin",
       "faction": "Alliance",
       "level": 75,
-      "money_copper": 30609521,
+      "money_copper": 30958423,
       "zone_id": 394,
       "exalted_factions": [
         72
       ],
       "achievement_points": 570,
       "achievement_count": 58,
-      "played_time_seconds": 457551,
+      "played_time_seconds": 458525,
       "honor_points": 0,
-      "last_online": "2026-10-02T22:16:47Z",
-      "quests_completed": 1209,
+      "last_online": "2026-10-03T14:16:18Z",
+      "quests_completed": 1212,
       "stats": {
-        "max_health": 11089,
-        "strength": 633,
+        "max_health": 10179,
+        "strength": 604,
         "agility": 122,
-        "stamina": 643,
+        "stamina": 552,
         "intellect": 90,
         "spirit": 99,
         "armor": 8785,
@@ -499,10 +499,10 @@
         "block_pct": 5.2,
         "dodge_pct": 6.61169,
         "parry_pct": 5.2,
-        "crit_pct": 20.8117,
-        "ranged_crit_pct": 5.81168,
+        "crit_pct": 20.331,
+        "ranged_crit_pct": 7.13099,
         "spell_crit_pct": 0.0,
-        "attack_power": 1471,
+        "attack_power": 1413,
         "ranged_attack_power": 112,
         "spell_power": 0,
         "resilience": 0
@@ -876,10 +876,10 @@
         },
         {
           "slot": 15,
-          "id": 35812,
-          "name": "Cragthumper",
+          "id": 39117,
+          "name": "Liberator's Blade",
           "quality": 2,
-          "item_level": 138
+          "item_level": 154
         },
         {
           "slot": 17,
