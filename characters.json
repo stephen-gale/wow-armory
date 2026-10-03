@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-03T14:17:21Z",
+  "generated_at": "2026-10-03T22:38:04Z",
   "characters": [
     {
       "guid": 1006,
@@ -471,38 +471,38 @@
       "class_name": "Paladin",
       "faction": "Alliance",
       "level": 75,
-      "money_copper": 30958423,
-      "zone_id": 394,
+      "money_copper": 32858182,
+      "zone_id": 66,
       "exalted_factions": [
         72
       ],
-      "achievement_points": 570,
-      "achievement_count": 58,
-      "played_time_seconds": 458525,
+      "achievement_points": 580,
+      "achievement_count": 59,
+      "played_time_seconds": 463769,
       "honor_points": 0,
-      "last_online": "2026-10-03T14:16:18Z",
-      "quests_completed": 1212,
+      "last_online": "2026-10-03T22:37:45Z",
+      "quests_completed": 1230,
       "stats": {
-        "max_health": 10179,
-        "strength": 604,
+        "max_health": 10149,
+        "strength": 608,
         "agility": 122,
-        "stamina": 552,
+        "stamina": 549,
         "intellect": 90,
         "spirit": 99,
-        "armor": 8785,
+        "armor": 8620,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
         "res_frost": 0,
         "res_shadow": 0,
         "res_arcane": 0,
-        "block_pct": 5.2,
-        "dodge_pct": 6.61169,
-        "parry_pct": 5.2,
-        "crit_pct": 20.331,
-        "ranged_crit_pct": 7.13099,
+        "block_pct": 5.24,
+        "dodge_pct": 6.65169,
+        "parry_pct": 5.24,
+        "crit_pct": 24.1728,
+        "ranged_crit_pct": 9.17277,
         "spell_crit_pct": 0.0,
-        "attack_power": 1413,
+        "attack_power": 1421,
         "ranged_attack_power": 112,
         "spell_power": 0,
         "resilience": 0
@@ -547,6 +547,10 @@
         {
           "id": 35,
           "earned_at": "2026-09-28T09:42:05Z"
+        },
+        {
+          "id": 37,
+          "earned_at": "2026-10-03T22:17:50Z"
         },
         {
           "id": 116,
@@ -813,17 +817,17 @@
         },
         {
           "slot": 6,
-          "id": 39096,
-          "name": "Snaptooth Legplates",
+          "id": 39076,
+          "name": "Golem-Rider's Greaves",
           "quality": 2,
           "item_level": 154
         },
         {
           "slot": 7,
-          "id": 38541,
-          "name": "Implacable Zombie Crushers",
-          "quality": 3,
-          "item_level": 146
+          "id": 39078,
+          "name": "Whispering Stompers",
+          "quality": 2,
+          "item_level": 154
         },
         {
           "slot": 8,
