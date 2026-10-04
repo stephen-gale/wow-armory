@@ -803,10 +803,16 @@ already uses.
     directly on each glyph entry (`{"name": ..., "icon": ...}`) — `app.js`
     just renders it, no client-side lookup needed, same as Skills' already-
     resolved names.
-- **Layout**: Major and Minor render as two small stacked groups (reusing
-  the same card/heading markup [Stats](#stats)' own sub-groups use), Major
-  on top — either group is simply omitted when empty, e.g. a low-level
-  character with no Minor slots unlocked yet.
+- **Layout**: Major and Minor render as two stacked rows, up to 3 glyphs
+  across each, Major on top — not a vertical icon+name list. The real
+  in-game Glyphs panel arranges all 6 slots in a circular wheel (reference
+  screenshot provided), which is too tall for this app's single-column
+  mobile layout, so each glyph instead renders as a small icon-above-name
+  tile (the same shape [Talents](#talents)' 3 trees already use), 3 per
+  row. Major tiles render larger than Minor, echoing the wheel's own
+  bigger-vs-smaller sizing without needing the wheel's height. Either row
+  is simply omitted when empty, e.g. a low-level character with no Minor
+  slots unlocked yet.
 
 ### PvP
 
@@ -1984,8 +1990,11 @@ here directly as things ship or plans change.
   not a guessed constant, since it wraps taller at narrow widths — see
   the [Character Dashboard](#character-dashboard) intro above.
 - **Glyphs** — a new module, right after Equipped Gear: the character's
-  currently equipped Major (top) and Minor (underneath) glyphs, each with
-  a real, distinctive icon and name, active spec only. Getting a real
+  currently equipped Major (top row) and Minor (bottom row) glyphs, up to
+  3 across each as small icon-above-name tiles — not the real in-game
+  wheel's circular layout, too tall for this app's single-column mobile
+  layout, per the character's own follow-up with a reference screenshot —
+  each with a real, distinctive icon and name, active spec only. Getting a real
   picture per glyph (not just a name) took real verification, not a
   guess: neither `glyphproperties_dbc`'s own `SpellIconID` nor the
   glyph-teaching spell's own `SpellIconID` turned out to be distinctive

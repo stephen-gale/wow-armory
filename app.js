@@ -1321,34 +1321,47 @@ function renderEquippedGear(gear, itemIcons, className) {
 // scripts walk all the way through to via SPELL_EFFECT_APPLY_GLYPH
 // (confirmed as effect id 74 against AzerothCore's own SharedDefines.h).
 //
-// Major and Minor are two small stacked groups (the character's own
-// request - Major on top, Minor underneath), reusing the same
-// achv-category/achv-category__name markup Stats' own sub-groups use,
-// rather than a flat list with inline labels. Wrapped in .glyph-groups
+// Major and Minor are two small stacked rows (the character's own
+// request - Major on top, Minor underneath, each up to 3 across), not a
+// vertical icon+name list: the real in-game Glyphs panel arranges all 6
+// slots in a circular wheel (reference screenshot provided), which the
+// character's own follow-up flagged as too tall for this app's single-
+// column mobile layout - a flat 3-per-row grid keeps the "glyphs read
+// left-to-right as a set" feel without the wheel's height cost. Each
+// .glyph-tile is icon-above-name-below, centered, the same shape
+// .talent-tab already uses for Talents' 3 trees - reused rather than
+// invented fresh. Major tiles render larger than Minor (.glyph-row--major
+// vs --minor in style.css), matching the character's explicit "3 large
+// (major)... 3 smaller (minor)" request. Wrapped in .glyph-groups
 // (grid-column: 1/-1, see style.css) rather than left as two independent
 // .achv-category children - without that, .char-achievements' own
 // auto-fill grid would be free to place Major and Minor side by side on
 // a wide viewport instead of stacked, same reason Stats' own 3 groups
-// get a wrapper (.stats-columns) of their own. Either group is omitted
+// get a wrapper (.stats-columns) of their own. Either row is omitted
 // entirely when empty (e.g. a low-level character with no Minor slots
 // unlocked yet), same graceful degradation every other module here uses.
 function renderGlyphs(glyphs) {
   if (!glyphs) return "";
   const { major = [], minor = [] } = glyphs;
   if (major.length === 0 && minor.length === 0) return "";
-  const group = (name, list) => list.length === 0 ? "" : `
+  const row = (name, modifier, list) => list.length === 0 ? "" : `
     <div class="achv-category">
       <h4 class="achv-category__name">${name}</h4>
-      <ul class="achv-list">
-        ${list.map((g) => `<li class="achv-list__item">${itemIconImg(g.icon, "achv-list__icon")}${escapeHtml(g.name)}</li>`).join("")}
-      </ul>
+      <div class="glyph-row glyph-row--${modifier}">
+        ${list.map((g) => `
+          <div class="glyph-tile">
+            ${itemIconImg(g.icon, "glyph-tile__icon")}
+            <div class="glyph-tile__name">${escapeHtml(g.name)}</div>
+          </div>
+        `).join("")}
+      </div>
     </div>
   `;
   return `
     <h3 class="achv-section__name">Glyphs</h3>
     <div class="glyph-groups">
-      ${group("Major", major)}
-      ${group("Minor", minor)}
+      ${row("Major", "major", major)}
+      ${row("Minor", "minor", minor)}
     </div>
   `;
 }

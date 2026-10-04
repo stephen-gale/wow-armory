@@ -539,6 +539,49 @@ main {
   gap: 0.6rem;
 }
 
+/* Each row (Major or Minor) is always up to 3 glyphs, one column each -
+   icon above name, centered, same shape .talent-tab uses. Major/Minor's
+   size difference (see .glyph-tile__icon below) is the real in-game
+   wheel's two tiers reduced to a size cue instead of position, since a
+   flat row can't reproduce "inner ring vs outer ring" the way the wheel
+   does. */
+.glyph-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.glyph-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.25rem;
+}
+
+.glyph-tile__icon {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.glyph-row--major .glyph-tile__icon {
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--gold);
+}
+
+.glyph-row--minor .glyph-tile__icon {
+  width: 30px;
+  height: 30px;
+  border: 1px solid rgba(255,255,255,0.25);
+}
+
+.glyph-tile__name {
+  font-size: 0.65rem;
+  line-height: 1.25;
+  color: var(--text-dim);
+}
+
 /* Talents: always exactly 3 trees, one column each - icon, tree name,
    points, all centered, same grid-column: 1/-1 + repeat(3, 1fr) approach
    .stats-columns already uses to sit as one row instead of flowing into
