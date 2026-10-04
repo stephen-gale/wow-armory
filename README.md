@@ -81,16 +81,17 @@ fallback as everything else in this app.
 
 ### Character panel (tap a character)
 
-Tapping/clicking a character row expands a panel built from eight
+Tapping/clicking a character row expands a panel built from nine
 independent modules, in this fixed order — **Talents, Equipped Gear,
-Stats, Skills, Collections/Achievements, PvP, Quests, Exalted
+Glyphs, Stats, Skills, Collections/Achievements, PvP, Quests, Exalted
 Factions** — plus a trailing **Last logged in** fact after all of them.
 Each module is shown only when the character actually has data for
 it, so a fresh alt with nothing recorded yet just shows fewer modules,
 not empty placeholders. Every module gets its own section further down
 this README ([Stats](#stats), [Talents](#talents), [Skills](#skills),
-[Equipped Gear](#equipped-gear), [PvP](#pvp), [Quests](#quests),
-[Exalted Factions](#exalted-factions), [Last logged in](#last-logged-in)).
+[Equipped Gear](#equipped-gear), [Glyphs](#glyphs), [PvP](#pvp),
+[Quests](#quests), [Exalted Factions](#exalted-factions), [Last logged
+in](#last-logged-in)).
 
 Collections/Achievements is really **two separate, clearly-labeled
 systems** sharing one module and one Sort by Type/Date toggle:
@@ -483,8 +484,8 @@ section — see [Titles](#titles) below.
 
 ### Stats
 
-A separate feature from Collections, the third of the panel's eight
-modules — after Talents and Equipped Gear (see [Character
+A separate feature from Collections, the fourth of the panel's nine
+modules — after Talents, Equipped Gear, and Glyphs (see [Character
 panel](#character-panel-tap-a-character) above for the full order). A full
 `character_stats` snapshot, grouped into three cards styled identically
 to a Collections/Achievements category (`.achv-category`) — same shape of
@@ -588,7 +589,7 @@ saved, not a bug.
 
 ### Talents
 
-The first of the panel's eight modules — a character's current talent
+The first of the panel's nine modules — a character's current talent
 point spread, one column per tree, each centered on its tree icon with
 the tree name and point total underneath. Like Stats and Equipped Gear, it's a plain
 current-state snapshot: no `earned_at`, not part of the Sort by: Date
@@ -676,8 +677,8 @@ Talents/Stats/Equipped Gear, a plain current-state snapshot: no
 
 ### Equipped Gear
 
-A separate feature from Collections — the second of the panel's eight
-modules, right after Talents and ahead of Stats/Skills/Collections (see
+A separate feature from Collections — the second of the panel's nine
+modules, right after Talents and ahead of Glyphs/Stats/Skills/Collections (see
 [Character panel](#character-panel-tap-a-character) above) — the
 character's full current loadout, slot by slot, with a real
 item icon next to each piece. Unlike every Collections category, this is
@@ -750,12 +751,69 @@ reason.
   yet (exported before this field existed) shows no row, same graceful
   fallback as every other optional field in this app.
 
+### Glyphs
+
+Right after Equipped Gear — the character's currently equipped Major and
+Minor glyphs, each with its own real, distinctive icon and name, Major
+glyphs listed first and Minor underneath. Like Equipped/Stats/Skills, a
+plain current-state snapshot: no `earned_at`, not part of the Sort by:
+Date view. Only the character's own currently active spec's glyphs are
+shown — a respec leaves the other spec's glyphs sitting in
+`character_glyphs` too, same `activeTalentGroup` filter [Talents](#talents)
+already uses.
+
+- **Data source**: `character_glyphs(guid, talentGroup, glyph1..glyph6)`
+  — schema confirmed against AzerothCore's own
+  `data/sql/base/db_characters/character_glyphs.sql`, one full row per
+  spec rather than a single "current" row. Each `glyphN` column is a
+  `glyphproperties_dbc.ID`, not a spell id — confirmed against
+  AzerothCore's own `Player::_LoadGlyphs`/`Player::SendInitialSpells`
+  (`Player.cpp`), which resolve it through `sGlyphPropertiesStore` to get
+  the glyph's actual effect spell.
+- **Major vs Minor**: `glyphproperties_dbc.TypeFlags` — confirmed `0` for
+  Major, `1` for Minor by cross-checking known glyphs against the real
+  client data rather than assuming: well-known combat glyphs (Glyph of
+  Fireball, Glyph of Ice Block, Glyph of Innervate, Glyph of Rebirth) all
+  came back `0`; well-known purely cosmetic glyphs (Glyph of the White
+  Bear, Glyph of Fortitude) came back `1` — matching how WotLK actually
+  splits the two tiers. Split by the glyph's own `TypeFlags`, not by
+  which of the 6 `glyphN` columns it happens to sit in.
+- **Name and icon, both resolved live, not bundled**: same "live join,
+  simplest and most accurate source" reasoning [Skills](#skills) already
+  uses for its own names — no new bundled reference file. Getting a real,
+  distinctive *picture* (not just a name) took a real chain of
+  verification, not a guess:
+  - `glyphproperties_dbc`'s own `SpellIconID`, and the `SpellIconID` of
+    the spell that teaches a glyph, were both checked directly against
+    the real client data and **don't** work for this — the first only
+    ever cycles through ~20 generic `UI-Glyph-Rune-N` placeholder
+    textures reused across unrelated glyphs, and the second is always the
+    same generic Inscription trade icon. Neither is distinctive per
+    glyph.
+  - The real, distinctive picture only exists on the physical
+    Inscription-crafted "Glyph of X" item itself — found by walking
+    id → spell → item: a glyph's own `GlyphProperties.ID` is
+    `EffectMiscValue_N` on exactly one spell whose `Effect_N` is
+    `SPELL_EFFECT_APPLY_GLYPH` (confirmed as effect id `74` against
+    AzerothCore's own `SharedDefines.h` `SPELL_EFFECT_*` enum) — the real
+    "teaches you how to permanently apply this glyph" spell, which is
+    itself `spellid_N` on exactly one `item_template` row. That item's own
+    `displayid` → `itemdisplayinfo_dbc.InventoryIcon_1` is the real icon,
+    resolved by the export scripts' `GLYPH_REF_TMP` query and stored
+    directly on each glyph entry (`{"name": ..., "icon": ...}`) — `app.js`
+    just renders it, no client-side lookup needed, same as Skills' already-
+    resolved names.
+- **Layout**: Major and Minor render as two small stacked groups (reusing
+  the same card/heading markup [Stats](#stats)' own sub-groups use), Major
+  on top — either group is simply omitted when empty, e.g. a low-level
+  character with no Minor slots unlocked yet.
+
 ### PvP
 
 Not a top-level stat yet — per character only, for now. The expanded
-panel is eight independent modules (Talents, Equipped, Stats, Skills,
-Collections/Achievements, PvP, Quests, Exalted Factions), each shown
-only when it has something to show; PvP is a peer of the others, not nested inside
+panel is nine independent modules (Talents, Equipped, Glyphs, Stats,
+Skills, Collections/Achievements, PvP, Quests, Exalted Factions), each
+shown only when it has something to show; PvP is a peer of the others, not nested inside
 Achievements or gated by its Type/Date toggle (no `earned_at`, so no
 place in either view), same "plain current-value stat, always shown
 including 0" treatment as Equipped
@@ -849,7 +907,7 @@ moment to record and no place in the Sort by Type/Date toggle.
 The very last thing in the whole panel, after every other module (the
 character's own request) — `characters.logout_time`, converted through
 the same `iso()` unix-timestamp helper every other date field in this
-app already uses. Not one of the eight modules — a single trailing fact
+app already uses. Not one of the nine modules — a single trailing fact
 with nowhere else established for it, so it's plain, not gated by the
 Sort toggle, and always pushed after whichever modules a given character
 actually has, rather than sitting at a fixed position within one of
@@ -975,7 +1033,15 @@ dated the same way.
       "skills": [
         {"id": 202, "name": "Engineering", "value": 450, "max": 450},
         {"id": 186, "name": "Mining", "value": 450, "max": 450}
-      ]
+      ],
+      "glyphs": {
+        "major": [
+          {"name": "Glyph of Berserker Rage", "icon": "ability_warrior_innerrage"}
+        ],
+        "minor": [
+          {"name": "Glyph of Battle", "icon": "ability_warrior_battleshout"}
+        ]
+      }
     }
   ]
 }
@@ -1030,6 +1096,13 @@ spec only, computed server-side from `character_talent` — see
 `skills` is the character's known profession skills only (not every
 skill), `id`/`name`/`value`/`max` per entry, `name` resolved live against
 `acore_world.skillline_dbc` — see [Skills](#skills) above.
+
+`glyphs` is `{major: [...], minor: [...]}`, the character's currently
+equipped glyphs for their active spec only, `name`/`icon` per entry, both
+resolved live (`icon` already a clean icon name — see
+[Glyphs](#glyphs) above for the full id → spell → item chain that
+resolves it) — no client-side lookup needed, same as `skills`' own
+already-resolved names.
 
 `quests_completed` is a `character_queststatus_rewarded` row count
 (`WHERE active = 1`) — see [Quests](#quests) above.
@@ -1755,7 +1828,7 @@ here directly as things ship or plans change.
   stat-less Shirt/Tabard slots (same exclusion the real character pane
   uses) — see [Equipped Gear](#equipped-gear) above.
 - **PvP module** — an independent module, peer of the panel's other
-  seven (see [Character panel](#character-panel-tap-a-character) above
+  eight (see [Character panel](#character-panel-tap-a-character) above
   for the current full order), not gated by the Sort toggle. Honor Points'
   data shape already matches the fields that roll up into faction/account
   totals, so that rollup is a one-line change whenever it's wanted. Its
@@ -1772,7 +1845,8 @@ here directly as things ship or plans change.
   against a bundled achievement-id → title-name map, so every entry
   always carries a real date, unlike the sticky-guess fallback the other
   six Collections categories need.
-- **Stats** — the third module, after Talents and Equipped Gear. A full
+- **Stats** — the fourth module, after Talents, Equipped Gear, and
+  Glyphs. A full
   `character_stats` snapshot (minus the 7 `maxpower*` columns, dropped
   per the character's own steer), grouped into Attributes/Defense/Combat
   cards styled identically to a Collections/Achievements category. Resil
@@ -1791,7 +1865,8 @@ here directly as things ship or plans change.
   every AzerothCore server (`PlayerSave.Stats.MinLevel = 0` in
   `worldserver.conf`), confirmed straight from AzerothCore's own source
   and default config.
-- **Talents** — the first module, ahead of Equipped Gear and Stats. One column per talent tree, each
+- **Talents** — the first module, ahead of Equipped Gear, Glyphs, and
+  Stats. One column per talent tree, each
   centered on its icon with the tree name and point total underneath.
   Points are summed server-side from `character_talent`, for the
   character's currently active spec only — dual-spec's inactive spec is
@@ -1908,6 +1983,21 @@ here directly as things ship or plans change.
   leaving normal flow) is set from the header's own real `offsetHeight`,
   not a guessed constant, since it wraps taller at narrow widths — see
   the [Character Dashboard](#character-dashboard) intro above.
+- **Glyphs** — a new module, right after Equipped Gear: the character's
+  currently equipped Major (top) and Minor (underneath) glyphs, each with
+  a real, distinctive icon and name, active spec only. Getting a real
+  picture per glyph (not just a name) took real verification, not a
+  guess: neither `glyphproperties_dbc`'s own `SpellIconID` nor the
+  glyph-teaching spell's own `SpellIconID` turned out to be distinctive
+  (both confirmed, directly against the real client data, to cycle
+  through only a handful of generic placeholder icons) — the real
+  picture only exists on the physical Inscription-crafted "Glyph of X"
+  item, found by walking id → spell → item via `SPELL_EFFECT_APPLY_GLYPH`
+  (confirmed as effect id 74 against AzerothCore's own
+  `SharedDefines.h`). Major vs Minor is `glyphproperties_dbc.TypeFlags`,
+  cross-checked against known glyphs (Fireball/Ice Block = Major, the
+  purely cosmetic White Bear/Fortitude = Minor) rather than assumed — see
+  [Glyphs](#glyphs) above.
 
 ### Backlog ideas
 
@@ -1928,5 +2018,4 @@ rough effort.
 | Reputation: a more detailed section, closer to the real in-game Reputation pane | Unscoped — exact changes to be confirmed | Reference screenshot provided: the real pane groups factions under expansion/faction-family headers (e.g. "Classic", "Alliance") and shows every tracked faction with its own colored standing-tier bar (Hated/Neutral/Friendly/Honored/Revered/Exalted), not just the ones at Exalted. Today's [Exalted Factions](#exalted-factions) module is much narrower by design: `renderExaltedFactions` (`app.js`) renders a plain flat, alphabetical `<ul>` of faction *names only*, for factions at or above the Exalted threshold — no bars, no other tiers, no grouping. That narrowness isn't just a rendering choice: `scripts/export-characters-json.sh`'s `exalted_factions` is already filtered down to only the faction ids that clear `EXALTED_THRESHOLD` before the JSON is written — every other faction's computed standing is discarded server-side and never reaches the client at all, so a real redesign needs the export changed first (keep every faction's computed standing, not just the Exalted ones), before any client-side bar/tier/grouping work. Grouping factions by expansion/family would also need its own primary-source check (likely `FactionGroup.dbc` or similar, not assumed from the screenshot) the same way `faction_baselines.json` and `EXALTED_THRESHOLD` were each verified against AzerothCore's own source rather than guessed. Left deliberately open-ended per the request — no specific bar/tier/grouping design has been agreed yet |
 | Skills: split into Professions / Secondary Skills / Weapon Skills categories | Low–medium | Today's [Skills](#skills) module already pulls Professions (the 11 primary profession `SKILL_*` ids) and what WoW calls Secondary Skills (Cooking 185, Fishing 356, First Aid 129) into one flat, alphabetical list with no grouping — so two of the three requested categories exist in the data already, just not labeled/separated. Weapon Skills is the real gap: `character_skills` also holds every weapon skill, but the export query's `WHERE cs.skill IN (...)` deliberately excludes them (see `scripts/export-characters-json.sh`'s Skills comment — "nobody wants surfaced here", written for the profession-only scope this request now revisits). The 14 real weapon skill ids, confirmed directly from AzerothCore's own `SharedDefines.h` `SKILL_*` enum rather than guessed: Swords 43, Axes 44, Bows 45, Guns 46, Maces 54, Defense 95, Staves 136, Unarmed 162, Daggers 173, Thrown 176, Crossbows 226, Wands 228, Polearms 229, Fist Weapons 473 — names resolve the same live `acore_world.skillline_dbc` join Skills already uses, no new reference file needed. Would need: widening the SQL id filter to include these, three labeled sub-headings (or three small modules) in `renderSkills` instead of one flat list, and a decision on whether to show every weapon skill a character has any points in, or only weapons relevant to their current spec/gear (most characters will have several at 0, since skill-ups require actually swinging that weapon type) |
 | Inventory: show more than just gold | Unscoped | Today's only inventory-adjacent data point is gold (`characters.money`, via `money_copper` → `formatMoneyPlain`) — confirmed by reading `scripts/export-characters-json.sh` end to end: `character_inventory` itself is only ever queried for `bag = 0 AND slot BETWEEN 0 AND 18` (equipped gear, see [Equipped Gear](#equipped-gear)), so bag contents, bank contents, and equipped bag containers (slots 19–22) are never pulled at all right now — this isn't a rendering gap, there's no data to render yet. Candidates worth a real look, none scoped yet: bag space used/free, equipped bag types/sizes, notable stacked consumables (flasks/elixirs/potions), bank contents (a bigger ask — bank requires the character to be logged out at a bank, or a separate `character_inventory` bag range/`guildbank_*` tables depending on scope). Also relevant: the existing [secondary stat sub-value backlog row](#backlog-ideas) above already covers showing gold's own dropped silver/copper remainder, which is a smaller, already-scoped piece of this same "gold tile could show more" idea |
-| Glyphs: show currently equipped Major/Minor glyphs | Medium | No current implementation — not even partial, unlike Skills/Stats. Schema confirmed against AzerothCore's own `data/sql/base/db_characters/character_glyphs.sql`: `character_glyphs(guid, talentGroup, glyph1..glyph6)`, one row per spec (`talentGroup` 0/1, same dual-spec split [Talents](#talents) already reads via `characters.activeTalentGroup` for "currently active spec"). Each `glyphN` column is a `glyphproperties_dbc.ID`, not a spell id directly — confirmed against `Player::_LoadGlyphs`/`Player::SendInitialSpells` in AzerothCore's own `Player.cpp`, which look it up via `sGlyphPropertiesStore` to get the glyph's actual `SpellId` (the spell whose icon/name/tooltip is the glyph itself). `acore_world.glyphproperties_dbc` ships pre-populated on any normal install, same as `skillline_dbc` — so, same "live join, simplest and most accurate source" pattern Skills/Reputation already use, no bundled reference file needed, just `character_glyphs` joined to `glyphproperties_dbc` (for `SpellId`) then to the server's existing spell-name source (whatever Talents/Known Spells already resolve names through). Open question not yet checked: whether `GlyphSlotEntry.Type` (Major vs Minor, confirmed to exist in `GlyphSlot.dbc`/`glyphslot_dbc`) is needed to label each of the 6 slots correctly, or whether that's inferrable from slot order alone — needs confirming against real data before building, not assumed |
-| Statistics: a section with some of the "most interesting" Statistics-tab counters | Medium–high, curation-heavy | Reference screenshots provided: the real Statistics tab (Summary/Kills/Deaths/Quests/etc. sub-tabs) shows counters like Total deaths, Quests completed, Creatures killed, Total gold acquired, Flight paths taken, Most factions at Exalted, Total Honorable Kills — all from a different data source than Achievements: `character_achievement_progress(guid, criteria, counter, date)` (confirmed via AzerothCore's own `data/sql/base/db_characters/character_achievement_progress.sql`), keyed by a `criteria` id, not by achievement id — these are the same criteria rows that sit behind the Statistics-category achievements `ACHIEVEMENT_ICON_CATEGORIES` already deliberately excludes as "not real completable achievements" (see [Achievement icons](#achievement-icons-verified-categories-not-a-blanket-enable) above), so this would be a new, separate data pull, not a repurposing of anything Achievements already has. The counter's label text is resolvable live: `acore_world.achievement_criteria_dbc` (confirmed to exist, ships pre-populated) has `ID`, `Achievement_Id`, `Type`, and `Description_Lang_enUS` columns per row — same "live join, no bundled file" pattern as Skills/Reputation/the proposed Glyphs row above. The real work isn't the plumbing, it's the curation the row's own title asks for: there are thousands of criteria rows total, and "most interesting" means hand-picking specific `criteria` ids the same deliberate way `ACHIEVEMENT_ICON_CATEGORIES` was built category-by-category — not a blanket `SELECT *`, which would surface mostly-uninteresting raw counters. Needs a real pass matching each screenshot stat to its actual criteria id in the bundled/live data before any of this is built |
+| Statistics: a section with some of the "most interesting" Statistics-tab counters | Medium–high, curation-heavy | Reference screenshots provided: the real Statistics tab (Summary/Kills/Deaths/Quests/etc. sub-tabs) shows counters like Total deaths, Quests completed, Creatures killed, Total gold acquired, Flight paths taken, Most factions at Exalted, Total Honorable Kills — all from a different data source than Achievements: `character_achievement_progress(guid, criteria, counter, date)` (confirmed via AzerothCore's own `data/sql/base/db_characters/character_achievement_progress.sql`), keyed by a `criteria` id, not by achievement id — these are the same criteria rows that sit behind the Statistics-category achievements `ACHIEVEMENT_ICON_CATEGORIES` already deliberately excludes as "not real completable achievements" (see [Achievement icons](#achievement-icons-verified-categories-not-a-blanket-enable) above), so this would be a new, separate data pull, not a repurposing of anything Achievements already has. The counter's label text is resolvable live: `acore_world.achievement_criteria_dbc` (confirmed to exist, ships pre-populated) has `ID`, `Achievement_Id`, `Type`, and `Description_Lang_enUS` columns per row — same "live join, no bundled file" pattern as Skills/Reputation/[Glyphs](#glyphs) already use. The real work isn't the plumbing, it's the curation the row's own title asks for: there are thousands of criteria rows total, and "most interesting" means hand-picking specific `criteria` ids the same deliberate way `ACHIEVEMENT_ICON_CATEGORIES` was built category-by-category — not a blanket `SELECT *`, which would surface mostly-uninteresting raw counters. Needs a real pass matching each screenshot stat to its actual criteria id in the bundled/live data before any of this is built |

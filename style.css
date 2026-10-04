@@ -528,6 +528,17 @@ main {
   gap: 0.6rem 0.7rem;
 }
 
+/* Glyphs: Major and Minor stacked vertically (Major on top, the
+   character's own request) rather than side by side - same grid-column:
+   1/-1 span .stats-columns uses, but a single column instead of 3, since
+   unlike Stats' fixed 3 groups this is exactly 2 groups that need to
+   read top-to-bottom, not side-by-side. */
+.glyph-groups {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 0.6rem;
+}
+
 /* Talents: always exactly 3 trees, one column each - icon, tree name,
    points, all centered, same grid-column: 1/-1 + repeat(3, 1fr) approach
    .stats-columns already uses to sit as one row instead of flowing into

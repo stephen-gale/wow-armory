@@ -209,6 +209,8 @@ KNOWN_SPELLS_TMP="$(mktemp)"
 TALENTS_TMP="$(mktemp)"
 REPUTATION_TMP="$(mktemp)"
 SKILLS_TMP="$(mktemp)"
+GLYPHS_TMP="$(mktemp)"
+GLYPH_REF_TMP="$(mktemp)"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT ca.guid, ca.achievement, ca.date
   FROM acore_characters.character_achievement ca
@@ -285,6 +287,40 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   WHERE cs.skill IN (129,164,165,171,182,185,186,197,202,333,356,393,755,773)
     AND a.username NOT LIKE 'RNDBOT%';
 " > "$SKILLS_TMP"
+# Glyphs: character_glyphs(guid, talentGroup, glyph1..glyph6) holds one
+# full row per spec, filtered to the character's own active spec only -
+# same activeTalentGroup join Talents already uses.
+mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
+  SELECT cg.guid, cg.glyph1, cg.glyph2, cg.glyph3, cg.glyph4, cg.glyph5, cg.glyph6
+  FROM acore_characters.character_glyphs cg
+  JOIN acore_characters.characters c ON c.guid = cg.guid AND cg.talentGroup = c.activeTalentGroup
+  JOIN acore_auth.account a ON a.id = c.account
+  WHERE a.username NOT LIKE 'RNDBOT%';
+" > "$GLYPHS_TMP"
+# Glyph reference data (every real glyph, not per-character): name, icon,
+# Major/Minor, all live-joined rather than bundled. Confirmed directly
+# against the real client data before writing this: glyphproperties_dbc.
+# TypeFlags is 0 for Major, 1 for Minor; neither GlyphProperties' own
+# SpellIconID nor the "teaches you this glyph" spell's own SpellIconID
+# carry a distinctive per-glyph picture (both cycle through only a
+# handful of generic placeholder textures) - the real picture only
+# exists on the physical Inscription-crafted "Glyph of X" item, found by
+# walking id -> spell -> item: a glyph's own ID is EffectMiscValue_N on
+# exactly one spell whose Effect_N is SPELL_EFFECT_APPLY_GLYPH (effect
+# id 74, confirmed against AzerothCore's own SharedDefines.h), which is
+# itself spellid_N on exactly one item_template row - that item's own
+# displayid -> itemdisplayinfo_dbc.InventoryIcon_1 is the real icon.
+mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
+  SELECT gp.ID, it.name, idi.InventoryIcon_1, gp.TypeFlags
+  FROM acore_world.glyphproperties_dbc gp
+  JOIN acore_world.spell_dbc sp
+    ON gp.ID IN (sp.EffectMiscValue_1, sp.EffectMiscValue_2, sp.EffectMiscValue_3)
+   AND 74 IN (sp.Effect_1, sp.Effect_2, sp.Effect_3)
+  JOIN acore_world.item_template it
+    ON sp.ID IN (it.spellid_1, it.spellid_2, it.spellid_3, it.spellid_4, it.spellid_5)
+  JOIN acore_world.itemdisplayinfo_dbc idi ON idi.ID = it.displayid
+  WHERE gp.TypeFlags IN (0, 1);
+" > "$GLYPH_REF_TMP"
 # Quests: character_queststatus_rewarded holds one row per quest ever
 # turned in, but the server itself doesn't treat every row as currently
 # "completed" - its own CHAR_SEL_CHARACTER_QUESTSTATUSREW prepared
@@ -433,6 +469,50 @@ with open('$TALENTS_TMP') as f:
             continue
         guid, spell_id, spec_mask = line.split('\t')
         talents_by_guid[int(guid)].append((int(spell_id), int(spec_mask)))
+
+# Glyph reference data (id -> name/icon/major) - see the SQL comment
+# above for how each field is resolved. Icon names get the same
+# strip-path/lowercase/strip-extension cleanup as every other bundled
+# icon map in this project (item_icons.json, spell_icons.json).
+def clean_icon_name(texture):
+    if not texture:
+        return None
+    name = texture.split(chr(92))[-1].lower()
+    for ext in ('.tga', '.blp', '.png'):
+        if name.endswith(ext):
+            return name[: -len(ext)]
+    return name
+
+glyph_ref = {}
+with open('$GLYPH_REF_TMP') as f:
+    for line in f:
+        line = line.rstrip('\n')
+        if not line:
+            continue
+        glyph_id, name, icon_texture, type_flags = line.split('\t')
+        glyph_ref[int(glyph_id)] = {
+            'name': name,
+            'icon': clean_icon_name(icon_texture),
+            'major': type_flags == '0',
+        }
+
+# Each character's 6 glyph slots (0 = empty), active spec only - resolved
+# against glyph_ref and split into major/minor by the glyph's own
+# TypeFlags, not by which of the 6 columns it happens to sit in.
+glyphs_by_guid = defaultdict(lambda: {'major': [], 'minor': []})
+with open('$GLYPHS_TMP') as f:
+    for line in f:
+        line = line.rstrip('\n')
+        if not line:
+            continue
+        guid, *slots = line.split('\t')
+        guid = int(guid)
+        for slot in slots:
+            glyph = glyph_ref.get(int(slot))
+            if not glyph:
+                continue
+            entry = {'name': glyph['name'], 'icon': glyph['icon']}
+            glyphs_by_guid[guid]['major' if glyph['major'] else 'minor'].append(entry)
 
 # faction id -> {reputation_list_id, [race_masks, class_masks, base_values]}
 # (see scripts/extract-faction-baselines.py) - only 'trackable' factions
@@ -689,6 +769,7 @@ for line in sys.stdin:
         'equipped_gear': sorted(equipped_gear_by_guid.get(guid, []), key=lambda g: g['slot']),
         'talents': dict(talent_points),
         'skills': sorted(skills_by_guid.get(guid, []), key=lambda s: s['name']),
+        'glyphs': glyphs_by_guid.get(guid, {'major': [], 'minor': []}),
     })
 
 with open('$BACKUP_DIR/characters.json', 'w') as f:
@@ -700,7 +781,7 @@ with open('$REPO_DATA_DIR/characters.json', 'w') as f:
 
 print(f'  characters.json: wrote {len(characters)} characters')
 " || { echo "Failed: characters.json export"; exit 1; }
-rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$TALENTS_TMP" "$REPUTATION_TMP" "$SKILLS_TMP"
+rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$TALENTS_TMP" "$REPUTATION_TMP" "$SKILLS_TMP" "$GLYPHS_TMP" "$GLYPH_REF_TMP"
 
 echo "  Publishing characters.json to GitHub..."
 (

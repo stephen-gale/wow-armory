@@ -100,7 +100,9 @@ KNOWN_SPELLS_TMP="$(mktemp)"
 TALENTS_TMP="$(mktemp)"
 REPUTATION_TMP="$(mktemp)"
 SKILLS_TMP="$(mktemp)"
-trap 'rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$TALENTS_TMP" "$REPUTATION_TMP" "$SKILLS_TMP"' EXIT
+GLYPHS_TMP="$(mktemp)"
+GLYPH_REF_TMP="$(mktemp)"
+trap 'rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$TALENTS_TMP" "$REPUTATION_TMP" "$SKILLS_TMP" "$GLYPHS_TMP" "$GLYPH_REF_TMP"' EXIT
 
 mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
   SELECT ca.guid, ca.achievement, ca.date
@@ -197,6 +199,58 @@ mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
     AND a.username NOT LIKE 'RNDBOT%';
 " > "$SKILLS_TMP"
 
+# Glyphs: character_glyphs(guid, talentGroup, glyph1..glyph6) holds one
+# full row per spec (schema confirmed against AzerothCore's own
+# data/sql/base/db_characters/character_glyphs.sql), so this is filtered
+# to the character's own currently active spec only - same
+# activeTalentGroup join Talents already uses, for the same reason (a
+# respec leaves the other spec's glyphs in the table too).
+mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
+  SELECT cg.guid, cg.glyph1, cg.glyph2, cg.glyph3, cg.glyph4, cg.glyph5, cg.glyph6
+  FROM acore_characters.character_glyphs cg
+  JOIN acore_characters.characters c ON c.guid = cg.guid AND cg.talentGroup = c.activeTalentGroup
+  JOIN acore_auth.account a ON a.id = c.account
+  WHERE a.username NOT LIKE 'RNDBOT%';
+" > "$GLYPHS_TMP"
+
+# Glyph reference data (every real glyph, not per-character): name, icon,
+# and Major/Minor, all resolved live rather than bundled - same "live
+# join, simplest and most accurate source" reasoning Skills/Reputation
+# already use. Three things confirmed directly against the real client
+# data before writing this, not assumed:
+#   - acore_world.glyphproperties_dbc.TypeFlags is 0 for a Major glyph, 1
+#     for Minor (cross-checked against known glyphs - e.g. Glyph of
+#     Fireball/Glyph of Ice Block came back 0, the purely cosmetic Glyph
+#     of the White Bear/Glyph of Fortitude came back 1, matching how
+#     WotLK actually splits Major/Minor glyphs).
+#   - Neither GlyphProperties' own SpellIconID nor the "teaches you this
+#     glyph" spell's own SpellIconID carry a distinctive per-glyph
+#     picture - GlyphProperties.SpellIconID only ever cycles through ~20
+#     generic "UI-Glyph-Rune-N" placeholder textures (reused across many
+#     unrelated glyphs), and the teaching spell's own SpellIconID is
+#     always the same generic Inscription trade icon. The real,
+#     distinctive picture only exists on the physical Inscription-
+#     crafted "Glyph of X" item itself.
+#   - That item is found by walking id -> spell -> item: a glyph's own
+#     GlyphProperties.ID is EffectMiscValue_N on exactly one spell whose
+#     Effect_N is SPELL_EFFECT_APPLY_GLYPH (confirmed as effect id 74
+#     against AzerothCore's own SharedDefines.h SPELL_EFFECT_* enum) -
+#     that's the real "teach you how to permanently apply this glyph"
+#     spell, which is itself spellid_N on exactly one item_template row
+#     (the Inscription-crafted glyph item). That item's own displayid ->
+#     itemdisplayinfo_dbc.InventoryIcon_1 is the real, distinctive icon.
+mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
+  SELECT gp.ID, it.name, idi.InventoryIcon_1, gp.TypeFlags
+  FROM acore_world.glyphproperties_dbc gp
+  JOIN acore_world.spell_dbc sp
+    ON gp.ID IN (sp.EffectMiscValue_1, sp.EffectMiscValue_2, sp.EffectMiscValue_3)
+   AND 74 IN (sp.Effect_1, sp.Effect_2, sp.Effect_3)
+  JOIN acore_world.item_template it
+    ON sp.ID IN (it.spellid_1, it.spellid_2, it.spellid_3, it.spellid_4, it.spellid_5)
+  JOIN acore_world.itemdisplayinfo_dbc idi ON idi.ID = it.displayid
+  WHERE gp.TypeFlags IN (0, 1);
+" > "$GLYPH_REF_TMP"
+
 # Quests: character_queststatus_rewarded holds one row per quest ever
 # turned in, but the server itself doesn't treat every row as currently
 # "completed" - its own CHAR_SEL_CHARACTER_QUESTSTATUSREW prepared
@@ -278,6 +332,7 @@ SQL
 
 mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "$QUERY" | python3 - \
   "$OUTPUT_FILE" "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$TALENTS_TMP" "$REPUTATION_TMP" "$SKILLS_TMP" \
+  "$GLYPHS_TMP" "$GLYPH_REF_TMP" \
   "$COLLECTION_SETS_DEFS" "$COLLECTION_MOUNTS_DEFS" "$COLLECTION_COMPANIONS_DEFS" \
   "$COLLECTION_LEGENDARIES_DEFS" "$COLLECTION_TABARDS_DEFS" "$COLLECTION_HEIRLOOMS_DEFS" \
   "$COLLECTION_TITLES_DEFS" "$TALENT_SPELLS_DEFS" "$FACTION_BASELINES_DEFS" <<'PYEOF'
@@ -288,9 +343,10 @@ import os
 from collections import defaultdict
 
 (out_path, achievements_path, equipped_path, known_spells_path, talents_path, reputation_path, skills_path,
+ glyphs_path, glyph_ref_path,
  sets_defs_path, mounts_defs_path, companions_defs_path,
  legendaries_defs_path, tabards_defs_path, heirlooms_defs_path, titles_defs_path,
- talent_spells_defs_path, faction_baselines_defs_path) = sys.argv[1:17]
+ talent_spells_defs_path, faction_baselines_defs_path) = sys.argv[1:19]
 
 # (json key, detection kind, defs path) — "equip" entries have slot_groups,
 # "spell" entries have spell_ids. See the header comment above for what
@@ -429,6 +485,54 @@ with open(skills_path) as f:
             "value": int(value),
             "max": int(max_value),
         })
+
+# Glyph reference data (id -> name/icon/major) - see the SQL comment
+# above for how each field is resolved. Icon names get the same
+# strip-path/lowercase/strip-extension cleanup as every other bundled
+# icon map in this project (item_icons.json, spell_icons.json), kept
+# inline here since it's only ever applied to this one small reference
+# query's output.
+def clean_icon_name(texture):
+    if not texture:
+        return None
+    name = texture.rsplit("\\", 1)[-1].lower()
+    for ext in (".tga", ".blp", ".png"):
+        if name.endswith(ext):
+            return name[: -len(ext)]
+    return name
+
+glyph_ref = {}
+with open(glyph_ref_path) as f:
+    for line in f:
+        line = line.rstrip("\n")
+        if not line:
+            continue
+        glyph_id, name, icon_texture, type_flags = line.split("\t")
+        glyph_ref[int(glyph_id)] = {
+            "name": name,
+            "icon": clean_icon_name(icon_texture),
+            "major": type_flags == "0",
+        }
+
+# Each character's 6 glyph slots (0 = empty), active spec only (see the
+# SQL comment above) - resolved against glyph_ref and split into
+# major/minor here rather than relying on slot position, since a glyph's
+# own TypeFlags is the authoritative source or whether it's Major or
+# Minor, not which of the 6 columns it happens to sit in.
+glyphs_by_guid = defaultdict(lambda: {"major": [], "minor": []})
+with open(glyphs_path) as f:
+    for line in f:
+        line = line.rstrip("\n")
+        if not line:
+            continue
+        guid, *slots = line.split("\t")
+        guid = int(guid)
+        for slot in slots:
+            glyph = glyph_ref.get(int(slot))
+            if not glyph:
+                continue
+            entry = {"name": glyph["name"], "icon": glyph["icon"]}
+            glyphs_by_guid[guid]["major" if glyph["major"] else "minor"].append(entry)
 
 def base_reputation(faction_id, race_mask, class_mask):
     """Mirrors ReputationMgr::GetBaseReputation() exactly: the first of a
@@ -630,6 +734,7 @@ for line in sys.stdin:
         "equipped_gear": sorted(equipped_gear_by_guid.get(guid, []), key=lambda g: g["slot"]),
         "talents": dict(talent_points),
         "skills": sorted(skills_by_guid.get(guid, []), key=lambda s: s["name"]),
+        "glyphs": glyphs_by_guid.get(guid, {"major": [], "minor": []}),
     })
 
 data = {
