@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-04T22:30:04Z",
+  "generated_at": "2026-10-04T22:56:29Z",
   "characters": [
     {
       "guid": 1006,
@@ -911,8 +911,22 @@
       },
       "skills": [],
       "glyphs": {
-        "major": [],
-        "minor": []
+        "major": [
+          {
+            "name": "Glyph of Judgement",
+            "icon": "ui-glyph-rune-8"
+          },
+          {
+            "name": "Glyph of Exorcism",
+            "icon": "ui-glyph-rune-2"
+          }
+        ],
+        "minor": [
+          {
+            "name": "Glyph of Blessing of Might",
+            "icon": "ui-glyph-rune-2"
+          }
+        ]
       }
     }
   ]
