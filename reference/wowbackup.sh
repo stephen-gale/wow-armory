@@ -300,18 +300,22 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
 # Glyph reference data (every real glyph, not per-character): name, icon,
 # Major/Minor, all live-joined rather than bundled. Confirmed directly
 # against the real client data before writing this: glyphproperties_dbc.
-# TypeFlags is 0 for Major, 1 for Minor; neither GlyphProperties' own
-# SpellIconID nor the "teaches you this glyph" spell's own SpellIconID
-# carry a distinctive per-glyph picture (both cycle through only a
-# handful of generic placeholder textures) - the real picture only
-# exists on the physical Inscription-crafted "Glyph of X" item, found by
-# walking id -> spell -> item: a glyph's own ID is EffectMiscValue_N on
-# exactly one spell whose Effect_N is SPELL_EFFECT_APPLY_GLYPH (effect
-# id 74, confirmed against AzerothCore's own SharedDefines.h), which is
-# itself spellid_N on exactly one item_template row - that item's own
-# displayid -> itemdisplayinfo_dbc.InventoryIcon_1 is the real icon.
+# GlyphSlotFlags is 0 for Major, 1 for Minor (the real column name,
+# confirmed straight from AzerothCore's own glyphproperties_dbc.sql -
+# an earlier revision of this query wrongly used TypeFlags, the
+# in-memory C++ struct's field name, which the SQL table doesn't
+# actually have); neither GlyphProperties' own SpellIconID nor the
+# "teaches you this glyph" spell's own SpellIconID carry a distinctive
+# per-glyph picture (both cycle through only a handful of generic
+# placeholder textures) - the real picture only exists on the physical
+# Inscription-crafted "Glyph of X" item, found by walking id -> spell
+# -> item: a glyph's own ID is EffectMiscValue_N on exactly one spell
+# whose Effect_N is SPELL_EFFECT_APPLY_GLYPH (effect id 74, confirmed
+# against AzerothCore's own SharedDefines.h), which is itself spellid_N
+# on exactly one item_template row - that item's own displayid ->
+# itemdisplayinfo_dbc.InventoryIcon_1 is the real icon.
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
-  SELECT gp.ID, it.name, idi.InventoryIcon_1, gp.TypeFlags
+  SELECT gp.ID, it.name, idi.InventoryIcon_1, gp.GlyphSlotFlags
   FROM acore_world.glyphproperties_dbc gp
   JOIN acore_world.spell_dbc sp
     ON gp.ID IN (sp.EffectMiscValue_1, sp.EffectMiscValue_2, sp.EffectMiscValue_3)
@@ -319,7 +323,7 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   JOIN acore_world.item_template it
     ON sp.ID IN (it.spellid_1, it.spellid_2, it.spellid_3, it.spellid_4, it.spellid_5)
   JOIN acore_world.itemdisplayinfo_dbc idi ON idi.ID = it.displayid
-  WHERE gp.TypeFlags IN (0, 1);
+  WHERE gp.GlyphSlotFlags IN (0, 1);
 " > "$GLYPH_REF_TMP"
 # Quests: character_queststatus_rewarded holds one row per quest ever
 # turned in, but the server itself doesn't treat every row as currently
@@ -498,7 +502,7 @@ with open('$GLYPH_REF_TMP') as f:
 
 # Each character's 6 glyph slots (0 = empty), active spec only - resolved
 # against glyph_ref and split into major/minor by the glyph's own
-# TypeFlags, not by which of the 6 columns it happens to sit in.
+# GlyphSlotFlags, not by which of the 6 columns it happens to sit in.
 glyphs_by_guid = defaultdict(lambda: {'major': [], 'minor': []})
 with open('$GLYPHS_TMP') as f:
     for line in f:

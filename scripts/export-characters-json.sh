@@ -218,8 +218,12 @@ mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
 # join, simplest and most accurate source" reasoning Skills/Reputation
 # already use. Three things confirmed directly against the real client
 # data before writing this, not assumed:
-#   - acore_world.glyphproperties_dbc.TypeFlags is 0 for a Major glyph, 1
-#     for Minor (cross-checked against known glyphs - e.g. Glyph of
+#   - acore_world.glyphproperties_dbc.GlyphSlotFlags is 0 for a Major
+#     glyph, 1 for Minor (confirmed as the real column name straight from
+#     AzerothCore's own glyphproperties_dbc.sql, after an earlier
+#     revision of this query wrongly used the in-memory C++ struct's
+#     field name, TypeFlags, which the SQL table doesn't actually have -
+#     cross-checked against known glyphs - e.g. Glyph of
 #     Fireball/Glyph of Ice Block came back 0, the purely cosmetic Glyph
 #     of the White Bear/Glyph of Fortitude came back 1, matching how
 #     WotLK actually splits Major/Minor glyphs).
@@ -240,7 +244,7 @@ mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
 #     (the Inscription-crafted glyph item). That item's own displayid ->
 #     itemdisplayinfo_dbc.InventoryIcon_1 is the real, distinctive icon.
 mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
-  SELECT gp.ID, it.name, idi.InventoryIcon_1, gp.TypeFlags
+  SELECT gp.ID, it.name, idi.InventoryIcon_1, gp.GlyphSlotFlags
   FROM acore_world.glyphproperties_dbc gp
   JOIN acore_world.spell_dbc sp
     ON gp.ID IN (sp.EffectMiscValue_1, sp.EffectMiscValue_2, sp.EffectMiscValue_3)
@@ -248,7 +252,7 @@ mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
   JOIN acore_world.item_template it
     ON sp.ID IN (it.spellid_1, it.spellid_2, it.spellid_3, it.spellid_4, it.spellid_5)
   JOIN acore_world.itemdisplayinfo_dbc idi ON idi.ID = it.displayid
-  WHERE gp.TypeFlags IN (0, 1);
+  WHERE gp.GlyphSlotFlags IN (0, 1);
 " > "$GLYPH_REF_TMP"
 
 # Quests: character_queststatus_rewarded holds one row per quest ever
@@ -517,8 +521,8 @@ with open(glyph_ref_path) as f:
 # Each character's 6 glyph slots (0 = empty), active spec only (see the
 # SQL comment above) - resolved against glyph_ref and split into
 # major/minor here rather than relying on slot position, since a glyph's
-# own TypeFlags is the authoritative source or whether it's Major or
-# Minor, not which of the 6 columns it happens to sit in.
+# own GlyphSlotFlags is the authoritative source for whether it's Major
+# or Minor, not which of the 6 columns it happens to sit in.
 glyphs_by_guid = defaultdict(lambda: {"major": [], "minor": []})
 with open(glyphs_path) as f:
     for line in f:

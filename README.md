@@ -770,14 +770,20 @@ already uses.
   AzerothCore's own `Player::_LoadGlyphs`/`Player::SendInitialSpells`
   (`Player.cpp`), which resolve it through `sGlyphPropertiesStore` to get
   the glyph's actual effect spell.
-- **Major vs Minor**: `glyphproperties_dbc.TypeFlags` — confirmed `0` for
-  Major, `1` for Minor by cross-checking known glyphs against the real
+- **Major vs Minor**: `glyphproperties_dbc.GlyphSlotFlags` — confirmed `0`
+  for Major, `1` for Minor by cross-checking known glyphs against the real
   client data rather than assuming: well-known combat glyphs (Glyph of
   Fireball, Glyph of Ice Block, Glyph of Innervate, Glyph of Rebirth) all
   came back `0`; well-known purely cosmetic glyphs (Glyph of the White
   Bear, Glyph of Fortitude) came back `1` — matching how WotLK actually
-  splits the two tiers. Split by the glyph's own `TypeFlags`, not by
-  which of the 6 `glyphN` columns it happens to sit in.
+  splits the two tiers. Split by the glyph's own `GlyphSlotFlags`, not by
+  which of the 6 `glyphN` columns it happens to sit in. (The live server
+  caught a real naming bug here on first run: AzerothCore's own in-memory
+  `GlyphPropertiesEntry` C++ struct calls this field `TypeFlags`, but the
+  actual `glyphproperties_dbc` SQL table column is `GlyphSlotFlags` — the
+  two don't share a name, confirmed straight from AzerothCore's own
+  `glyphproperties_dbc.sql` after the mismatch surfaced as a real `mysql`
+  error.)
 - **Name and icon, both resolved live, not bundled**: same "live join,
   simplest and most accurate source" reasoning [Skills](#skills) already
   uses for its own names — no new bundled reference file. Getting a real,
@@ -2003,7 +2009,7 @@ here directly as things ship or plans change.
   picture only exists on the physical Inscription-crafted "Glyph of X"
   item, found by walking id → spell → item via `SPELL_EFFECT_APPLY_GLYPH`
   (confirmed as effect id 74 against AzerothCore's own
-  `SharedDefines.h`). Major vs Minor is `glyphproperties_dbc.TypeFlags`,
+  `SharedDefines.h`). Major vs Minor is `glyphproperties_dbc.GlyphSlotFlags`,
   cross-checked against known glyphs (Fireball/Ice Block = Major, the
   purely cosmetic White Bear/Fortitude = Minor) rather than assumed — see
   [Glyphs](#glyphs) above.
