@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-03T22:38:04Z",
+  "generated_at": "2026-10-04T22:01:06Z",
   "characters": [
     {
       "guid": 1006,
@@ -470,40 +470,40 @@
       "class_id": 2,
       "class_name": "Paladin",
       "faction": "Alliance",
-      "level": 75,
-      "money_copper": 32858182,
+      "level": 76,
+      "money_copper": 34774431,
       "zone_id": 66,
       "exalted_factions": [
         72
       ],
       "achievement_points": 580,
       "achievement_count": 59,
-      "played_time_seconds": 463769,
+      "played_time_seconds": 467443,
       "honor_points": 0,
-      "last_online": "2026-10-03T22:37:45Z",
-      "quests_completed": 1230,
+      "last_online": "2026-10-04T22:00:43Z",
+      "quests_completed": 1246,
       "stats": {
-        "max_health": 10149,
-        "strength": 608,
-        "agility": 122,
-        "stamina": 549,
-        "intellect": 90,
-        "spirit": 99,
-        "armor": 8620,
+        "max_health": 10150,
+        "strength": 615,
+        "agility": 123,
+        "stamina": 513,
+        "intellect": 92,
+        "spirit": 100,
+        "armor": 8679,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
         "res_frost": 0,
         "res_shadow": 0,
         "res_arcane": 0,
-        "block_pct": 5.24,
-        "dodge_pct": 6.65169,
-        "parry_pct": 5.24,
-        "crit_pct": 24.1728,
-        "ranged_crit_pct": 9.17277,
+        "block_pct": 5.0,
+        "dodge_pct": 6.25378,
+        "parry_pct": 5.0,
+        "crit_pct": 21.9785,
+        "ranged_crit_pct": 6.97847,
         "spell_crit_pct": 0.0,
-        "attack_power": 1421,
-        "ranged_attack_power": 112,
+        "attack_power": 1438,
+        "ranged_attack_power": 113,
         "spell_power": 0,
         "resilience": 0
       },
@@ -803,10 +803,10 @@
         },
         {
           "slot": 4,
-          "id": 39099,
-          "name": "Carapace of the Fallen",
+          "id": 39805,
+          "name": "Chestplate of the Altar",
           "quality": 2,
-          "item_level": 154
+          "item_level": 158
         },
         {
           "slot": 5,
@@ -838,10 +838,10 @@
         },
         {
           "slot": 9,
-          "id": 39080,
-          "name": "Grips of Flawed Temper",
+          "id": 39855,
+          "name": "Gauntlets of the Gatherer",
           "quality": 2,
-          "item_level": 154
+          "item_level": 158
         },
         {
           "slot": 10,
@@ -880,10 +880,10 @@
         },
         {
           "slot": 15,
-          "id": 39117,
-          "name": "Liberator's Blade",
+          "id": 39802,
+          "name": "Crusader's Greatblade",
           "quality": 2,
-          "item_level": 154
+          "item_level": 158
         },
         {
           "slot": 17,
@@ -903,7 +903,7 @@
       "talents": {
         "381": 57,
         "383": 5,
-        "382": 4
+        "382": 5
       },
       "skills": []
     }
