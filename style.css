@@ -708,6 +708,23 @@ main {
   border: 1px solid rgba(255,255,255,0.15);
 }
 
+/* Glyphs only - the bundled ui-glyph-rune-*.png art (see renderGlyphs)
+   is a plain grey rune silhouette on a transparent background, the same
+   small "icon" piece the real client composites onto a separate colored
+   parchment-and-gold ring frame to get the look in the character's own
+   reference screenshot - confirmed from the real client's own texture
+   atlas (SPELLBOOK/UI-GLYPHFRAME.PNG), not guessed. Reproducing that
+   frame exactly would need slicing a multi-icon atlas; a solid gold
+   circular backdrop (same --gold already used elsewhere in this app)
+   gets the same "warm rune disc, not a flat grey cutout" effect without
+   it - img's own background-color shows through the PNG's transparent
+   areas directly, no wrapper element needed. */
+.achv-list__icon--glyph {
+  border-radius: 50%;
+  background: var(--gold);
+  border-color: rgba(0,0,0,0.3);
+}
+
 .achv-list__points {
   color: var(--text-dim);
   font-size: 0.72rem;

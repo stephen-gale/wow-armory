@@ -831,6 +831,18 @@ already uses.
   or "Minor" — standing in for the slot-name label Equipped Gear's own
   rows show. Major entries list first, then Minor, in one flat list
   rather than two separate stacked groups.
+- **Icon backdrop**: a gold circular background behind each rune icon
+  (`achv-list__icon--glyph` in `style.css`). The bundled
+  `ui-glyph-rune-*.png` art is a plain grey silhouette on a transparent
+  background on its own — confirmed from the real client's own texture
+  atlas (`SPELLBOOK/UI-GLYPHFRAME.PNG`) that the game composites this
+  same rune art onto a separate colored parchment-and-gold ring frame,
+  which is where the warm look in the character's own reference
+  screenshot actually comes from. Reproducing that frame exactly would
+  mean slicing a multi-icon atlas; a solid `--gold` circular backdrop
+  (the same gold this app already uses elsewhere) gets the same "warm
+  rune disc" read without it — without this, the plain grey art read as
+  flat/inactive against this app's dark theme.
 
 ### PvP
 

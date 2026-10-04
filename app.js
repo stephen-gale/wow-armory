@@ -1331,11 +1331,15 @@ function renderEquippedGear(gear, itemIcons, className) {
 // Major entries list first, Minor after - same flat list, not a
 // separate section each, so the "which glyph is which tier" question is
 // answered per-row rather than by position in two stacked groups.
+// achv-list__icon--glyph (style.css) adds a gold circular backdrop - the
+// bundled rune art is a plain grey transparent-background silhouette on
+// its own, which read as flat/inactive against this app's dark theme
+// until that was added.
 function renderGlyphs(glyphs) {
   if (!glyphs) return "";
   const { major = [], minor = [] } = glyphs;
   if (major.length === 0 && minor.length === 0) return "";
-  const item = (g, label) => `<li class="achv-list__item">${itemIconImg(g.icon, "achv-list__icon")}${escapeHtml(g.name)} <span class="achv-list__date">${label}</span></li>`;
+  const item = (g, label) => `<li class="achv-list__item">${itemIconImg(g.icon, "achv-list__icon achv-list__icon--glyph")}${escapeHtml(g.name)} <span class="achv-list__date">${label}</span></li>`;
   return `
     <h3 class="achv-section__name">Glyphs</h3>
     <ul class="achv-list">
