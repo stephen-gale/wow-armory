@@ -821,16 +821,16 @@ already uses.
   - `app.js` just renders the already-resolved `{"name": ..., "icon":
     ...}` on each glyph entry — no client-side lookup needed, same as
     Skills' already-resolved names.
-- **Layout**: Major and Minor render as two stacked rows, up to 3 glyphs
-  across each, Major on top — not a vertical icon+name list. The real
-  in-game Glyphs panel arranges all 6 slots in a circular wheel (reference
-  screenshot provided), which is too tall for this app's single-column
-  mobile layout, so each glyph instead renders as a small icon-above-name
-  tile (the same shape [Talents](#talents)' 3 trees already use), 3 per
-  row. Major tiles render larger than Minor, echoing the wheel's own
-  bigger-vs-smaller sizing without needing the wheel's height. Either row
-  is simply omitted when empty, e.g. a low-level character with no Minor
-  slots unlocked yet.
+- **Layout**: a plain `achv-list` — the same shape and CSS
+  [Equipped Gear](#equipped-gear) already uses, reused rather than
+  invented fresh (an earlier revision instead used a 3-per-row grid of
+  circular icon tiles, styled after the real in-game Glyphs wheel; the
+  character's own follow-up asked for this simpler, more consistent
+  treatment instead). Each row is the glyph's icon (same size as an
+  equipped item's), its name, and a grey trailing label reading "Major"
+  or "Minor" — standing in for the slot-name label Equipped Gear's own
+  rows show. Major entries list first, then Minor, in one flat list
+  rather than two separate stacked groups.
 
 ### PvP
 
@@ -2008,11 +2008,13 @@ here directly as things ship or plans change.
   not a guessed constant, since it wraps taller at narrow widths — see
   the [Character Dashboard](#character-dashboard) intro above.
 - **Glyphs** — a new module, right after Equipped Gear: the character's
-  currently equipped Major (top row) and Minor (bottom row) glyphs, up to
-  3 across each as small icon-above-name tiles — not the real in-game
-  wheel's circular layout, too tall for this app's single-column mobile
-  layout, per the character's own follow-up with a reference screenshot —
-  each with a real name and icon, active spec only. Shipped twice: the
+  currently equipped Major and Minor glyphs, Major listed first, each
+  real name and icon rendered as a plain `achv-list` row — same icon
+  size and text treatment [Equipped Gear](#equipped-gear) already uses,
+  with "Major"/"Minor" standing in for its slot-name label (an earlier
+  revision instead used a 3-per-row grid of circular icon tiles styled
+  after the real in-game Glyphs wheel; simplified to this on the
+  character's own follow-up). Shipped twice on the data side too: the
   first version live-joined `glyphproperties_dbc`/`spell_dbc`/
   `item_template`/`itemdisplayinfo_dbc` every export run for a unique
   per-ability picture; on a real server, `glyphproperties_dbc` and
