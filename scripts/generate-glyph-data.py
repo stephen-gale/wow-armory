@@ -30,8 +30,12 @@ writing this, not assumed:
     placeholder-looking row). The real name is on the spell that teaches
     it: Effect[i] == SPELL_EFFECT_APPLY_GLYPH (confirmed as effect id 74
     against AzerothCore's own SharedDefines.h SPELL_EFFECT_* enum) with
-    EffectMiscValue[i] == the glyph's own GlyphProperties.ID - 355 of
-    357 real glyphs resolve a name this way.
+    EffectMiscValue[i] == the glyph's own GlyphProperties.ID - 353 of
+    357 real glyphs resolve a name starting with "Glyph of " this way
+    (one of the other 3 - id 2, sharing its SpellID with another real
+    glyph, id 81 - did resolve a name, "Copy of Holy Bolt", but not that
+    prefix, a sure sign of leftover dev/test data; excluded below for
+    exactly that reason, not just a missing name).
   - Neither GlyphProperties' own SpellIconID nor that teaching spell's
     own SpellIconID carry a picture unique to one glyph's ability -
     GlyphProperties.SpellIconID only ever cycles through ~20 generic
@@ -102,8 +106,16 @@ def generate(glyph_csv_path, spell_csv_path, spell_icon_csv_path):
                 continue  # a handful of unused/dev-only rows, not real glyphs
             glyph_id = row["ID"]
             name = glyph_names.get(glyph_id)
-            if not name:
-                continue  # no real "teaches you this glyph" spell found
+            # Every real glyph's teaching spell is named "Glyph of X" - a
+            # name that doesn't start with that (confirmed on this build:
+            # exactly one real row, id 2, resolves to "Copy of Holy
+            # Bolt") is leftover dev/test data sharing a duplicate
+            # SpellID with another real glyph (id 2 and id 81 both
+            # resolve GlyphProperties.SpellID to 52084), not something a
+            # player could ever actually have - excluded here rather
+            # than shown with a nonsense name.
+            if not name or not name.startswith("Glyph of "):
+                continue
             glyphs[glyph_id] = {
                 "name": name,
                 "icon": icon_texture.get(row["SpellIconID"]),

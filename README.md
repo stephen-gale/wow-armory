@@ -803,8 +803,18 @@ already uses.
     unrelated glyph ids). The real "Glyph of X" name is on the spell that
     *teaches* it: `Effect_N == SPELL_EFFECT_APPLY_GLYPH` (effect id `74`,
     confirmed against AzerothCore's own `SharedDefines.h`) with
-    `EffectMiscValue_N` equal to the glyph's own id — 354 of 357 real
-    glyphs resolve a name this way.
+    `EffectMiscValue_N` equal to the glyph's own id — 353 of 357 real
+    glyphs resolve a name this way (one of the other 3 did resolve a
+    name — "Copy of Holy Bolt" — but not one starting with "Glyph of ",
+    a sure sign of leftover dev/test data rather than a real glyph a
+    player could ever have; excluded for not matching that prefix,
+    confirmed rather than assumed by checking the id — `2` — sharing its
+    `SpellID` with another real glyph, `81`, the same duplicate noticed
+    while first inspecting this CSV). The "Glyph of " prefix itself is
+    dropped for display (`glyphDisplayName()`, `app.js`) — redundant
+    once the module's own "Glyphs" heading already says so — but kept in
+    `glyphs.json`'s own `name` field, which stores the real, canonical
+    name.
   - **Icon**: `GlyphProperties.SpellIconID` — confirmed to cycle through
     only ~20 generic `UI-Glyph-Rune-N` textures, reused across many
     unrelated glyphs, rather than unique per-ability art (an item-icon

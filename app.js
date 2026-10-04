@@ -1343,6 +1343,18 @@ function renderEquippedGear(gear, itemIcons, className) {
 // comment for why this isn't a CSS mask - masks silently failed to
 // paint in this exact nested layout, a real engine quirk, not a mistake
 // here).
+// Every real glyph's name starts with "Glyph of " (generate-glyph-data.py
+// only ever keeps ones that do) - redundant once the module's own
+// "Glyphs" heading already says so, so it's dropped for display here
+// rather than baked out of the bundled data, which keeps glyphs.json's
+// own "name" field the real, canonical name. Falls back to the full
+// name unchanged on the off chance it doesn't match, same graceful
+// degradation as everywhere else in this app.
+const GLYPH_NAME_PREFIX = "Glyph of ";
+function glyphDisplayName(name) {
+  return name.startsWith(GLYPH_NAME_PREFIX) ? name.slice(GLYPH_NAME_PREFIX.length) : name;
+}
+
 function renderGlyphs(glyphs) {
   if (!glyphs) return "";
   const { major = [], minor = [] } = glyphs;
@@ -1351,7 +1363,7 @@ function renderGlyphs(glyphs) {
     const img = g.icon ? `<img src="assets/icons/items/${g.icon}.png" alt="" onerror="this.remove()">` : "";
     return `<span class="achv-list__icon achv-list__icon--glyph achv-list__icon--glyph-${tier}">${img}</span>`;
   };
-  const item = (g, tier, label) => `<li class="achv-list__item">${icon(g, tier)}${escapeHtml(g.name)} <span class="achv-list__date">${label}</span></li>`;
+  const item = (g, tier, label) => `<li class="achv-list__item">${icon(g, tier)}${escapeHtml(glyphDisplayName(g.name))} <span class="achv-list__date">${label}</span></li>`;
   return `
     <h3 class="achv-section__name">Glyphs</h3>
     <ul class="achv-list">
