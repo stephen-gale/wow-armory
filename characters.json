@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-04T22:56:29Z",
+  "generated_at": "2026-10-04T23:00:57Z",
   "characters": [
     {
       "guid": 1006,
@@ -18,9 +18,9 @@
       ],
       "achievement_points": 550,
       "achievement_count": 61,
-      "played_time_seconds": 612141,
+      "played_time_seconds": 612151,
       "honor_points": 172,
-      "last_online": "2026-09-24T22:06:33Z",
+      "last_online": "2026-10-04T22:58:55Z",
       "quests_completed": 1425,
       "stats": {
         "max_health": 13569,
