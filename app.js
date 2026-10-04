@@ -1331,20 +1331,32 @@ function renderEquippedGear(gear, itemIcons, className) {
 // Major entries list first, Minor after - same flat list, not a
 // separate section each, so the "which glyph is which tier" question is
 // answered per-row rather than by position in two stacked groups.
-// achv-list__icon--glyph (style.css) adds a gold circular backdrop - the
-// bundled rune art is a plain grey transparent-background silhouette on
-// its own, which read as flat/inactive against this app's dark theme
-// until that was added.
+// achv-list__icon--glyph (style.css) recolors the icon per tier - Major
+// a warm red disc with a dark red symbol, Minor a cool blue disc with a
+// dark blue symbol, both gold-ringed, matching the real in-game wheel's
+// own color scheme (reference screenshot) rather than the bundled rune
+// art's plain grey on its own. A <span> wrapping a nested <img>, not a
+// plain <img> like every other achv-list__icon use - the span carries
+// the circular gradient background, the img carries a CSS filter
+// recoloring just the rune symbol, kept as two separate elements so the
+// filter never touches the disc color behind it (see style.css's own
+// comment for why this isn't a CSS mask - masks silently failed to
+// paint in this exact nested layout, a real engine quirk, not a mistake
+// here).
 function renderGlyphs(glyphs) {
   if (!glyphs) return "";
   const { major = [], minor = [] } = glyphs;
   if (major.length === 0 && minor.length === 0) return "";
-  const item = (g, label) => `<li class="achv-list__item">${itemIconImg(g.icon, "achv-list__icon achv-list__icon--glyph")}${escapeHtml(g.name)} <span class="achv-list__date">${label}</span></li>`;
+  const icon = (g, tier) => {
+    const img = g.icon ? `<img src="assets/icons/items/${g.icon}.png" alt="" onerror="this.remove()">` : "";
+    return `<span class="achv-list__icon achv-list__icon--glyph achv-list__icon--glyph-${tier}">${img}</span>`;
+  };
+  const item = (g, tier, label) => `<li class="achv-list__item">${icon(g, tier)}${escapeHtml(g.name)} <span class="achv-list__date">${label}</span></li>`;
   return `
     <h3 class="achv-section__name">Glyphs</h3>
     <ul class="achv-list">
-      ${major.map((g) => item(g, "Major")).join("")}
-      ${minor.map((g) => item(g, "Minor")).join("")}
+      ${major.map((g) => item(g, "major", "Major")).join("")}
+      ${minor.map((g) => item(g, "minor", "Minor")).join("")}
     </ul>
   `;
 }

@@ -708,21 +708,65 @@ main {
   border: 1px solid rgba(255,255,255,0.15);
 }
 
-/* Glyphs only - the bundled ui-glyph-rune-*.png art (see renderGlyphs)
-   is a plain grey rune silhouette on a transparent background, the same
-   small "icon" piece the real client composites onto a separate colored
-   parchment-and-gold ring frame to get the look in the character's own
-   reference screenshot - confirmed from the real client's own texture
-   atlas (SPELLBOOK/UI-GLYPHFRAME.PNG), not guessed. Reproducing that
-   frame exactly would need slicing a multi-icon atlas; a solid gold
-   circular backdrop (same --gold already used elsewhere in this app)
-   gets the same "warm rune disc, not a flat grey cutout" effect without
-   it - img's own background-color shows through the PNG's transparent
-   areas directly, no wrapper element needed. */
+/* Glyphs only - getting the real in-game color scheme (reference
+   screenshot: Major = dark red symbol on a warm red disc, Minor = dark
+   blue symbol on a cool blue disc, both gold-ringed) needs the rune
+   recolored, not just given a colored backdrop - the bundled
+   ui-glyph-rune-*.png art is a plain grey silhouette, so a flat colored
+   background behind it (the first version of this) still left the
+   symbol itself grey instead of tinted.
+   This went through two approaches before landing here. The first used
+   CSS mask-image (drawing the rune shape in a solid color as a ::after
+   layer on a <span>, fed the icon URL via a --glyph-icon custom
+   property) - verified working in an isolated test page and even for a
+   fresh element appended straight to <body>, but silently failed to
+   paint at all for the genuine achv-list__icon in its real position
+   (nested inside .char-achievements' CSS grid > .achv-list's flex >
+   .achv-list__item) - a real, reproducible engine quirk with masks in
+   that specific nested grid/flex context, not a CSS mistake (confirmed
+   by ruling out every other explanation: content, size, position,
+   z-index, and background-color all computed correctly via
+   getComputedStyle, and forcing the masked layer to a plain
+   !important red background still rendered nothing in that position).
+   Rather than ship something this fragile, this uses a small <img>
+   nested inside the achv-list__icon span (instead of the span itself
+   being the <img>, unlike every other achv-list__icon use) with a CSS
+   filter on just that inner image - sepia() first fakes saturation onto
+   the near-grayscale art, then hue-rotate() shifts that toward red or
+   blue, brightness() darkens it. The outer span keeps its own circular
+   gradient background separate from the filtered image, so the filter
+   only ever touches the rune symbol, not the disc color behind it.
+   Ordinary filters, not masks, so none of the above applies; verified
+   rendering correctly in the icon's real position. */
 .achv-list__icon--glyph {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 50%;
-  background: var(--gold);
-  border-color: rgba(0,0,0,0.3);
+  border-color: var(--gold);
+  overflow: hidden;
+}
+
+.achv-list__icon--glyph img {
+  width: 65%;
+  height: 65%;
+  object-fit: contain;
+}
+
+.achv-list__icon--glyph-major {
+  background: radial-gradient(circle, #9c4a34, #5c2a1f);
+}
+
+.achv-list__icon--glyph-major img {
+  filter: sepia(1) saturate(6) hue-rotate(0deg) brightness(0.4);
+}
+
+.achv-list__icon--glyph-minor {
+  background: radial-gradient(circle, #3f6090, #1c3252);
+}
+
+.achv-list__icon--glyph-minor img {
+  filter: sepia(1) saturate(6) hue-rotate(160deg) brightness(0.4);
 }
 
 .achv-list__points {

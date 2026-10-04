@@ -831,18 +831,35 @@ already uses.
   or "Minor" — standing in for the slot-name label Equipped Gear's own
   rows show. Major entries list first, then Minor, in one flat list
   rather than two separate stacked groups.
-- **Icon backdrop**: a gold circular background behind each rune icon
-  (`achv-list__icon--glyph` in `style.css`). The bundled
+- **Icon color scheme**: matches the real in-game wheel (reference
+  screenshot) — Major a warm red disc with a dark red symbol, Minor a
+  cool blue disc with a dark blue symbol, both gold-ringed
+  (`achv-list__icon--glyph*` in `style.css`). The bundled
   `ui-glyph-rune-*.png` art is a plain grey silhouette on a transparent
   background on its own — confirmed from the real client's own texture
   atlas (`SPELLBOOK/UI-GLYPHFRAME.PNG`) that the game composites this
   same rune art onto a separate colored parchment-and-gold ring frame,
-  which is where the warm look in the character's own reference
-  screenshot actually comes from. Reproducing that frame exactly would
-  mean slicing a multi-icon atlas; a solid `--gold` circular backdrop
-  (the same gold this app already uses elsewhere) gets the same "warm
-  rune disc" read without it — without this, the plain grey art read as
-  flat/inactive against this app's dark theme.
+  which is where the real wheel's color actually comes from.
+  Reproducing that frame exactly would mean slicing a multi-icon atlas;
+  a circular gradient background plus a CSS `filter` (`sepia()` +
+  `hue-rotate()` + `brightness()`) tinting just the rune image gets a
+  close color match without it. That filter sits on a small `<img>`
+  nested inside the `achv-list__icon` span, not applied to the span
+  itself, so it only ever recolors the rune symbol, never the disc color
+  behind it.
+  - This went through an interim CSS `mask-image` approach first (one
+    element, the rune shape drawn in a solid color as a `::after`
+    layer) — verified working in isolated tests, including a fresh
+    element appended straight to `<body>`, but it silently failed to
+    paint at all once genuinely nested in its real position
+    (`.char-achievements`' CSS grid → `.achv-list`'s flex →
+    `.achv-list__item`) — a real, reproducible engine quirk with masks
+    in that specific nested grid/flex layout, confirmed by ruling out
+    every other explanation (`getComputedStyle` showed correct content,
+    size, position, and color throughout; forcing the masked layer to a
+    plain `!important` red background still rendered nothing in that
+    exact spot). The `filter`-based approach above replaced it rather
+    than shipping something that fragile.
 
 ### PvP
 
@@ -2041,7 +2058,11 @@ here directly as things ship or plans change.
   (`SPELL_EFFECT_APPLY_GLYPH`, confirmed as effect id 74), icon from
   `GlyphProperties.SpellIconID` — real WotLK Glyphs-wheel rune art (21
   textures, bundled at `assets/icons/items/ui-glyph-rune-*.png`), not a
-  fallback — see [Glyphs](#glyphs) above for the full story.
+  fallback. Colored to match the real wheel too (Major red, Minor blue,
+  gold ring) via a CSS filter on the rune image, after a CSS `mask-image`
+  attempt silently failed to paint once nested in its real position (a
+  real engine quirk, not a mistake) — see [Glyphs](#glyphs) above for the
+  full story.
 
 ### Backlog ideas
 
