@@ -769,46 +769,58 @@ already uses.
   `glyphproperties_dbc.ID`, not a spell id — confirmed against
   AzerothCore's own `Player::_LoadGlyphs`/`Player::SendInitialSpells`
   (`Player.cpp`), which resolve it through `sGlyphPropertiesStore` to get
-  the glyph's actual effect spell.
-- **Major vs Minor**: `glyphproperties_dbc.GlyphSlotFlags` — confirmed `0`
-  for Major, `1` for Minor by cross-checking known glyphs against the real
-  client data rather than assuming: well-known combat glyphs (Glyph of
-  Fireball, Glyph of Ice Block, Glyph of Innervate, Glyph of Rebirth) all
-  came back `0`; well-known purely cosmetic glyphs (Glyph of the White
-  Bear, Glyph of Fortitude) came back `1` — matching how WotLK actually
-  splits the two tiers. Split by the glyph's own `GlyphSlotFlags`, not by
-  which of the 6 `glyphN` columns it happens to sit in. (The live server
-  caught a real naming bug here on first run: AzerothCore's own in-memory
-  `GlyphPropertiesEntry` C++ struct calls this field `TypeFlags`, but the
-  actual `glyphproperties_dbc` SQL table column is `GlyphSlotFlags` — the
-  two don't share a name, confirmed straight from AzerothCore's own
-  `glyphproperties_dbc.sql` after the mismatch surfaced as a real `mysql`
-  error.)
-- **Name and icon, both resolved live, not bundled**: same "live join,
-  simplest and most accurate source" reasoning [Skills](#skills) already
-  uses for its own names — no new bundled reference file. Getting a real,
-  distinctive *picture* (not just a name) took a real chain of
-  verification, not a guess:
-  - `glyphproperties_dbc`'s own `SpellIconID`, and the `SpellIconID` of
-    the spell that teaches a glyph, were both checked directly against
-    the real client data and **don't** work for this — the first only
-    ever cycles through ~20 generic `UI-Glyph-Rune-N` placeholder
-    textures reused across unrelated glyphs, and the second is always the
-    same generic Inscription trade icon. Neither is distinctive per
-    glyph.
-  - The real, distinctive picture only exists on the physical
-    Inscription-crafted "Glyph of X" item itself — found by walking
-    id → spell → item: a glyph's own `GlyphProperties.ID` is
-    `EffectMiscValue_N` on exactly one spell whose `Effect_N` is
-    `SPELL_EFFECT_APPLY_GLYPH` (confirmed as effect id `74` against
-    AzerothCore's own `SharedDefines.h` `SPELL_EFFECT_*` enum) — the real
-    "teaches you how to permanently apply this glyph" spell, which is
-    itself `spellid_N` on exactly one `item_template` row. That item's own
-    `displayid` → `itemdisplayinfo_dbc.InventoryIcon_1` is the real icon,
-    resolved by the export scripts' `GLYPH_REF_TMP` query and stored
-    directly on each glyph entry (`{"name": ..., "icon": ...}`) — `app.js`
-    just renders it, no client-side lookup needed, same as Skills' already-
-    resolved names.
+  the glyph's actual effect spell. This one query is the only thing
+  pulled live, every run — everything else below is bundled.
+- **Name, icon, and Major vs Minor — bundled, not live-joined**:
+  `assets/data/glyphs.json` (`scripts/generate-glyph-data.py`), fetched
+  once from client data and committed, the same pattern
+  [achievements.json](#achievement-icons-verified-categories-not-a-blanket-enable)/`item_icons.json`/`spell_icons.json`
+  already use. This wasn't the original design — the first version of
+  this feature instead live-joined four `acore_world` tables
+  (`glyphproperties_dbc`, `spell_dbc`, `item_template`,
+  `itemdisplayinfo_dbc`) every export run, the same "live join" reasoning
+  [Skills](#skills) uses safely for its own names. On a real server, that
+  broke: `glyphproperties_dbc` and `itemdisplayinfo_dbc` both came back
+  with **0 rows**, and `spell_dbc` was missing the specific rows needed —
+  confirmed directly (`SELECT COUNT(*)` on each table), not assumed, once
+  a real `wowbackup` run surfaced the first symptom (an `Unknown column`
+  error, from a related bug — AzerothCore's own in-memory
+  `GlyphPropertiesEntry` C++ struct calls the Major/Minor field
+  `TypeFlags`, but the actual SQL column is `GlyphSlotFlags`; fixing that
+  naming mismatch is what exposed the deeper problem that the table was
+  empty regardless). Those `_dbc` tables need their own DBC-extraction
+  step that not every AzerothCore install has run for every table,
+  unlike `skillline_dbc` — a real, confirmed gap, not a one-off. Bundling
+  removes the live dependency entirely:
+  - **Major vs Minor**: `GlyphProperties.GlyphSlotFlags` from the bundled
+    CSV — confirmed `0` for Major, `1` for Minor by cross-checking known
+    glyphs: well-known combat glyphs (Fireball, Ice Block, Innervate,
+    Rebirth) all came back `0`; well-known purely cosmetic glyphs (the
+    White Bear, Fortitude) came back `1`, matching how WotLK actually
+    splits the two tiers.
+  - **Name**: not `GlyphProperties`' own `SpellID` — confirmed that's a
+    separate, often-generic passive-aura spell (sometimes shared across
+    unrelated glyph ids). The real "Glyph of X" name is on the spell that
+    *teaches* it: `Effect_N == SPELL_EFFECT_APPLY_GLYPH` (effect id `74`,
+    confirmed against AzerothCore's own `SharedDefines.h`) with
+    `EffectMiscValue_N` equal to the glyph's own id — 354 of 357 real
+    glyphs resolve a name this way.
+  - **Icon**: `GlyphProperties.SpellIconID` — confirmed to cycle through
+    only ~20 generic `UI-Glyph-Rune-N` textures, reused across many
+    unrelated glyphs, rather than unique per-ability art (an item-icon
+    chain that *would* give a unique picture per glyph was tried first,
+    but depends on the same `item_template`/`itemdisplayinfo_dbc` tables
+    that turned out to be unreliable). Used anyway, deliberately: these
+    are real, authentic WotLK UI textures — the same `Interface/
+    Spellbook/UI-Glyph-Rune-*` art the real in-game Glyphs wheel itself
+    uses (matching the character's own reference screenshot: round,
+    rune-style icons, not ability-specific pictures) — bundled at
+    `assets/icons/items/ui-glyph-rune-*.png` from the same
+    `Gethe/wow-ui-textures` mirror this project's other icons use (21
+    distinct icons, all 21 resolve to a real bundled file).
+  - `app.js` just renders the already-resolved `{"name": ..., "icon":
+    ...}` on each glyph entry — no client-side lookup needed, same as
+    Skills' already-resolved names.
 - **Layout**: Major and Minor render as two stacked rows, up to 3 glyphs
   across each, Major on top — not a vertical icon+name list. The real
   in-game Glyphs panel arranges all 6 slots in a circular wheel (reference
@@ -1111,10 +1123,10 @@ skill), `id`/`name`/`value`/`max` per entry, `name` resolved live against
 
 `glyphs` is `{major: [...], minor: [...]}`, the character's currently
 equipped glyphs for their active spec only, `name`/`icon` per entry, both
-resolved live (`icon` already a clean icon name — see
-[Glyphs](#glyphs) above for the full id → spell → item chain that
-resolves it) — no client-side lookup needed, same as `skills`' own
-already-resolved names.
+resolved against the bundled `assets/data/glyphs.json` at export time,
+not live (`icon` already a clean icon name — see [Glyphs](#glyphs) above
+for why this is bundled rather than live-joined) — no client-side lookup
+needed, same as `skills`' own already-resolved names.
 
 `quests_completed` is a `character_queststatus_rewarded` row count
 (`WHERE active = 1`) — see [Quests](#quests) above.
@@ -2000,19 +2012,22 @@ here directly as things ship or plans change.
   3 across each as small icon-above-name tiles — not the real in-game
   wheel's circular layout, too tall for this app's single-column mobile
   layout, per the character's own follow-up with a reference screenshot —
-  each with a real, distinctive icon and name, active spec only. Getting a real
-  picture per glyph (not just a name) took real verification, not a
-  guess: neither `glyphproperties_dbc`'s own `SpellIconID` nor the
-  glyph-teaching spell's own `SpellIconID` turned out to be distinctive
-  (both confirmed, directly against the real client data, to cycle
-  through only a handful of generic placeholder icons) — the real
-  picture only exists on the physical Inscription-crafted "Glyph of X"
-  item, found by walking id → spell → item via `SPELL_EFFECT_APPLY_GLYPH`
-  (confirmed as effect id 74 against AzerothCore's own
-  `SharedDefines.h`). Major vs Minor is `glyphproperties_dbc.GlyphSlotFlags`,
-  cross-checked against known glyphs (Fireball/Ice Block = Major, the
-  purely cosmetic White Bear/Fortitude = Minor) rather than assumed — see
-  [Glyphs](#glyphs) above.
+  each with a real name and icon, active spec only. Shipped twice: the
+  first version live-joined `glyphproperties_dbc`/`spell_dbc`/
+  `item_template`/`itemdisplayinfo_dbc` every export run for a unique
+  per-ability picture; on a real server, `glyphproperties_dbc` and
+  `itemdisplayinfo_dbc` both turned out to have **0 rows** and `spell_dbc`
+  was missing the rows needed (confirmed via `SELECT COUNT(*)`, not
+  assumed, after the live server surfaced a real error). Rebuilt to match
+  every other static reference in this app (achievements/item icons/spell
+  icons): `assets/data/glyphs.json`, fetched once from client data and
+  committed, no live dependency — Major vs Minor from
+  `GlyphProperties.GlyphSlotFlags` (`0`/`1`, cross-checked against known
+  glyphs), name from the spell that teaches each glyph
+  (`SPELL_EFFECT_APPLY_GLYPH`, confirmed as effect id 74), icon from
+  `GlyphProperties.SpellIconID` — real WotLK Glyphs-wheel rune art (21
+  textures, bundled at `assets/icons/items/ui-glyph-rune-*.png`), not a
+  fallback — see [Glyphs](#glyphs) above for the full story.
 
 ### Backlog ideas
 

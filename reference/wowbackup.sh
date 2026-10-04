@@ -203,6 +203,7 @@ COLLECTION_HEIRLOOMS_DEFS="$REPO_DATA_DIR/assets/data/collections/heirlooms.json
 COLLECTION_TITLES_DEFS="$REPO_DATA_DIR/assets/data/collections/titles.json"
 TALENT_SPELLS_DEFS="$REPO_DATA_DIR/assets/data/talent_spells.json"
 FACTION_BASELINES_DEFS="$REPO_DATA_DIR/assets/data/faction_baselines.json"
+GLYPH_DEFS="$REPO_DATA_DIR/assets/data/glyphs.json"
 ACHIEVEMENTS_TMP="$(mktemp)"
 EQUIPPED_TMP="$(mktemp)"
 KNOWN_SPELLS_TMP="$(mktemp)"
@@ -210,7 +211,6 @@ TALENTS_TMP="$(mktemp)"
 REPUTATION_TMP="$(mktemp)"
 SKILLS_TMP="$(mktemp)"
 GLYPHS_TMP="$(mktemp)"
-GLYPH_REF_TMP="$(mktemp)"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT ca.guid, ca.achievement, ca.date
   FROM acore_characters.character_achievement ca
@@ -289,7 +289,15 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
 " > "$SKILLS_TMP"
 # Glyphs: character_glyphs(guid, talentGroup, glyph1..glyph6) holds one
 # full row per spec, filtered to the character's own active spec only -
-# same activeTalentGroup join Talents already uses.
+# same activeTalentGroup join Talents already uses. Only the raw glyph
+# ids are pulled here - name/icon/Major-Minor resolve against the
+# bundled assets/data/glyphs.json below, not live (an earlier version
+# live-joined glyphproperties_dbc/spell_dbc/item_template/
+# itemdisplayinfo_dbc every run; on a real server three of those four
+# turned out to be empty or incomplete - those "_dbc" tables need their
+# own DBC-extraction step, which not every install has run for every
+# table, unlike skillline_dbc which Skills' own live join depends on
+# safely).
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT cg.guid, cg.glyph1, cg.glyph2, cg.glyph3, cg.glyph4, cg.glyph5, cg.glyph6
   FROM acore_characters.character_glyphs cg
@@ -297,34 +305,6 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   JOIN acore_auth.account a ON a.id = c.account
   WHERE a.username NOT LIKE 'RNDBOT%';
 " > "$GLYPHS_TMP"
-# Glyph reference data (every real glyph, not per-character): name, icon,
-# Major/Minor, all live-joined rather than bundled. Confirmed directly
-# against the real client data before writing this: glyphproperties_dbc.
-# GlyphSlotFlags is 0 for Major, 1 for Minor (the real column name,
-# confirmed straight from AzerothCore's own glyphproperties_dbc.sql -
-# an earlier revision of this query wrongly used TypeFlags, the
-# in-memory C++ struct's field name, which the SQL table doesn't
-# actually have); neither GlyphProperties' own SpellIconID nor the
-# "teaches you this glyph" spell's own SpellIconID carry a distinctive
-# per-glyph picture (both cycle through only a handful of generic
-# placeholder textures) - the real picture only exists on the physical
-# Inscription-crafted "Glyph of X" item, found by walking id -> spell
-# -> item: a glyph's own ID is EffectMiscValue_N on exactly one spell
-# whose Effect_N is SPELL_EFFECT_APPLY_GLYPH (effect id 74, confirmed
-# against AzerothCore's own SharedDefines.h), which is itself spellid_N
-# on exactly one item_template row - that item's own displayid ->
-# itemdisplayinfo_dbc.InventoryIcon_1 is the real icon.
-mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
-  SELECT gp.ID, it.name, idi.InventoryIcon_1, gp.GlyphSlotFlags
-  FROM acore_world.glyphproperties_dbc gp
-  JOIN acore_world.spell_dbc sp
-    ON gp.ID IN (sp.EffectMiscValue_1, sp.EffectMiscValue_2, sp.EffectMiscValue_3)
-   AND 74 IN (sp.Effect_1, sp.Effect_2, sp.Effect_3)
-  JOIN acore_world.item_template it
-    ON sp.ID IN (it.spellid_1, it.spellid_2, it.spellid_3, it.spellid_4, it.spellid_5)
-  JOIN acore_world.itemdisplayinfo_dbc idi ON idi.ID = it.displayid
-  WHERE gp.GlyphSlotFlags IN (0, 1);
-" > "$GLYPH_REF_TMP"
 # Quests: character_queststatus_rewarded holds one row per quest ever
 # turned in, but the server itself doesn't treat every row as currently
 # "completed" - its own CHAR_SEL_CHARACTER_QUESTSTATUSREW prepared
@@ -474,35 +454,16 @@ with open('$TALENTS_TMP') as f:
         guid, spell_id, spec_mask = line.split('\t')
         talents_by_guid[int(guid)].append((int(spell_id), int(spec_mask)))
 
-# Glyph reference data (id -> name/icon/major) - see the SQL comment
-# above for how each field is resolved. Icon names get the same
-# strip-path/lowercase/strip-extension cleanup as every other bundled
-# icon map in this project (item_icons.json, spell_icons.json).
-def clean_icon_name(texture):
-    if not texture:
-        return None
-    name = texture.split(chr(92))[-1].lower()
-    for ext in ('.tga', '.blp', '.png'):
-        if name.endswith(ext):
-            return name[: -len(ext)]
-    return name
-
-glyph_ref = {}
-with open('$GLYPH_REF_TMP') as f:
-    for line in f:
-        line = line.rstrip('\n')
-        if not line:
-            continue
-        glyph_id, name, icon_texture, type_flags = line.split('\t')
-        glyph_ref[int(glyph_id)] = {
-            'name': name,
-            'icon': clean_icon_name(icon_texture),
-            'major': type_flags == '0',
-        }
+# Glyph reference data (id -> name/icon/major) - bundled client data
+# (see scripts/generate-glyph-data.py), not a live query - same pattern
+# talent_spells.json already uses for Talents.
+with open('$GLYPH_DEFS') as f:
+    glyph_ref = {int(k): v for k, v in json.load(f).items()}
 
 # Each character's 6 glyph slots (0 = empty), active spec only - resolved
 # against glyph_ref and split into major/minor by the glyph's own
-# GlyphSlotFlags, not by which of the 6 columns it happens to sit in.
+# GlyphSlotFlags (baked into glyph_ref's 'major' field), not by which of
+# the 6 columns it happens to sit in.
 glyphs_by_guid = defaultdict(lambda: {'major': [], 'minor': []})
 with open('$GLYPHS_TMP') as f:
     for line in f:
@@ -785,7 +746,7 @@ with open('$REPO_DATA_DIR/characters.json', 'w') as f:
 
 print(f'  characters.json: wrote {len(characters)} characters')
 " || { echo "Failed: characters.json export"; exit 1; }
-rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$TALENTS_TMP" "$REPUTATION_TMP" "$SKILLS_TMP" "$GLYPHS_TMP" "$GLYPH_REF_TMP"
+rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$TALENTS_TMP" "$REPUTATION_TMP" "$SKILLS_TMP" "$GLYPHS_TMP"
 
 echo "  Publishing characters.json to GitHub..."
 (

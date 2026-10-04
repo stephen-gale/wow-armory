@@ -195,12 +195,13 @@
       ],
       "glyphs": {
         "major": [
-          {"name": "Glyph of Berserker Rage", "icon": "ability_warrior_innerrage"},
-          {"name": "Glyph of Charge", "icon": "ability_warrior_charge"},
-          {"name": "Glyph of Rapid Charge", "icon": "ability_warrior_rampage"}
+          {"name": "Glyph of Mortal Strike", "icon": "ui-glyph-rune-17"},
+          {"name": "Glyph of Rending", "icon": "ui-glyph-rune-12"},
+          {"name": "Glyph of Overpower", "icon": "ui-glyph-rune-1"}
         ],
         "minor": [
-          {"name": "Glyph of Battle", "icon": "ability_warrior_battleshout"}
+          {"name": "Glyph of Battle", "icon": "ui-glyph-rune-1"},
+          {"name": "Glyph of Command", "icon": "ui-glyph-rune-17"}
         ]
       }
     },
