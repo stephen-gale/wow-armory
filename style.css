@@ -539,15 +539,21 @@ main {
   gap: 0.6rem;
 }
 
-/* Each row (Major or Minor) is always up to 3 glyphs, one column each -
-   icon above name, centered, same shape .talent-tab uses. Major/Minor's
-   size difference (see .glyph-tile__icon below) is the real in-game
-   wheel's two tiers reduced to a size cue instead of position, since a
-   flat row can't reproduce "inner ring vs outer ring" the way the wheel
-   does. */
+/* Each row (Major or Minor) is up to 3 glyphs, icon above name, centered,
+   same shape .talent-tab uses. Major/Minor's size difference (see
+   .glyph-tile__icon below) is the real in-game wheel's two tiers reduced
+   to a size cue instead of position, since a flat row can't reproduce
+   "inner ring vs outer ring" the way the wheel does.
+   flex + justify-content: center, not a 3-column grid - a character with
+   only 1 or 2 glyphs in a tier (not every slot unlocked yet, or simply
+   not glyphed) centers that smaller set as a group instead of leaving a
+   blank 1fr column where a 3rd grid item would have sat. Each tile gets
+   a fixed width (rather than flex-basis/1fr sizing) so 1, 2, or 3 glyphs
+   all render at the same size regardless of count or name length. */
 .glyph-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 0.5rem;
 }
 
@@ -557,6 +563,7 @@ main {
   align-items: center;
   text-align: center;
   gap: 0.25rem;
+  width: 70px;
 }
 
 .glyph-tile__icon {
