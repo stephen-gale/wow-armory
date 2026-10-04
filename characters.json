@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-04T22:01:06Z",
+  "generated_at": "2026-10-04T22:30:04Z",
   "characters": [
     {
       "guid": 1006,
@@ -460,7 +460,11 @@
         "363": 16,
         "361": 55
       },
-      "skills": []
+      "skills": [],
+      "glyphs": {
+        "major": [],
+        "minor": []
+      }
     },
     {
       "guid": 1007,
@@ -905,7 +909,11 @@
         "383": 5,
         "382": 5
       },
-      "skills": []
+      "skills": [],
+      "glyphs": {
+        "major": [],
+        "minor": []
+      }
     }
   ]
 }
