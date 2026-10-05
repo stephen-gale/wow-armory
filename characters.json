@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-05T14:30:25Z",
+  "generated_at": "2026-10-05T22:37:15Z",
   "characters": [
     {
       "guid": 1006,
@@ -475,25 +475,25 @@
       "class_name": "Paladin",
       "faction": "Alliance",
       "level": 76,
-      "money_copper": 35680180,
+      "money_copper": 36184305,
       "zone_id": 66,
       "exalted_factions": [
         72
       ],
       "achievement_points": 580,
       "achievement_count": 59,
-      "played_time_seconds": 469383,
+      "played_time_seconds": 471632,
       "honor_points": 0,
-      "last_online": "2026-10-05T14:30:08Z",
-      "quests_completed": 1258,
+      "last_online": "2026-10-05T22:37:00Z",
+      "quests_completed": 1267,
       "stats": {
-        "max_health": 10200,
-        "strength": 679,
-        "agility": 135,
-        "stamina": 518,
-        "intellect": 101,
-        "spirit": 111,
-        "armor": 8730,
+        "max_health": 9290,
+        "strength": 626,
+        "agility": 159,
+        "stamina": 427,
+        "intellect": 92,
+        "spirit": 100,
+        "armor": 8822,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
@@ -501,13 +501,13 @@
         "res_shadow": 0,
         "res_arcane": 0,
         "block_pct": 5.12,
-        "dodge_pct": 6.643,
+        "dodge_pct": 7.18143,
         "parry_pct": 5.12,
-        "crit_pct": 22.4589,
-        "ranged_crit_pct": 7.25888,
+        "crit_pct": 22.0271,
+        "ranged_crit_pct": 6.82707,
         "spell_crit_pct": 0.0,
-        "attack_power": 1566,
-        "ranged_attack_power": 125,
+        "attack_power": 1460,
+        "ranged_attack_power": 149,
         "spell_power": 0,
         "resilience": 0
       },
@@ -779,10 +779,10 @@
       "equipped_gear": [
         {
           "slot": 0,
-          "id": 39092,
-          "name": "Thought-Purifying Protector",
+          "id": 39851,
+          "name": "Ribbed Helm of Servitude",
           "quality": 2,
-          "item_level": 154
+          "item_level": 158
         },
         {
           "slot": 1,
@@ -835,10 +835,10 @@
         },
         {
           "slot": 8,
-          "id": 39079,
-          "name": "Bracers of the Chaperon",
+          "id": 39860,
+          "name": "Vindicator's Bracers of Sacrifice",
           "quality": 2,
-          "item_level": 154
+          "item_level": 158
         },
         {
           "slot": 9,
