@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-06T21:51:32Z",
+  "generated_at": "2026-10-07T12:24:41Z",
   "characters": [
     {
       "guid": 1006,
@@ -475,25 +475,25 @@
       "class_name": "Paladin",
       "faction": "Alliance",
       "level": 76,
-      "money_copper": 37662938,
+      "money_copper": 38109153,
       "zone_id": 66,
       "exalted_factions": [
         72
       ],
       "achievement_points": 590,
       "achievement_count": 60,
-      "played_time_seconds": 478805,
+      "played_time_seconds": 480512,
       "honor_points": 0,
-      "last_online": "2026-10-06T21:51:18Z",
-      "quests_completed": 1285,
+      "last_online": "2026-10-07T12:24:24Z",
+      "quests_completed": 1291,
       "stats": {
-        "max_health": 9440,
-        "strength": 650,
+        "max_health": 9380,
+        "strength": 652,
         "agility": 159,
-        "stamina": 442,
+        "stamina": 436,
         "intellect": 92,
         "spirit": 100,
-        "armor": 9130,
+        "armor": 9154,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
@@ -503,10 +503,10 @@
         "block_pct": 5.2,
         "dodge_pct": 7.26143,
         "parry_pct": 5.2,
-        "crit_pct": 22.0271,
-        "ranged_crit_pct": 6.82707,
+        "crit_pct": 21.2388,
+        "ranged_crit_pct": 6.03882,
         "spell_crit_pct": 0.0,
-        "attack_power": 1508,
+        "attack_power": 1512,
         "ranged_attack_power": 149,
         "spell_power": 0,
         "resilience": 0
@@ -832,10 +832,10 @@
         },
         {
           "slot": 7,
-          "id": 39078,
-          "name": "Whispering Stompers",
+          "id": 39795,
+          "name": "Boots of the Altar",
           "quality": 2,
-          "item_level": 154
+          "item_level": 158
         },
         {
           "slot": 8,
