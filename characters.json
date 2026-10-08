@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-07T23:22:01Z",
+  "generated_at": "2026-10-08T10:42:07Z",
   "characters": [
     {
       "guid": 1006,
@@ -475,25 +475,25 @@
       "class_name": "Paladin",
       "faction": "Alliance",
       "level": 76,
-      "money_copper": 38761397,
+      "money_copper": 39071040,
       "zone_id": 66,
       "exalted_factions": [
         72
       ],
       "achievement_points": 590,
       "achievement_count": 60,
-      "played_time_seconds": 481838,
+      "played_time_seconds": 483726,
       "honor_points": 0,
-      "last_online": "2026-10-07T23:21:44Z",
-      "quests_completed": 1296,
+      "last_online": "2026-10-08T10:41:49Z",
+      "quests_completed": 1303,
       "stats": {
-        "max_health": 9380,
-        "strength": 652,
+        "max_health": 9260,
+        "strength": 664,
         "agility": 159,
-        "stamina": 436,
+        "stamina": 424,
         "intellect": 92,
         "spirit": 100,
-        "armor": 9154,
+        "armor": 8858,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
@@ -503,10 +503,10 @@
         "block_pct": 5.2,
         "dodge_pct": 7.26143,
         "parry_pct": 5.2,
-        "crit_pct": 21.2388,
-        "ranged_crit_pct": 6.03882,
+        "crit_pct": 21.3556,
+        "ranged_crit_pct": 6.15559,
         "spell_crit_pct": 0.0,
-        "attack_power": 1512,
+        "attack_power": 1536,
         "ranged_attack_power": 149,
         "spell_power": 0,
         "resilience": 0
@@ -853,8 +853,8 @@
         },
         {
           "slot": 10,
-          "id": 39798,
-          "name": "Ring of Ancestral Protectors",
+          "id": 39786,
+          "name": "Band of the Bloodletter",
           "quality": 2,
           "item_level": 158
         },
@@ -881,10 +881,10 @@
         },
         {
           "slot": 14,
-          "id": 37566,
-          "name": "Durable Worghide Cape",
+          "id": 39858,
+          "name": "Drape of the Bloodletter",
           "quality": 2,
-          "item_level": 138
+          "item_level": 158
         },
         {
           "slot": 15,
