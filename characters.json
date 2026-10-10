@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-09T21:48:13Z",
+  "generated_at": "2026-10-10T22:38:26Z",
   "characters": [
     {
       "guid": 1006,
@@ -475,39 +475,39 @@
       "class_name": "Paladin",
       "faction": "Alliance",
       "level": 77,
-      "money_copper": 31820964,
+      "money_copper": 33821011,
       "zone_id": 3711,
       "exalted_factions": [
         72
       ],
-      "achievement_points": 590,
-      "achievement_count": 60,
-      "played_time_seconds": 494501,
+      "achievement_points": 600,
+      "achievement_count": 61,
+      "played_time_seconds": 497713,
       "honor_points": 0,
-      "last_online": "2026-10-09T21:47:57Z",
-      "quests_completed": 1341,
+      "last_online": "2026-10-10T22:38:07Z",
+      "quests_completed": 1363,
       "stats": {
-        "max_health": 9338,
-        "strength": 644,
-        "agility": 187,
-        "stamina": 393,
+        "max_health": 9158,
+        "strength": 649,
+        "agility": 148,
+        "stamina": 375,
         "intellect": 93,
         "spirit": 103,
-        "armor": 8969,
+        "armor": 8707,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
         "res_frost": 0,
         "res_shadow": 0,
         "res_arcane": 0,
-        "block_pct": 4.96,
-        "dodge_pct": 7.35691,
-        "parry_pct": 4.96,
-        "crit_pct": 21.8073,
-        "ranged_crit_pct": 6.40732,
+        "block_pct": 5.0,
+        "dodge_pct": 6.583,
+        "parry_pct": 5.0,
+        "crit_pct": 21.7396,
+        "ranged_crit_pct": 6.3396,
         "spell_crit_pct": 0.0,
-        "attack_power": 1499,
-        "ranged_attack_power": 177,
+        "attack_power": 1509,
+        "ranged_attack_power": 138,
         "spell_power": 0,
         "resilience": 0
       },
@@ -701,6 +701,10 @@
           "earned_at": "2026-07-03T21:21:43Z"
         },
         {
+          "id": 938,
+          "earned_at": "2026-10-10T22:31:19Z"
+        },
+        {
           "id": 964,
           "earned_at": "2026-09-11T22:56:49Z"
         },
@@ -818,10 +822,10 @@
         },
         {
           "slot": 5,
-          "id": 44670,
-          "name": "Soul-Sealed Belt",
-          "quality": 3,
-          "item_level": 159
+          "id": 39453,
+          "name": "Rhino-Tail Girdle",
+          "quality": 2,
+          "item_level": 162
         },
         {
           "slot": 6,
