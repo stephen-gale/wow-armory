@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-12T15:39:42Z",
+  "generated_at": "2026-10-12T23:21:14Z",
   "characters": [
     {
       "guid": 1006,
@@ -475,22 +475,22 @@
       "class_name": "Paladin",
       "faction": "Alliance",
       "level": 78,
-      "money_copper": 37279736,
+      "money_copper": 38360303,
       "zone_id": 67,
       "exalted_factions": [
         72
       ],
       "achievement_points": 620,
       "achievement_count": 63,
-      "played_time_seconds": 507626,
+      "played_time_seconds": 510142,
       "honor_points": 0,
-      "last_online": "2026-10-12T15:39:23Z",
-      "quests_completed": 1404,
+      "last_online": "2026-10-12T23:20:44Z",
+      "quests_completed": 1415,
       "stats": {
-        "max_health": 10295,
-        "strength": 640,
+        "max_health": 10175,
+        "strength": 603,
         "agility": 149,
-        "stamina": 447,
+        "stamina": 435,
         "intellect": 95,
         "spirit": 105,
         "armor": 8778,
@@ -503,10 +503,10 @@
         "block_pct": 5.0,
         "dodge_pct": 6.37065,
         "parry_pct": 5.0,
-        "crit_pct": 22.5957,
-        "ranged_crit_pct": 6.99575,
+        "crit_pct": 24.0836,
+        "ranged_crit_pct": 8.48363,
         "spell_crit_pct": 0.0,
-        "attack_power": 1494,
+        "attack_power": 1420,
         "ranged_attack_power": 139,
         "spell_power": 0,
         "resilience": 0
@@ -865,10 +865,10 @@
         },
         {
           "slot": 10,
-          "id": 39786,
-          "name": "Band of the Bloodletter",
+          "id": 42812,
+          "name": "The \"D\" Ring",
           "quality": 2,
-          "item_level": 158
+          "item_level": 174
         },
         {
           "slot": 11,
@@ -900,10 +900,10 @@
         },
         {
           "slot": 15,
-          "id": 39802,
-          "name": "Crusader's Greatblade",
+          "id": 42799,
+          "name": "Snowblind Butcher",
           "quality": 2,
-          "item_level": 158
+          "item_level": 174
         },
         {
           "slot": 17,
