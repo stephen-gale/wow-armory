@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-11T23:02:01Z",
+  "generated_at": "2026-10-12T14:05:36Z",
   "characters": [
     {
       "guid": 1006,
@@ -475,38 +475,38 @@
       "class_name": "Paladin",
       "faction": "Alliance",
       "level": 78,
-      "money_copper": 34640537,
+      "money_copper": 35751407,
       "zone_id": 3711,
       "exalted_factions": [
         72
       ],
       "achievement_points": 600,
       "achievement_count": 61,
-      "played_time_seconds": 500184,
+      "played_time_seconds": 502710,
       "honor_points": 0,
-      "last_online": "2026-10-11T23:01:32Z",
-      "quests_completed": 1371,
+      "last_online": "2026-10-12T14:05:21Z",
+      "quests_completed": 1387,
       "stats": {
-        "max_health": 9595,
-        "strength": 653,
+        "max_health": 9995,
+        "strength": 642,
         "agility": 149,
-        "stamina": 377,
+        "stamina": 417,
         "intellect": 95,
         "spirit": 105,
-        "armor": 8709,
+        "armor": 8762,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
         "res_frost": 0,
         "res_shadow": 0,
         "res_arcane": 0,
-        "block_pct": 4.84,
-        "dodge_pct": 6.21065,
-        "parry_pct": 4.84,
-        "crit_pct": 21.007,
-        "ranged_crit_pct": 5.40699,
+        "block_pct": 4.92,
+        "dodge_pct": 6.29065,
+        "parry_pct": 4.92,
+        "crit_pct": 22.4697,
+        "ranged_crit_pct": 6.86966,
         "spell_crit_pct": 0.0,
-        "attack_power": 1520,
+        "attack_power": 1498,
         "ranged_attack_power": 139,
         "spell_power": 0,
         "resilience": 0
@@ -829,10 +829,10 @@
         },
         {
           "slot": 6,
-          "id": 39778,
-          "name": "Bloodletter's Legplates",
+          "id": 39457,
+          "name": "Zepik's Grounded Legplates",
           "quality": 2,
-          "item_level": 158
+          "item_level": 162
         },
         {
           "slot": 7,
@@ -850,10 +850,10 @@
         },
         {
           "slot": 9,
-          "id": 39855,
-          "name": "Gauntlets of the Gatherer",
+          "id": 39459,
+          "name": "Preservative-Stained Gauntlets",
           "quality": 2,
-          "item_level": 158
+          "item_level": 162
         },
         {
           "slot": 10,
