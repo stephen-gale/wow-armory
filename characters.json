@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T16:47:00Z",
+  "generated_at": "2026-10-15T22:53:47Z",
   "characters": [
     {
       "guid": 1006,
@@ -475,40 +475,40 @@
       "class_name": "Paladin",
       "faction": "Alliance",
       "level": 80,
-      "money_copper": 36577750,
+      "money_copper": 37122749,
       "zone_id": 1519,
       "exalted_factions": [
         72,
         1050
       ],
-      "achievement_points": 640,
-      "achievement_count": 67,
-      "played_time_seconds": 530407,
+      "achievement_points": 650,
+      "achievement_count": 68,
+      "played_time_seconds": 536076,
       "honor_points": 0,
-      "last_online": "2026-10-15T16:35:23Z",
-      "quests_completed": 1488,
+      "last_online": "2026-10-15T22:53:26Z",
+      "quests_completed": 1491,
       "stats": {
-        "max_health": 14754,
-        "strength": 639,
-        "agility": 90,
-        "stamina": 800,
+        "max_health": 12474,
+        "strength": 641,
+        "agility": 126,
+        "stamina": 572,
         "intellect": 98,
         "spirit": 108,
-        "armor": 14691,
+        "armor": 8805,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
         "res_frost": 0,
         "res_shadow": 0,
         "res_arcane": 0,
-        "block_pct": 5.88,
-        "dodge_pct": 9.52883,
-        "parry_pct": 6.27779,
-        "crit_pct": 0.0,
-        "ranged_crit_pct": 0.0,
+        "block_pct": 5.12,
+        "dodge_pct": 8.04391,
+        "parry_pct": 5.98187,
+        "crit_pct": 20.0485,
+        "ranged_crit_pct": 4.04852,
         "spell_crit_pct": 0.0,
-        "attack_power": 1498,
-        "ranged_attack_power": 80,
+        "attack_power": 1502,
+        "ranged_attack_power": 116,
         "spell_power": 0,
         "resilience": 0
       },
@@ -612,6 +612,10 @@
         {
           "id": 621,
           "earned_at": "2026-09-29T13:42:17Z"
+        },
+        {
+          "id": 645,
+          "earned_at": "2026-10-15T22:37:07Z"
         },
         {
           "id": 701,
@@ -812,10 +816,10 @@
       "equipped_gear": [
         {
           "slot": 0,
-          "id": 44040,
-          "name": "The Crusader's Resolution",
-          "quality": 3,
-          "item_level": 174
+          "id": 39851,
+          "name": "Ribbed Helm of Servitude",
+          "quality": 2,
+          "item_level": 158
         },
         {
           "slot": 1,
@@ -840,45 +844,45 @@
         },
         {
           "slot": 4,
-          "id": 39508,
-          "name": "Stonebound Chestguard",
-          "quality": 2,
-          "item_level": 162
-        },
-        {
-          "slot": 5,
-          "id": 42826,
-          "name": "Goblin Damage Absorber",
-          "quality": 2,
-          "item_level": 174
-        },
-        {
-          "slot": 6,
-          "id": 39778,
-          "name": "Bloodletter's Legplates",
+          "id": 39805,
+          "name": "Chestplate of the Altar",
           "quality": 2,
           "item_level": 158
         },
         {
+          "slot": 5,
+          "id": 39453,
+          "name": "Rhino-Tail Girdle",
+          "quality": 2,
+          "item_level": 162
+        },
+        {
+          "slot": 6,
+          "id": 39457,
+          "name": "Zepik's Grounded Legplates",
+          "quality": 2,
+          "item_level": 162
+        },
+        {
           "slot": 7,
-          "id": 42833,
-          "name": "Jawbreakers",
+          "id": 42884,
+          "name": "Steel-tipped Snowboots",
           "quality": 2,
           "item_level": 174
         },
         {
           "slot": 8,
-          "id": 39464,
-          "name": "Lifegiver's Ward",
+          "id": 39449,
+          "name": "Wristguards of Titanic Vengeance",
           "quality": 2,
           "item_level": 162
         },
         {
           "slot": 9,
-          "id": 43842,
-          "name": "Jayde's Reinforced Handguards",
+          "id": 39459,
+          "name": "Preservative-Stained Gauntlets",
           "quality": 2,
-          "item_level": 174
+          "item_level": 162
         },
         {
           "slot": 10,
@@ -903,31 +907,24 @@
         },
         {
           "slot": 13,
-          "id": 43829,
-          "name": "Crusader's Locket",
-          "quality": 2,
-          "item_level": 174
+          "id": 12846,
+          "name": "Argent Dawn Commission",
+          "quality": 1,
+          "item_level": 1
         },
         {
           "slot": 14,
-          "id": 39675,
-          "name": "Cloak of the Hardened Tortoise",
+          "id": 39858,
+          "name": "Drape of the Bloodletter",
           "quality": 2,
-          "item_level": 162
+          "item_level": 158
         },
         {
           "slot": 15,
-          "id": 42868,
-          "name": "Hyldnir Headcracker",
+          "id": 43832,
+          "name": "The Argent Resolve",
           "quality": 2,
           "item_level": 174
-        },
-        {
-          "slot": 16,
-          "id": 39874,
-          "name": "Infiltrator's Shield",
-          "quality": 2,
-          "item_level": 158
         },
         {
           "slot": 17,
