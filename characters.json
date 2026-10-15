@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-14T23:14:39Z",
+  "generated_at": "2026-10-15T13:49:48Z",
   "characters": [
     {
       "guid": 1006,
@@ -475,22 +475,23 @@
       "class_name": "Paladin",
       "faction": "Alliance",
       "level": 79,
-      "money_copper": 40987511,
-      "zone_id": 65,
+      "money_copper": 40856344,
+      "zone_id": 210,
       "exalted_factions": [
-        72
+        72,
+        1050
       ],
       "achievement_points": 620,
       "achievement_count": 63,
-      "played_time_seconds": 518651,
+      "played_time_seconds": 526864,
       "honor_points": 0,
-      "last_online": "2026-10-14T21:32:24Z",
-      "quests_completed": 1445,
+      "last_online": "2026-10-15T13:49:30Z",
+      "quests_completed": 1477,
       "stats": {
-        "max_health": 11203,
-        "strength": 606,
+        "max_health": 11853,
+        "strength": 601,
         "agility": 124,
-        "stamina": 493,
+        "stamina": 558,
         "intellect": 96,
         "spirit": 106,
         "armor": 8801,
@@ -500,13 +501,13 @@
         "res_frost": 0,
         "res_shadow": 0,
         "res_arcane": 0,
-        "block_pct": 4.96,
-        "dodge_pct": 5.67552,
-        "parry_pct": 4.96,
-        "crit_pct": 21.8622,
-        "ranged_crit_pct": 6.0622,
+        "block_pct": 5.0,
+        "dodge_pct": 5.71552,
+        "parry_pct": 5.92734,
+        "crit_pct": 20.6669,
+        "ranged_crit_pct": 4.86685,
         "spell_crit_pct": 0.0,
-        "attack_power": 1429,
+        "attack_power": 1419,
         "ranged_attack_power": 114,
         "spell_power": 0,
         "resilience": 0
@@ -844,8 +845,8 @@
         },
         {
           "slot": 7,
-          "id": 42833,
-          "name": "Jawbreakers",
+          "id": 42884,
+          "name": "Steel-tipped Snowboots",
           "quality": 2,
           "item_level": 174
         },
@@ -879,17 +880,17 @@
         },
         {
           "slot": 12,
-          "id": 38761,
-          "name": "Talon of Hatred",
-          "quality": 2,
-          "item_level": 154
+          "id": 44014,
+          "name": "Fezzik's Pocketwatch",
+          "quality": 3,
+          "item_level": 174
         },
         {
           "slot": 13,
-          "id": 38080,
-          "name": "Automated Weapon Coater",
+          "id": 43829,
+          "name": "Crusader's Locket",
           "quality": 2,
-          "item_level": 146
+          "item_level": 174
         },
         {
           "slot": 14,
@@ -900,8 +901,8 @@
         },
         {
           "slot": 15,
-          "id": 42799,
-          "name": "Snowblind Butcher",
+          "id": 43832,
+          "name": "The Argent Resolve",
           "quality": 2,
           "item_level": 174
         },
