@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T11:11:27Z",
+  "generated_at": "2026-10-16T12:19:30Z",
   "characters": [
     {
       "guid": 1006,
@@ -481,21 +481,21 @@
       "class_name": "Paladin",
       "faction": "Alliance",
       "level": 80,
-      "money_copper": 37122749,
+      "money_copper": 17670393,
       "zone_id": 1519,
       "achievement_points": 650,
       "achievement_count": 68,
-      "played_time_seconds": 536076,
+      "played_time_seconds": 539130,
       "honor_points": 0,
-      "last_online": "2026-10-15T22:53:26Z",
-      "quests_completed": 1491,
+      "last_online": "2026-10-16T12:19:08Z",
+      "quests_completed": 1497,
       "stats": {
         "max_health": 12474,
         "strength": 641,
         "agility": 126,
         "stamina": 572,
         "intellect": 98,
-        "spirit": 108,
+        "spirit": 126,
         "armor": 8805,
         "res_holy": 0,
         "res_fire": 0,
@@ -968,12 +968,20 @@
           {
             "name": "Glyph of Exorcism",
             "icon": "ui-glyph-rune-2"
+          },
+          {
+            "name": "Glyph of Seal of Command",
+            "icon": "ui-glyph-rune-20"
           }
         ],
         "minor": [
           {
             "name": "Glyph of Blessing of Might",
             "icon": "ui-glyph-rune-2"
+          },
+          {
+            "name": "Glyph of Sense Undead",
+            "icon": "ui-glyph-rune-9"
           }
         ]
       }
