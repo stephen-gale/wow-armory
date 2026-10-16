@@ -245,15 +245,12 @@ function statWithIcon(iconSrc, text, extraIconClass, iconAfter) {
 // achievement-granted titles only (not every title source in the game),
 // since that's the one source this project can resolve names/dates for
 // without a live DB dependency.
-// Factions' id is a Faction.dbc id, resolved against the same
-// assets/data/faction_names.json the standalone, dateless Exalted
-// Factions module (renderExaltedFactions, below) already uses to show
-// the character's *current* standing - this category instead records the
-// *moment* each one first reached Exalted (so it shows up in Sort by:
-// Date), sticky the same way every other category here is. The two
-// renderings are deliberately separate: this one carries an icon (see
-// collectionItemIcon) and a date, the live-standing module stays
-// icon-less and dateless exactly as it always has.
+// Factions' id is a Faction.dbc id, resolved against
+// assets/data/collections/factions.json, the same reputation data a now-
+// removed standalone "Exalted Factions" module used to show separately
+// (current standing only, no date) - dropped once this category existed,
+// since it already shows the same current standing plus a real date and
+// icon, and having both was pure duplication.
 const COLLECTION_CATEGORIES = [
   { key: "sets", file: "assets/data/collections/sets.json", label: "Sets" },
   { key: "mounts", file: "assets/data/collections/mounts.json", label: "Mounts" },
@@ -339,9 +336,8 @@ function loadAchievementData() {
       fetch("assets/data/item_icons.json").then((r) => r.json()),
       fetch("assets/data/spell_icons.json").then((r) => r.json()),
       fetch("assets/data/achievement_icons.json").then((r) => r.json()),
-      fetch("assets/data/faction_names.json").then((r) => r.json()),
       ...COLLECTION_CATEGORIES.map((cat) => fetch(cat.file).then((r) => r.json()).catch(() => [])),
-    ]).then(([achievements, categories, itemIcons, spellIcons, achievementIcons, factionNames, ...collectionLists]) => {
+    ]).then(([achievements, categories, itemIcons, spellIcons, achievementIcons, ...collectionLists]) => {
       // The "Show unobtained" catalog, scoped to the exact same verified-
       // real categories ACHIEVEMENT_ICON_CATEGORIES already uses for icons
       // (Statistics-pane counters like "Total Deaths" never really
@@ -362,7 +358,6 @@ function loadAchievementData() {
         itemIcons,
         spellIcons,
         achievementIcons,
-        factionNames,
         collectionsByCategory: new Map(
           COLLECTION_CATEGORIES.map((cat, i) => [cat.key, new Map(collectionLists[i].map((item) => [item.id, item]))])
         ),
@@ -682,8 +677,8 @@ function toggleAchievementsPanel(rowLi, c) {
   placeholder.innerHTML = `<p class="char-achievements__empty">Loading…</p>`;
   rowLi.after(placeholder);
 
-  loadAchievementData().then(({ achievementsById, categoriesById, achievementsByCategory, collectionsByCategory, itemIcons, spellIcons, achievementIcons, factionNames }) => {
-    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById, achievementsByCategory, collectionsByCategory, itemIcons, spellIcons, achievementIcons, factionNames));
+  loadAchievementData().then(({ achievementsById, categoriesById, achievementsByCategory, collectionsByCategory, itemIcons, spellIcons, achievementIcons }) => {
+    placeholder.replaceWith(buildAchievementsPanel(c, achievementsById, categoriesById, achievementsByCategory, collectionsByCategory, itemIcons, spellIcons, achievementIcons));
   });
 }
 
@@ -707,7 +702,7 @@ function normalizeEntry(entry) {
     : { id: entry, earned_at: null };
 }
 
-function buildAchievementsPanel(c, achievementsById, categoriesById, achievementsByCategory, collectionsByCategory, itemIcons, spellIcons, achievementIcons, factionNames) {
+function buildAchievementsPanel(c, achievementsById, categoriesById, achievementsByCategory, collectionsByCategory, itemIcons, spellIcons, achievementIcons) {
   const li = document.createElement("li");
   li.className = "char-achievements";
 
@@ -718,7 +713,6 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, achievement
   const glyphsHtml = renderGlyphs(c.glyphs);
   const pvpHtml = renderPvP(c.honor_points, c.faction);
   const questsHtml = renderQuests(c.quests_completed);
-  const exaltedFactionsHtml = renderExaltedFactions(c.collections?.factions, factionNames);
   const lastLoggedInHtml = renderLastLoggedIn(c.last_online);
 
   // One flat section per category — no sub-grouping by tier/expansion — in
@@ -801,7 +795,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, achievement
   // check, or they'd both wrongly fire for every character.
   const hasRealAchievements = categoryGroups.some((group) => group.achievements.length > 0);
 
-  if (collectionGroups.length === 0 && !hasRealAchievements && !statsHtml && !talentsHtml && !skillsHtml && !equippedGearHtml && !glyphsHtml && !pvpHtml && !questsHtml && !exaltedFactionsHtml && !lastLoggedInHtml) {
+  if (collectionGroups.length === 0 && !hasRealAchievements && !statsHtml && !talentsHtml && !skillsHtml && !equippedGearHtml && !glyphsHtml && !pvpHtml && !questsHtml && !lastLoggedInHtml) {
     li.innerHTML = `<p class="char-achievements__empty">No collections or achievements recorded.</p>`;
     return li;
   }
@@ -859,28 +853,33 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, achievement
     `;
   }
 
-  // Nine independent modules, in this fixed order: Talents, Equipped,
+  // Eight independent modules, in this fixed order: Talents, Equipped,
   // Glyphs, Stats, Skills, Collections/Achievements (with its own Type/
-  // Date toggle), PvP, Quests, Exalted Factions - each shown only when it
-  // has something to show. Talents, Equipped, Glyphs, Stats, Skills, PvP,
-  // Quests and Exalted Factions are all headed by .achv-section__name,
-  // which already grows its own top border whenever it isn't
-  // .char-achievements' literal first child, so they need no manual
-  // divider before or after them - adding one would double up against
-  // that automatic border. (Whichever of these ends up first is exactly
-  // why this rule is driven by :first-child rather than by which module
-  // JS puts first - each one automatically picks up its own top border
-  // the moment something starts coming before it, no CSS change needed
-  // when the order changes.) Glyphs sits right after Equipped (the
-  // character's own request - both are "what's currently on the
-  // character" snapshots, gear then glyphs).
+  // Date toggle), PvP, Quests - each shown only when it has something to
+  // show. Talents, Equipped, Glyphs, Stats, Skills, PvP and Quests are all
+  // headed by .achv-section__name, which already grows its own top border
+  // whenever it isn't .char-achievements' literal first child, so they
+  // need no manual divider before or after them - adding one would double
+  // up against that automatic border. (Whichever of these ends up first
+  // is exactly why this rule is driven by :first-child rather than by
+  // which module JS puts first - each one automatically picks up its own
+  // top border the moment something starts coming before it, no CSS
+  // change needed when the order changes.) Glyphs sits right after
+  // Equipped (the character's own request - both are "what's currently on
+  // the character" snapshots, gear then glyphs).
   // sortSectionHtml starts with .sort-row instead, which has no built-in
   // separator, so it's the only module that needs an explicit
   // .module-divider in front of it (and only when something already
   // precedes it).
-  // Last logged in isn't one of the nine modules - a single trailing
+  // Last logged in isn't one of the eight modules - a single trailing
   // fact (the character's own request to keep it last), always pushed
   // after everything else regardless of which modules are present.
+  // Exalted Factions used to be a ninth, standalone, dateless module here
+  // (current standing only, no icon) - removed once the "factions"
+  // Collections category existed, since that category already shows the
+  // same current standing (plus a real date and icon) and having both was
+  // pure duplication. See [Exalted Factions](#exalted-factions) in
+  // README.
   const parts = [];
   if (talentsHtml) parts.push(talentsHtml);
   if (equippedGearHtml) parts.push(equippedGearHtml);
@@ -893,7 +892,6 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, achievement
   }
   if (pvpHtml) parts.push(pvpHtml);
   if (questsHtml) parts.push(questsHtml);
-  if (exaltedFactionsHtml) parts.push(exaltedFactionsHtml);
   if (lastLoggedInHtml) parts.push(lastLoggedInHtml);
   li.innerHTML = parts.join("");
 
@@ -1466,36 +1464,6 @@ function renderQuests(questsCompleted) {
     <h3 class="achv-section__name">Quests</h3>
     <ul class="achv-list">
       <li class="achv-list__item">Completed: ${formatNumber(questsCompleted)}</li>
-    </ul>
-  `;
-}
-
-// Exalted Factions — the last module, right after Quests. A live snapshot
-// like Equipped/Avg Item Lvl, always showing every faction the character
-// currently stands Exalted with, in one plain list with no icon and no
-// date - deliberately not styled like a Collection even though it reads
-// off the same sticky `collections.factions` entries the "factions"
-// Collections category above does (see COLLECTION_CATEGORIES): this
-// module only ever cares about *current* standing, not *when* each one
-// was first reached, so it stays exactly as plain as it looked before
-// that category existed. `factionEntries` is the character's
-// `collections.factions` array (the {id, earned_at} shape every other
-// Collection uses, or the older bare-id shape via normalizeEntry) -
-// earned_at is read by the Collections category elsewhere, never used
-// here. Names are resolved the same way Titles resolves an achievement id
-// to a title string: from a bundled reference file
-// (assets/data/faction_names.json), not a second DB round-trip.
-function renderExaltedFactions(factionEntries, factionNames) {
-  if (!factionEntries || factionEntries.length === 0) return "";
-  const names = factionEntries
-    .map((entry) => factionNames[normalizeEntry(entry).id])
-    .filter(Boolean)
-    .sort((a, b) => a.localeCompare(b));
-  if (names.length === 0) return "";
-  return `
-    <h3 class="achv-section__name">Exalted Factions</h3>
-    <ul class="achv-list">
-      ${names.map((name) => `<li class="achv-list__item">${escapeHtml(name)}</li>`).join("")}
     </ul>
   `;
 }

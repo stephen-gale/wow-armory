@@ -81,17 +81,18 @@ fallback as everything else in this app.
 
 ### Character panel (tap a character)
 
-Tapping/clicking a character row expands a panel built from nine
+Tapping/clicking a character row expands a panel built from eight
 independent modules, in this fixed order — **Talents, Equipped Gear,
-Glyphs, Stats, Skills, Collections/Achievements, PvP, Quests, Exalted
-Factions** — plus a trailing **Last logged in** fact after all of them.
-Each module is shown only when the character actually has data for
-it, so a fresh alt with nothing recorded yet just shows fewer modules,
-not empty placeholders. Every module gets its own section further down
-this README ([Stats](#stats), [Talents](#talents), [Skills](#skills),
+Glyphs, Stats, Skills, Collections/Achievements, PvP, Quests** — plus a
+trailing **Last logged in** fact after all of them. Each module is shown
+only when the character actually has data for it, so a fresh alt with
+nothing recorded yet just shows fewer modules, not empty placeholders.
+Every module gets its own section further down this README
+([Stats](#stats), [Talents](#talents), [Skills](#skills),
 [Equipped Gear](#equipped-gear), [Glyphs](#glyphs), [PvP](#pvp),
-[Quests](#quests), [Exalted Factions](#exalted-factions), [Last logged
-in](#last-logged-in)).
+[Quests](#quests), [Last logged in](#last-logged-in)). Exalted Factions
+([see below](#exalted-factions)) isn't its own module anymore — it's a
+Collections category, part of Collections/Achievements.
 
 Collections/Achievements is really **two separate, clearly-labeled
 systems** sharing one module and one Sort by Type/Date toggle:
@@ -501,7 +502,7 @@ section — see [Titles](#titles) below.
 
 ### Stats
 
-A separate feature from Collections, the fourth of the panel's nine
+A separate feature from Collections, the fourth of the panel's eight
 modules — after Talents, Equipped Gear, and Glyphs (see [Character
 panel](#character-panel-tap-a-character) above for the full order). A full
 `character_stats` snapshot, grouped into three cards styled identically
@@ -606,7 +607,7 @@ saved, not a bug.
 
 ### Talents
 
-The first of the panel's nine modules — a character's current talent
+The first of the panel's eight modules — a character's current talent
 point spread, one column per tree, each centered on its tree icon with
 the tree name and point total underneath. Like Stats and Equipped Gear, it's a plain
 current-state snapshot: no `earned_at`, not part of the Sort by: Date
@@ -694,7 +695,7 @@ Talents/Stats/Equipped Gear, a plain current-state snapshot: no
 
 ### Equipped Gear
 
-A separate feature from Collections — the second of the panel's nine
+A separate feature from Collections — the second of the panel's eight
 modules, right after Talents and ahead of Glyphs/Stats/Skills/Collections (see
 [Character panel](#character-panel-tap-a-character) above) — the
 character's full current loadout, slot by slot, with a real
@@ -891,8 +892,8 @@ already uses.
 ### PvP
 
 Not a top-level stat yet — per character only, for now. The expanded
-panel is nine independent modules (Talents, Equipped, Glyphs, Stats,
-Skills, Collections/Achievements, PvP, Quests, Exalted Factions), each
+panel is eight independent modules (Talents, Equipped, Glyphs, Stats,
+Skills, Collections/Achievements, PvP, Quests), each
 shown only when it has something to show; PvP is a peer of the others, not nested inside
 Achievements or gated by its Type/Date toggle (no `earned_at`, so no
 place in either view), same "plain current-value stat, always shown
@@ -942,22 +943,18 @@ not rolled up into the faction/account summary yet.
 
 ### Exalted Factions
 
-Two separate renderings of the same underlying data, deliberately kept
-apart rather than merged into one:
+An eighth Collections category — registered in `COLLECTION_CATEGORIES`
+(`app.js`) alongside Sets/Mounts/.../Titles, so it gets a real icon on
+every entry and a real `earned_at`, and shows up in both the Type view
+(under its own "Exalted Factions" heading) and the Sort by: Date
+timeline. This answers "when did I first reach Exalted with X" —
+something a flat current-standing list never could.
 
-- **The standalone module** — the last module, right after Quests — a
-  plain list of faction names, no sub-values, no icon, no date. A live
-  snapshot like Equipped/Avg Item Lvl: it only ever shows which factions
-  the character currently stands Exalted with, never when.
-- **The "Exalted Factions" Collections category** — registered in
-  `COLLECTION_CATEGORIES` (`app.js`) alongside Sets/Mounts/.../Titles,
-  so it gets a real icon on every entry and a real `earned_at`, and
-  shows up in the Sort by: Date timeline. This is what actually answers
-  "when did I first reach Exalted with X" — the standalone module never
-  could, since it only ever reflects current standing.
-
-Both read from the same `collections.factions` data (see below) — the
-standalone module just discards everything but the `id`.
+(This category replaced an earlier standalone module that showed the
+same factions as a plain, dateless, icon-less list — current standing
+only, no history. Dropped once this category existed and already showed
+everything that module did, plus a real date and icon; keeping both was
+pure duplication.)
 
 - **Name in the Sort by: Date view**: prefixed with "Exalted " (e.g.
   "Exalted Stormwind"), display-only, applied only when building the Date
@@ -1001,14 +998,15 @@ standalone module just discards everything but the `id`.
   only ever stores current standing), so the first run that detects a
   faction at Exalted stamps it with that run's `generated_at`, same
   best-available approximation every other undateable Collection already
-  uses. Names for the ~105 trackable factions are bundled both at
-  `assets/data/faction_names.json` (id → English name, used by the
-  standalone module) and, in the `{id, name}` list shape every Collection
-  file uses, at `assets/data/collections/factions.json` (generated from
-  the same source by `scripts/generate-factions-collection-data.py`) —
-  resolving an id to a name is the only part that happens client-side, the
-  same way Titles resolves an achievement id to a title string, from a
-  bundled reference file, not a second DB round-trip.
+  uses. Names for the ~105 trackable factions are bundled, in the
+  `{id, name}` list shape every Collection file uses, at
+  `assets/data/collections/factions.json` (generated by
+  `scripts/generate-factions-collection-data.py` from
+  `assets/data/faction_names.json`, a flat id → name reference also kept
+  around as that generator's own source) — resolving an id to a name is
+  the only part that happens client-side, the same way Titles resolves an
+  achievement id to a title string, from a bundled reference file, not a
+  second DB round-trip.
 - **Icon**: no real per-faction icon exists to resolve — `Faction.dbc`
   carries no icon/texture field at all, and the real in-game Reputation
   pane shows no icon next to any faction either (confirmed: it's plain
@@ -1019,18 +1017,17 @@ standalone module just discards everything but the `id`.
   "Somebody Likes Me" (the achievement for reaching your very first
   Exalted reputation) and "5 Exalted Reputations", not picked at random.
   Same "real, shared, generic icon" reasoning Glyphs' ~20 shared rune
-  icons already use. The standalone module stays icon-less, matching how
-  it's always looked.
+  icons already use.
 - **Blank fallback**: an empty or missing `collections.factions` hides
-  both the standalone module and the Collections category entirely, same
-  graceful-degradation pattern as every other module.
+  the whole category, same graceful-degradation pattern as every other
+  module.
 
 ### Last logged in
 
 The very last thing in the whole panel, after every other module (the
 character's own request) — `characters.logout_time`, converted through
 the same `iso()` unix-timestamp helper every other date field in this
-app already uses. Not one of the nine modules — a single trailing fact
+app already uses. Not one of the eight modules — a single trailing fact
 with nowhere else established for it, so it's plain, not gated by the
 Sort toggle, and always pushed after whichever modules a given character
 actually has, rather than sitting at a fixed position within one of
@@ -1974,7 +1971,7 @@ here directly as things ship or plans change.
   stat-less Shirt/Tabard slots (same exclusion the real character pane
   uses) — see [Equipped Gear](#equipped-gear) above.
 - **PvP module** — an independent module, peer of the panel's other
-  eight (see [Character panel](#character-panel-tap-a-character) above
+  seven (see [Character panel](#character-panel-tap-a-character) above
   for the current full order), not gated by the Sort toggle. Honor Points'
   data shape already matches the fields that roll up into faction/account
   totals, so that rollup is a one-line change whenever it's wanted. Its
@@ -2185,7 +2182,15 @@ here directly as things ship or plans change.
   cross-referencing instead (an hour before a bounding Exploration
   achievement in each case) — real backfilled dates, not generated_at
   guesses, same effort this project puts into every other historical
-  backfill.
+  backfill. Two follow-ups shortly after: the Sort by: Date view's entry
+  name gets an "Exalted " prefix (display-only, Date view's own flat
+  per-month list only - the Type view's own copy keeps the bare faction
+  name, already under an "Exalted Factions" heading there), and the
+  original standalone, dateless "Exalted Factions" module (the one this
+  category grew out of) was removed outright once this category existed
+  and already showed everything that module did, plus a real date and
+  icon - keeping both was pure duplication. The panel is eight modules
+  now, not nine.
 
 ### Backlog ideas
 
@@ -2203,7 +2208,7 @@ rough effort.
 | Character sort within each faction: by Name or by Last logged in | Low–medium | Currently fixed, not user-toggleable: `renderFactionPanel`'s `sorted` is always `level` descending then `name` alphabetically (`app.js` line ~280). Both new fields already exist per-character (`name`; `last_online`, which `renderLastLoggedIn`/`formatDDMMYY` already parse) — no new data needed. Would need its own sort-mode control on the roster itself, separate from the existing per-character achievements Sort by Type/Date toggle (that one only reorders one expanded panel's contents, not the character list) |
 | Exclude some categories from Show all/Only mine entirely (Arena, Feats of Strength, and others TBD) | Low–medium, once the category list is settled | Some categories are full of achievements that aren't realistically chaseable here — Arena needs active ranked PvP participation, Feats of Strength mixes in a lot of discontinued/realm-first/one-time-event content — so revealing them as "unobtained" is mostly noise, not something to work toward. For these specific categories: never show their not-yet-earned achievements even with Show all checked, and hide the category header entirely when the character has zero earned in it (same as today's default, just without Show all's reveal working as an escape hatch). Needs its own smaller allowlist/exclusion list, not a repurposing of `ACHIEVEMENT_ICON_CATEGORIES` (that one's scoped to "is this a real completable achievement", a different question from "is this realistically achievable on this server") — and which categories belong on it should get the same real-data check `ACHIEVEMENT_ICON_CATEGORIES` itself got (coverage/names checked against the bundled achievement data, not assumed from Arena/Feats of Strength alone) |
 | Stats: mirror the real character pane's two dropdowns instead of the current fixed Attributes/Defense/Combat columns | Medium, pending a real-schema check | The real in-game character pane (reference screenshots provided) is two dropdowns, not three fixed columns: a left one for **Base Stats** (Strength, Agility, Stamina, Intellect, Spirit, Armor) and a right one that cycles through **Melee** / **Ranged** / **Spell** / **Defenses**, defaulting to whichever is most relevant to the character's class (e.g. Melee for a Paladin, per the screenshots) rather than showing a class-filtered blend of all of them at once the way `STAT_GROUPS`/`CLASS_FILTERED_STAT_SETS` do today. Melee shows Damage (min–max), Speed, Power, Hit Rating, Crit Chance, Expertise; Ranged shows the same shape (N/A for a class with no ranged weapon); Spell shows Bonus Damage, Bonus Healing, Hit Rating, Crit Chance, Haste Rating, Mana Regen; Defenses shows Armor, Defense, Dodge, Parry, Block, Resilience. Real gap before this could be built: `character_stats` (see [Stats](#stats) above) is only ever queried for the columns `STAT_GROUPS` already uses today (`strength`/`agility`/.../`spell_power`/`resilience`/the 6 resistances) — Hit Rating, Expertise, Haste Rating, and Mana Regen aren't pulled at all right now, and it's not yet confirmed (not assumed) whether `character_stats` even has columns for them; weapon Damage/Speed and the flat "Defense" rating look like they're computed client-side from equipped weapon + other stats in the real game, not stored columns, so those specifically may need real formula work, not just a wider `SELECT`. Needs the same "clone the schema, confirm the real column list" pass `character_stats`' original population fix already got, not assumed from the screenshots alone |
-| Reputation: a more detailed section, closer to the real in-game Reputation pane | Unscoped — exact changes to be confirmed | Reference screenshot provided: the real pane groups factions under expansion/faction-family headers (e.g. "Classic", "Alliance") and shows every tracked faction with its own colored standing-tier bar (Hated/Neutral/Friendly/Honored/Revered/Exalted), not just the ones at Exalted. Today's [Exalted Factions](#exalted-factions) module is much narrower by design: `renderExaltedFactions` (`app.js`) renders a plain flat, alphabetical `<ul>` of faction *names only*, for factions at or above the Exalted threshold — no bars, no other tiers, no grouping. That narrowness isn't just a rendering choice: `scripts/export-characters-json.sh`'s `collections.factions` is already filtered down to only the faction ids that clear `EXALTED_THRESHOLD` before the JSON is written — every other faction's computed standing is discarded server-side and never reaches the client at all, so a real redesign needs the export changed first (keep every faction's computed standing, not just the Exalted ones), before any client-side bar/tier/grouping work. Grouping factions by expansion/family would also need its own primary-source check (likely `FactionGroup.dbc` or similar, not assumed from the screenshot) the same way `faction_baselines.json` and `EXALTED_THRESHOLD` were each verified against AzerothCore's own source rather than guessed. Left deliberately open-ended per the request — no specific bar/tier/grouping design has been agreed yet |
+| Reputation: a more detailed section, closer to the real in-game Reputation pane | Unscoped — exact changes to be confirmed | Reference screenshot provided: the real pane groups factions under expansion/faction-family headers (e.g. "Classic", "Alliance") and shows every tracked faction with its own colored standing-tier bar (Hated/Neutral/Friendly/Honored/Revered/Exalted), not just the ones at Exalted. Today's [Exalted Factions](#exalted-factions) Collections category is much narrower by design: a flat, alphabetical list of faction *names only*, for factions at or above the Exalted threshold — no bars, no other tiers, no grouping. That narrowness isn't just a rendering choice: `scripts/export-characters-json.sh`'s `collections.factions` is already filtered down to only the faction ids that clear `EXALTED_THRESHOLD` before the JSON is written — every other faction's computed standing is discarded server-side and never reaches the client at all, so a real redesign needs the export changed first (keep every faction's computed standing, not just the Exalted ones), before any client-side bar/tier/grouping work. Grouping factions by expansion/family would also need its own primary-source check (likely `FactionGroup.dbc` or similar, not assumed from the screenshot) the same way `faction_baselines.json` and `EXALTED_THRESHOLD` were each verified against AzerothCore's own source rather than guessed. Left deliberately open-ended per the request — no specific bar/tier/grouping design has been agreed yet |
 | Skills: split into Professions / Secondary Skills / Weapon Skills categories | Low–medium | Today's [Skills](#skills) module already pulls Professions (the 11 primary profession `SKILL_*` ids) and what WoW calls Secondary Skills (Cooking 185, Fishing 356, First Aid 129) into one flat, alphabetical list with no grouping — so two of the three requested categories exist in the data already, just not labeled/separated. Weapon Skills is the real gap: `character_skills` also holds every weapon skill, but the export query's `WHERE cs.skill IN (...)` deliberately excludes them (see `scripts/export-characters-json.sh`'s Skills comment — "nobody wants surfaced here", written for the profession-only scope this request now revisits). The 14 real weapon skill ids, confirmed directly from AzerothCore's own `SharedDefines.h` `SKILL_*` enum rather than guessed: Swords 43, Axes 44, Bows 45, Guns 46, Maces 54, Defense 95, Staves 136, Unarmed 162, Daggers 173, Thrown 176, Crossbows 226, Wands 228, Polearms 229, Fist Weapons 473 — names resolve the same live `acore_world.skillline_dbc` join Skills already uses, no new reference file needed. Would need: widening the SQL id filter to include these, three labeled sub-headings (or three small modules) in `renderSkills` instead of one flat list, and a decision on whether to show every weapon skill a character has any points in, or only weapons relevant to their current spec/gear (most characters will have several at 0, since skill-ups require actually swinging that weapon type) |
 | Inventory: show more than just gold | Unscoped | Today's only inventory-adjacent data point is gold (`characters.money`, via `money_copper` → `formatMoneyPlain`) — confirmed by reading `scripts/export-characters-json.sh` end to end: `character_inventory` itself is only ever queried for `bag = 0 AND slot BETWEEN 0 AND 18` (equipped gear, see [Equipped Gear](#equipped-gear)), so bag contents, bank contents, and equipped bag containers (slots 19–22) are never pulled at all right now — this isn't a rendering gap, there's no data to render yet. Candidates worth a real look, none scoped yet: bag space used/free, equipped bag types/sizes, notable stacked consumables (flasks/elixirs/potions), bank contents (a bigger ask — bank requires the character to be logged out at a bank, or a separate `character_inventory` bag range/`guildbank_*` tables depending on scope). Also relevant: the existing [secondary stat sub-value backlog row](#backlog-ideas) above already covers showing gold's own dropped silver/copper remainder, which is a smaller, already-scoped piece of this same "gold tile could show more" idea |
 | Statistics: a section with some of the "most interesting" Statistics-tab counters | Medium–high, curation-heavy | Reference screenshots provided: the real Statistics tab (Summary/Kills/Deaths/Quests/etc. sub-tabs) shows counters like Total deaths, Quests completed, Creatures killed, Total gold acquired, Flight paths taken, Most factions at Exalted, Total Honorable Kills — all from a different data source than Achievements: `character_achievement_progress(guid, criteria, counter, date)` (confirmed via AzerothCore's own `data/sql/base/db_characters/character_achievement_progress.sql`), keyed by a `criteria` id, not by achievement id — these are the same criteria rows that sit behind the Statistics-category achievements `ACHIEVEMENT_ICON_CATEGORIES` already deliberately excludes as "not real completable achievements" (see [Achievement icons](#achievement-icons-verified-categories-not-a-blanket-enable) above), so this would be a new, separate data pull, not a repurposing of anything Achievements already has. The counter's label text is resolvable live: `acore_world.achievement_criteria_dbc` (confirmed to exist, ships pre-populated) has `ID`, `Achievement_Id`, `Type`, and `Description_Lang_enUS` columns per row — same "live join, no bundled file" pattern as Skills/Reputation/[Glyphs](#glyphs) already use. The real work isn't the plumbing, it's the curation the row's own title asks for: there are thousands of criteria rows total, and "most interesting" means hand-picking specific `criteria` ids the same deliberate way `ACHIEVEMENT_ICON_CATEGORIES` was built category-by-category — not a blanket `SELECT *`, which would surface mostly-uninteresting raw counters. Needs a real pass matching each screenshot stat to its actual criteria id in the bundled/live data before any of this is built |
