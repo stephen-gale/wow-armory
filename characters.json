@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T13:15:03Z",
+  "generated_at": "2026-10-16T15:30:42Z",
   "characters": [
     {
       "guid": 1006,
@@ -481,13 +481,13 @@
       "class_name": "Paladin",
       "faction": "Alliance",
       "level": 80,
-      "money_copper": 17679093,
-      "zone_id": 1519,
+      "money_copper": 17731143,
+      "zone_id": 25,
       "achievement_points": 650,
       "achievement_count": 68,
-      "played_time_seconds": 539422,
+      "played_time_seconds": 541129,
       "honor_points": 0,
-      "last_online": "2026-10-16T13:14:38Z",
+      "last_online": "2026-10-16T15:30:08Z",
       "quests_completed": 1498,
       "stats": {
         "max_health": 12474,
@@ -495,7 +495,7 @@
         "agility": 126,
         "stamina": 572,
         "intellect": 98,
-        "spirit": 126,
+        "spirit": 108,
         "armor": 8805,
         "res_holy": 0,
         "res_fire": 0,
@@ -919,10 +919,10 @@
         },
         {
           "slot": 13,
-          "id": 12846,
-          "name": "Argent Dawn Commission",
-          "quality": 1,
-          "item_level": 1
+          "id": 43829,
+          "name": "Crusader's Locket",
+          "quality": 2,
+          "item_level": 174
         },
         {
           "slot": 14,
