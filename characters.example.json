@@ -602,5 +602,8 @@
         ]
       }
     }
-  ]
+  ],
+  "guild_bank_money": {
+    "Alliance": 125000
+  }
 }

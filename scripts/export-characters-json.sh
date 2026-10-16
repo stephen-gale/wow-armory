@@ -84,6 +84,15 @@
 # (item id -> icon slug, precomputed once from Blizzard's own client data —
 # see that file's generation notes), so a brand new piece of gear just
 # works on the next run with no script change needed here.
+#
+# `guild_bank_money` is a separate top-level field, not per-character:
+# {"Alliance": <copper>, "Horde": <copper>}, each guild's real
+# `guild.BankMoney` (confirmed copper-denominated, same unit as
+# characters.money - see the SQL comment above) summed by the guild
+# leader's own faction (guilds are strictly faction-locked in WotLK, so
+# this is exact, not a guess). app.js adds this straight into the
+# existing faction/summary gold rollups - never shown per-character or
+# as its own line item (the character's own request).
 
 set -euo pipefail
 
@@ -115,7 +124,8 @@ TALENTS_TMP="$(mktemp)"
 REPUTATION_TMP="$(mktemp)"
 SKILLS_TMP="$(mktemp)"
 GLYPHS_TMP="$(mktemp)"
-trap 'rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$TALENTS_TMP" "$REPUTATION_TMP" "$SKILLS_TMP" "$GLYPHS_TMP"' EXIT
+GUILD_BANK_TMP="$(mktemp)"
+trap 'rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$TALENTS_TMP" "$REPUTATION_TMP" "$SKILLS_TMP" "$GLYPHS_TMP" "$GUILD_BANK_TMP"' EXIT
 
 mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
   SELECT ca.guid, ca.achievement, ca.date
@@ -236,6 +246,34 @@ mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
   WHERE a.username NOT LIKE 'RNDBOT%';
 " > "$GLYPHS_TMP"
 
+# Guild Bank gold: faction-level only, never shown per-character (the
+# character's own request) - rolled into renderSummary's/
+# renderFactionPanel's existing money_copper totals client-side, not a
+# separate line item. guild.BankMoney is a real, separate gold pool from
+# any member's own characters.money (confirmed directly against
+# Guild.cpp's deposit path - Guild::HandleMemberDepositMoney adds the
+# same `amount` to BankMoney that it subtracts from the player's own
+# money via Player::ModifyMoney, so it's the same copper-denominated
+# unit, not gold or a different scale). The guild table has no faction
+# column of its own - derived here from the guild leader's race instead,
+# safe because WotLK guild membership is strictly faction-locked (a
+# Horde character can never join an Alliance guild or vice versa), so
+# the leader's own faction always is the whole guild's faction. One row
+# per guild (not per member), so summing by faction in Python below
+# can't double-count a guild with multiple members already tracked here.
+mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "
+  SELECT g.guildid, g.BankMoney,
+    CASE
+      WHEN c.race IN (1,3,4,7,11) THEN 'Alliance'
+      WHEN c.race IN (2,5,6,8,9,10) THEN 'Horde'
+      ELSE 'Unknown'
+    END AS faction
+  FROM acore_characters.guild g
+  JOIN acore_characters.characters c ON c.guid = g.leaderguid
+  JOIN acore_auth.account a ON a.id = c.account
+  WHERE a.username NOT LIKE 'RNDBOT%';
+" > "$GUILD_BANK_TMP"
+
 # Quests: character_queststatus_rewarded holds one row per quest ever
 # turned in, but the server itself doesn't treat every row as currently
 # "completed" - its own CHAR_SEL_CHARACTER_QUESTSTATUSREW prepared
@@ -317,7 +355,7 @@ SQL
 
 mysql -h "$DB_HOST" -P "$DB_PORT" -u "$DB_USER" -p"$DB_PASS" -N -B -e "$QUERY" | python3 - \
   "$OUTPUT_FILE" "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$TALENTS_TMP" "$REPUTATION_TMP" "$SKILLS_TMP" \
-  "$GLYPHS_TMP" "$GLYPH_DEFS" \
+  "$GLYPHS_TMP" "$GLYPH_DEFS" "$GUILD_BANK_TMP" \
   "$COLLECTION_SETS_DEFS" "$COLLECTION_MOUNTS_DEFS" "$COLLECTION_COMPANIONS_DEFS" \
   "$COLLECTION_LEGENDARIES_DEFS" "$COLLECTION_TABARDS_DEFS" "$COLLECTION_HEIRLOOMS_DEFS" \
   "$COLLECTION_TITLES_DEFS" "$TALENT_SPELLS_DEFS" "$FACTION_BASELINES_DEFS" <<'PYEOF'
@@ -328,10 +366,10 @@ import os
 from collections import defaultdict
 
 (out_path, achievements_path, equipped_path, known_spells_path, talents_path, reputation_path, skills_path,
- glyphs_path, glyph_defs_path,
+ glyphs_path, glyph_defs_path, guild_bank_path,
  sets_defs_path, mounts_defs_path, companions_defs_path,
  legendaries_defs_path, tabards_defs_path, heirlooms_defs_path, titles_defs_path,
- talent_spells_defs_path, faction_baselines_defs_path) = sys.argv[1:19]
+ talent_spells_defs_path, faction_baselines_defs_path) = sys.argv[1:20]
 
 # (json key, detection kind, defs path) — "equip" entries have slot_groups,
 # "spell" entries have spell_ids. See the header comment above for what
@@ -499,6 +537,20 @@ with open(glyphs_path) as f:
                 continue
             entry = {"name": glyph["name"], "icon": glyph["icon"]}
             glyphs_by_guid[guid]["major" if glyph["major"] else "minor"].append(entry)
+
+# Guild Bank gold, summed per faction - not per character (the
+# character's own request: faction-level only, rolled into the existing
+# gold total client-side, never shown as its own line or attributed to
+# any one member). One row per guild already (see the SQL comment
+# above), so this can't double-count a guild with several members.
+guild_bank_money_by_faction = defaultdict(int)
+with open(guild_bank_path) as f:
+    for line in f:
+        line = line.rstrip("\n")
+        if not line:
+            continue
+        guildid, bank_money, faction = line.split("\t")
+        guild_bank_money_by_faction[faction] += int(bank_money)
 
 def base_reputation(faction_id, race_mask, class_mask):
     """Mirrors ReputationMgr::GetBaseReputation() exactly: the first of a
@@ -720,6 +772,7 @@ for line in sys.stdin:
 data = {
     "generated_at": generated_at,
     "characters": characters,
+    "guild_bank_money": dict(guild_bank_money_by_faction),
 }
 
 with open(out_path, "w") as f:

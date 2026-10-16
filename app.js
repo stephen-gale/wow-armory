@@ -482,18 +482,27 @@ fetch("characters.json?t=" + Date.now())
 
 function renderDashboard(data) {
   const characters = data.characters || [];
+  const guildBankMoney = data.guild_bank_money || {};
 
   emptyStateEl.hidden = true;
   summaryBarEl.hidden = false;
   factionsEl.hidden = false;
 
-  renderSummary(characters);
-  renderFactions(characters);
+  renderSummary(characters, guildBankMoney);
+  renderFactions(characters, guildBankMoney);
 }
 
-function renderSummary(characters) {
+// Guild Bank gold (see export scripts' `guild_bank_money`) is rolled
+// straight into these existing gold totals, the same way it's rolled
+// into each faction panel's own total below - never shown per-character
+// or as a separate line of its own (the character's own request). A
+// missing/old `characters.json` (from before this field existed) just
+// defaults every faction to 0 via renderDashboard's `|| {}`, same
+// graceful-degradation pattern as every other optional field here.
+function renderSummary(characters, guildBankMoney) {
   const totalPlayed = characters.reduce((sum, c) => sum + (c.played_time_seconds || 0), 0);
-  const totalMoney = characters.reduce((sum, c) => sum + (c.money_copper || 0), 0);
+  const totalGuildBankMoney = Object.values(guildBankMoney).reduce((sum, copper) => sum + (copper || 0), 0);
+  const totalMoney = characters.reduce((sum, c) => sum + (c.money_copper || 0), 0) + totalGuildBankMoney;
   const totalAP = characters.reduce((sum, c) => sum + (c.achievement_points || 0), 0);
   const totalAchievementCount = characters.reduce((sum, c) => sum + (c.achievement_count || 0), 0);
 
@@ -513,18 +522,18 @@ function statTile(iconSrc, value, extraIconClass) {
   return el;
 }
 
-function renderFactions(characters) {
+function renderFactions(characters, guildBankMoney) {
   factionsEl.innerHTML = "";
   factionsEl.append(
-    renderFactionPanel("Alliance", characters.filter((c) => c.faction === "Alliance")),
-    renderFactionPanel("Horde", characters.filter((c) => c.faction === "Horde"))
+    renderFactionPanel("Alliance", characters.filter((c) => c.faction === "Alliance"), guildBankMoney["Alliance"] || 0),
+    renderFactionPanel("Horde", characters.filter((c) => c.faction === "Horde"), guildBankMoney["Horde"] || 0)
   );
 }
 
-function renderFactionPanel(faction, characters) {
+function renderFactionPanel(faction, characters, guildBankMoneyCopper) {
   const sorted = [...characters].sort((a, b) => b.level - a.level || a.name.localeCompare(b.name));
   const totalPlayed = characters.reduce((sum, c) => sum + (c.played_time_seconds || 0), 0);
-  const totalMoney = characters.reduce((sum, c) => sum + (c.money_copper || 0), 0);
+  const totalMoney = characters.reduce((sum, c) => sum + (c.money_copper || 0), 0) + (guildBankMoneyCopper || 0);
   const totalAP = characters.reduce((sum, c) => sum + (c.achievement_points || 0), 0);
   const totalAchievementCount = characters.reduce((sum, c) => sum + (c.achievement_count || 0), 0);
 

@@ -63,6 +63,19 @@ no standalone "time played" glyph — everything else in this app is a real
 game asset by design, this one icon is the deliberate exception. Both
 rows list stats in the same order: gold, achievements, played.
 
+The top summary bar's and each faction panel's gold totals also roll in
+Guild Bank gold (`guild.BankMoney`, a real, separate pool from any
+member's own `characters.money`) — but a single character's own row
+never does, by design: gold "in the bank" isn't attributable to any one
+member, so it only ever shows up where gold is already being summed
+across characters, never pretending to belong to whichever character
+happens to be the guild leader. A guild has no faction of its own in the
+schema — derived from the guild leader's race instead (exact, not a
+guess, since WotLK guild membership is strictly faction-locked) and
+summed into whichever faction that is. See
+[`characters.json` shape](#charactersjson-shape) below for the
+export-side detail.
+
 Each character row also shows a dim line under the name/level, the zone
 they last logged out in — the same thing the real character-select
 screen shows. `characters.zone` (a numeric `AreaTable.dbc` id, confirmed
@@ -1165,9 +1178,21 @@ dated the same way.
         ]
       }
     }
-  ]
+  ],
+  "guild_bank_money": {
+    "Alliance": 125000
+  }
 }
 ```
+
+`guild_bank_money` is a top-level sibling of `characters`, not a
+per-character field: `{faction: copper}`, one entry per faction that has
+at least one real guild (a faction with none just has no key, same
+missing-means-zero graceful degradation as everywhere else in this app).
+Each `guild.BankMoney` summed by the guild leader's own faction — see
+[Character Dashboard](#character-dashboard) above for why a guild's
+faction is derived rather than stored directly, and why this is a
+faction-level total, never attributed to any one character.
 
 `achievements` is the character's completed achievements, straight from
 `acore_characters.character_achievement` — no names/categories attached
@@ -1370,12 +1395,15 @@ COLLECTION_HEIRLOOMS_DEFS="$REPO_DATA_DIR/assets/data/collections/heirlooms.json
 COLLECTION_TITLES_DEFS="$REPO_DATA_DIR/assets/data/collections/titles.json"
 TALENT_SPELLS_DEFS="$REPO_DATA_DIR/assets/data/talent_spells.json"
 FACTION_BASELINES_DEFS="$REPO_DATA_DIR/assets/data/faction_baselines.json"
+GLYPH_DEFS="$REPO_DATA_DIR/assets/data/glyphs.json"
 ACHIEVEMENTS_TMP="$(mktemp)"
 EQUIPPED_TMP="$(mktemp)"
 KNOWN_SPELLS_TMP="$(mktemp)"
 TALENTS_TMP="$(mktemp)"
 REPUTATION_TMP="$(mktemp)"
 SKILLS_TMP="$(mktemp)"
+GLYPHS_TMP="$(mktemp)"
+GUILD_BANK_TMP="$(mktemp)"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT ca.guid, ca.achievement, ca.date
   FROM acore_characters.character_achievement ca
@@ -1452,6 +1480,46 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   WHERE cs.skill IN (129,164,165,171,182,185,186,197,202,333,356,393,755,773)
     AND a.username NOT LIKE 'RNDBOT%';
 " > "$SKILLS_TMP"
+# Glyphs: character_glyphs(guid, talentGroup, glyph1..glyph6) holds one
+# full row per spec, filtered to the character's own active spec only -
+# same activeTalentGroup join Talents already uses. Only the raw glyph
+# ids are pulled here - name/icon/Major-Minor resolve against the
+# bundled assets/data/glyphs.json below, not live (an earlier version
+# live-joined glyphproperties_dbc/spell_dbc/item_template/
+# itemdisplayinfo_dbc every run; on a real server three of those four
+# turned out to be empty or incomplete - those "_dbc" tables need their
+# own DBC-extraction step, which not every install has run for every
+# table, unlike skillline_dbc which Skills' own live join depends on
+# safely).
+mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
+  SELECT cg.guid, cg.glyph1, cg.glyph2, cg.glyph3, cg.glyph4, cg.glyph5, cg.glyph6
+  FROM acore_characters.character_glyphs cg
+  JOIN acore_characters.characters c ON c.guid = cg.guid AND cg.talentGroup = c.activeTalentGroup
+  JOIN acore_auth.account a ON a.id = c.account
+  WHERE a.username NOT LIKE 'RNDBOT%';
+" > "$GLYPHS_TMP"
+# Guild Bank gold: faction-level only, never shown per-character (the
+# character's own request) - rolled into the existing gold totals
+# client-side, not a separate line item. guild.BankMoney is a real,
+# separate gold pool from any member's own characters.money (confirmed
+# copper-denominated, same unit, directly against Guild.cpp's deposit
+# path). The guild table has no faction column of its own - derived here
+# from the guild leader's race instead, safe because WotLK guild
+# membership is strictly faction-locked. One row per guild (not per
+# member), so summing by faction below can't double-count a guild with
+# several members.
+mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
+  SELECT g.guildid, g.BankMoney,
+    CASE
+      WHEN c.race IN (1,3,4,7,11) THEN 'Alliance'
+      WHEN c.race IN (2,5,6,8,9,10) THEN 'Horde'
+      ELSE 'Unknown'
+    END AS faction
+  FROM acore_characters.guild g
+  JOIN acore_characters.characters c ON c.guid = g.leaderguid
+  JOIN acore_auth.account a ON a.id = c.account
+  WHERE a.username NOT LIKE 'RNDBOT%';
+" > "$GUILD_BANK_TMP"
 # Quests: character_queststatus_rewarded holds one row per quest ever
 # turned in, but the server itself doesn't treat every row as currently
 # "completed" - its own CHAR_SEL_CHARACTER_QUESTSTATUSREW prepared
@@ -1600,6 +1668,43 @@ with open('$TALENTS_TMP') as f:
             continue
         guid, spell_id, spec_mask = line.split('\t')
         talents_by_guid[int(guid)].append((int(spell_id), int(spec_mask)))
+
+# Glyph reference data (id -> name/icon/major) - bundled client data
+# (see scripts/generate-glyph-data.py), not a live query - same pattern
+# talent_spells.json already uses for Talents.
+with open('$GLYPH_DEFS') as f:
+    glyph_ref = {int(k): v for k, v in json.load(f).items()}
+
+# Each character's 6 glyph slots (0 = empty), active spec only - resolved
+# against glyph_ref and split into major/minor by the glyph's own
+# GlyphSlotFlags (baked into glyph_ref's 'major' field), not by which of
+# the 6 columns it happens to sit in.
+glyphs_by_guid = defaultdict(lambda: {'major': [], 'minor': []})
+with open('$GLYPHS_TMP') as f:
+    for line in f:
+        line = line.rstrip('\n')
+        if not line:
+            continue
+        guid, *slots = line.split('\t')
+        guid = int(guid)
+        for slot in slots:
+            glyph = glyph_ref.get(int(slot))
+            if not glyph:
+                continue
+            entry = {'name': glyph['name'], 'icon': glyph['icon']}
+            glyphs_by_guid[guid]['major' if glyph['major'] else 'minor'].append(entry)
+
+# Guild Bank gold, summed per faction - not per character. One row per
+# guild already (see the SQL comment above), so this can't double-count
+# a guild with several members.
+guild_bank_money_by_faction = defaultdict(int)
+with open('$GUILD_BANK_TMP') as f:
+    for line in f:
+        line = line.rstrip('\n')
+        if not line:
+            continue
+        guildid, bank_money, faction = line.split('\t')
+        guild_bank_money_by_faction[faction] += int(bank_money)
 
 # faction id -> {reputation_list_id, [race_masks, class_masks, base_values]}
 # (see scripts/extract-faction-baselines.py) - only 'trackable' factions
@@ -1870,18 +1975,19 @@ for line in sys.stdin:
         'equipped_gear': sorted(equipped_gear_by_guid.get(guid, []), key=lambda g: g['slot']),
         'talents': dict(talent_points),
         'skills': sorted(skills_by_guid.get(guid, []), key=lambda s: s['name']),
+        'glyphs': glyphs_by_guid.get(guid, {'major': [], 'minor': []}),
     })
 
 with open('$BACKUP_DIR/characters.json', 'w') as f:
-    json.dump({'generated_at': generated_at, 'characters': characters}, f, indent=2)
+    json.dump({'generated_at': generated_at, 'characters': characters, 'guild_bank_money': dict(guild_bank_money_by_faction)}, f, indent=2)
 
 public_characters = [{k: v for k, v in c.items() if k != 'account'} for c in characters]
 with open('$REPO_DATA_DIR/characters.json', 'w') as f:
-    json.dump({'generated_at': generated_at, 'characters': public_characters}, f, indent=2)
+    json.dump({'generated_at': generated_at, 'characters': public_characters, 'guild_bank_money': dict(guild_bank_money_by_faction)}, f, indent=2)
 
 print(f'  characters.json: wrote {len(characters)} characters')
 " || { echo "Failed: characters.json export"; exit 1; }
-rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$TALENTS_TMP" "$REPUTATION_TMP" "$SKILLS_TMP"
+rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$TALENTS_TMP" "$REPUTATION_TMP" "$SKILLS_TMP" "$GLYPHS_TMP" "$GUILD_BANK_TMP"
 
 echo "  Publishing characters.json to GitHub..."
 (
@@ -2191,6 +2297,27 @@ here directly as things ship or plans change.
   and already showed everything that module did, plus a real date and
   icon - keeping both was pure duplication. The panel is eight modules
   now, not nine.
+- **Guild Bank gold** — rolled into the top summary bar's and each
+  faction panel's existing gold total, never shown per-character or as
+  its own line (the character's own request). Checked against the real
+  schema before building anything: `guild.BankMoney` is a genuinely
+  separate gold pool from any member's `characters.money`, confirmed
+  copper-denominated (same unit) directly against `Guild.cpp`'s deposit
+  path, not assumed from general WoW knowledge. The `guild` table has no
+  faction column of its own; derived here from the guild leader's own
+  race instead — exact, not a guess, since WotLK guild membership is
+  strictly faction-locked. New top-level `guild_bank_money` field in
+  `characters.json`: `{faction: copper}`, one row per guild already (the
+  SQL groups by `guild.guildid`), so a guild with several members can't
+  get double-counted. While touching this, found and fixed a real drift
+  bug: README's own pasteable `wowbackup.sh` copy (the "manual" fallback
+  path, for anyone not using `patch-wowbackup.py`) had silently fallen
+  out of sync since Glyphs shipped — missing that feature's SQL/parsing
+  entirely. Resynced the whole embedded block from the current
+  `reference/wowbackup.sh` rather than patching around the gap, so both
+  Glyphs and Guild Bank gold are present in all three copies
+  (`scripts/export-characters-json.sh`, `reference/wowbackup.sh`, and
+  README's own copy) again.
 
 ### Backlog ideas
 

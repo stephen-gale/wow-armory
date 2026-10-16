@@ -211,6 +211,7 @@ TALENTS_TMP="$(mktemp)"
 REPUTATION_TMP="$(mktemp)"
 SKILLS_TMP="$(mktemp)"
 GLYPHS_TMP="$(mktemp)"
+GUILD_BANK_TMP="$(mktemp)"
 mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   SELECT ca.guid, ca.achievement, ca.date
   FROM acore_characters.character_achievement ca
@@ -305,6 +306,28 @@ mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
   JOIN acore_auth.account a ON a.id = c.account
   WHERE a.username NOT LIKE 'RNDBOT%';
 " > "$GLYPHS_TMP"
+# Guild Bank gold: faction-level only, never shown per-character (the
+# character's own request) - rolled into the existing gold totals
+# client-side, not a separate line item. guild.BankMoney is a real,
+# separate gold pool from any member's own characters.money (confirmed
+# copper-denominated, same unit, directly against Guild.cpp's deposit
+# path). The guild table has no faction column of its own - derived here
+# from the guild leader's race instead, safe because WotLK guild
+# membership is strictly faction-locked. One row per guild (not per
+# member), so summing by faction below can't double-count a guild with
+# several members.
+mysql -h 127.0.0.1 -u acore -pacore -N -B -e "
+  SELECT g.guildid, g.BankMoney,
+    CASE
+      WHEN c.race IN (1,3,4,7,11) THEN 'Alliance'
+      WHEN c.race IN (2,5,6,8,9,10) THEN 'Horde'
+      ELSE 'Unknown'
+    END AS faction
+  FROM acore_characters.guild g
+  JOIN acore_characters.characters c ON c.guid = g.leaderguid
+  JOIN acore_auth.account a ON a.id = c.account
+  WHERE a.username NOT LIKE 'RNDBOT%';
+" > "$GUILD_BANK_TMP"
 # Quests: character_queststatus_rewarded holds one row per quest ever
 # turned in, but the server itself doesn't treat every row as currently
 # "completed" - its own CHAR_SEL_CHARACTER_QUESTSTATUSREW prepared
@@ -478,6 +501,18 @@ with open('$GLYPHS_TMP') as f:
                 continue
             entry = {'name': glyph['name'], 'icon': glyph['icon']}
             glyphs_by_guid[guid]['major' if glyph['major'] else 'minor'].append(entry)
+
+# Guild Bank gold, summed per faction - not per character. One row per
+# guild already (see the SQL comment above), so this can't double-count
+# a guild with several members.
+guild_bank_money_by_faction = defaultdict(int)
+with open('$GUILD_BANK_TMP') as f:
+    for line in f:
+        line = line.rstrip('\n')
+        if not line:
+            continue
+        guildid, bank_money, faction = line.split('\t')
+        guild_bank_money_by_faction[faction] += int(bank_money)
 
 # faction id -> {reputation_list_id, [race_masks, class_masks, base_values]}
 # (see scripts/extract-faction-baselines.py) - only 'trackable' factions
@@ -752,15 +787,15 @@ for line in sys.stdin:
     })
 
 with open('$BACKUP_DIR/characters.json', 'w') as f:
-    json.dump({'generated_at': generated_at, 'characters': characters}, f, indent=2)
+    json.dump({'generated_at': generated_at, 'characters': characters, 'guild_bank_money': dict(guild_bank_money_by_faction)}, f, indent=2)
 
 public_characters = [{k: v for k, v in c.items() if k != 'account'} for c in characters]
 with open('$REPO_DATA_DIR/characters.json', 'w') as f:
-    json.dump({'generated_at': generated_at, 'characters': public_characters}, f, indent=2)
+    json.dump({'generated_at': generated_at, 'characters': public_characters, 'guild_bank_money': dict(guild_bank_money_by_faction)}, f, indent=2)
 
 print(f'  characters.json: wrote {len(characters)} characters')
 " || { echo "Failed: characters.json export"; exit 1; }
-rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$TALENTS_TMP" "$REPUTATION_TMP" "$SKILLS_TMP" "$GLYPHS_TMP"
+rm -f "$ACHIEVEMENTS_TMP" "$EQUIPPED_TMP" "$KNOWN_SPELLS_TMP" "$TALENTS_TMP" "$REPUTATION_TMP" "$SKILLS_TMP" "$GLYPHS_TMP" "$GUILD_BANK_TMP"
 
 echo "  Publishing characters.json to GitHub..."
 (
