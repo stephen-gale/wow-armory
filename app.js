@@ -749,6 +749,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, achievement
     if (items.length === 0) continue;
     collectionGroups.push({
       name: cat.label,
+      categoryKey: cat.key,
       achievements: items.sort((a, b) => a.name.localeCompare(b.name)),
     });
   }
@@ -824,7 +825,19 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, achievement
     // earned_at, so renderDateView's own `dated` filter would drop them
     // anyway, but building allItems from `.achievements` (not
     // `.allAchievements`) keeps that implicit rather than relying on it.
-    const allItems = [...collectionGroups, ...categoryGroups].flatMap((group) => group.achievements);
+    // Exalted Factions entries get an "Exalted " prefix here only - in the
+    // Type view they already sit under an "Exalted Factions" heading, so a
+    // bare faction name reads fine there, but the Date view interleaves
+    // every category in one flat per-month list with no heading, where a
+    // bare faction name ("Stormwind") doesn't read as an event the way
+    // every other entry's own name does ("Level 80", "Explore
+    // Zangarmarsh"). Display-only - a fresh object per entry, so the
+    // Type view's own copy (still in collectionGroups) is untouched.
+    const allItems = [...collectionGroups, ...categoryGroups].flatMap((group) =>
+      group.categoryKey === "factions"
+        ? group.achievements.map((item) => ({ ...item, name: `Exalted ${item.name}` }))
+        : group.achievements
+    );
     const dateViewHtml = renderDateView(allItems);
 
     // Radio `name` must be unique per panel — multiple characters' panels

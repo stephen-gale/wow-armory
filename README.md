@@ -959,6 +959,15 @@ apart rather than merged into one:
 Both read from the same `collections.factions` data (see below) — the
 standalone module just discards everything but the `id`.
 
+- **Name in the Sort by: Date view**: prefixed with "Exalted " (e.g.
+  "Exalted Stormwind"), display-only, applied only when building the Date
+  view's flat item list — the Type view's Collections category keeps the
+  bare faction name, since it already sits under its own "Exalted
+  Factions" heading there. The Date view interleaves every category in
+  one flat per-month list with no heading at all, where a bare faction
+  name doesn't read as an event the way every other entry's own name
+  does ("Level 80", "Explore Zangarmarsh").
+
 - **Data source**: `character_reputation` (guid, faction, standing) —
   but `standing` turned out **not** to be the character's total
   reputation with a faction, it's a delta on top of a race/class-specific
