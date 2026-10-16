@@ -56,7 +56,7 @@ CORRECTIONS = [
     ("Tirion", "mounts", "item_25470", "2026-08-24T10:05:00Z"),      # Golden Gryphon - after Into The Wild Blue Yonder (10:02:04)
     ("Tirion", "mounts", "spell_13819", "2026-07-03T21:23:00Z"),     # Warhorse - after Giddy Up! (21:21:43)
     ("Tirion", "mounts", "spell_23214", "2026-07-31T21:23:00Z"),     # Charger - after Fast and Furious (21:21:45)
-    ("Tirion", "companions", "item_12529", "2026-10-16T21:13:19Z"),  # Smolderweb Carrier - picked up mid-LBRS, requested 1hr before Lower Blackrock Spire (22:13:19)
+    ("Tirion", "companions", "item_12529", "2026-10-16T21:57:19Z"),  # Smolderweb Carrier - picked up mid-LBRS, 1s after Can I Keep Him? fired (21:57:18)
 ]
 
 
