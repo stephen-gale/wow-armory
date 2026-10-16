@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T12:19:30Z",
+  "generated_at": "2026-10-16T12:39:25Z",
   "characters": [
     {
       "guid": 1006,
@@ -986,5 +986,8 @@
         ]
       }
     }
-  ]
+  ],
+  "guild_bank_money": {
+    "Alliance": 20000000
+  }
 }
