@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T17:42:06Z",
+  "generated_at": "2026-10-16T22:58:28Z",
   "characters": [
     {
       "guid": 1006,
@@ -481,14 +481,14 @@
       "class_name": "Paladin",
       "faction": "Alliance",
       "level": 80,
-      "money_copper": 17735519,
-      "zone_id": 1583,
-      "achievement_points": 650,
-      "achievement_count": 68,
-      "played_time_seconds": 541450,
+      "money_copper": 18497029,
+      "zone_id": 1519,
+      "achievement_points": 680,
+      "achievement_count": 71,
+      "played_time_seconds": 546798,
       "honor_points": 0,
-      "last_online": "2026-10-16T17:41:48Z",
-      "quests_completed": 1498,
+      "last_online": "2026-10-16T22:58:04Z",
+      "quests_completed": 1502,
       "stats": {
         "max_health": 12474,
         "strength": 641,
@@ -600,6 +600,10 @@
           "earned_at": "2026-09-16T22:04:03Z"
         },
         {
+          "id": 508,
+          "earned_at": "2026-10-16T22:16:43Z"
+        },
+        {
           "id": 522,
           "earned_at": "2026-07-31T17:07:02Z"
         },
@@ -614,6 +618,10 @@
         {
           "id": 621,
           "earned_at": "2026-09-29T13:42:17Z"
+        },
+        {
+          "id": 643,
+          "earned_at": "2026-10-16T22:13:19Z"
         },
         {
           "id": 645,
@@ -732,6 +740,10 @@
           "earned_at": "2026-09-14T11:55:32Z"
         },
         {
+          "id": 1017,
+          "earned_at": "2026-10-16T21:57:18Z"
+        },
+        {
           "id": 1176,
           "earned_at": "2026-08-26T21:39:37Z"
         },
@@ -804,7 +816,12 @@
             "earned_at": "2026-07-31T21:23:00Z"
           }
         ],
-        "companions": [],
+        "companions": [
+          {
+            "id": "item_12529",
+            "earned_at": "2026-10-16T22:58:28Z"
+          }
+        ],
         "legendaries": [],
         "tabards": [
           {
