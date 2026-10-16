@@ -605,6 +605,7 @@ def _earned_at_map(entries):
     }
 
 previous_by_key_by_guid = {key: defaultdict(dict) for key, _, _ in CATEGORIES}
+previous_by_key_by_guid['factions'] = defaultdict(dict)
 prev_path = '$REPO_DATA_DIR/characters.json'
 if os.path.exists(prev_path):
     try:
@@ -614,6 +615,7 @@ if os.path.exists(prev_path):
             prev_collections = prev_char.get('collections', {})
             for key, _, _ in CATEGORIES:
                 previous_by_key_by_guid[key][prev_char['guid']] = _earned_at_map(prev_collections.get(key, []))
+            previous_by_key_by_guid['factions'][prev_char['guid']] = _earned_at_map(prev_collections.get('factions', []))
     except (json.JSONDecodeError, OSError):
         pass  # first run, or an unreadable/corrupt previous file — start fresh
 
@@ -679,11 +681,24 @@ for line in sys.stdin:
     # getClassMask() use, confirmed against Unit.h.
     race_mask = 1 << (int(row['race']) - 1)
     class_mask = 1 << (int(row['cls']) - 1)
-    exalted_factions = sorted(
+    current_exalted_faction_ids = sorted(
         faction_id
         for faction_id, standing in reputation_by_guid.get(guid, [])
         if base_reputation(faction_id, race_mask, class_mask) + standing >= EXALTED_THRESHOLD
     )
+    # Sticky, same shape/reasoning as the CATEGORIES loop above - the first
+    # run that sees a faction at Exalted stamps that run's generated_at;
+    # every later run preserves the original stamp. Standing has no real
+    # 'when it crossed 42000' record (character_reputation only ever holds
+    # the current value), so this is the same best-available approximation
+    # every other undateable collection in this app already uses.
+    factions_earned_at_map = dict(previous_by_key_by_guid['factions'].get(guid, {}))
+    for faction_id in current_exalted_faction_ids:
+        factions_earned_at_map.setdefault(faction_id, generated_at)
+    collections['factions'] = [
+        {'id': faction_id, 'earned_at': earned_at}
+        for faction_id, earned_at in sorted(factions_earned_at_map.items())
+    ]
 
     characters.append({
         'guid': guid,
@@ -697,7 +712,6 @@ for line in sys.stdin:
         'level': int(row['level']),
         'money_copper': int(row['money']),
         'zone_id': int(row['zone_id']),
-        'exalted_factions': exalted_factions,
         'achievement_points': int(row['ap']),
         'achievement_count': int(row['ac']),
         'played_time_seconds': int(row['played']),

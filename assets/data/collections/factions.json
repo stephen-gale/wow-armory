@@ -1,0 +1,422 @@
+[
+  {
+    "id": 21,
+    "name": "Booty Bay"
+  },
+  {
+    "id": 46,
+    "name": " Blacksmithing - Armorsmithing"
+  },
+  {
+    "id": 47,
+    "name": "Ironforge"
+  },
+  {
+    "id": 54,
+    "name": "Gnomeregan Exiles"
+  },
+  {
+    "id": 59,
+    "name": "Thorium Brotherhood"
+  },
+  {
+    "id": 67,
+    "name": "Horde"
+  },
+  {
+    "id": 68,
+    "name": "Undercity"
+  },
+  {
+    "id": 69,
+    "name": "Darnassus"
+  },
+  {
+    "id": 70,
+    "name": "Syndicate"
+  },
+  {
+    "id": 72,
+    "name": "Stormwind"
+  },
+  {
+    "id": 76,
+    "name": "Orgrimmar"
+  },
+  {
+    "id": 81,
+    "name": "Thunder Bluff"
+  },
+  {
+    "id": 83,
+    "name": " Leatherworking - Elemental"
+  },
+  {
+    "id": 86,
+    "name": " Leatherworking - Dragonscale"
+  },
+  {
+    "id": 87,
+    "name": "Bloodsail Buccaneers"
+  },
+  {
+    "id": 92,
+    "name": "Gelkis Clan Centaur"
+  },
+  {
+    "id": 93,
+    "name": "Magram Clan Centaur"
+  },
+  {
+    "id": 169,
+    "name": "Steamwheedle Cartel"
+  },
+  {
+    "id": 270,
+    "name": "Zandalar Tribe"
+  },
+  {
+    "id": 289,
+    "name": " Blacksmithing - Weaponsmithing"
+  },
+  {
+    "id": 349,
+    "name": "Ravenholdt"
+  },
+  {
+    "id": 369,
+    "name": "Gadgetzan"
+  },
+  {
+    "id": 469,
+    "name": "Alliance"
+  },
+  {
+    "id": 470,
+    "name": "Ratchet"
+  },
+  {
+    "id": 471,
+    "name": "Wildhammer Clan"
+  },
+  {
+    "id": 509,
+    "name": "The League of Arathor"
+  },
+  {
+    "id": 510,
+    "name": "The Defilers"
+  },
+  {
+    "id": 529,
+    "name": "Argent Dawn"
+  },
+  {
+    "id": 530,
+    "name": "Darkspear Trolls"
+  },
+  {
+    "id": 549,
+    "name": " Leatherworking - Tribal"
+  },
+  {
+    "id": 550,
+    "name": " Engineering - Goblin"
+  },
+  {
+    "id": 551,
+    "name": " Engineering - Gnome"
+  },
+  {
+    "id": 569,
+    "name": " Blacksmithing - Hammersmithing"
+  },
+  {
+    "id": 570,
+    "name": " Blacksmithing - Axesmithing"
+  },
+  {
+    "id": 571,
+    "name": " Blacksmithing - Swordsmithing"
+  },
+  {
+    "id": 574,
+    "name": "Caer Darrow"
+  },
+  {
+    "id": 576,
+    "name": "Timbermaw Hold"
+  },
+  {
+    "id": 577,
+    "name": "Everlook"
+  },
+  {
+    "id": 589,
+    "name": "Wintersaber Trainers"
+  },
+  {
+    "id": 609,
+    "name": "Cenarion Circle"
+  },
+  {
+    "id": 729,
+    "name": "Frostwolf Clan"
+  },
+  {
+    "id": 730,
+    "name": "Stormpike Guard"
+  },
+  {
+    "id": 749,
+    "name": "Hydraxian Waterlords"
+  },
+  {
+    "id": 809,
+    "name": "Shen'dralar"
+  },
+  {
+    "id": 889,
+    "name": "Warsong Outriders"
+  },
+  {
+    "id": 890,
+    "name": "Silverwing Sentinels"
+  },
+  {
+    "id": 891,
+    "name": "Alliance Forces"
+  },
+  {
+    "id": 892,
+    "name": "Horde Forces"
+  },
+  {
+    "id": 909,
+    "name": "Darkmoon Faire"
+  },
+  {
+    "id": 910,
+    "name": "Brood of Nozdormu"
+  },
+  {
+    "id": 911,
+    "name": "Silvermoon City"
+  },
+  {
+    "id": 922,
+    "name": "Tranquillien"
+  },
+  {
+    "id": 930,
+    "name": "Exodar"
+  },
+  {
+    "id": 932,
+    "name": "The Aldor"
+  },
+  {
+    "id": 933,
+    "name": "The Consortium"
+  },
+  {
+    "id": 934,
+    "name": "The Scryers"
+  },
+  {
+    "id": 935,
+    "name": "The Sha'tar"
+  },
+  {
+    "id": 936,
+    "name": "Shattrath City"
+  },
+  {
+    "id": 941,
+    "name": "The Mag'har"
+  },
+  {
+    "id": 942,
+    "name": "Cenarion Expedition"
+  },
+  {
+    "id": 946,
+    "name": "Honor Hold"
+  },
+  {
+    "id": 947,
+    "name": "Thrallmar"
+  },
+  {
+    "id": 948,
+    "name": "Test Faction 2"
+  },
+  {
+    "id": 949,
+    "name": "Test Faction 1"
+  },
+  {
+    "id": 952,
+    "name": "Test Faction 3"
+  },
+  {
+    "id": 967,
+    "name": "The Violet Eye"
+  },
+  {
+    "id": 970,
+    "name": "Sporeggar"
+  },
+  {
+    "id": 978,
+    "name": "Kurenai"
+  },
+  {
+    "id": 980,
+    "name": "The Burning Crusade"
+  },
+  {
+    "id": 989,
+    "name": "Keepers of Time"
+  },
+  {
+    "id": 990,
+    "name": "The Scale of the Sands"
+  },
+  {
+    "id": 1005,
+    "name": "Friendly, Hidden"
+  },
+  {
+    "id": 1011,
+    "name": "Lower City"
+  },
+  {
+    "id": 1012,
+    "name": "Ashtongue Deathsworn"
+  },
+  {
+    "id": 1015,
+    "name": "Netherwing"
+  },
+  {
+    "id": 1031,
+    "name": "Sha'tari Skyguard"
+  },
+  {
+    "id": 1037,
+    "name": "Alliance Vanguard"
+  },
+  {
+    "id": 1038,
+    "name": "Ogri'la"
+  },
+  {
+    "id": 1050,
+    "name": "Valiance Expedition"
+  },
+  {
+    "id": 1052,
+    "name": "Horde Expedition"
+  },
+  {
+    "id": 1064,
+    "name": "The Taunka"
+  },
+  {
+    "id": 1067,
+    "name": "The Hand of Vengeance"
+  },
+  {
+    "id": 1068,
+    "name": "Explorers' League"
+  },
+  {
+    "id": 1073,
+    "name": "The Kalu'ak"
+  },
+  {
+    "id": 1077,
+    "name": "Shattered Sun Offensive"
+  },
+  {
+    "id": 1082,
+    "name": "REUSE"
+  },
+  {
+    "id": 1085,
+    "name": "Warsong Offensive"
+  },
+  {
+    "id": 1090,
+    "name": "Kirin Tor"
+  },
+  {
+    "id": 1091,
+    "name": "The Wyrmrest Accord"
+  },
+  {
+    "id": 1094,
+    "name": "The Silver Covenant"
+  },
+  {
+    "id": 1097,
+    "name": "Wrath of the Lich King"
+  },
+  {
+    "id": 1098,
+    "name": "Knights of the Ebon Blade"
+  },
+  {
+    "id": 1104,
+    "name": "Frenzyheart Tribe"
+  },
+  {
+    "id": 1105,
+    "name": "The Oracles"
+  },
+  {
+    "id": 1106,
+    "name": "Argent Crusade"
+  },
+  {
+    "id": 1117,
+    "name": "Sholazar Basin"
+  },
+  {
+    "id": 1118,
+    "name": "Classic"
+  },
+  {
+    "id": 1119,
+    "name": "The Sons of Hodir"
+  },
+  {
+    "id": 1124,
+    "name": "The Sunreavers"
+  },
+  {
+    "id": 1126,
+    "name": "The Frostborn"
+  },
+  {
+    "id": 1136,
+    "name": "Tranquillien Conversion"
+  },
+  {
+    "id": 1137,
+    "name": "Wintersaber Conversion"
+  },
+  {
+    "id": 1154,
+    "name": "Silver Covenant Conversion"
+  },
+  {
+    "id": 1155,
+    "name": "Sunreavers Conversion"
+  },
+  {
+    "id": 1156,
+    "name": "The Ashen Verdict"
+  }
+]

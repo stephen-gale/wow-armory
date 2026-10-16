@@ -42,18 +42,31 @@
 #   run rather than unioned with a previous run, since a character's
 #   completed achievements are already fully known and authoritative every
 #   time this runs.
-# Once earned, a Sets/Mounts/Companions/Legendaries/Tabards/Heirlooms entry
-# is sticky: it stays on the character permanently (even after the gear is
-# swapped away, for equip categories), by unioning this run's
-# newly-detected ids with whatever was already recorded in the existing
-# OUTPUT_FILE (if present) before overwriting it. Both achievements and
-# these six collections carry an earned_at timestamp — achievements read
-# theirs straight from character_achievement.date (Blizzard's own record);
-# these collections have no such record (character_spell in particular has
-# no timestamp column at all, and equip detection is a point-in-time
-# snapshot), so the first run that detects one stamps it with that run's
-# generated_at, and every later run preserves that original stamp rather
-# than overwriting it.
+# - Exalted Factions ("factions") is also its own kind: each currently-
+#   Exalted faction id (see the dedicated reputation query/computation
+#   below — character_reputation.standing needs a race/class baseline
+#   added before it's comparable to the 42000 Exalted cutoff, so this
+#   isn't a simple equip/spell presence check) gets the same sticky
+#   earned_at treatment as Sets/Mounts/.../Heirlooms below, just computed
+#   from reputation standing instead of equipped items or known spells.
+#   This same collections.factions data also feeds the standalone,
+#   dateless "Exalted Factions" module in app.js (current standing, no
+#   history) — that module only reads the id, never earned_at.
+# Once earned, a Sets/Mounts/Companions/Legendaries/Tabards/Heirlooms/
+# Factions entry is sticky: it stays on the character permanently (even
+# after the gear is swapped away, for equip categories, or reputation
+# standing somehow dropped back below Exalted, for Factions), by unioning
+# this run's newly-detected ids with whatever was already recorded in the
+# existing OUTPUT_FILE (if present) before overwriting it. Both
+# achievements and these seven collections carry an earned_at timestamp —
+# achievements read theirs straight from character_achievement.date
+# (Blizzard's own record); these collections have no such record
+# (character_spell in particular has no timestamp column at all, equip
+# detection is a point-in-time snapshot, and character_reputation only
+# ever stores current standing, not when a threshold was crossed), so the
+# first run that detects one stamps it with that run's generated_at, and
+# every later run preserves that original stamp rather than overwriting
+# it.
 #
 # Heirlooms are stored here exactly like Legendaries (per-character,
 # equipped-only, sticky) — the faction-level de-duplicated display (since
@@ -552,6 +565,7 @@ def _earned_at_map(entries):
     }
 
 previous_by_key_by_guid = {key: defaultdict(dict) for key, _, _ in CATEGORIES}
+previous_by_key_by_guid["factions"] = defaultdict(dict)
 if os.path.exists(out_path):
     try:
         with open(out_path) as f:
@@ -560,6 +574,7 @@ if os.path.exists(out_path):
             prev_collections = prev_char.get("collections", {})
             for key, _, _ in CATEGORIES:
                 previous_by_key_by_guid[key][prev_char["guid"]] = _earned_at_map(prev_collections.get(key, []))
+            previous_by_key_by_guid["factions"][prev_char["guid"]] = _earned_at_map(prev_collections.get("factions", []))
     except (json.JSONDecodeError, OSError):
         pass  # first run, or an unreadable/corrupt previous file — start fresh
 
@@ -632,11 +647,24 @@ for line in sys.stdin:
     # getClassMask() use, confirmed against Unit.h.
     race_mask = 1 << (int(row["race"]) - 1)
     class_mask = 1 << (int(row["cls"]) - 1)
-    exalted_factions = sorted(
+    current_exalted_faction_ids = sorted(
         faction_id
         for faction_id, standing in reputation_by_guid.get(guid, [])
         if base_reputation(faction_id, race_mask, class_mask) + standing >= EXALTED_THRESHOLD
     )
+    # Sticky, same shape/reasoning as the CATEGORIES loop above - the first
+    # run that sees a faction at Exalted stamps that run's generated_at;
+    # every later run preserves the original stamp. Standing has no real
+    # "when it crossed 42000" record (character_reputation only ever holds
+    # the current value), so this is the same best-available approximation
+    # every other undateable collection in this app already uses.
+    factions_earned_at_map = dict(previous_by_key_by_guid["factions"].get(guid, {}))
+    for faction_id in current_exalted_faction_ids:
+        factions_earned_at_map.setdefault(faction_id, generated_at)
+    collections["factions"] = [
+        {"id": faction_id, "earned_at": earned_at}
+        for faction_id, earned_at in sorted(factions_earned_at_map.items())
+    ]
 
     characters.append({
         "guid": guid,
@@ -650,7 +678,6 @@ for line in sys.stdin:
         "level": int(row["level"]),
         "money_copper": int(row["money"]),
         "zone_id": int(row["zone_id"]),
-        "exalted_factions": exalted_factions,
         "achievement_points": int(row["ap"]),
         "achievement_count": int(row["ac"]),
         "played_time_seconds": int(row["played"]),

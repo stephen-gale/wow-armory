@@ -13,7 +13,6 @@
       "level": 80,
       "money_copper": 4582311,
       "zone_id": 1537,
-      "exalted_factions": [529],
       "achievement_points": 3120,
       "played_time_seconds": 1234567,
       "honor_points": 15230,
@@ -173,6 +172,12 @@
             "id": 1015,
             "earned_at": "2026-06-02T19:05:00Z"
           }
+        ],
+        "factions": [
+          {
+            "id": 529,
+            "earned_at": "2026-01-20T14:30:00Z"
+          }
         ]
       },
       "equipped_gear": [
@@ -217,7 +222,6 @@
       "level": 80,
       "money_copper": 1122334,
       "zone_id": 1657,
-      "exalted_factions": [609],
       "achievement_points": 2895,
       "played_time_seconds": 987654,
       "honor_points": 4310,
@@ -312,6 +316,12 @@
             "id": 913,
             "earned_at": "2026-02-08T13:00:00Z"
           }
+        ],
+        "factions": [
+          {
+            "id": 609,
+            "earned_at": "2026-05-11T09:40:00Z"
+          }
         ]
       },
       "skills": [
@@ -331,7 +341,6 @@
       "level": 45,
       "money_copper": 355210,
       "zone_id": 38,
-      "exalted_factions": [],
       "achievement_points": 940,
       "played_time_seconds": 213456,
       "honor_points": 0,
@@ -365,7 +374,6 @@
       "level": 80,
       "money_copper": 6011234,
       "zone_id": 1637,
-      "exalted_factions": [941],
       "achievement_points": 3410,
       "played_time_seconds": 1456789,
       "honor_points": 22875,
@@ -450,6 +458,12 @@
             "id": "item_42991",
             "earned_at": "2026-03-05T08:00:00Z"
           }
+        ],
+        "factions": [
+          {
+            "id": 941,
+            "earned_at": "2026-02-27T19:05:00Z"
+          }
         ]
       }
     },
@@ -465,7 +479,6 @@
       "level": 80,
       "money_copper": 2033445,
       "zone_id": 1497,
-      "exalted_factions": [59],
       "achievement_points": 2650,
       "played_time_seconds": 876543,
       "honor_points": 9640,
@@ -530,6 +543,12 @@
             "id": "item_42991",
             "earned_at": "2026-06-14T11:20:00Z"
           }
+        ],
+        "factions": [
+          {
+            "id": 59,
+            "earned_at": "2026-07-30T20:12:00Z"
+          }
         ]
       },
       "skills": [
@@ -550,7 +569,6 @@
       "level": 62,
       "money_copper": 812345,
       "zone_id": 1638,
-      "exalted_factions": [978],
       "achievement_points": 1180,
       "played_time_seconds": 345678,
       "honor_points": 1205,
@@ -574,7 +592,15 @@
           "id": 43,
           "earned_at": "2025-10-01T10:22:00Z"
         }
-      ]
+      ],
+      "collections": {
+        "factions": [
+          {
+            "id": 978,
+            "earned_at": "2026-06-30T12:00:00Z"
+          }
+        ]
+      }
     }
   ]
 }

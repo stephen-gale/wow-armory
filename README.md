@@ -284,11 +284,16 @@ each category), never hand-picked or curated. Nothing about any of this
 touches the AzerothCore server, DBC files, or the live game — detection and
 storage both happen entirely in the export scripts and `characters.json`.
 
-There are seven categories: **Sets**, **Mounts**, **Companions**,
-**Legendaries**, **Tabards**, **Heirlooms**, and **Titles**. Adding a
-further one later is purely a data-file + one-line registration change
-(`COLLECTION_CATEGORIES` in `app.js`, the `CATEGORIES` list in the export
-scripts) — no other code changes.
+There are eight categories: **Sets**, **Mounts**, **Companions**,
+**Legendaries**, **Tabards**, **Heirlooms**, **Titles**, and **Exalted
+Factions**. Adding a further one later is purely a data-file + one-line
+registration change (`COLLECTION_CATEGORIES` in `app.js`, the
+`CATEGORIES` list in the export scripts) — no other code changes.
+Exalted Factions is the one exception to "generated straight from
+`item_template`" above — it's generated from reputation standing instead
+(see [Exalted Factions](#exalted-factions) below), the same way Titles is
+the one exception generated from achievements instead; neither breaks the
+other tenet, since both are still fully mechanical, never hand-picked.
 
 #### Icons
 
@@ -329,6 +334,18 @@ icon in this app (`Gethe/wow-ui-textures`) — of 208 distinct icons these
 two categories need, 164 weren't already bundled from the item icon
 fetch and were pulled in as their own one-time addition (100% found, no
 gaps).
+
+Exalted Factions is different again — no per-faction icon exists to
+resolve at all. `Faction.dbc` carries no icon/texture field, and the real
+in-game Reputation pane shows no icon next to any faction either. Every
+entry instead shares one real, verified icon — `achievement_reputation_01`
+— confirmed against the real achievement data to be the exact icon used
+by both "Somebody Likes Me" (reaching your first Exalted reputation) and
+"5 Exalted Reputations", not picked at random. Same "real, shared, not
+unique" reasoning as Mounts/Companions' own icons are unique per item but
+this one deliberately isn't — closer in spirit to Glyphs' ~20 shared rune
+icons, used elsewhere in this app for exactly the same reason (real icon
+data exists, just not one distinct icon per entry).
 
 The icon carries through to the Sort by: Date view too, where Collections
 entries sit interleaved with Achievements in one chronological list —
@@ -925,10 +942,22 @@ not rolled up into the faction/account summary yet.
 
 ### Exalted Factions
 
-The last module, right after Quests — a plain list of faction names, no
-sub-values. A live snapshot like Equipped/Avg Item Lvl, not a
-Collection: reputation standing keeps moving, so there's no `earned_at`
-moment to record and no place in the Sort by Type/Date toggle.
+Two separate renderings of the same underlying data, deliberately kept
+apart rather than merged into one:
+
+- **The standalone module** — the last module, right after Quests — a
+  plain list of faction names, no sub-values, no icon, no date. A live
+  snapshot like Equipped/Avg Item Lvl: it only ever shows which factions
+  the character currently stands Exalted with, never when.
+- **The "Exalted Factions" Collections category** — registered in
+  `COLLECTION_CATEGORIES` (`app.js`) alongside Sets/Mounts/.../Titles,
+  so it gets a real icon on every entry and a real `earned_at`, and
+  shows up in the Sort by: Date timeline. This is what actually answers
+  "when did I first reach Exalted with X" — the standalone module never
+  could, since it only ever reflects current standing.
+
+Both read from the same `collections.factions` data (see below) — the
+standalone module just discards everything but the `id`.
 
 - **Data source**: `character_reputation` (guid, faction, standing) —
   but `standing` turned out **not** to be the character's total
@@ -954,16 +983,38 @@ moment to record and no place in the Sort by Type/Date toggle.
   them NPC hostility factions or other non-trackable entries, not real
   "shows up on your reputation pane" factions — filtered to the ~105
   with `reputationListID >= 0` (`FactionEntry::CanHaveReputation()`).
-  Which factions a character is currently Exalted with (a plain array of
-  faction ids) is computed entirely server-side, in the export scripts.
-  Names for just those ~105 trackable factions are bundled at
-  `assets/data/faction_names.json` (id → English name); resolving an id
-  to a name is the only part that happens client-side, the same way
-  Titles resolves an achievement id to a title string — from a bundled
-  reference file, not a second DB round-trip.
-- **Blank fallback**: an empty or missing `exalted_factions` array hides
-  this module entirely, same graceful-degradation pattern as every other
-  module.
+  Which factions a character is currently Exalted with is computed
+  entirely server-side, in the export scripts, then merged sticky against
+  whatever was already recorded (same `earned_at`-preserving merge every
+  other Collection uses — see "Collections" above) into
+  `collections.factions`: `[{"id": <Faction.dbc id>, "earned_at": ...}]`.
+  There's no real "crossed 42000" timestamp to read (`character_reputation`
+  only ever stores current standing), so the first run that detects a
+  faction at Exalted stamps it with that run's `generated_at`, same
+  best-available approximation every other undateable Collection already
+  uses. Names for the ~105 trackable factions are bundled both at
+  `assets/data/faction_names.json` (id → English name, used by the
+  standalone module) and, in the `{id, name}` list shape every Collection
+  file uses, at `assets/data/collections/factions.json` (generated from
+  the same source by `scripts/generate-factions-collection-data.py`) —
+  resolving an id to a name is the only part that happens client-side, the
+  same way Titles resolves an achievement id to a title string, from a
+  bundled reference file, not a second DB round-trip.
+- **Icon**: no real per-faction icon exists to resolve — `Faction.dbc`
+  carries no icon/texture field at all, and the real in-game Reputation
+  pane shows no icon next to any faction either (confirmed: it's plain
+  name + standing bar). Rather than invent one or leave every entry
+  icon-less, every entry in the Collections category instead shares
+  `achievement_reputation_01` — a real, verified Blizzard icon: checking
+  the actual achievement data confirms it's the exact icon used by both
+  "Somebody Likes Me" (the achievement for reaching your very first
+  Exalted reputation) and "5 Exalted Reputations", not picked at random.
+  Same "real, shared, generic icon" reasoning Glyphs' ~20 shared rune
+  icons already use. The standalone module stays icon-less, matching how
+  it's always looked.
+- **Blank fallback**: an empty or missing `collections.factions` hides
+  both the standalone module and the Collections category entirely, same
+  graceful-degradation pattern as every other module.
 
 ### Last logged in
 
@@ -1045,7 +1096,6 @@ dated the same way.
       "level": 80,
       "money_copper": 4582311,
       "zone_id": 1537,
-      "exalted_factions": [529],
       "achievement_points": 3120,
       "achievement_count": 130,
       "played_time_seconds": 1234567,
@@ -1086,6 +1136,9 @@ dated the same way.
         ],
         "titles": [
           {"id": 46, "earned_at": "2026-03-01T18:20:00Z"}
+        ],
+        "factions": [
+          {"id": 529, "earned_at": "2026-01-20T14:30:00Z"}
         ]
       },
       "equipped_gear": [
@@ -1124,18 +1177,23 @@ total_achievements)`.
 
 `collections` is the custom, companion-app-only tracking system — see
 [Collections](#collections) above. `collections.sets`, `.mounts`,
-`.companions`, `.legendaries`, `.tabards`, `.heirlooms`, and `.titles`
-are each category's earned entries; a future category would land as a
-further sibling key. Unlike `achievements`, most of these are never
-recomputed from scratch: once an entry appears here, the export scripts
-always carry it forward, even if the character no longer has the item
-equipped — and `earned_at`, stamped the first time it's detected, is
-never overwritten on later runs either (except for a small number of
-one-time, hand-verified corrections, see
+`.companions`, `.legendaries`, `.tabards`, `.heirlooms`, `.titles`, and
+`.factions` are each category's earned entries; a future category would
+land as a further sibling key. Unlike `achievements`, most of these are
+never recomputed from scratch: once an entry appears here, the export
+scripts always carry it forward, even if the character no longer has the
+item equipped (or, for `.factions`, if reputation standing somehow
+dropped back below Exalted) — and `earned_at`, stamped the first time
+it's detected, is never overwritten on later runs either (except for a
+small number of one-time, hand-verified corrections, see
 `scripts/apply-date-corrections.py` and the Mounts section above).
 `collections.titles` is the one exception — see [Titles](#titles) above:
 it's recomputed fresh every run from the character's own achievements,
-always with a real date, not sticky-merged like the other six.
+always with a real date, not sticky-merged like the other seven.
+`collections.factions` also feeds the standalone, dateless "Exalted
+Factions" module (current standing only) — see
+[Exalted Factions](#exalted-factions) above — which reads only the `id`
+from each entry, never `earned_at`.
 
 `equipped_gear` is the character's current loadout — see
 [Equipped Gear](#equipped-gear) above. Unlike `collections`, this array is
@@ -1174,10 +1232,12 @@ needed, same as `skills`' own already-resolved names.
 name client-side against `assets/data/area_names.json` — see the
 [Character Dashboard](#character-dashboard) intro above.
 
-`exalted_factions` is a plain array of `Faction.dbc` ids, computed
+Which factions a character currently stands Exalted with is computed
 server-side against `assets/data/faction_baselines.json` and each
-character's own race/class; resolved to names client-side against
-`assets/data/faction_names.json` — see
+character's own race/class, same as every other collection stored sticky
+at `collections.factions` (see above) — resolved to names client-side
+against `assets/data/faction_names.json` (standalone module) or
+`assets/data/collections/factions.json` (Collections category) — see
 [Exalted Factions](#exalted-factions) above.
 
 ### Privacy note
@@ -1661,6 +1721,7 @@ def _earned_at_map(entries):
     }
 
 previous_by_key_by_guid = {key: defaultdict(dict) for key, _, _ in CATEGORIES}
+previous_by_key_by_guid['factions'] = defaultdict(dict)
 prev_path = '$REPO_DATA_DIR/characters.json'
 if os.path.exists(prev_path):
     try:
@@ -1670,6 +1731,7 @@ if os.path.exists(prev_path):
             prev_collections = prev_char.get('collections', {})
             for key, _, _ in CATEGORIES:
                 previous_by_key_by_guid[key][prev_char['guid']] = _earned_at_map(prev_collections.get(key, []))
+            previous_by_key_by_guid['factions'][prev_char['guid']] = _earned_at_map(prev_collections.get('factions', []))
     except (json.JSONDecodeError, OSError):
         pass  # first run, or an unreadable/corrupt previous file — start fresh
 
@@ -1735,11 +1797,24 @@ for line in sys.stdin:
     # getClassMask() use, confirmed against Unit.h.
     race_mask = 1 << (int(row['race']) - 1)
     class_mask = 1 << (int(row['cls']) - 1)
-    exalted_factions = sorted(
+    current_exalted_faction_ids = sorted(
         faction_id
         for faction_id, standing in reputation_by_guid.get(guid, [])
         if base_reputation(faction_id, race_mask, class_mask) + standing >= EXALTED_THRESHOLD
     )
+    # Sticky, same shape/reasoning as the CATEGORIES loop above - the first
+    # run that sees a faction at Exalted stamps that run's generated_at;
+    # every later run preserves the original stamp. Standing has no real
+    # 'when it crossed 42000' record (character_reputation only ever holds
+    # the current value), so this is the same best-available approximation
+    # every other undateable collection in this app already uses.
+    factions_earned_at_map = dict(previous_by_key_by_guid['factions'].get(guid, {}))
+    for faction_id in current_exalted_faction_ids:
+        factions_earned_at_map.setdefault(faction_id, generated_at)
+    collections['factions'] = [
+        {'id': faction_id, 'earned_at': earned_at}
+        for faction_id, earned_at in sorted(factions_earned_at_map.items())
+    ]
 
     characters.append({
         'guid': guid,
@@ -1753,7 +1828,6 @@ for line in sys.stdin:
         'level': int(row['level']),
         'money_copper': int(row['money']),
         'zone_id': int(row['zone_id']),
-        'exalted_factions': exalted_factions,
         'achievement_points': int(row['ap']),
         'achievement_count': int(row['ac']),
         'played_time_seconds': int(row['played']),
@@ -2073,6 +2147,36 @@ here directly as things ship or plans change.
   attempt silently failed to paint once nested in its real position (a
   real engine quirk, not a mistake) — see [Glyphs](#glyphs) above for the
   full story.
+- **Exalted Factions, an eighth Collections category** — the existing
+  standalone "Exalted Factions" module (current standing only, no dates)
+  stayed exactly as it looked, but now reads off a new sticky
+  `collections.factions` ({id, earned_at}) instead of a bare
+  `exalted_factions` array, so the *moment* each faction first reached
+  Exalted can also show up as its own Collections category — icon and
+  all — in the Sort by: Date timeline, which the old bare array couldn't
+  support at all. No real icon exists per faction (`Faction.dbc` has no
+  icon field, and the real Reputation pane shows none either); every
+  entry instead shares `achievement_reputation_01`, confirmed against the
+  real achievement data as the exact icon both "Somebody Likes Me" and "5
+  Exalted Reputations" use, not picked at random. Also surfaced that
+  there's no generic "reached your first Exalted faction" achievement
+  *named* that way in this game — it's "Somebody Likes Me" ("Raise a
+  reputation to Exalted"), easy to miss searching achievement names for
+  the word "Exalted" alone. Used to backfill real history for both
+  existing characters: Rokhan's and Tirion's own "Somebody Likes Me"
+  completion dates gave an exact, real timestamp for each character's
+  very first Exalted faction (Orgrimmar and Stormwind respectively,
+  confirmed against `AchievementMgr.cpp`'s
+  `ACHIEVEMENT_CRITERIA_TYPE_GAIN_EXALTED_REPUTATION` handling, which
+  sets criteria progress to the player's running exalted-faction count —
+  the standing write happens before that criteria check, same function,
+  so the Collections entry sorts a hair before the achievement). Their
+  second Exalted faction each (Darkspear Trolls, Valiance Expedition) had
+  no matching achievement, so those were pinned from quest-log
+  cross-referencing instead (an hour before a bounding Exploration
+  achievement in each case) — real backfilled dates, not generated_at
+  guesses, same effort this project puts into every other historical
+  backfill.
 
 ### Backlog ideas
 
@@ -2090,7 +2194,7 @@ rough effort.
 | Character sort within each faction: by Name or by Last logged in | Low–medium | Currently fixed, not user-toggleable: `renderFactionPanel`'s `sorted` is always `level` descending then `name` alphabetically (`app.js` line ~280). Both new fields already exist per-character (`name`; `last_online`, which `renderLastLoggedIn`/`formatDDMMYY` already parse) — no new data needed. Would need its own sort-mode control on the roster itself, separate from the existing per-character achievements Sort by Type/Date toggle (that one only reorders one expanded panel's contents, not the character list) |
 | Exclude some categories from Show all/Only mine entirely (Arena, Feats of Strength, and others TBD) | Low–medium, once the category list is settled | Some categories are full of achievements that aren't realistically chaseable here — Arena needs active ranked PvP participation, Feats of Strength mixes in a lot of discontinued/realm-first/one-time-event content — so revealing them as "unobtained" is mostly noise, not something to work toward. For these specific categories: never show their not-yet-earned achievements even with Show all checked, and hide the category header entirely when the character has zero earned in it (same as today's default, just without Show all's reveal working as an escape hatch). Needs its own smaller allowlist/exclusion list, not a repurposing of `ACHIEVEMENT_ICON_CATEGORIES` (that one's scoped to "is this a real completable achievement", a different question from "is this realistically achievable on this server") — and which categories belong on it should get the same real-data check `ACHIEVEMENT_ICON_CATEGORIES` itself got (coverage/names checked against the bundled achievement data, not assumed from Arena/Feats of Strength alone) |
 | Stats: mirror the real character pane's two dropdowns instead of the current fixed Attributes/Defense/Combat columns | Medium, pending a real-schema check | The real in-game character pane (reference screenshots provided) is two dropdowns, not three fixed columns: a left one for **Base Stats** (Strength, Agility, Stamina, Intellect, Spirit, Armor) and a right one that cycles through **Melee** / **Ranged** / **Spell** / **Defenses**, defaulting to whichever is most relevant to the character's class (e.g. Melee for a Paladin, per the screenshots) rather than showing a class-filtered blend of all of them at once the way `STAT_GROUPS`/`CLASS_FILTERED_STAT_SETS` do today. Melee shows Damage (min–max), Speed, Power, Hit Rating, Crit Chance, Expertise; Ranged shows the same shape (N/A for a class with no ranged weapon); Spell shows Bonus Damage, Bonus Healing, Hit Rating, Crit Chance, Haste Rating, Mana Regen; Defenses shows Armor, Defense, Dodge, Parry, Block, Resilience. Real gap before this could be built: `character_stats` (see [Stats](#stats) above) is only ever queried for the columns `STAT_GROUPS` already uses today (`strength`/`agility`/.../`spell_power`/`resilience`/the 6 resistances) — Hit Rating, Expertise, Haste Rating, and Mana Regen aren't pulled at all right now, and it's not yet confirmed (not assumed) whether `character_stats` even has columns for them; weapon Damage/Speed and the flat "Defense" rating look like they're computed client-side from equipped weapon + other stats in the real game, not stored columns, so those specifically may need real formula work, not just a wider `SELECT`. Needs the same "clone the schema, confirm the real column list" pass `character_stats`' original population fix already got, not assumed from the screenshots alone |
-| Reputation: a more detailed section, closer to the real in-game Reputation pane | Unscoped — exact changes to be confirmed | Reference screenshot provided: the real pane groups factions under expansion/faction-family headers (e.g. "Classic", "Alliance") and shows every tracked faction with its own colored standing-tier bar (Hated/Neutral/Friendly/Honored/Revered/Exalted), not just the ones at Exalted. Today's [Exalted Factions](#exalted-factions) module is much narrower by design: `renderExaltedFactions` (`app.js`) renders a plain flat, alphabetical `<ul>` of faction *names only*, for factions at or above the Exalted threshold — no bars, no other tiers, no grouping. That narrowness isn't just a rendering choice: `scripts/export-characters-json.sh`'s `exalted_factions` is already filtered down to only the faction ids that clear `EXALTED_THRESHOLD` before the JSON is written — every other faction's computed standing is discarded server-side and never reaches the client at all, so a real redesign needs the export changed first (keep every faction's computed standing, not just the Exalted ones), before any client-side bar/tier/grouping work. Grouping factions by expansion/family would also need its own primary-source check (likely `FactionGroup.dbc` or similar, not assumed from the screenshot) the same way `faction_baselines.json` and `EXALTED_THRESHOLD` were each verified against AzerothCore's own source rather than guessed. Left deliberately open-ended per the request — no specific bar/tier/grouping design has been agreed yet |
+| Reputation: a more detailed section, closer to the real in-game Reputation pane | Unscoped — exact changes to be confirmed | Reference screenshot provided: the real pane groups factions under expansion/faction-family headers (e.g. "Classic", "Alliance") and shows every tracked faction with its own colored standing-tier bar (Hated/Neutral/Friendly/Honored/Revered/Exalted), not just the ones at Exalted. Today's [Exalted Factions](#exalted-factions) module is much narrower by design: `renderExaltedFactions` (`app.js`) renders a plain flat, alphabetical `<ul>` of faction *names only*, for factions at or above the Exalted threshold — no bars, no other tiers, no grouping. That narrowness isn't just a rendering choice: `scripts/export-characters-json.sh`'s `collections.factions` is already filtered down to only the faction ids that clear `EXALTED_THRESHOLD` before the JSON is written — every other faction's computed standing is discarded server-side and never reaches the client at all, so a real redesign needs the export changed first (keep every faction's computed standing, not just the Exalted ones), before any client-side bar/tier/grouping work. Grouping factions by expansion/family would also need its own primary-source check (likely `FactionGroup.dbc` or similar, not assumed from the screenshot) the same way `faction_baselines.json` and `EXALTED_THRESHOLD` were each verified against AzerothCore's own source rather than guessed. Left deliberately open-ended per the request — no specific bar/tier/grouping design has been agreed yet |
 | Skills: split into Professions / Secondary Skills / Weapon Skills categories | Low–medium | Today's [Skills](#skills) module already pulls Professions (the 11 primary profession `SKILL_*` ids) and what WoW calls Secondary Skills (Cooking 185, Fishing 356, First Aid 129) into one flat, alphabetical list with no grouping — so two of the three requested categories exist in the data already, just not labeled/separated. Weapon Skills is the real gap: `character_skills` also holds every weapon skill, but the export query's `WHERE cs.skill IN (...)` deliberately excludes them (see `scripts/export-characters-json.sh`'s Skills comment — "nobody wants surfaced here", written for the profession-only scope this request now revisits). The 14 real weapon skill ids, confirmed directly from AzerothCore's own `SharedDefines.h` `SKILL_*` enum rather than guessed: Swords 43, Axes 44, Bows 45, Guns 46, Maces 54, Defense 95, Staves 136, Unarmed 162, Daggers 173, Thrown 176, Crossbows 226, Wands 228, Polearms 229, Fist Weapons 473 — names resolve the same live `acore_world.skillline_dbc` join Skills already uses, no new reference file needed. Would need: widening the SQL id filter to include these, three labeled sub-headings (or three small modules) in `renderSkills` instead of one flat list, and a decision on whether to show every weapon skill a character has any points in, or only weapons relevant to their current spec/gear (most characters will have several at 0, since skill-ups require actually swinging that weapon type) |
 | Inventory: show more than just gold | Unscoped | Today's only inventory-adjacent data point is gold (`characters.money`, via `money_copper` → `formatMoneyPlain`) — confirmed by reading `scripts/export-characters-json.sh` end to end: `character_inventory` itself is only ever queried for `bag = 0 AND slot BETWEEN 0 AND 18` (equipped gear, see [Equipped Gear](#equipped-gear)), so bag contents, bank contents, and equipped bag containers (slots 19–22) are never pulled at all right now — this isn't a rendering gap, there's no data to render yet. Candidates worth a real look, none scoped yet: bag space used/free, equipped bag types/sizes, notable stacked consumables (flasks/elixirs/potions), bank contents (a bigger ask — bank requires the character to be logged out at a bank, or a separate `character_inventory` bag range/`guildbank_*` tables depending on scope). Also relevant: the existing [secondary stat sub-value backlog row](#backlog-ideas) above already covers showing gold's own dropped silver/copper remainder, which is a smaller, already-scoped piece of this same "gold tile could show more" idea |
 | Statistics: a section with some of the "most interesting" Statistics-tab counters | Medium–high, curation-heavy | Reference screenshots provided: the real Statistics tab (Summary/Kills/Deaths/Quests/etc. sub-tabs) shows counters like Total deaths, Quests completed, Creatures killed, Total gold acquired, Flight paths taken, Most factions at Exalted, Total Honorable Kills — all from a different data source than Achievements: `character_achievement_progress(guid, criteria, counter, date)` (confirmed via AzerothCore's own `data/sql/base/db_characters/character_achievement_progress.sql`), keyed by a `criteria` id, not by achievement id — these are the same criteria rows that sit behind the Statistics-category achievements `ACHIEVEMENT_ICON_CATEGORIES` already deliberately excludes as "not real completable achievements" (see [Achievement icons](#achievement-icons-verified-categories-not-a-blanket-enable) above), so this would be a new, separate data pull, not a repurposing of anything Achievements already has. The counter's label text is resolvable live: `acore_world.achievement_criteria_dbc` (confirmed to exist, ships pre-populated) has `ID`, `Achievement_Id`, `Type`, and `Description_Lang_enUS` columns per row — same "live join, no bundled file" pattern as Skills/Reputation/[Glyphs](#glyphs) already use. The real work isn't the plumbing, it's the curation the row's own title asks for: there are thousands of criteria rows total, and "most interesting" means hand-picking specific `criteria` ids the same deliberate way `ACHIEVEMENT_ICON_CATEGORIES` was built category-by-category — not a blanket `SELECT *`, which would surface mostly-uninteresting raw counters. Needs a real pass matching each screenshot stat to its actual criteria id in the bundled/live data before any of this is built |

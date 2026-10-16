@@ -183,6 +183,18 @@ function collectionItemIcon(categoryKey, item, itemIcons, spellIcons) {
     const firstSpellId = item.spell_ids?.[0];
     return itemIconImg(spellIcons[firstSpellId], "achv-list__icon");
   }
+  // Factions has no real per-faction icon to resolve (Faction.dbc carries
+  // no icon/texture field, and the real in-game Reputation pane shows none
+  // either) - every entry instead shares the one real icon WotLK's own
+  // achievement system already uses for "a reputation just reached
+  // Exalted" at its most basic tier (achievement_reputation_01, confirmed
+  // against the real Achievement data: it's the exact icon on both
+  // "Somebody Likes Me" and "5 Exalted Reputations", not picked at
+  // random). Same "real, shared, generic" reasoning as Glyphs' ~20 shared
+  // rune icons - not unique per entry, but not invented either.
+  if (categoryKey === "factions") {
+    return itemIconImg("achievement_reputation_01", "achv-list__icon");
+  }
   return "";
 }
 
@@ -233,6 +245,15 @@ function statWithIcon(iconSrc, text, extraIconClass, iconAfter) {
 // achievement-granted titles only (not every title source in the game),
 // since that's the one source this project can resolve names/dates for
 // without a live DB dependency.
+// Factions' id is a Faction.dbc id, resolved against the same
+// assets/data/faction_names.json the standalone, dateless Exalted
+// Factions module (renderExaltedFactions, below) already uses to show
+// the character's *current* standing - this category instead records the
+// *moment* each one first reached Exalted (so it shows up in Sort by:
+// Date), sticky the same way every other category here is. The two
+// renderings are deliberately separate: this one carries an icon (see
+// collectionItemIcon) and a date, the live-standing module stays
+// icon-less and dateless exactly as it always has.
 const COLLECTION_CATEGORIES = [
   { key: "sets", file: "assets/data/collections/sets.json", label: "Sets" },
   { key: "mounts", file: "assets/data/collections/mounts.json", label: "Mounts" },
@@ -241,6 +262,7 @@ const COLLECTION_CATEGORIES = [
   { key: "tabards", file: "assets/data/collections/tabards.json", label: "Tabards" },
   { key: "heirlooms", file: "assets/data/collections/heirlooms.json", label: "Heirlooms", factionLevel: true },
   { key: "titles", file: "assets/data/collections/titles.json", label: "Titles" },
+  { key: "factions", file: "assets/data/collections/factions.json", label: "Exalted Factions" },
 ];
 
 // Achievements-with-icons started as a deliberate, narrow rollout (First
@@ -696,7 +718,7 @@ function buildAchievementsPanel(c, achievementsById, categoriesById, achievement
   const glyphsHtml = renderGlyphs(c.glyphs);
   const pvpHtml = renderPvP(c.honor_points, c.faction);
   const questsHtml = renderQuests(c.quests_completed);
-  const exaltedFactionsHtml = renderExaltedFactions(c.exalted_factions, factionNames);
+  const exaltedFactionsHtml = renderExaltedFactions(c.collections?.factions, factionNames);
   const lastLoggedInHtml = renderLastLoggedIn(c.last_online);
 
   // One flat section per category — no sub-grouping by tier/expansion — in
@@ -1436,22 +1458,24 @@ function renderQuests(questsCompleted) {
 }
 
 // Exalted Factions — the last module, right after Quests. A live snapshot
-// like Equipped/Avg Item Lvl, not a Collection: reputation standing keeps
-// moving, so there's no "earned_at" moment to record and no place in the
-// Sort by Type/Date toggle. `exalted_factions` (a plain array of faction
-// ids) is computed server-side in the export scripts - not just a
-// `standing >= 42000` check, since character_reputation.standing is a
-// delta on top of a race/class-specific baseline (confirmed against
-// AzerothCore's own ReputationMgr::GetReputation()), so getting this
-// right needed real baseline data (scripts/extract-faction-baselines.py)
-// the client doesn't have and doesn't need - only the already-computed
-// id list, resolved to names here the same way Titles resolves an
-// achievement id to a title string: from a bundled reference file
+// like Equipped/Avg Item Lvl, always showing every faction the character
+// currently stands Exalted with, in one plain list with no icon and no
+// date - deliberately not styled like a Collection even though it reads
+// off the same sticky `collections.factions` entries the "factions"
+// Collections category above does (see COLLECTION_CATEGORIES): this
+// module only ever cares about *current* standing, not *when* each one
+// was first reached, so it stays exactly as plain as it looked before
+// that category existed. `factionEntries` is the character's
+// `collections.factions` array (the {id, earned_at} shape every other
+// Collection uses, or the older bare-id shape via normalizeEntry) -
+// earned_at is read by the Collections category elsewhere, never used
+// here. Names are resolved the same way Titles resolves an achievement id
+// to a title string: from a bundled reference file
 // (assets/data/faction_names.json), not a second DB round-trip.
-function renderExaltedFactions(exaltedFactionIds, factionNames) {
-  if (!exaltedFactionIds || exaltedFactionIds.length === 0) return "";
-  const names = exaltedFactionIds
-    .map((id) => factionNames[id])
+function renderExaltedFactions(factionEntries, factionNames) {
+  if (!factionEntries || factionEntries.length === 0) return "";
+  const names = factionEntries
+    .map((entry) => factionNames[normalizeEntry(entry).id])
     .filter(Boolean)
     .sort((a, b) => a.localeCompare(b));
   if (names.length === 0) return "";

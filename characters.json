@@ -12,10 +12,6 @@
       "level": 80,
       "money_copper": 50365574,
       "zone_id": 1637,
-      "exalted_factions": [
-        76,
-        530
-      ],
       "achievement_points": 550,
       "achievement_count": 61,
       "played_time_seconds": 612151,
@@ -326,7 +322,17 @@
         "legendaries": [],
         "tabards": [],
         "heirlooms": [],
-        "titles": []
+        "titles": [],
+        "factions": [
+          {
+            "id": 76,
+            "earned_at": "2026-05-07T13:43:08Z"
+          },
+          {
+            "id": 530,
+            "earned_at": "2026-05-16T15:15:33Z"
+          }
+        ]
       },
       "equipped_gear": [
         {
@@ -477,10 +483,6 @@
       "level": 80,
       "money_copper": 36577750,
       "zone_id": 1519,
-      "exalted_factions": [
-        72,
-        1050
-      ],
       "achievement_points": 640,
       "achievement_count": 67,
       "played_time_seconds": 530407,
@@ -807,7 +809,17 @@
           }
         ],
         "heirlooms": [],
-        "titles": []
+        "titles": [],
+        "factions": [
+          {
+            "id": 72,
+            "earned_at": "2026-07-31T17:07:02Z"
+          },
+          {
+            "id": 1050,
+            "earned_at": "2026-10-15T15:16:45Z"
+          }
+        ]
       },
       "equipped_gear": [
         {
