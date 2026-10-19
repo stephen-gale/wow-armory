@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-19T14:49:03Z",
+  "generated_at": "2026-10-19T16:59:30Z",
   "characters": [
     {
       "guid": 1006,
@@ -1013,6 +1013,89 @@
             "icon": "ui-glyph-rune-9"
           }
         ]
+      }
+    },
+    {
+      "guid": 1008,
+      "name": "Broll",
+      "race_id": 4,
+      "race_name": "Night Elf",
+      "class_id": 11,
+      "class_name": "Druid",
+      "faction": "Alliance",
+      "level": 1,
+      "money_copper": 0,
+      "zone_id": 141,
+      "achievement_points": 0,
+      "achievement_count": 0,
+      "played_time_seconds": 483,
+      "honor_points": 0,
+      "last_online": "2026-10-19T16:59:11Z",
+      "quests_completed": 0,
+      "stats": {
+        "max_health": 64,
+        "strength": 17,
+        "agility": 24,
+        "stamina": 20,
+        "intellect": 22,
+        "spirit": 22,
+        "armor": 53,
+        "res_holy": 0,
+        "res_fire": 0,
+        "res_nature": 0,
+        "res_frost": 0,
+        "res_shadow": 0,
+        "res_arcane": 0,
+        "block_pct": 0.0,
+        "dodge_pct": 10.7572,
+        "parry_pct": 0.0,
+        "crit_pct": 10.3443,
+        "ranged_crit_pct": 10.3043,
+        "spell_crit_pct": 0.0,
+        "attack_power": 14,
+        "ranged_attack_power": 14,
+        "spell_power": 0,
+        "resilience": 0
+      },
+      "achievements": [],
+      "collections": {
+        "sets": [],
+        "mounts": [],
+        "companions": [],
+        "legendaries": [],
+        "tabards": [],
+        "heirlooms": [],
+        "titles": [],
+        "factions": []
+      },
+      "equipped_gear": [
+        {
+          "slot": 4,
+          "id": 6123,
+          "name": "Novice's Robe",
+          "quality": 0,
+          "item_level": 1
+        },
+        {
+          "slot": 6,
+          "id": 6124,
+          "name": "Novice's Pants",
+          "quality": 0,
+          "item_level": 1
+        },
+        {
+          "slot": 15,
+          "id": 3661,
+          "name": "Handcrafted Staff",
+          "quality": 1,
+          "item_level": 2
+        }
+      ],
+      "talents": {},
+      "skills": [],
+      "glyphs": {
+        "major": [],
+        "minor": []
       }
     }
   ],
