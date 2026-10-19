@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-19T09:06:50Z",
+  "generated_at": "2026-10-19T11:00:17Z",
   "characters": [
     {
       "guid": 1006,
@@ -481,13 +481,13 @@
       "class_name": "Paladin",
       "faction": "Alliance",
       "level": 80,
-      "money_copper": 19403084,
+      "money_copper": 19705989,
       "zone_id": 1519,
       "achievement_points": 700,
       "achievement_count": 73,
-      "played_time_seconds": 552515,
+      "played_time_seconds": 553945,
       "honor_points": 0,
-      "last_online": "2026-10-19T09:06:28Z",
+      "last_online": "2026-10-19T10:59:46Z",
       "quests_completed": 1507,
       "stats": {
         "max_health": 12474,
@@ -742,6 +742,10 @@
         {
           "id": 973,
           "earned_at": "2026-09-14T11:55:32Z"
+        },
+        {
+          "id": 979,
+          "earned_at": "2026-10-19T10:57:24Z"
         },
         {
           "id": 1017,
