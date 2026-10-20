@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-19T23:53:00Z",
+  "generated_at": "2026-10-20T08:54:03Z",
   "characters": [
     {
       "guid": 1006,
@@ -1024,14 +1024,14 @@
       "class_name": "Druid",
       "faction": "Alliance",
       "level": 3,
-      "money_copper": 145,
+      "money_copper": 136,
       "zone_id": 141,
       "achievement_points": 0,
       "achievement_count": 0,
-      "played_time_seconds": 3880,
+      "played_time_seconds": 4434,
       "honor_points": 0,
-      "last_online": "2026-10-19T23:52:39Z",
-      "quests_completed": 3,
+      "last_online": "2026-10-20T08:53:20Z",
+      "quests_completed": 4,
       "stats": {
         "max_health": 88,
         "strength": 18,
@@ -1039,7 +1039,7 @@
         "stamina": 21,
         "intellect": 24,
         "spirit": 24,
-        "armor": 115,
+        "armor": 140,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
