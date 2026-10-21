@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-21T17:15:47Z",
+  "generated_at": "2026-10-21T23:50:28Z",
   "characters": [
     {
       "guid": 1006,
@@ -485,9 +485,9 @@
       "zone_id": 1519,
       "achievement_points": 710,
       "achievement_count": 74,
-      "played_time_seconds": 560463,
+      "played_time_seconds": 560812,
       "honor_points": 0,
-      "last_online": "2026-10-21T09:49:24Z",
+      "last_online": "2026-10-21T23:28:22Z",
       "quests_completed": 1508,
       "stats": {
         "max_health": 12474,
@@ -1023,22 +1023,22 @@
       "class_id": 11,
       "class_name": "Druid",
       "faction": "Alliance",
-      "level": 5,
-      "money_copper": 241,
+      "level": 6,
+      "money_copper": 990835,
       "zone_id": 141,
-      "achievement_points": 10,
-      "achievement_count": 1,
-      "played_time_seconds": 9844,
+      "achievement_points": 30,
+      "achievement_count": 3,
+      "played_time_seconds": 14495,
       "honor_points": 0,
-      "last_online": "2026-10-21T17:15:09Z",
-      "quests_completed": 16,
+      "last_online": "2026-10-21T23:50:02Z",
+      "quests_completed": 21,
       "stats": {
-        "max_health": 122,
-        "strength": 19,
+        "max_health": 139,
+        "strength": 20,
         "agility": 26,
-        "stamina": 22,
-        "intellect": 26,
-        "spirit": 26,
+        "stamina": 23,
+        "intellect": 27,
+        "spirit": 27,
         "armor": 191,
         "res_holy": 0,
         "res_fire": 0,
@@ -1047,17 +1047,25 @@
         "res_shadow": 0,
         "res_arcane": 0,
         "block_pct": 0.0,
-        "dodge_pct": 10.8007,
+        "dodge_pct": 10.7607,
         "parry_pct": 0.0,
-        "crit_pct": 9.7003,
-        "ranged_crit_pct": 9.4603,
+        "crit_pct": 9.6203,
+        "ranged_crit_pct": 9.2603,
         "spell_crit_pct": 0.0,
-        "attack_power": 18,
+        "attack_power": 20,
         "ranged_attack_power": 16,
         "spell_power": 0,
         "resilience": 0
       },
       "achievements": [
+        {
+          "id": 288,
+          "earned_at": "2026-10-21T22:48:01Z"
+        },
+        {
+          "id": 621,
+          "earned_at": "2026-10-21T23:34:45Z"
+        },
         {
           "id": 972,
           "earned_at": "2026-10-21T12:44:42Z"
@@ -1068,7 +1076,12 @@
         "mounts": [],
         "companions": [],
         "legendaries": [],
-        "tabards": [],
+        "tabards": [
+          {
+            "id": "item_5976",
+            "earned_at": "2026-10-21T23:50:28Z"
+          }
+        ],
         "heirlooms": [],
         "titles": [],
         "factions": []
@@ -1115,6 +1128,13 @@
           "name": "Thistlewood Staff",
           "quality": 1,
           "item_level": 5
+        },
+        {
+          "slot": 18,
+          "id": 5976,
+          "name": "Guild Tabard",
+          "quality": 1,
+          "item_level": 1
         }
       ],
       "talents": {},
@@ -1126,6 +1146,6 @@
     }
   ],
   "guild_bank_money": {
-    "Alliance": 20000000
+    "Alliance": 19000000
   }
 }
