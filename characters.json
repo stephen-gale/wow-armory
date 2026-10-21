@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-21T12:50:42Z",
+  "generated_at": "2026-10-21T17:15:47Z",
   "characters": [
     {
       "guid": 1006,
@@ -1028,9 +1028,9 @@
       "zone_id": 141,
       "achievement_points": 10,
       "achievement_count": 1,
-      "played_time_seconds": 9467,
+      "played_time_seconds": 9844,
       "honor_points": 0,
-      "last_online": "2026-10-21T12:49:36Z",
+      "last_online": "2026-10-21T17:15:09Z",
       "quests_completed": 16,
       "stats": {
         "max_health": 122,
@@ -1047,9 +1047,9 @@
         "res_shadow": 0,
         "res_arcane": 0,
         "block_pct": 0.0,
-        "dodge_pct": 10.7207,
+        "dodge_pct": 10.8007,
         "parry_pct": 0.0,
-        "crit_pct": 9.6603,
+        "crit_pct": 9.7003,
         "ranged_crit_pct": 9.4603,
         "spell_crit_pct": 0.0,
         "attack_power": 18,
