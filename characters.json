@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-21T09:49:39Z",
+  "generated_at": "2026-10-21T12:50:42Z",
   "characters": [
     {
       "guid": 1006,
@@ -1024,14 +1024,14 @@
       "class_name": "Druid",
       "faction": "Alliance",
       "level": 5,
-      "money_copper": 196,
+      "money_copper": 241,
       "zone_id": 141,
-      "achievement_points": 0,
-      "achievement_count": 0,
-      "played_time_seconds": 8567,
+      "achievement_points": 10,
+      "achievement_count": 1,
+      "played_time_seconds": 9467,
       "honor_points": 0,
-      "last_online": "2026-10-21T00:17:35Z",
-      "quests_completed": 12,
+      "last_online": "2026-10-21T12:49:36Z",
+      "quests_completed": 16,
       "stats": {
         "max_health": 122,
         "strength": 19,
@@ -1047,9 +1047,9 @@
         "res_shadow": 0,
         "res_arcane": 0,
         "block_pct": 0.0,
-        "dodge_pct": 10.3607,
+        "dodge_pct": 10.7207,
         "parry_pct": 0.0,
-        "crit_pct": 9.6203,
+        "crit_pct": 9.6603,
         "ranged_crit_pct": 9.4603,
         "spell_crit_pct": 0.0,
         "attack_power": 18,
@@ -1057,7 +1057,12 @@
         "spell_power": 0,
         "resilience": 0
       },
-      "achievements": [],
+      "achievements": [
+        {
+          "id": 972,
+          "earned_at": "2026-10-21T12:44:42Z"
+        }
+      ],
       "collections": {
         "sets": [],
         "mounts": [],
