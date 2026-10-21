@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-20T10:17:55Z",
+  "generated_at": "2026-10-21T00:17:55Z",
   "characters": [
     {
       "guid": 1006,
@@ -14,9 +14,9 @@
       "zone_id": 1637,
       "achievement_points": 550,
       "achievement_count": 61,
-      "played_time_seconds": 612151,
+      "played_time_seconds": 612281,
       "honor_points": 172,
-      "last_online": "2026-10-04T22:58:55Z",
+      "last_online": "2026-10-20T23:20:24Z",
       "quests_completed": 1425,
       "stats": {
         "max_health": 13569,
@@ -485,9 +485,9 @@
       "zone_id": 1519,
       "achievement_points": 710,
       "achievement_count": 74,
-      "played_time_seconds": 558654,
+      "played_time_seconds": 559185,
       "honor_points": 0,
-      "last_online": "2026-10-20T09:46:08Z",
+      "last_online": "2026-10-21T00:04:07Z",
       "quests_completed": 1508,
       "stats": {
         "max_health": 12474,
@@ -1023,23 +1023,23 @@
       "class_id": 11,
       "class_name": "Druid",
       "faction": "Alliance",
-      "level": 4,
-      "money_copper": 285,
+      "level": 5,
+      "money_copper": 196,
       "zone_id": 141,
       "achievement_points": 0,
       "achievement_count": 0,
-      "played_time_seconds": 5950,
+      "played_time_seconds": 8567,
       "honor_points": 0,
-      "last_online": "2026-10-20T10:17:39Z",
-      "quests_completed": 7,
+      "last_online": "2026-10-21T00:17:35Z",
+      "quests_completed": 12,
       "stats": {
-        "max_health": 115,
+        "max_health": 122,
         "strength": 19,
-        "agility": 25,
+        "agility": 26,
         "stamina": 22,
-        "intellect": 25,
-        "spirit": 25,
-        "armor": 187,
+        "intellect": 26,
+        "spirit": 26,
+        "armor": 191,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
@@ -1047,13 +1047,13 @@
         "res_shadow": 0,
         "res_arcane": 0,
         "block_pct": 0.0,
-        "dodge_pct": 10.4358,
+        "dodge_pct": 10.3607,
         "parry_pct": 0.0,
-        "crit_pct": 9.7605,
-        "ranged_crit_pct": 9.6805,
+        "crit_pct": 9.6203,
+        "ranged_crit_pct": 9.4603,
         "spell_crit_pct": 0.0,
         "attack_power": 18,
-        "ranged_attack_power": 15,
+        "ranged_attack_power": 16,
         "spell_power": 0,
         "resilience": 0
       },
@@ -1071,9 +1071,9 @@
       "equipped_gear": [
         {
           "slot": 4,
-          "id": 1364,
-          "name": "Ragged Leather Vest",
-          "quality": 0,
+          "id": 4907,
+          "name": "Woodland Tunic",
+          "quality": 1,
           "item_level": 5
         },
         {
@@ -1106,10 +1106,10 @@
         },
         {
           "slot": 15,
-          "id": 3661,
-          "name": "Handcrafted Staff",
+          "id": 5393,
+          "name": "Thistlewood Staff",
           "quality": 1,
-          "item_level": 2
+          "item_level": 5
         }
       ],
       "talents": {},
