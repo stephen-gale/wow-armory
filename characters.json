@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-21T23:50:28Z",
+  "generated_at": "2026-10-22T11:02:14Z",
   "characters": [
     {
       "guid": 1006,
@@ -1023,23 +1023,23 @@
       "class_id": 11,
       "class_name": "Druid",
       "faction": "Alliance",
-      "level": 6,
-      "money_copper": 990835,
+      "level": 7,
+      "money_copper": 991943,
       "zone_id": 141,
       "achievement_points": 30,
       "achievement_count": 3,
-      "played_time_seconds": 14495,
+      "played_time_seconds": 15914,
       "honor_points": 0,
-      "last_online": "2026-10-21T23:50:02Z",
-      "quests_completed": 21,
+      "last_online": "2026-10-22T11:01:49Z",
+      "quests_completed": 24,
       "stats": {
-        "max_health": 139,
+        "max_health": 166,
         "strength": 20,
-        "agility": 26,
-        "stamina": 23,
-        "intellect": 27,
-        "spirit": 27,
-        "armor": 191,
+        "agility": 27,
+        "stamina": 24,
+        "intellect": 28,
+        "spirit": 28,
+        "armor": 248,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
@@ -1047,13 +1047,13 @@
         "res_shadow": 0,
         "res_arcane": 0,
         "block_pct": 0.0,
-        "dodge_pct": 10.7607,
+        "dodge_pct": 10.6855,
         "parry_pct": 0.0,
-        "crit_pct": 9.6203,
-        "ranged_crit_pct": 9.2603,
+        "crit_pct": 9.6401,
+        "ranged_crit_pct": 9.0401,
         "spell_crit_pct": 0.0,
         "attack_power": 20,
-        "ranged_attack_power": 16,
+        "ranged_attack_power": 17,
         "spell_power": 0,
         "resilience": 0
       },
@@ -1089,10 +1089,10 @@
       "equipped_gear": [
         {
           "slot": 4,
-          "id": 4907,
-          "name": "Woodland Tunic",
+          "id": 5957,
+          "name": "Handstitched Leather Vest",
           "quality": 1,
-          "item_level": 5
+          "item_level": 8
         },
         {
           "slot": 5,
@@ -1103,10 +1103,17 @@
         },
         {
           "slot": 6,
-          "id": 5398,
-          "name": "Canopy Leggings",
+          "id": 18611,
+          "name": "Gnarlpine Leggings",
           "quality": 1,
-          "item_level": 5
+          "item_level": 7
+        },
+        {
+          "slot": 7,
+          "id": 2302,
+          "name": "Handstitched Leather Boots",
+          "quality": 1,
+          "item_level": 8
         },
         {
           "slot": 8,
@@ -1123,18 +1130,18 @@
           "item_level": 5
         },
         {
+          "slot": 14,
+          "id": 1376,
+          "name": "Frayed Cloak",
+          "quality": 0,
+          "item_level": 5
+        },
+        {
           "slot": 15,
           "id": 5393,
           "name": "Thistlewood Staff",
           "quality": 1,
           "item_level": 5
-        },
-        {
-          "slot": 18,
-          "id": 5976,
-          "name": "Guild Tabard",
-          "quality": 1,
-          "item_level": 1
         }
       ],
       "talents": {},
