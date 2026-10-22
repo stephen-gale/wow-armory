@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-22T11:02:14Z",
+  "generated_at": "2026-10-22T23:25:06Z",
   "characters": [
     {
       "guid": 1006,
@@ -485,9 +485,9 @@
       "zone_id": 1519,
       "achievement_points": 710,
       "achievement_count": 74,
-      "played_time_seconds": 560812,
+      "played_time_seconds": 560903,
       "honor_points": 0,
-      "last_online": "2026-10-21T23:28:22Z",
+      "last_online": "2026-10-22T22:42:49Z",
       "quests_completed": 1508,
       "stats": {
         "max_health": 12474,
@@ -1023,23 +1023,23 @@
       "class_id": 11,
       "class_name": "Druid",
       "faction": "Alliance",
-      "level": 7,
-      "money_copper": 991943,
+      "level": 8,
+      "money_copper": 991890,
       "zone_id": 141,
       "achievement_points": 30,
       "achievement_count": 3,
-      "played_time_seconds": 15914,
+      "played_time_seconds": 18350,
       "honor_points": 0,
-      "last_online": "2026-10-22T11:01:49Z",
-      "quests_completed": 24,
+      "last_online": "2026-10-22T23:24:47Z",
+      "quests_completed": 25,
       "stats": {
-        "max_health": 166,
-        "strength": 20,
+        "max_health": 173,
+        "strength": 21,
         "agility": 27,
         "stamina": 24,
         "intellect": 28,
-        "spirit": 28,
-        "armor": 248,
+        "spirit": 29,
+        "armor": 292,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
@@ -1047,12 +1047,12 @@
         "res_shadow": 0,
         "res_arcane": 0,
         "block_pct": 0.0,
-        "dodge_pct": 10.6855,
+        "dodge_pct": 10.8455,
         "parry_pct": 0.0,
-        "crit_pct": 9.6401,
-        "ranged_crit_pct": 9.0401,
+        "crit_pct": 9.5601,
+        "ranged_crit_pct": 8.8401,
         "spell_crit_pct": 0.0,
-        "attack_power": 20,
+        "attack_power": 22,
         "ranged_attack_power": 17,
         "spell_power": 0,
         "resilience": 0
@@ -1117,10 +1117,10 @@
         },
         {
           "slot": 8,
-          "id": 1370,
-          "name": "Ragged Leather Bracers",
-          "quality": 0,
-          "item_level": 4
+          "id": 7277,
+          "name": "Handstitched Leather Bracers",
+          "quality": 1,
+          "item_level": 9
         },
         {
           "slot": 9,
@@ -1131,10 +1131,10 @@
         },
         {
           "slot": 14,
-          "id": 1376,
-          "name": "Frayed Cloak",
-          "quality": 0,
-          "item_level": 5
+          "id": 7276,
+          "name": "Handstitched Leather Cloak",
+          "quality": 1,
+          "item_level": 9
         },
         {
           "slot": 15,
