@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-23T23:11:31Z",
+  "generated_at": "2026-10-24T23:19:11Z",
   "characters": [
     {
       "guid": 1006,
@@ -485,9 +485,9 @@
       "zone_id": 1519,
       "achievement_points": 710,
       "achievement_count": 74,
-      "played_time_seconds": 560927,
+      "played_time_seconds": 560958,
       "honor_points": 0,
-      "last_online": "2026-10-23T22:47:20Z",
+      "last_online": "2026-10-24T22:50:09Z",
       "quests_completed": 1508,
       "stats": {
         "max_health": 12474,
@@ -1023,23 +1023,23 @@
       "class_id": 11,
       "class_name": "Druid",
       "faction": "Alliance",
-      "level": 9,
-      "money_copper": 993535,
+      "level": 10,
+      "money_copper": 993437,
       "zone_id": 141,
-      "achievement_points": 30,
-      "achievement_count": 3,
-      "played_time_seconds": 19770,
+      "achievement_points": 40,
+      "achievement_count": 4,
+      "played_time_seconds": 21471,
       "honor_points": 0,
-      "last_online": "2026-10-23T23:11:10Z",
-      "quests_completed": 30,
+      "last_online": "2026-10-24T23:18:50Z",
+      "quests_completed": 32,
       "stats": {
-        "max_health": 190,
-        "strength": 21,
-        "agility": 28,
-        "stamina": 25,
-        "intellect": 29,
-        "spirit": 30,
-        "armor": 294,
+        "max_health": 227,
+        "strength": 24,
+        "agility": 30,
+        "stamina": 27,
+        "intellect": 32,
+        "spirit": 36,
+        "armor": 338,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
@@ -1047,17 +1047,21 @@
         "res_shadow": 0,
         "res_arcane": 0,
         "block_pct": 0.0,
-        "dodge_pct": 10.4925,
+        "dodge_pct": 10.3958,
         "parry_pct": 0.0,
-        "crit_pct": 9.4211,
-        "ranged_crit_pct": 8.6211,
+        "crit_pct": 9.5085,
+        "ranged_crit_pct": 8.3885,
         "spell_crit_pct": 0.0,
-        "attack_power": 22,
-        "ranged_attack_power": 18,
+        "attack_power": 28,
+        "ranged_attack_power": 20,
         "spell_power": 0,
         "resilience": 0
       },
       "achievements": [
+        {
+          "id": 6,
+          "earned_at": "2026-10-24T23:13:01Z"
+        },
         {
           "id": 288,
           "earned_at": "2026-10-21T22:48:01Z"
@@ -1142,6 +1146,13 @@
           "name": "Thistlewood Staff",
           "quality": 1,
           "item_level": 5
+        },
+        {
+          "slot": 18,
+          "id": 5976,
+          "name": "Guild Tabard",
+          "quality": 1,
+          "item_level": 1
         }
       ],
       "talents": {},
