@@ -531,7 +531,7 @@ function renderFactions(characters, guildBankMoney) {
 }
 
 function renderFactionPanel(faction, characters, guildBankMoneyCopper) {
-  const sorted = [...characters].sort((a, b) => b.level - a.level || a.name.localeCompare(b.name));
+  const sorted = [...characters].sort((a, b) => b.level - a.level || a.class_name.localeCompare(b.class_name));
   const totalPlayed = characters.reduce((sum, c) => sum + (c.played_time_seconds || 0), 0);
   const totalMoney = characters.reduce((sum, c) => sum + (c.money_copper || 0), 0) + (guildBankMoneyCopper || 0);
   const totalAP = characters.reduce((sum, c) => sum + (c.achievement_points || 0), 0);
