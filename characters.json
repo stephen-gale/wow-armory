@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-25T21:37:14Z",
+  "generated_at": "2026-10-26T23:36:13Z",
   "characters": [
     {
       "guid": 1006,
@@ -485,9 +485,9 @@
       "zone_id": 1519,
       "achievement_points": 710,
       "achievement_count": 74,
-      "played_time_seconds": 560975,
+      "played_time_seconds": 561016,
       "honor_points": 0,
-      "last_online": "2026-10-25T21:20:03Z",
+      "last_online": "2026-10-26T23:05:00Z",
       "quests_completed": 1508,
       "stats": {
         "max_health": 12474,
@@ -1024,13 +1024,13 @@
       "class_name": "Druid",
       "faction": "Alliance",
       "level": 10,
-      "money_copper": 994156,
-      "zone_id": 141,
+      "money_copper": 634156,
+      "zone_id": 1657,
       "achievement_points": 40,
       "achievement_count": 4,
-      "played_time_seconds": 22372,
+      "played_time_seconds": 22657,
       "honor_points": 0,
-      "last_online": "2026-10-25T21:36:50Z",
+      "last_online": "2026-10-26T23:22:35Z",
       "quests_completed": 33,
       "stats": {
         "max_health": 237,
@@ -1153,6 +1153,117 @@
           "name": "Guild Tabard",
           "quality": 1,
           "item_level": 1
+        }
+      ],
+      "talents": {},
+      "skills": [],
+      "glyphs": {
+        "major": [],
+        "minor": []
+      }
+    },
+    {
+      "guid": 1009,
+      "name": "Millhouse",
+      "race_id": 7,
+      "race_name": "Gnome",
+      "class_id": 8,
+      "class_name": "Mage",
+      "faction": "Alliance",
+      "level": 4,
+      "money_copper": 12,
+      "zone_id": 1,
+      "achievement_points": 0,
+      "achievement_count": 0,
+      "played_time_seconds": 1327,
+      "honor_points": 0,
+      "last_online": "2026-10-26T23:35:49Z",
+      "quests_completed": 7,
+      "stats": {
+        "max_health": 97,
+        "strength": 15,
+        "agility": 23,
+        "stamina": 21,
+        "intellect": 33,
+        "spirit": 25,
+        "armor": 106,
+        "res_holy": 0,
+        "res_fire": 0,
+        "res_nature": 0,
+        "res_frost": 0,
+        "res_shadow": 0,
+        "res_arcane": 0,
+        "block_pct": 0.0,
+        "dodge_pct": 4.8107,
+        "parry_pct": 0.0,
+        "crit_pct": 4.6268,
+        "ranged_crit_pct": 4.3468,
+        "spell_crit_pct": 0.0,
+        "attack_power": 5,
+        "ranged_attack_power": 13,
+        "spell_power": 0,
+        "resilience": 0
+      },
+      "achievements": [],
+      "collections": {
+        "sets": [],
+        "mounts": [],
+        "companions": [],
+        "legendaries": [],
+        "tabards": [],
+        "heirlooms": [],
+        "titles": [],
+        "factions": []
+      },
+      "equipped_gear": [
+        {
+          "slot": 3,
+          "id": 6096,
+          "name": "Apprentice's Shirt",
+          "quality": 1,
+          "item_level": 1
+        },
+        {
+          "slot": 4,
+          "id": 56,
+          "name": "Apprentice's Robe",
+          "quality": 0,
+          "item_level": 1
+        },
+        {
+          "slot": 6,
+          "id": 79,
+          "name": "Dwarven Cloth Britches",
+          "quality": 1,
+          "item_level": 5
+        },
+        {
+          "slot": 7,
+          "id": 6173,
+          "name": "Snow Boots",
+          "quality": 1,
+          "item_level": 5
+        },
+        {
+          "slot": 9,
+          "id": 719,
+          "name": "Rabbit Handler Gloves",
+          "quality": 1,
+          "item_level": 5
+        },
+        {
+          "slot": 14,
+          "id": 1376,
+          "name": "Frayed Cloak",
+          "quality": 0,
+          "item_level": 5
+        },
+        {
+          "slot": 15,
+          "id": 35,
+          "name": "Bent Staff",
+          "quality": 1,
+          "item_level": 2
         }
       ],
       "talents": {},
