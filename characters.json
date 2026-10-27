@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-27T07:02:39Z",
+  "generated_at": "2026-10-27T23:12:26Z",
   "characters": [
     {
       "guid": 1006,
@@ -485,9 +485,9 @@
       "zone_id": 1519,
       "achievement_points": 710,
       "achievement_count": 74,
-      "played_time_seconds": 561103,
+      "played_time_seconds": 561126,
       "honor_points": 0,
-      "last_online": "2026-10-27T07:00:19Z",
+      "last_online": "2026-10-27T22:40:04Z",
       "quests_completed": 1508,
       "stats": {
         "max_health": 12474,
@@ -1170,23 +1170,23 @@
       "class_id": 8,
       "class_name": "Mage",
       "faction": "Alliance",
-      "level": 4,
-      "money_copper": 67,
+      "level": 6,
+      "money_copper": 279,
       "zone_id": 1,
-      "achievement_points": 0,
-      "achievement_count": 0,
-      "played_time_seconds": 1444,
+      "achievement_points": 10,
+      "achievement_count": 1,
+      "played_time_seconds": 3360,
       "honor_points": 0,
-      "last_online": "2026-10-27T07:02:26Z",
-      "quests_completed": 8,
+      "last_online": "2026-10-27T23:12:08Z",
+      "quests_completed": 17,
       "stats": {
-        "max_health": 97,
-        "strength": 15,
+        "max_health": 127,
+        "strength": 16,
         "agility": 23,
         "stamina": 21,
-        "intellect": 33,
-        "spirit": 25,
-        "armor": 106,
+        "intellect": 35,
+        "spirit": 28,
+        "armor": 113,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
@@ -1194,17 +1194,22 @@
         "res_shadow": 0,
         "res_arcane": 0,
         "block_pct": 0.0,
-        "dodge_pct": 4.8107,
+        "dodge_pct": 5.1307,
         "parry_pct": 0.0,
-        "crit_pct": 4.6268,
-        "ranged_crit_pct": 4.3468,
+        "crit_pct": 4.5468,
+        "ranged_crit_pct": 3.9468,
         "spell_crit_pct": 0.0,
-        "attack_power": 5,
+        "attack_power": 6,
         "ranged_attack_power": 13,
         "spell_power": 0,
         "resilience": 0
       },
-      "achievements": [],
+      "achievements": [
+        {
+          "id": 972,
+          "earned_at": "2026-10-27T23:01:05Z"
+        }
+      ],
       "collections": {
         "sets": [],
         "mounts": [],
@@ -1231,6 +1236,13 @@
           "item_level": 1
         },
         {
+          "slot": 5,
+          "id": 3363,
+          "name": "Frayed Belt",
+          "quality": 0,
+          "item_level": 3
+        },
+        {
           "slot": 6,
           "id": 79,
           "name": "Dwarven Cloth Britches",
@@ -1245,6 +1257,13 @@
           "item_level": 5
         },
         {
+          "slot": 8,
+          "id": 3365,
+          "name": "Frayed Bracers",
+          "quality": 0,
+          "item_level": 5
+        },
+        {
           "slot": 9,
           "id": 719,
           "name": "Rabbit Handler Gloves",
@@ -1253,17 +1272,17 @@
         },
         {
           "slot": 14,
-          "id": 1376,
-          "name": "Frayed Cloak",
+          "id": 2652,
+          "name": "Flimsy Chain Cloak",
           "quality": 0,
           "item_level": 5
         },
         {
           "slot": 15,
-          "id": 35,
-          "name": "Bent Staff",
+          "id": 5581,
+          "name": "Smooth Walking Staff",
           "quality": 1,
-          "item_level": 2
+          "item_level": 5
         }
       ],
       "talents": {},
