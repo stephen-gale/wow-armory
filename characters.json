@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-26T23:36:13Z",
+  "generated_at": "2026-10-27T07:02:39Z",
   "characters": [
     {
       "guid": 1006,
@@ -485,9 +485,9 @@
       "zone_id": 1519,
       "achievement_points": 710,
       "achievement_count": 74,
-      "played_time_seconds": 561016,
+      "played_time_seconds": 561103,
       "honor_points": 0,
-      "last_online": "2026-10-26T23:05:00Z",
+      "last_online": "2026-10-27T07:00:19Z",
       "quests_completed": 1508,
       "stats": {
         "max_health": 12474,
@@ -1171,14 +1171,14 @@
       "class_name": "Mage",
       "faction": "Alliance",
       "level": 4,
-      "money_copper": 12,
+      "money_copper": 67,
       "zone_id": 1,
       "achievement_points": 0,
       "achievement_count": 0,
-      "played_time_seconds": 1327,
+      "played_time_seconds": 1444,
       "honor_points": 0,
-      "last_online": "2026-10-26T23:35:49Z",
-      "quests_completed": 7,
+      "last_online": "2026-10-27T07:02:26Z",
+      "quests_completed": 8,
       "stats": {
         "max_health": 97,
         "strength": 15,
