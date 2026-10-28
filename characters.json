@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-27T23:12:26Z",
+  "generated_at": "2026-10-28T23:12:22Z",
   "characters": [
     {
       "guid": 1006,
@@ -485,9 +485,9 @@
       "zone_id": 1519,
       "achievement_points": 710,
       "achievement_count": 74,
-      "played_time_seconds": 561126,
+      "played_time_seconds": 561146,
       "honor_points": 0,
-      "last_online": "2026-10-27T22:40:04Z",
+      "last_online": "2026-10-28T22:43:12Z",
       "quests_completed": 1508,
       "stats": {
         "max_health": 12474,
@@ -1170,22 +1170,22 @@
       "class_id": 8,
       "class_name": "Mage",
       "faction": "Alliance",
-      "level": 6,
-      "money_copper": 279,
+      "level": 7,
+      "money_copper": 991309,
       "zone_id": 1,
-      "achievement_points": 10,
-      "achievement_count": 1,
-      "played_time_seconds": 3360,
+      "achievement_points": 40,
+      "achievement_count": 4,
+      "played_time_seconds": 5079,
       "honor_points": 0,
-      "last_online": "2026-10-27T23:12:08Z",
-      "quests_completed": 17,
+      "last_online": "2026-10-28T23:12:07Z",
+      "quests_completed": 20,
       "stats": {
-        "max_health": 127,
+        "max_health": 142,
         "strength": 16,
         "agility": 23,
-        "stamina": 21,
-        "intellect": 35,
-        "spirit": 28,
+        "stamina": 22,
+        "intellect": 36,
+        "spirit": 29,
         "armor": 113,
         "res_holy": 0,
         "res_fire": 0,
@@ -1194,10 +1194,10 @@
         "res_shadow": 0,
         "res_arcane": 0,
         "block_pct": 0.0,
-        "dodge_pct": 5.1307,
+        "dodge_pct": 5.1707,
         "parry_pct": 0.0,
-        "crit_pct": 4.5468,
-        "ranged_crit_pct": 3.9468,
+        "crit_pct": 4.5068,
+        "ranged_crit_pct": 3.7468,
         "spell_crit_pct": 0.0,
         "attack_power": 6,
         "ranged_attack_power": 13,
@@ -1206,8 +1206,20 @@
       },
       "achievements": [
         {
+          "id": 288,
+          "earned_at": "2026-10-28T23:07:57Z"
+        },
+        {
+          "id": 621,
+          "earned_at": "2026-10-28T22:56:26Z"
+        },
+        {
           "id": 972,
           "earned_at": "2026-10-27T23:01:05Z"
+        },
+        {
+          "id": 979,
+          "earned_at": "2026-10-28T23:01:16Z"
         }
       ],
       "collections": {
@@ -1215,7 +1227,12 @@
         "mounts": [],
         "companions": [],
         "legendaries": [],
-        "tabards": [],
+        "tabards": [
+          {
+            "id": "item_5976",
+            "earned_at": "2026-10-28T23:12:22Z"
+          }
+        ],
         "heirlooms": [],
         "titles": [],
         "factions": []
@@ -1283,6 +1300,13 @@
           "name": "Smooth Walking Staff",
           "quality": 1,
           "item_level": 5
+        },
+        {
+          "slot": 18,
+          "id": 5976,
+          "name": "Guild Tabard",
+          "quality": 1,
+          "item_level": 1
         }
       ],
       "talents": {},
@@ -1294,6 +1318,6 @@
     }
   ],
   "guild_bank_money": {
-    "Alliance": 19000000
+    "Alliance": 18000000
   }
 }
