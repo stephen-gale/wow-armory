@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-29T23:19:29Z",
+  "generated_at": "2026-10-31T00:11:29Z",
   "characters": [
     {
       "guid": 1006,
@@ -481,13 +481,13 @@
       "class_name": "Paladin",
       "faction": "Alliance",
       "level": 80,
-      "money_copper": 19209397,
-      "zone_id": 1519,
+      "money_copper": 19069397,
+      "zone_id": 495,
       "achievement_points": 710,
       "achievement_count": 74,
-      "played_time_seconds": 561173,
+      "played_time_seconds": 561291,
       "honor_points": 0,
-      "last_online": "2026-10-29T22:45:29Z",
+      "last_online": "2026-10-30T23:05:32Z",
       "quests_completed": 1508,
       "stats": {
         "max_health": 12474,
@@ -1170,23 +1170,23 @@
       "class_id": 8,
       "class_name": "Mage",
       "faction": "Alliance",
-      "level": 8,
-      "money_copper": 991793,
+      "level": 10,
+      "money_copper": 992169,
       "zone_id": 1,
-      "achievement_points": 40,
-      "achievement_count": 4,
-      "played_time_seconds": 7076,
+      "achievement_points": 50,
+      "achievement_count": 5,
+      "played_time_seconds": 11003,
       "honor_points": 0,
-      "last_online": "2026-10-29T23:18:55Z",
-      "quests_completed": 23,
+      "last_online": "2026-10-31T00:11:09Z",
+      "quests_completed": 35,
       "stats": {
-        "max_health": 157,
+        "max_health": 197,
         "strength": 16,
-        "agility": 23,
-        "stamina": 22,
-        "intellect": 37,
-        "spirit": 30,
-        "armor": 128,
+        "agility": 24,
+        "stamina": 24,
+        "intellect": 40,
+        "spirit": 34,
+        "armor": 233,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
@@ -1194,17 +1194,21 @@
         "res_shadow": 0,
         "res_arcane": 0,
         "block_pct": 0.0,
-        "dodge_pct": 5.0507,
+        "dodge_pct": 5.00583,
         "parry_pct": 0.0,
-        "crit_pct": 4.5868,
-        "ranged_crit_pct": 3.5468,
+        "crit_pct": 4.3812,
+        "ranged_crit_pct": 3.1412,
         "spell_crit_pct": 0.0,
         "attack_power": 6,
-        "ranged_attack_power": 13,
+        "ranged_attack_power": 14,
         "spell_power": 0,
         "resilience": 0
       },
       "achievements": [
+        {
+          "id": 6,
+          "earned_at": "2026-10-30T23:58:49Z"
+        },
         {
           "id": 288,
           "earned_at": "2026-10-28T23:07:57Z"
@@ -1261,10 +1265,10 @@
         },
         {
           "slot": 6,
-          "id": 79,
-          "name": "Dwarven Cloth Britches",
-          "quality": 1,
-          "item_level": 5
+          "id": 10554,
+          "name": "Foreman Pants",
+          "quality": 2,
+          "item_level": 11
         },
         {
           "slot": 7,
@@ -1275,31 +1279,31 @@
         },
         {
           "slot": 8,
-          "id": 3365,
-          "name": "Frayed Bracers",
-          "quality": 0,
-          "item_level": 5
+          "id": 2326,
+          "name": "Ivy-weave Bracers",
+          "quality": 1,
+          "item_level": 10
         },
         {
           "slot": 9,
-          "id": 719,
-          "name": "Rabbit Handler Gloves",
+          "id": 10550,
+          "name": "Wooly Mittens",
           "quality": 1,
-          "item_level": 5
+          "item_level": 12
         },
         {
           "slot": 14,
-          "id": 2652,
-          "name": "Flimsy Chain Cloak",
-          "quality": 0,
-          "item_level": 5
+          "id": 3153,
+          "name": "Oil-stained Cloak",
+          "quality": 1,
+          "item_level": 9
         },
         {
-          "slot": 15,
-          "id": 5581,
-          "name": "Smooth Walking Staff",
-          "quality": 1,
-          "item_level": 5
+          "slot": 16,
+          "id": 7507,
+          "name": "Arcane Orb",
+          "quality": 2,
+          "item_level": 10
         },
         {
           "slot": 18,
@@ -1309,7 +1313,9 @@
           "item_level": 1
         }
       ],
-      "talents": {},
+      "talents": {
+        "61": 1
+      },
       "skills": [],
       "glyphs": {
         "major": [],
