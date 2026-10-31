@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-31T00:11:29Z",
+  "generated_at": "2026-10-31T23:03:44Z",
   "characters": [
     {
       "guid": 1006,
@@ -485,9 +485,9 @@
       "zone_id": 495,
       "achievement_points": 710,
       "achievement_count": 74,
-      "played_time_seconds": 561291,
+      "played_time_seconds": 561306,
       "honor_points": 0,
-      "last_online": "2026-10-30T23:05:32Z",
+      "last_online": "2026-10-31T22:17:46Z",
       "quests_completed": 1508,
       "stats": {
         "max_health": 12474,
@@ -1170,22 +1170,22 @@
       "class_id": 8,
       "class_name": "Mage",
       "faction": "Alliance",
-      "level": 10,
-      "money_copper": 992169,
-      "zone_id": 1,
-      "achievement_points": 50,
-      "achievement_count": 5,
-      "played_time_seconds": 11003,
+      "level": 11,
+      "money_copper": 993917,
+      "zone_id": 38,
+      "achievement_points": 60,
+      "achievement_count": 6,
+      "played_time_seconds": 13727,
       "honor_points": 0,
-      "last_online": "2026-10-31T00:11:09Z",
-      "quests_completed": 35,
+      "last_online": "2026-10-31T23:03:25Z",
+      "quests_completed": 47,
       "stats": {
-        "max_health": 197,
+        "max_health": 212,
         "strength": 16,
         "agility": 24,
         "stamina": 24,
-        "intellect": 40,
-        "spirit": 34,
+        "intellect": 42,
+        "spirit": 35,
         "armor": 233,
         "res_holy": 0,
         "res_fire": 0,
@@ -1194,10 +1194,10 @@
         "res_shadow": 0,
         "res_arcane": 0,
         "block_pct": 0.0,
-        "dodge_pct": 5.00583,
+        "dodge_pct": 4.88583,
         "parry_pct": 0.0,
-        "crit_pct": 4.3812,
-        "ranged_crit_pct": 3.1412,
+        "crit_pct": 3.3012,
+        "ranged_crit_pct": 2.9412,
         "spell_crit_pct": 0.0,
         "attack_power": 6,
         "ranged_attack_power": 14,
@@ -1216,6 +1216,10 @@
         {
           "id": 621,
           "earned_at": "2026-10-28T22:56:26Z"
+        },
+        {
+          "id": 627,
+          "earned_at": "2026-10-31T22:42:37Z"
         },
         {
           "id": 972,
@@ -1314,7 +1318,7 @@
         }
       ],
       "talents": {
-        "61": 1
+        "61": 2
       },
       "skills": [],
       "glyphs": {
