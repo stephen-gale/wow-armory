@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-31T23:03:44Z",
+  "generated_at": "2026-11-01T23:57:17Z",
   "characters": [
     {
       "guid": 1006,
@@ -482,12 +482,12 @@
       "faction": "Alliance",
       "level": 80,
       "money_copper": 19069397,
-      "zone_id": 495,
+      "zone_id": 1519,
       "achievement_points": 710,
       "achievement_count": 74,
-      "played_time_seconds": 561306,
+      "played_time_seconds": 561442,
       "honor_points": 0,
-      "last_online": "2026-10-31T22:17:46Z",
+      "last_online": "2026-11-01T23:16:13Z",
       "quests_completed": 1508,
       "stats": {
         "max_health": 12474,
@@ -1170,23 +1170,23 @@
       "class_id": 8,
       "class_name": "Mage",
       "faction": "Alliance",
-      "level": 11,
-      "money_copper": 993917,
+      "level": 12,
+      "money_copper": 994292,
       "zone_id": 38,
-      "achievement_points": 60,
-      "achievement_count": 6,
-      "played_time_seconds": 13727,
+      "achievement_points": 70,
+      "achievement_count": 7,
+      "played_time_seconds": 16146,
       "honor_points": 0,
-      "last_online": "2026-10-31T23:03:25Z",
-      "quests_completed": 47,
+      "last_online": "2026-11-01T23:56:45Z",
+      "quests_completed": 50,
       "stats": {
-        "max_health": 212,
+        "max_health": 227,
         "strength": 16,
         "agility": 24,
         "stamina": 24,
-        "intellect": 42,
-        "spirit": 35,
-        "armor": 233,
+        "intellect": 44,
+        "spirit": 36,
+        "armor": 300,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
@@ -1194,10 +1194,10 @@
         "res_shadow": 0,
         "res_arcane": 0,
         "block_pct": 0.0,
-        "dodge_pct": 4.88583,
+        "dodge_pct": 4.96583,
         "parry_pct": 0.0,
-        "crit_pct": 3.3012,
-        "ranged_crit_pct": 2.9412,
+        "crit_pct": 3.6612,
+        "ranged_crit_pct": 2.7412,
         "spell_crit_pct": 0.0,
         "attack_power": 6,
         "ranged_attack_power": 14,
@@ -1212,6 +1212,10 @@
         {
           "id": 288,
           "earned_at": "2026-10-28T23:07:57Z"
+        },
+        {
+          "id": 503,
+          "earned_at": "2026-11-01T23:56:16Z"
         },
         {
           "id": 621,
@@ -1297,10 +1301,10 @@
         },
         {
           "slot": 14,
-          "id": 3153,
-          "name": "Oil-stained Cloak",
-          "quality": 1,
-          "item_level": 9
+          "id": 1505,
+          "name": "Warped Cloak",
+          "quality": 0,
+          "item_level": 12
         },
         {
           "slot": 16,
