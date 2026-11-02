@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-02T10:35:42Z",
+  "generated_at": "2026-11-02T15:00:10Z",
   "characters": [
     {
       "guid": 1006,
@@ -485,9 +485,9 @@
       "zone_id": 1519,
       "achievement_points": 710,
       "achievement_count": 74,
-      "played_time_seconds": 561442,
+      "played_time_seconds": 561552,
       "honor_points": 0,
-      "last_online": "2026-11-01T23:16:13Z",
+      "last_online": "2026-11-02T14:54:01Z",
       "quests_completed": 1508,
       "stats": {
         "max_health": 12474,
@@ -1172,12 +1172,12 @@
       "faction": "Alliance",
       "level": 12,
       "money_copper": 994292,
-      "zone_id": 38,
+      "zone_id": 1537,
       "achievement_points": 70,
       "achievement_count": 7,
-      "played_time_seconds": 16146,
+      "played_time_seconds": 16267,
       "honor_points": 0,
-      "last_online": "2026-11-01T23:56:45Z",
+      "last_online": "2026-11-02T14:56:12Z",
       "quests_completed": 50,
       "stats": {
         "max_health": 227,
@@ -1338,47 +1338,57 @@
       "class_id": 1,
       "class_name": "Warrior",
       "faction": "Alliance",
-      "level": 1,
-      "money_copper": 0,
-      "zone_id": 0,
+      "level": 6,
+      "money_copper": 990455,
+      "zone_id": 1,
       "achievement_points": 0,
       "achievement_count": 0,
-      "played_time_seconds": 0,
+      "played_time_seconds": 3374,
       "honor_points": 0,
-      "last_online": "2026-11-02T10:34:44Z",
-      "quests_completed": 0,
+      "last_online": "2026-11-02T14:59:40Z",
+      "quests_completed": 15,
       "stats": {
-        "max_health": 76,
-        "strength": 16,
-        "agility": 27,
-        "stamina": 21,
+        "max_health": 165,
+        "strength": 34,
+        "agility": 20,
+        "stamina": 28,
         "intellect": 20,
-        "spirit": 21,
-        "armor": 56,
+        "spirit": 20,
+        "armor": 245,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
         "res_frost": 0,
         "res_shadow": 0,
         "res_arcane": 0,
-        "block_pct": 0.0,
-        "dodge_pct": 3.15399,
-        "parry_pct": 0.0,
-        "crit_pct": 5.976,
-        "ranged_crit_pct": 5.976,
+        "block_pct": 4.76,
+        "dodge_pct": 6.39826,
+        "parry_pct": 4.76,
+        "crit_pct": 7.0931,
+        "ranged_crit_pct": 6.0131,
         "spell_crit_pct": 0.0,
-        "attack_power": 25,
-        "ranged_attack_power": 19,
+        "attack_power": 66,
+        "ranged_attack_power": 16,
         "spell_power": 0,
         "resilience": 0
       },
-      "achievements": [],
+      "achievements": [
+        {
+          "id": 621,
+          "earned_at": "2026-11-02T14:58:36Z"
+        }
+      ],
       "collections": {
         "sets": [],
         "mounts": [],
         "companions": [],
         "legendaries": [],
-        "tabards": [],
+        "tabards": [
+          {
+            "id": "item_5976",
+            "earned_at": "2026-11-02T15:00:10Z"
+          }
+        ],
         "heirlooms": [],
         "titles": [],
         "factions": []
@@ -1392,25 +1402,67 @@
           "item_level": 1
         },
         {
-          "slot": 6,
-          "id": 39,
-          "name": "Recruit's Pants",
+          "slot": 4,
+          "id": 2656,
+          "name": "Flimsy Chain Vest",
           "quality": 0,
-          "item_level": 1
+          "item_level": 5
+        },
+        {
+          "slot": 5,
+          "id": 2172,
+          "name": "Rustic Belt",
+          "quality": 1,
+          "item_level": 5
+        },
+        {
+          "slot": 6,
+          "id": 61,
+          "name": "Dwarven Leather Pants",
+          "quality": 1,
+          "item_level": 5
         },
         {
           "slot": 7,
-          "id": 40,
-          "name": "Recruit's Boots",
+          "id": 1367,
+          "name": "Ragged Leather Boots",
+          "quality": 0,
+          "item_level": 3
+        },
+        {
+          "slot": 8,
+          "id": 1370,
+          "name": "Ragged Leather Bracers",
+          "quality": 0,
+          "item_level": 4
+        },
+        {
+          "slot": 9,
+          "id": 2547,
+          "name": "Boar Handler Gloves",
           "quality": 1,
-          "item_level": 1
+          "item_level": 5
+        },
+        {
+          "slot": 14,
+          "id": 2652,
+          "name": "Flimsy Chain Cloak",
+          "quality": 0,
+          "item_level": 5
         },
         {
           "slot": 15,
-          "id": 12282,
-          "name": "Worn Battleaxe",
+          "id": 5761,
+          "name": "Anvilmar Sledge",
           "quality": 1,
-          "item_level": 2
+          "item_level": 5
+        },
+        {
+          "slot": 18,
+          "id": 5976,
+          "name": "Guild Tabard",
+          "quality": 1,
+          "item_level": 1
         }
       ],
       "talents": {},
@@ -1422,6 +1474,6 @@
     }
   ],
   "guild_bank_money": {
-    "Alliance": 18000000
+    "Alliance": 17000000
   }
 }
