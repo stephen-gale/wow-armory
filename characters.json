@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-01T23:57:17Z",
+  "generated_at": "2026-11-02T10:35:42Z",
   "characters": [
     {
       "guid": 1006,
@@ -1324,6 +1324,96 @@
       "talents": {
         "61": 2
       },
+      "skills": [],
+      "glyphs": {
+        "major": [],
+        "minor": []
+      }
+    },
+    {
+      "guid": 1012,
+      "name": "Magni",
+      "race_id": 3,
+      "race_name": "Dwarf",
+      "class_id": 1,
+      "class_name": "Warrior",
+      "faction": "Alliance",
+      "level": 1,
+      "money_copper": 0,
+      "zone_id": 0,
+      "achievement_points": 0,
+      "achievement_count": 0,
+      "played_time_seconds": 0,
+      "honor_points": 0,
+      "last_online": "2026-11-02T10:34:44Z",
+      "quests_completed": 0,
+      "stats": {
+        "max_health": 76,
+        "strength": 16,
+        "agility": 27,
+        "stamina": 21,
+        "intellect": 20,
+        "spirit": 21,
+        "armor": 56,
+        "res_holy": 0,
+        "res_fire": 0,
+        "res_nature": 0,
+        "res_frost": 0,
+        "res_shadow": 0,
+        "res_arcane": 0,
+        "block_pct": 0.0,
+        "dodge_pct": 3.15399,
+        "parry_pct": 0.0,
+        "crit_pct": 5.976,
+        "ranged_crit_pct": 5.976,
+        "spell_crit_pct": 0.0,
+        "attack_power": 25,
+        "ranged_attack_power": 19,
+        "spell_power": 0,
+        "resilience": 0
+      },
+      "achievements": [],
+      "collections": {
+        "sets": [],
+        "mounts": [],
+        "companions": [],
+        "legendaries": [],
+        "tabards": [],
+        "heirlooms": [],
+        "titles": [],
+        "factions": []
+      },
+      "equipped_gear": [
+        {
+          "slot": 3,
+          "id": 38,
+          "name": "Recruit's Shirt",
+          "quality": 1,
+          "item_level": 1
+        },
+        {
+          "slot": 6,
+          "id": 39,
+          "name": "Recruit's Pants",
+          "quality": 0,
+          "item_level": 1
+        },
+        {
+          "slot": 7,
+          "id": 40,
+          "name": "Recruit's Boots",
+          "quality": 1,
+          "item_level": 1
+        },
+        {
+          "slot": 15,
+          "id": 12282,
+          "name": "Worn Battleaxe",
+          "quality": 1,
+          "item_level": 2
+        }
+      ],
+      "talents": {},
       "skills": [],
       "glyphs": {
         "major": [],
