@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-02T15:00:10Z",
+  "generated_at": "2026-11-02T23:39:39Z",
   "characters": [
     {
       "guid": 1006,
@@ -485,9 +485,9 @@
       "zone_id": 1519,
       "achievement_points": 710,
       "achievement_count": 74,
-      "played_time_seconds": 561552,
+      "played_time_seconds": 561727,
       "honor_points": 0,
-      "last_online": "2026-11-02T14:54:01Z",
+      "last_online": "2026-11-02T22:38:37Z",
       "quests_completed": 1508,
       "stats": {
         "max_health": 12474,
@@ -1338,37 +1338,37 @@
       "class_id": 1,
       "class_name": "Warrior",
       "faction": "Alliance",
-      "level": 6,
-      "money_copper": 990455,
+      "level": 9,
+      "money_copper": 992682,
       "zone_id": 1,
-      "achievement_points": 0,
-      "achievement_count": 0,
-      "played_time_seconds": 3374,
+      "achievement_points": 10,
+      "achievement_count": 1,
+      "played_time_seconds": 6963,
       "honor_points": 0,
-      "last_online": "2026-11-02T14:59:40Z",
-      "quests_completed": 15,
+      "last_online": "2026-11-02T23:38:36Z",
+      "quests_completed": 27,
       "stats": {
-        "max_health": 165,
-        "strength": 34,
-        "agility": 20,
-        "stamina": 28,
+        "max_health": 242,
+        "strength": 37,
+        "agility": 22,
+        "stamina": 33,
         "intellect": 20,
-        "spirit": 20,
-        "armor": 245,
+        "spirit": 23,
+        "armor": 416,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
         "res_frost": 0,
         "res_shadow": 0,
         "res_arcane": 0,
-        "block_pct": 4.76,
-        "dodge_pct": 6.39826,
-        "parry_pct": 4.76,
-        "crit_pct": 7.0931,
-        "ranged_crit_pct": 6.0131,
+        "block_pct": 4.8,
+        "dodge_pct": 6.73569,
+        "parry_pct": 4.8,
+        "crit_pct": 7.4155,
+        "ranged_crit_pct": 5.8155,
         "spell_crit_pct": 0.0,
-        "attack_power": 66,
-        "ranged_attack_power": 16,
+        "attack_power": 81,
+        "ranged_attack_power": 21,
         "spell_power": 0,
         "resilience": 0
       },
@@ -1403,10 +1403,10 @@
         },
         {
           "slot": 4,
-          "id": 2656,
-          "name": "Flimsy Chain Vest",
+          "id": 2648,
+          "name": "Loose Chain Vest",
           "quality": 0,
-          "item_level": 5
+          "item_level": 10
         },
         {
           "slot": 5,
@@ -1417,24 +1417,24 @@
         },
         {
           "slot": 6,
-          "id": 61,
-          "name": "Dwarven Leather Pants",
-          "quality": 1,
-          "item_level": 5
+          "id": 2646,
+          "name": "Loose Chain Pants",
+          "quality": 0,
+          "item_level": 8
         },
         {
           "slot": 7,
-          "id": 1367,
-          "name": "Ragged Leather Boots",
+          "id": 2642,
+          "name": "Loose Chain Boots",
           "quality": 0,
-          "item_level": 3
+          "item_level": 9
         },
         {
           "slot": 8,
-          "id": 1370,
-          "name": "Ragged Leather Bracers",
-          "quality": 0,
-          "item_level": 4
+          "id": 6177,
+          "name": "Ironwrought Bracers",
+          "quality": 1,
+          "item_level": 12
         },
         {
           "slot": 9,
@@ -1445,17 +1445,17 @@
         },
         {
           "slot": 14,
-          "id": 2652,
-          "name": "Flimsy Chain Cloak",
-          "quality": 0,
-          "item_level": 5
+          "id": 2905,
+          "name": "Goat Fur Cloak",
+          "quality": 1,
+          "item_level": 10
         },
         {
           "slot": 15,
-          "id": 5761,
-          "name": "Anvilmar Sledge",
-          "quality": 1,
-          "item_level": 5
+          "id": 8178,
+          "name": "Training Sword",
+          "quality": 2,
+          "item_level": 10
         },
         {
           "slot": 18,
