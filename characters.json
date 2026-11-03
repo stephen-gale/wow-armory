@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-03T10:42:48Z",
+  "generated_at": "2026-11-03T15:38:43Z",
   "characters": [
     {
       "guid": 1006,
@@ -1338,41 +1338,49 @@
       "class_id": 1,
       "class_name": "Warrior",
       "faction": "Alliance",
-      "level": 9,
-      "money_copper": 993262,
+      "level": 10,
+      "money_copper": 993308,
       "zone_id": 1,
-      "achievement_points": 10,
-      "achievement_count": 1,
-      "played_time_seconds": 9222,
+      "achievement_points": 20,
+      "achievement_count": 2,
+      "played_time_seconds": 13522,
       "honor_points": 0,
-      "last_online": "2026-11-03T10:42:29Z",
-      "quests_completed": 29,
+      "last_online": "2026-11-03T15:38:15Z",
+      "quests_completed": 36,
       "stats": {
-        "max_health": 242,
-        "strength": 37,
-        "agility": 22,
+        "max_health": 247,
+        "strength": 39,
+        "agility": 23,
         "stamina": 33,
         "intellect": 20,
         "spirit": 23,
-        "armor": 416,
+        "armor": 451,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
         "res_frost": 0,
         "res_shadow": 0,
         "res_arcane": 0,
-        "block_pct": 4.92,
-        "dodge_pct": 6.85569,
-        "parry_pct": 4.92,
-        "crit_pct": 7.6155,
-        "ranged_crit_pct": 5.8155,
+        "block_pct": 5.0,
+        "dodge_pct": 7.0844,
+        "parry_pct": 5.0,
+        "crit_pct": 7.8167,
+        "ranged_crit_pct": 5.8167,
         "spell_crit_pct": 0.0,
-        "attack_power": 81,
-        "ranged_attack_power": 21,
+        "attack_power": 88,
+        "ranged_attack_power": 23,
         "spell_power": 0,
         "resilience": 0
       },
       "achievements": [
+        {
+          "id": 6,
+          "earned_at": "2026-11-03T15:06:41Z"
+        },
+        {
+          "id": 116,
+          "earned_at": "2026-11-03T15:37:34Z"
+        },
         {
           "id": 621,
           "earned_at": "2026-11-02T14:58:36Z"
@@ -1403,10 +1411,10 @@
         },
         {
           "slot": 4,
-          "id": 2648,
-          "name": "Loose Chain Vest",
-          "quality": 0,
-          "item_level": 10
+          "id": 6268,
+          "name": "Pioneer Tunic",
+          "quality": 2,
+          "item_level": 13
         },
         {
           "slot": 5,
@@ -1452,10 +1460,10 @@
         },
         {
           "slot": 15,
-          "id": 8178,
-          "name": "Training Sword",
+          "id": 3103,
+          "name": "Coldridge Hammer",
           "quality": 2,
-          "item_level": 10
+          "item_level": 12
         },
         {
           "slot": 18,
@@ -1465,7 +1473,9 @@
           "item_level": 1
         }
       ],
-      "talents": {},
+      "talents": {
+        "161": 1
+      },
       "skills": [],
       "glyphs": {
         "major": [],
