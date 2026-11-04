@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-04T13:58:20Z",
+  "generated_at": "2026-11-04T17:51:10Z",
   "characters": [
     {
       "guid": 1006,
@@ -485,9 +485,9 @@
       "zone_id": 1519,
       "achievement_points": 710,
       "achievement_count": 74,
-      "played_time_seconds": 562097,
+      "played_time_seconds": 562110,
       "honor_points": 0,
-      "last_online": "2026-11-03T23:47:03Z",
+      "last_online": "2026-11-04T17:03:33Z",
       "quests_completed": 1508,
       "stats": {
         "max_health": 12474,
@@ -1170,37 +1170,37 @@
       "class_id": 1,
       "class_name": "Warrior",
       "faction": "Alliance",
-      "level": 12,
-      "money_copper": 990451,
+      "level": 13,
+      "money_copper": 994067,
       "zone_id": 38,
-      "achievement_points": 40,
-      "achievement_count": 4,
-      "played_time_seconds": 19104,
+      "achievement_points": 50,
+      "achievement_count": 5,
+      "played_time_seconds": 21905,
       "honor_points": 0,
-      "last_online": "2026-11-04T13:57:57Z",
-      "quests_completed": 48,
+      "last_online": "2026-11-04T17:50:33Z",
+      "quests_completed": 53,
       "stats": {
-        "max_health": 309,
-        "strength": 43,
+        "max_health": 358,
+        "strength": 45,
         "agility": 25,
-        "stamina": 38,
+        "stamina": 42,
         "intellect": 20,
-        "spirit": 23,
-        "armor": 465,
+        "spirit": 29,
+        "armor": 564,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
         "res_frost": 0,
         "res_shadow": 0,
         "res_arcane": 0,
-        "block_pct": 4.96,
-        "dodge_pct": 6.97041,
-        "parry_pct": 4.96,
-        "crit_pct": 7.7166,
-        "ranged_crit_pct": 6.5566,
+        "block_pct": 5.0,
+        "dodge_pct": 6.70552,
+        "parry_pct": 5.0,
+        "crit_pct": 6.5841,
+        "ranged_crit_pct": 6.2641,
         "spell_crit_pct": 0.0,
-        "attack_power": 102,
-        "ranged_attack_power": 27,
+        "attack_power": 109,
+        "ranged_attack_power": 28,
         "spell_power": 0,
         "resilience": 0
       },
@@ -1212,6 +1212,10 @@
         {
           "id": 116,
           "earned_at": "2026-11-03T15:37:34Z"
+        },
+        {
+          "id": 503,
+          "earned_at": "2026-11-04T17:36:17Z"
         },
         {
           "id": 621,
@@ -1247,10 +1251,10 @@
         },
         {
           "slot": 4,
-          "id": 6268,
-          "name": "Pioneer Tunic",
+          "id": 3166,
+          "name": "Ironheart Chain",
           "quality": 2,
-          "item_level": 13
+          "item_level": 15
         },
         {
           "slot": 5,
@@ -1282,24 +1286,24 @@
         },
         {
           "slot": 9,
-          "id": 2645,
-          "name": "Loose Chain Gloves",
+          "id": 1734,
+          "name": "Worn Mail Gloves",
           "quality": 0,
-          "item_level": 7
+          "item_level": 11
         },
         {
           "slot": 14,
-          "id": 2905,
-          "name": "Goat Fur Cloak",
-          "quality": 1,
-          "item_level": 10
+          "id": 1497,
+          "name": "Calico Cloak",
+          "quality": 0,
+          "item_level": 14
         },
         {
           "slot": 15,
-          "id": 3103,
-          "name": "Coldridge Hammer",
+          "id": 3196,
+          "name": "Edged Bastard Sword",
           "quality": 2,
-          "item_level": 12
+          "item_level": 18
         },
         {
           "slot": 17,
