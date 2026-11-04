@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-03T15:38:43Z",
+  "generated_at": "2026-11-04T00:32:25Z",
   "characters": [
     {
       "guid": 1006,
@@ -481,13 +481,13 @@
       "class_name": "Paladin",
       "faction": "Alliance",
       "level": 80,
-      "money_copper": 19069397,
+      "money_copper": 19069373,
       "zone_id": 1519,
       "achievement_points": 710,
       "achievement_count": 74,
-      "played_time_seconds": 561727,
+      "played_time_seconds": 562097,
       "honor_points": 0,
-      "last_online": "2026-11-02T22:38:37Z",
+      "last_online": "2026-11-03T23:47:03Z",
       "quests_completed": 1508,
       "stats": {
         "max_health": 12474,
@@ -1338,37 +1338,37 @@
       "class_id": 1,
       "class_name": "Warrior",
       "faction": "Alliance",
-      "level": 10,
-      "money_copper": 993308,
-      "zone_id": 1,
-      "achievement_points": 20,
-      "achievement_count": 2,
-      "played_time_seconds": 13522,
+      "level": 11,
+      "money_copper": 990169,
+      "zone_id": 1537,
+      "achievement_points": 40,
+      "achievement_count": 4,
+      "played_time_seconds": 16211,
       "honor_points": 0,
-      "last_online": "2026-11-03T15:38:15Z",
-      "quests_completed": 36,
+      "last_online": "2026-11-04T00:31:59Z",
+      "quests_completed": 44,
       "stats": {
-        "max_health": 247,
-        "strength": 39,
-        "agility": 23,
-        "stamina": 33,
+        "max_health": 273,
+        "strength": 41,
+        "agility": 25,
+        "stamina": 35,
         "intellect": 20,
         "spirit": 23,
-        "armor": 451,
+        "armor": 459,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
         "res_frost": 0,
         "res_shadow": 0,
         "res_arcane": 0,
-        "block_pct": 5.0,
-        "dodge_pct": 7.0844,
-        "parry_pct": 5.0,
-        "crit_pct": 7.8167,
-        "ranged_crit_pct": 5.8167,
+        "block_pct": 4.88,
+        "dodge_pct": 6.89041,
+        "parry_pct": 4.88,
+        "crit_pct": 7.6766,
+        "ranged_crit_pct": 6.5566,
         "spell_crit_pct": 0.0,
-        "attack_power": 88,
-        "ranged_attack_power": 23,
+        "attack_power": 95,
+        "ranged_attack_power": 26,
         "spell_power": 0,
         "resilience": 0
       },
@@ -1384,6 +1384,10 @@
         {
           "id": 621,
           "earned_at": "2026-11-02T14:58:36Z"
+        },
+        {
+          "id": 627,
+          "earned_at": "2026-11-04T00:04:56Z"
         }
       ],
       "collections": {
@@ -1418,17 +1422,17 @@
         },
         {
           "slot": 5,
-          "id": 2172,
-          "name": "Rustic Belt",
+          "id": 2851,
+          "name": "Copper Chain Belt",
           "quality": 1,
-          "item_level": 5
+          "item_level": 11
         },
         {
           "slot": 6,
-          "id": 2646,
-          "name": "Loose Chain Pants",
-          "quality": 0,
-          "item_level": 8
+          "id": 2962,
+          "name": "Burnt Leather Breeches",
+          "quality": 2,
+          "item_level": 10
         },
         {
           "slot": 7,
@@ -1446,10 +1450,10 @@
         },
         {
           "slot": 9,
-          "id": 2547,
-          "name": "Boar Handler Gloves",
-          "quality": 1,
-          "item_level": 5
+          "id": 2645,
+          "name": "Loose Chain Gloves",
+          "quality": 0,
+          "item_level": 7
         },
         {
           "slot": 14,
@@ -1466,6 +1470,13 @@
           "item_level": 12
         },
         {
+          "slot": 17,
+          "id": 4577,
+          "name": "Compact Shotgun",
+          "quality": 2,
+          "item_level": 13
+        },
+        {
           "slot": 18,
           "id": 5976,
           "name": "Guild Tabard",
@@ -1474,7 +1485,7 @@
         }
       ],
       "talents": {
-        "161": 1
+        "161": 2
       },
       "skills": [],
       "glyphs": {
