@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-05T18:36:04Z",
+  "generated_at": "2026-11-05T22:52:09Z",
   "characters": [
     {
       "guid": 1006,
@@ -1495,6 +1495,117 @@
       "talents": {
         "61": 2
       },
+      "skills": [],
+      "glyphs": {
+        "major": [],
+        "minor": []
+      }
+    },
+    {
+      "guid": 1013,
+      "name": "Kanrethad",
+      "race_id": 1,
+      "race_name": "Human",
+      "class_id": 9,
+      "class_name": "Warlock",
+      "faction": "Alliance",
+      "level": 3,
+      "money_copper": 159,
+      "zone_id": 12,
+      "achievement_points": 0,
+      "achievement_count": 0,
+      "played_time_seconds": 1384,
+      "honor_points": 0,
+      "last_online": "2026-11-05T22:51:39Z",
+      "quests_completed": 7,
+      "stats": {
+        "max_health": 83,
+        "strength": 21,
+        "agility": 21,
+        "stamina": 22,
+        "intellect": 24,
+        "spirit": 24,
+        "armor": 155,
+        "res_holy": 0,
+        "res_fire": 0,
+        "res_nature": 0,
+        "res_frost": 0,
+        "res_shadow": 0,
+        "res_arcane": 0,
+        "block_pct": 0.0,
+        "dodge_pct": 4.18622,
+        "parry_pct": 0.0,
+        "crit_pct": 4.5992,
+        "ranged_crit_pct": 4.3992,
+        "spell_crit_pct": 0.0,
+        "attack_power": 11,
+        "ranged_attack_power": 11,
+        "spell_power": 0,
+        "resilience": 0
+      },
+      "achievements": [],
+      "collections": {
+        "sets": [],
+        "mounts": [],
+        "companions": [],
+        "legendaries": [],
+        "tabards": [],
+        "heirlooms": [],
+        "titles": [],
+        "factions": []
+      },
+      "equipped_gear": [
+        {
+          "slot": 3,
+          "id": 6097,
+          "name": "Acolyte's Shirt",
+          "quality": 1,
+          "item_level": 1
+        },
+        {
+          "slot": 4,
+          "id": 57,
+          "name": "Acolyte's Robe",
+          "quality": 0,
+          "item_level": 1
+        },
+        {
+          "slot": 6,
+          "id": 1378,
+          "name": "Frayed Pants",
+          "quality": 0,
+          "item_level": 2
+        },
+        {
+          "slot": 7,
+          "id": 80,
+          "name": "Soft Fur-lined Shoes",
+          "quality": 1,
+          "item_level": 5
+        },
+        {
+          "slot": 9,
+          "id": 1377,
+          "name": "Frayed Gloves",
+          "quality": 0,
+          "item_level": 3
+        },
+        {
+          "slot": 14,
+          "id": 1376,
+          "name": "Frayed Cloak",
+          "quality": 0,
+          "item_level": 5
+        },
+        {
+          "slot": 15,
+          "id": 35,
+          "name": "Bent Staff",
+          "quality": 1,
+          "item_level": 2
+        }
+      ],
+      "talents": {},
       "skills": [],
       "glyphs": {
         "major": [],
