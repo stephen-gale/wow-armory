@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-05T15:06:11Z",
+  "generated_at": "2026-11-05T18:36:04Z",
   "characters": [
     {
       "guid": 1006,
@@ -1016,6 +1016,177 @@
       }
     },
     {
+      "guid": 1012,
+      "name": "Magni",
+      "race_id": 3,
+      "race_name": "Dwarf",
+      "class_id": 1,
+      "class_name": "Warrior",
+      "faction": "Alliance",
+      "level": 14,
+      "money_copper": 993889,
+      "zone_id": 38,
+      "achievement_points": 60,
+      "achievement_count": 6,
+      "played_time_seconds": 24539,
+      "honor_points": 0,
+      "last_online": "2026-11-05T18:35:47Z",
+      "quests_completed": 54,
+      "stats": {
+        "max_health": 378,
+        "strength": 50,
+        "agility": 26,
+        "stamina": 43,
+        "intellect": 21,
+        "spirit": 26,
+        "armor": 576,
+        "res_holy": 0,
+        "res_fire": 0,
+        "res_nature": 0,
+        "res_frost": 0,
+        "res_shadow": 0,
+        "res_arcane": 0,
+        "block_pct": 4.8,
+        "dodge_pct": 6.62718,
+        "parry_pct": 4.8,
+        "crit_pct": 7.2687,
+        "ranged_crit_pct": 6.5887,
+        "spell_crit_pct": 0.0,
+        "attack_power": 122,
+        "ranged_attack_power": 30,
+        "spell_power": 0,
+        "resilience": 0
+      },
+      "achievements": [
+        {
+          "id": 6,
+          "earned_at": "2026-11-03T15:06:41Z"
+        },
+        {
+          "id": 116,
+          "earned_at": "2026-11-03T15:37:34Z"
+        },
+        {
+          "id": 131,
+          "earned_at": "2026-11-05T18:24:53Z"
+        },
+        {
+          "id": 503,
+          "earned_at": "2026-11-04T17:36:17Z"
+        },
+        {
+          "id": 621,
+          "earned_at": "2026-11-02T14:58:36Z"
+        },
+        {
+          "id": 627,
+          "earned_at": "2026-11-04T00:04:56Z"
+        }
+      ],
+      "collections": {
+        "sets": [],
+        "mounts": [],
+        "companions": [],
+        "legendaries": [],
+        "tabards": [
+          {
+            "id": "item_5976",
+            "earned_at": "2026-11-02T15:00:10Z"
+          }
+        ],
+        "heirlooms": [],
+        "titles": [],
+        "factions": []
+      },
+      "equipped_gear": [
+        {
+          "slot": 3,
+          "id": 38,
+          "name": "Recruit's Shirt",
+          "quality": 1,
+          "item_level": 1
+        },
+        {
+          "slot": 4,
+          "id": 3166,
+          "name": "Ironheart Chain",
+          "quality": 2,
+          "item_level": 15
+        },
+        {
+          "slot": 5,
+          "id": 2851,
+          "name": "Copper Chain Belt",
+          "quality": 1,
+          "item_level": 11
+        },
+        {
+          "slot": 6,
+          "id": 3473,
+          "name": "Runed Copper Pants",
+          "quality": 2,
+          "item_level": 13
+        },
+        {
+          "slot": 7,
+          "id": 2642,
+          "name": "Loose Chain Boots",
+          "quality": 0,
+          "item_level": 9
+        },
+        {
+          "slot": 8,
+          "id": 1732,
+          "name": "Worn Mail Bracers",
+          "quality": 0,
+          "item_level": 14
+        },
+        {
+          "slot": 9,
+          "id": 3472,
+          "name": "Runed Copper Gauntlets",
+          "quality": 2,
+          "item_level": 12
+        },
+        {
+          "slot": 14,
+          "id": 1790,
+          "name": "Patched Cloak",
+          "quality": 0,
+          "item_level": 16
+        },
+        {
+          "slot": 15,
+          "id": 3196,
+          "name": "Edged Bastard Sword",
+          "quality": 2,
+          "item_level": 18
+        },
+        {
+          "slot": 17,
+          "id": 4577,
+          "name": "Compact Shotgun",
+          "quality": 2,
+          "item_level": 13
+        },
+        {
+          "slot": 18,
+          "id": 5976,
+          "name": "Guild Tabard",
+          "quality": 1,
+          "item_level": 1
+        }
+      ],
+      "talents": {
+        "161": 3
+      },
+      "skills": [],
+      "glyphs": {
+        "major": [],
+        "minor": []
+      }
+    },
+    {
       "guid": 1008,
       "name": "Broll",
       "race_id": 4,
@@ -1156,173 +1327,6 @@
         }
       ],
       "talents": {},
-      "skills": [],
-      "glyphs": {
-        "major": [],
-        "minor": []
-      }
-    },
-    {
-      "guid": 1012,
-      "name": "Magni",
-      "race_id": 3,
-      "race_name": "Dwarf",
-      "class_id": 1,
-      "class_name": "Warrior",
-      "faction": "Alliance",
-      "level": 13,
-      "money_copper": 994067,
-      "zone_id": 38,
-      "achievement_points": 50,
-      "achievement_count": 5,
-      "played_time_seconds": 21905,
-      "honor_points": 0,
-      "last_online": "2026-11-04T17:50:33Z",
-      "quests_completed": 53,
-      "stats": {
-        "max_health": 358,
-        "strength": 45,
-        "agility": 25,
-        "stamina": 42,
-        "intellect": 20,
-        "spirit": 29,
-        "armor": 564,
-        "res_holy": 0,
-        "res_fire": 0,
-        "res_nature": 0,
-        "res_frost": 0,
-        "res_shadow": 0,
-        "res_arcane": 0,
-        "block_pct": 5.0,
-        "dodge_pct": 6.70552,
-        "parry_pct": 5.0,
-        "crit_pct": 6.5841,
-        "ranged_crit_pct": 6.2641,
-        "spell_crit_pct": 0.0,
-        "attack_power": 109,
-        "ranged_attack_power": 28,
-        "spell_power": 0,
-        "resilience": 0
-      },
-      "achievements": [
-        {
-          "id": 6,
-          "earned_at": "2026-11-03T15:06:41Z"
-        },
-        {
-          "id": 116,
-          "earned_at": "2026-11-03T15:37:34Z"
-        },
-        {
-          "id": 503,
-          "earned_at": "2026-11-04T17:36:17Z"
-        },
-        {
-          "id": 621,
-          "earned_at": "2026-11-02T14:58:36Z"
-        },
-        {
-          "id": 627,
-          "earned_at": "2026-11-04T00:04:56Z"
-        }
-      ],
-      "collections": {
-        "sets": [],
-        "mounts": [],
-        "companions": [],
-        "legendaries": [],
-        "tabards": [
-          {
-            "id": "item_5976",
-            "earned_at": "2026-11-02T15:00:10Z"
-          }
-        ],
-        "heirlooms": [],
-        "titles": [],
-        "factions": []
-      },
-      "equipped_gear": [
-        {
-          "slot": 3,
-          "id": 38,
-          "name": "Recruit's Shirt",
-          "quality": 1,
-          "item_level": 1
-        },
-        {
-          "slot": 4,
-          "id": 3166,
-          "name": "Ironheart Chain",
-          "quality": 2,
-          "item_level": 15
-        },
-        {
-          "slot": 5,
-          "id": 2851,
-          "name": "Copper Chain Belt",
-          "quality": 1,
-          "item_level": 11
-        },
-        {
-          "slot": 6,
-          "id": 15485,
-          "name": "War Torn Pants",
-          "quality": 2,
-          "item_level": 14
-        },
-        {
-          "slot": 7,
-          "id": 2642,
-          "name": "Loose Chain Boots",
-          "quality": 0,
-          "item_level": 9
-        },
-        {
-          "slot": 8,
-          "id": 6177,
-          "name": "Ironwrought Bracers",
-          "quality": 1,
-          "item_level": 12
-        },
-        {
-          "slot": 9,
-          "id": 1734,
-          "name": "Worn Mail Gloves",
-          "quality": 0,
-          "item_level": 11
-        },
-        {
-          "slot": 14,
-          "id": 1497,
-          "name": "Calico Cloak",
-          "quality": 0,
-          "item_level": 14
-        },
-        {
-          "slot": 15,
-          "id": 3196,
-          "name": "Edged Bastard Sword",
-          "quality": 2,
-          "item_level": 18
-        },
-        {
-          "slot": 17,
-          "id": 4577,
-          "name": "Compact Shotgun",
-          "quality": 2,
-          "item_level": 13
-        },
-        {
-          "slot": 18,
-          "id": 5976,
-          "name": "Guild Tabard",
-          "quality": 1,
-          "item_level": 1
-        }
-      ],
-      "talents": {
-        "161": 3
-      },
       "skills": [],
       "glyphs": {
         "major": [],
