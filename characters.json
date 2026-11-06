@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-06T15:02:10Z",
+  "generated_at": "2026-11-06T23:55:42Z",
   "characters": [
     {
       "guid": 1006,
@@ -1341,23 +1341,23 @@
       "class_id": 8,
       "class_name": "Mage",
       "faction": "Alliance",
-      "level": 12,
-      "money_copper": 994344,
-      "zone_id": 38,
+      "level": 14,
+      "money_copper": 992183,
+      "zone_id": 1537,
       "achievement_points": 70,
       "achievement_count": 7,
-      "played_time_seconds": 17390,
+      "played_time_seconds": 20956,
       "honor_points": 0,
-      "last_online": "2026-11-06T15:01:57Z",
-      "quests_completed": 50,
+      "last_online": "2026-11-06T23:55:22Z",
+      "quests_completed": 58,
       "stats": {
-        "max_health": 232,
-        "strength": 16,
+        "max_health": 302,
+        "strength": 17,
         "agility": 24,
-        "stamina": 24,
+        "stamina": 29,
         "intellect": 44,
-        "spirit": 39,
-        "armor": 235,
+        "spirit": 40,
+        "armor": 143,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
@@ -1365,12 +1365,12 @@
         "res_shadow": 0,
         "res_arcane": 0,
         "block_pct": 0.0,
-        "dodge_pct": 5.08583,
+        "dodge_pct": 4.88583,
         "parry_pct": 0.0,
-        "crit_pct": 3.7812,
-        "ranged_crit_pct": 2.7412,
+        "crit_pct": 3.3812,
+        "ranged_crit_pct": 2.3412,
         "spell_crit_pct": 0.0,
-        "attack_power": 6,
+        "attack_power": 7,
         "ranged_attack_power": 14,
         "spell_power": 0,
         "resilience": 0
@@ -1430,10 +1430,10 @@
         },
         {
           "slot": 4,
-          "id": 3216,
-          "name": "Warm Winter Robe",
-          "quality": 1,
-          "item_level": 10
+          "id": 3161,
+          "name": "Robe of the Keeper",
+          "quality": 2,
+          "item_level": 15
         },
         {
           "slot": 5,
@@ -1451,10 +1451,10 @@
         },
         {
           "slot": 7,
-          "id": 6173,
-          "name": "Snow Boots",
+          "id": 860,
+          "name": "Cavalier's Boots",
           "quality": 1,
-          "item_level": 5
+          "item_level": 13
         },
         {
           "slot": 8,
@@ -1465,10 +1465,10 @@
         },
         {
           "slot": 9,
-          "id": 10550,
-          "name": "Wooly Mittens",
-          "quality": 1,
-          "item_level": 12
+          "id": 4307,
+          "name": "Heavy Linen Gloves",
+          "quality": 2,
+          "item_level": 10
         },
         {
           "slot": 14,
@@ -1493,7 +1493,7 @@
         }
       ],
       "talents": {
-        "61": 2
+        "61": 4
       },
       "skills": [],
       "glyphs": {
