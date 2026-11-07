@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-07T11:40:57Z",
+  "generated_at": "2026-11-07T23:48:41Z",
   "characters": [
     {
       "guid": 1006,
@@ -485,9 +485,9 @@
       "zone_id": 1519,
       "achievement_points": 710,
       "achievement_count": 74,
-      "played_time_seconds": 562334,
+      "played_time_seconds": 562627,
       "honor_points": 0,
-      "last_online": "2026-11-06T14:53:51Z",
+      "last_online": "2026-11-07T23:45:52Z",
       "quests_completed": 1508,
       "stats": {
         "max_health": 12474,
@@ -1016,6 +1016,190 @@
       }
     },
     {
+      "guid": 1009,
+      "name": "Millhouse",
+      "race_id": 7,
+      "race_name": "Gnome",
+      "class_id": 8,
+      "class_name": "Mage",
+      "faction": "Alliance",
+      "level": 15,
+      "money_copper": 992531,
+      "zone_id": 40,
+      "achievement_points": 80,
+      "achievement_count": 8,
+      "played_time_seconds": 24559,
+      "honor_points": 0,
+      "last_online": "2026-11-07T23:48:18Z",
+      "quests_completed": 71,
+      "stats": {
+        "max_health": 337,
+        "strength": 17,
+        "agility": 27,
+        "stamina": 31,
+        "intellect": 53,
+        "spirit": 40,
+        "armor": 265,
+        "res_holy": 0,
+        "res_fire": 0,
+        "res_nature": 0,
+        "res_frost": 0,
+        "res_shadow": 0,
+        "res_arcane": 0,
+        "block_pct": 0.0,
+        "dodge_pct": 4.83644,
+        "parry_pct": 0.0,
+        "crit_pct": 3.6684,
+        "ranged_crit_pct": 2.3084,
+        "spell_crit_pct": 0.0,
+        "attack_power": 7,
+        "ranged_attack_power": 17,
+        "spell_power": 0,
+        "resilience": 0
+      },
+      "achievements": [
+        {
+          "id": 6,
+          "earned_at": "2026-10-30T23:58:49Z"
+        },
+        {
+          "id": 116,
+          "earned_at": "2026-11-07T23:27:25Z"
+        },
+        {
+          "id": 288,
+          "earned_at": "2026-10-28T23:07:57Z"
+        },
+        {
+          "id": 503,
+          "earned_at": "2026-11-01T23:56:16Z"
+        },
+        {
+          "id": 621,
+          "earned_at": "2026-10-28T22:56:26Z"
+        },
+        {
+          "id": 627,
+          "earned_at": "2026-10-31T22:42:37Z"
+        },
+        {
+          "id": 972,
+          "earned_at": "2026-10-27T23:01:05Z"
+        },
+        {
+          "id": 979,
+          "earned_at": "2026-10-28T23:01:16Z"
+        }
+      ],
+      "collections": {
+        "sets": [],
+        "mounts": [],
+        "companions": [],
+        "legendaries": [],
+        "tabards": [
+          {
+            "id": "item_5976",
+            "earned_at": "2026-10-28T23:12:22Z"
+          }
+        ],
+        "heirlooms": [],
+        "titles": [],
+        "factions": []
+      },
+      "equipped_gear": [
+        {
+          "slot": 3,
+          "id": 6096,
+          "name": "Apprentice's Shirt",
+          "quality": 1,
+          "item_level": 1
+        },
+        {
+          "slot": 4,
+          "id": 3161,
+          "name": "Robe of the Keeper",
+          "quality": 2,
+          "item_level": 15
+        },
+        {
+          "slot": 5,
+          "id": 7026,
+          "name": "Linen Belt",
+          "quality": 1,
+          "item_level": 9
+        },
+        {
+          "slot": 6,
+          "id": 10554,
+          "name": "Foreman Pants",
+          "quality": 2,
+          "item_level": 11
+        },
+        {
+          "slot": 7,
+          "id": 860,
+          "name": "Cavalier's Boots",
+          "quality": 1,
+          "item_level": 13
+        },
+        {
+          "slot": 8,
+          "id": 2326,
+          "name": "Ivy-weave Bracers",
+          "quality": 1,
+          "item_level": 10
+        },
+        {
+          "slot": 9,
+          "id": 4307,
+          "name": "Heavy Linen Gloves",
+          "quality": 2,
+          "item_level": 10
+        },
+        {
+          "slot": 14,
+          "id": 1505,
+          "name": "Warped Cloak",
+          "quality": 0,
+          "item_level": 12
+        },
+        {
+          "slot": 15,
+          "id": 6215,
+          "name": "Balanced Fighting Stick",
+          "quality": 2,
+          "item_level": 13
+        },
+        {
+          "slot": 17,
+          "id": 5208,
+          "name": "Smoldering Wand",
+          "quality": 1,
+          "item_level": 20
+        },
+        {
+          "slot": 18,
+          "id": 5976,
+          "name": "Guild Tabard",
+          "quality": 1,
+          "item_level": 1
+        }
+      ],
+      "talents": {
+        "61": 6
+      },
+      "skills": [],
+      "glyphs": {
+        "major": [],
+        "minor": [
+          {
+            "name": "Glyph of Frost Armor",
+            "icon": "ui-glyph-rune-10"
+          }
+        ]
+      }
+    },
+    {
       "guid": 1012,
       "name": "Magni",
       "race_id": 3,
@@ -1327,174 +1511,6 @@
         }
       ],
       "talents": {},
-      "skills": [],
-      "glyphs": {
-        "major": [],
-        "minor": []
-      }
-    },
-    {
-      "guid": 1009,
-      "name": "Millhouse",
-      "race_id": 7,
-      "race_name": "Gnome",
-      "class_id": 8,
-      "class_name": "Mage",
-      "faction": "Alliance",
-      "level": 14,
-      "money_copper": 993411,
-      "zone_id": 38,
-      "achievement_points": 70,
-      "achievement_count": 7,
-      "played_time_seconds": 21613,
-      "honor_points": 0,
-      "last_online": "2026-11-07T11:40:43Z",
-      "quests_completed": 62,
-      "stats": {
-        "max_health": 302,
-        "strength": 17,
-        "agility": 24,
-        "stamina": 29,
-        "intellect": 51,
-        "spirit": 40,
-        "armor": 253,
-        "res_holy": 0,
-        "res_fire": 0,
-        "res_nature": 0,
-        "res_frost": 0,
-        "res_shadow": 0,
-        "res_arcane": 0,
-        "block_pct": 0.0,
-        "dodge_pct": 4.88583,
-        "parry_pct": 0.0,
-        "crit_pct": 3.3812,
-        "ranged_crit_pct": 2.3412,
-        "spell_crit_pct": 0.0,
-        "attack_power": 7,
-        "ranged_attack_power": 14,
-        "spell_power": 0,
-        "resilience": 0
-      },
-      "achievements": [
-        {
-          "id": 6,
-          "earned_at": "2026-10-30T23:58:49Z"
-        },
-        {
-          "id": 288,
-          "earned_at": "2026-10-28T23:07:57Z"
-        },
-        {
-          "id": 503,
-          "earned_at": "2026-11-01T23:56:16Z"
-        },
-        {
-          "id": 621,
-          "earned_at": "2026-10-28T22:56:26Z"
-        },
-        {
-          "id": 627,
-          "earned_at": "2026-10-31T22:42:37Z"
-        },
-        {
-          "id": 972,
-          "earned_at": "2026-10-27T23:01:05Z"
-        },
-        {
-          "id": 979,
-          "earned_at": "2026-10-28T23:01:16Z"
-        }
-      ],
-      "collections": {
-        "sets": [],
-        "mounts": [],
-        "companions": [],
-        "legendaries": [],
-        "tabards": [
-          {
-            "id": "item_5976",
-            "earned_at": "2026-10-28T23:12:22Z"
-          }
-        ],
-        "heirlooms": [],
-        "titles": [],
-        "factions": []
-      },
-      "equipped_gear": [
-        {
-          "slot": 3,
-          "id": 6096,
-          "name": "Apprentice's Shirt",
-          "quality": 1,
-          "item_level": 1
-        },
-        {
-          "slot": 4,
-          "id": 3161,
-          "name": "Robe of the Keeper",
-          "quality": 2,
-          "item_level": 15
-        },
-        {
-          "slot": 5,
-          "id": 3363,
-          "name": "Frayed Belt",
-          "quality": 0,
-          "item_level": 3
-        },
-        {
-          "slot": 6,
-          "id": 10554,
-          "name": "Foreman Pants",
-          "quality": 2,
-          "item_level": 11
-        },
-        {
-          "slot": 7,
-          "id": 860,
-          "name": "Cavalier's Boots",
-          "quality": 1,
-          "item_level": 13
-        },
-        {
-          "slot": 8,
-          "id": 2326,
-          "name": "Ivy-weave Bracers",
-          "quality": 1,
-          "item_level": 10
-        },
-        {
-          "slot": 9,
-          "id": 4307,
-          "name": "Heavy Linen Gloves",
-          "quality": 2,
-          "item_level": 10
-        },
-        {
-          "slot": 14,
-          "id": 1505,
-          "name": "Warped Cloak",
-          "quality": 0,
-          "item_level": 12
-        },
-        {
-          "slot": 16,
-          "id": 7507,
-          "name": "Arcane Orb",
-          "quality": 2,
-          "item_level": 10
-        },
-        {
-          "slot": 18,
-          "id": 5976,
-          "name": "Guild Tabard",
-          "quality": 1,
-          "item_level": 1
-        }
-      ],
-      "talents": {
-        "61": 4
-      },
       "skills": [],
       "glyphs": {
         "major": [],
