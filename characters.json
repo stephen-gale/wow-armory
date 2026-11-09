@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-07T23:48:41Z",
+  "generated_at": "2026-11-09T15:17:05Z",
   "characters": [
     {
       "guid": 1006,
@@ -481,13 +481,13 @@
       "class_name": "Paladin",
       "faction": "Alliance",
       "level": 80,
-      "money_copper": 19069373,
-      "zone_id": 1519,
+      "money_copper": 18994972,
+      "zone_id": 495,
       "achievement_points": 710,
       "achievement_count": 74,
-      "played_time_seconds": 562627,
+      "played_time_seconds": 563338,
       "honor_points": 0,
-      "last_online": "2026-11-07T23:45:52Z",
+      "last_online": "2026-11-09T12:33:56Z",
       "quests_completed": 1508,
       "stats": {
         "max_health": 12474,
@@ -948,10 +948,10 @@
         },
         {
           "slot": 13,
-          "id": 12846,
-          "name": "Argent Dawn Commission",
-          "quality": 1,
-          "item_level": 1
+          "id": 43829,
+          "name": "Crusader's Locket",
+          "quality": 2,
+          "item_level": 174
         },
         {
           "slot": 14,
@@ -1023,23 +1023,23 @@
       "class_id": 8,
       "class_name": "Mage",
       "faction": "Alliance",
-      "level": 15,
-      "money_copper": 992531,
+      "level": 16,
+      "money_copper": 994672,
       "zone_id": 40,
       "achievement_points": 80,
       "achievement_count": 8,
-      "played_time_seconds": 24559,
+      "played_time_seconds": 29125,
       "honor_points": 0,
-      "last_online": "2026-11-07T23:48:18Z",
-      "quests_completed": 71,
+      "last_online": "2026-11-09T15:16:49Z",
+      "quests_completed": 80,
       "stats": {
-        "max_health": 337,
+        "max_health": 327,
         "strength": 17,
         "agility": 27,
-        "stamina": 31,
-        "intellect": 53,
-        "spirit": 40,
-        "armor": 265,
+        "stamina": 29,
+        "intellect": 54,
+        "spirit": 45,
+        "armor": 278,
         "res_holy": 0,
         "res_fire": 0,
         "res_nature": 0,
@@ -1047,10 +1047,10 @@
         "res_shadow": 0,
         "res_arcane": 0,
         "block_pct": 0.0,
-        "dodge_pct": 4.83644,
+        "dodge_pct": 5.19644,
         "parry_pct": 0.0,
-        "crit_pct": 3.6684,
-        "ranged_crit_pct": 2.3084,
+        "crit_pct": 3.5884,
+        "ranged_crit_pct": 4.4284,
         "spell_crit_pct": 0.0,
         "attack_power": 7,
         "ranged_attack_power": 17,
@@ -1116,24 +1116,24 @@
         },
         {
           "slot": 4,
-          "id": 3161,
-          "name": "Robe of the Keeper",
+          "id": 1561,
+          "name": "Harvester's Robe",
           "quality": 2,
           "item_level": 15
         },
         {
           "slot": 5,
-          "id": 7026,
-          "name": "Linen Belt",
-          "quality": 1,
-          "item_level": 9
+          "id": 3374,
+          "name": "Calico Belt",
+          "quality": 0,
+          "item_level": 14
         },
         {
           "slot": 6,
-          "id": 10554,
-          "name": "Foreman Pants",
+          "id": 12295,
+          "name": "Leggings of the People's Militia",
           "quality": 2,
-          "item_level": 11
+          "item_level": 15
         },
         {
           "slot": 7,
@@ -1144,10 +1144,10 @@
         },
         {
           "slot": 8,
-          "id": 2326,
-          "name": "Ivy-weave Bracers",
+          "id": 710,
+          "name": "Bracers of the People's Militia",
           "quality": 1,
-          "item_level": 10
+          "item_level": 14
         },
         {
           "slot": 9,
@@ -1158,10 +1158,10 @@
         },
         {
           "slot": 14,
-          "id": 1505,
-          "name": "Warped Cloak",
-          "quality": 0,
-          "item_level": 12
+          "id": 9754,
+          "name": "Gypsy Cloak",
+          "quality": 1,
+          "item_level": 11
         },
         {
           "slot": 15,
@@ -1186,7 +1186,7 @@
         }
       ],
       "talents": {
-        "61": 6
+        "61": 7
       },
       "skills": [],
       "glyphs": {
