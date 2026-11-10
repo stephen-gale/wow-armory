@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-10T10:54:16Z",
+  "generated_at": "2026-11-10T15:43:47Z",
   "characters": [
     {
       "guid": 1006,
@@ -1024,14 +1024,14 @@
       "class_name": "Mage",
       "faction": "Alliance",
       "level": 17,
-      "money_copper": 999521,
-      "zone_id": 40,
+      "money_copper": 1003454,
+      "zone_id": 38,
       "achievement_points": 80,
       "achievement_count": 8,
-      "played_time_seconds": 32086,
+      "played_time_seconds": 35585,
       "honor_points": 0,
-      "last_online": "2026-11-10T10:54:00Z",
-      "quests_completed": 83,
+      "last_online": "2026-11-10T15:43:30Z",
+      "quests_completed": 86,
       "stats": {
         "max_health": 342,
         "strength": 17,
@@ -1047,10 +1047,10 @@
         "res_shadow": 0,
         "res_arcane": 0,
         "block_pct": 0.0,
-        "dodge_pct": 5.03644,
+        "dodge_pct": 5.15644,
         "parry_pct": 0.0,
         "crit_pct": 3.3884,
-        "ranged_crit_pct": 4.8684,
+        "ranged_crit_pct": 5.2284,
         "spell_crit_pct": 0.0,
         "attack_power": 7,
         "ranged_attack_power": 17,
@@ -1172,10 +1172,10 @@
         },
         {
           "slot": 17,
-          "id": 5208,
-          "name": "Smoldering Wand",
-          "quality": 1,
-          "item_level": 20
+          "id": 5240,
+          "name": "Torchlight Wand",
+          "quality": 2,
+          "item_level": 21
         },
         {
           "slot": 18,
