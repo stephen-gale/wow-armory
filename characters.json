@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-10T00:13:19Z",
+  "generated_at": "2026-11-10T10:54:16Z",
   "characters": [
     {
       "guid": 1006,
@@ -1023,22 +1023,22 @@
       "class_id": 8,
       "class_name": "Mage",
       "faction": "Alliance",
-      "level": 16,
-      "money_copper": 996414,
+      "level": 17,
+      "money_copper": 999521,
       "zone_id": 40,
       "achievement_points": 80,
       "achievement_count": 8,
-      "played_time_seconds": 30570,
+      "played_time_seconds": 32086,
       "honor_points": 0,
-      "last_online": "2026-11-10T00:13:02Z",
-      "quests_completed": 82,
+      "last_online": "2026-11-10T10:54:00Z",
+      "quests_completed": 83,
       "stats": {
-        "max_health": 327,
+        "max_health": 342,
         "strength": 17,
         "agility": 27,
         "stamina": 29,
-        "intellect": 54,
-        "spirit": 45,
+        "intellect": 55,
+        "spirit": 47,
         "armor": 280,
         "res_holy": 0,
         "res_fire": 0,
@@ -1047,10 +1047,10 @@
         "res_shadow": 0,
         "res_arcane": 0,
         "block_pct": 0.0,
-        "dodge_pct": 5.23644,
+        "dodge_pct": 5.03644,
         "parry_pct": 0.0,
-        "crit_pct": 3.5884,
-        "ranged_crit_pct": 4.9084,
+        "crit_pct": 3.3884,
+        "ranged_crit_pct": 4.8684,
         "spell_crit_pct": 0.0,
         "attack_power": 7,
         "ranged_attack_power": 17,
@@ -1158,9 +1158,9 @@
         },
         {
           "slot": 14,
-          "id": 1497,
-          "name": "Calico Cloak",
-          "quality": 0,
+          "id": 6549,
+          "name": "Soldier's Cloak",
+          "quality": 1,
           "item_level": 14
         },
         {
@@ -1186,7 +1186,7 @@
         }
       ],
       "talents": {
-        "61": 7
+        "61": 8
       },
       "skills": [],
       "glyphs": {
