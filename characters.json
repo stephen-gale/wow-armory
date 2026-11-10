@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-10T15:43:47Z",
+  "generated_at": "2026-11-10T23:24:20Z",
   "characters": [
     {
       "guid": 1006,
@@ -485,9 +485,9 @@
       "zone_id": 1519,
       "achievement_points": 710,
       "achievement_count": 74,
-      "played_time_seconds": 563605,
+      "played_time_seconds": 563620,
       "honor_points": 0,
-      "last_online": "2026-11-09T23:48:47Z",
+      "last_online": "2026-11-10T22:20:21Z",
       "quests_completed": 1508,
       "stats": {
         "max_health": 12474,
@@ -1023,34 +1023,34 @@
       "class_id": 8,
       "class_name": "Mage",
       "faction": "Alliance",
-      "level": 17,
-      "money_copper": 1003454,
+      "level": 18,
+      "money_copper": 989349,
       "zone_id": 38,
       "achievement_points": 80,
       "achievement_count": 8,
-      "played_time_seconds": 35585,
+      "played_time_seconds": 39388,
       "honor_points": 0,
-      "last_online": "2026-11-10T15:43:30Z",
-      "quests_completed": 86,
+      "last_online": "2026-11-10T23:23:56Z",
+      "quests_completed": 90,
       "stats": {
-        "max_health": 342,
+        "max_health": 337,
         "strength": 17,
         "agility": 27,
-        "stamina": 29,
-        "intellect": 55,
-        "spirit": 47,
-        "armor": 280,
-        "res_holy": 0,
-        "res_fire": 0,
-        "res_nature": 0,
-        "res_frost": 0,
-        "res_shadow": 0,
-        "res_arcane": 0,
+        "stamina": 27,
+        "intellect": 67,
+        "spirit": 46,
+        "armor": 284,
+        "res_holy": 1,
+        "res_fire": 1,
+        "res_nature": 1,
+        "res_frost": 1,
+        "res_shadow": 1,
+        "res_arcane": 1,
         "block_pct": 0.0,
-        "dodge_pct": 5.15644,
+        "dodge_pct": 5.07644,
         "parry_pct": 0.0,
-        "crit_pct": 3.3884,
-        "ranged_crit_pct": 5.2284,
+        "crit_pct": 3.2284,
+        "ranged_crit_pct": 5.1084,
         "spell_crit_pct": 0.0,
         "attack_power": 7,
         "ranged_attack_power": 17,
@@ -1116,10 +1116,10 @@
         },
         {
           "slot": 4,
-          "id": 1561,
-          "name": "Harvester's Robe",
+          "id": 7509,
+          "name": "Manaweave Robe",
           "quality": 2,
-          "item_level": 15
+          "item_level": 20
         },
         {
           "slot": 5,
@@ -1130,10 +1130,10 @@
         },
         {
           "slot": 6,
-          "id": 12295,
-          "name": "Leggings of the People's Militia",
+          "id": 4309,
+          "name": "Handstitched Linen Britches",
           "quality": 2,
-          "item_level": 15
+          "item_level": 14
         },
         {
           "slot": 7,
@@ -1158,10 +1158,10 @@
         },
         {
           "slot": 14,
-          "id": 6549,
-          "name": "Soldier's Cloak",
-          "quality": 1,
-          "item_level": 14
+          "id": 2580,
+          "name": "Reinforced Linen Cape",
+          "quality": 2,
+          "item_level": 12
         },
         {
           "slot": 15,
@@ -1186,7 +1186,7 @@
         }
       ],
       "talents": {
-        "61": 8
+        "61": 9
       },
       "skills": [],
       "glyphs": {
