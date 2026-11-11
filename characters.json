@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-10T23:24:20Z",
+  "generated_at": "2026-11-11T16:11:49Z",
   "characters": [
     {
       "guid": 1006,
@@ -1023,23 +1023,23 @@
       "class_id": 8,
       "class_name": "Mage",
       "faction": "Alliance",
-      "level": 18,
-      "money_copper": 989349,
+      "level": 19,
+      "money_copper": 996241,
       "zone_id": 38,
-      "achievement_points": 80,
-      "achievement_count": 8,
-      "played_time_seconds": 39388,
+      "achievement_points": 90,
+      "achievement_count": 9,
+      "played_time_seconds": 44520,
       "honor_points": 0,
-      "last_online": "2026-11-10T23:23:56Z",
-      "quests_completed": 90,
+      "last_online": "2026-11-11T16:11:36Z",
+      "quests_completed": 102,
       "stats": {
-        "max_health": 337,
+        "max_health": 412,
         "strength": 17,
         "agility": 27,
-        "stamina": 27,
-        "intellect": 67,
-        "spirit": 46,
-        "armor": 284,
+        "stamina": 34,
+        "intellect": 70,
+        "spirit": 48,
+        "armor": 296,
         "res_holy": 1,
         "res_fire": 1,
         "res_nature": 1,
@@ -1047,9 +1047,9 @@
         "res_shadow": 1,
         "res_arcane": 1,
         "block_pct": 0.0,
-        "dodge_pct": 5.07644,
+        "dodge_pct": 4.95644,
         "parry_pct": 0.0,
-        "crit_pct": 3.2284,
+        "crit_pct": 3.1484,
         "ranged_crit_pct": 5.1084,
         "spell_crit_pct": 0.0,
         "attack_power": 7,
@@ -1073,6 +1073,10 @@
         {
           "id": 503,
           "earned_at": "2026-11-01T23:56:16Z"
+        },
+        {
+          "id": 504,
+          "earned_at": "2026-11-11T15:54:01Z"
         },
         {
           "id": 621,
@@ -1123,17 +1127,17 @@
         },
         {
           "slot": 5,
-          "id": 3374,
-          "name": "Calico Belt",
-          "quality": 0,
-          "item_level": 14
+          "id": 4708,
+          "name": "Bright Belt",
+          "quality": 2,
+          "item_level": 24
         },
         {
           "slot": 6,
-          "id": 4309,
-          "name": "Handstitched Linen Britches",
+          "id": 1832,
+          "name": "Lucky Trousers",
           "quality": 2,
-          "item_level": 14
+          "item_level": 17
         },
         {
           "slot": 7,
