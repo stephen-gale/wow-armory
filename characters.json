@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-12T00:13:08Z",
+  "generated_at": "2026-11-12T11:24:23Z",
   "characters": [
     {
       "guid": 1006,
@@ -1023,23 +1023,23 @@
       "class_id": 8,
       "class_name": "Mage",
       "faction": "Alliance",
-      "level": 19,
-      "money_copper": 1003212,
-      "zone_id": 11,
-      "achievement_points": 100,
-      "achievement_count": 10,
-      "played_time_seconds": 47089,
+      "level": 20,
+      "money_copper": 957976,
+      "zone_id": 1537,
+      "achievement_points": 120,
+      "achievement_count": 12,
+      "played_time_seconds": 48915,
       "honor_points": 0,
-      "last_online": "2026-11-12T00:12:51Z",
-      "quests_completed": 106,
+      "last_online": "2026-11-12T11:24:18Z",
+      "quests_completed": 108,
       "stats": {
-        "max_health": 412,
+        "max_health": 427,
         "strength": 17,
-        "agility": 27,
+        "agility": 28,
         "stamina": 34,
-        "intellect": 70,
-        "spirit": 48,
-        "armor": 296,
+        "intellect": 65,
+        "spirit": 50,
+        "armor": 298,
         "res_holy": 1,
         "res_fire": 1,
         "res_nature": 1,
@@ -1047,13 +1047,13 @@
         "res_shadow": 1,
         "res_arcane": 1,
         "block_pct": 0.0,
-        "dodge_pct": 5.23644,
+        "dodge_pct": 5.0267,
         "parry_pct": 0.0,
-        "crit_pct": 3.1484,
-        "ranged_crit_pct": 5.2284,
+        "crit_pct": 2.9372,
+        "ranged_crit_pct": 5.0172,
         "spell_crit_pct": 0.0,
         "attack_power": 7,
-        "ranged_attack_power": 17,
+        "ranged_attack_power": 18,
         "spell_power": 0,
         "resilience": 0
       },
@@ -1061,6 +1061,10 @@
         {
           "id": 6,
           "earned_at": "2026-10-30T23:58:49Z"
+        },
+        {
+          "id": 7,
+          "earned_at": "2026-11-12T11:09:03Z"
         },
         {
           "id": 116,
@@ -1091,6 +1095,10 @@
           "earned_at": "2026-11-11T23:16:31Z"
         },
         {
+          "id": 891,
+          "earned_at": "2026-11-12T11:15:14Z"
+        },
+        {
           "id": 972,
           "earned_at": "2026-10-27T23:01:05Z"
         },
@@ -1101,7 +1109,12 @@
       ],
       "collections": {
         "sets": [],
-        "mounts": [],
+        "mounts": [
+          {
+            "id": "item_8595",
+            "earned_at": "2026-11-12T11:24:23Z"
+          }
+        ],
         "companions": [],
         "legendaries": [],
         "tabards": [
@@ -1194,11 +1207,16 @@
         }
       ],
       "talents": {
-        "61": 10
+        "61": 11
       },
       "skills": [],
       "glyphs": {
-        "major": [],
+        "major": [
+          {
+            "name": "Glyph of Blink",
+            "icon": "ui-glyph-rune-18"
+          }
+        ],
         "minor": [
           {
             "name": "Glyph of Frost Armor",
