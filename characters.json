@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-12T11:37:21Z",
+  "generated_at": "2026-11-12T23:53:55Z",
   "characters": [
     {
       "guid": 1006,
@@ -485,9 +485,9 @@
       "zone_id": 1519,
       "achievement_points": 710,
       "achievement_count": 74,
-      "played_time_seconds": 563635,
+      "played_time_seconds": 563714,
       "honor_points": 0,
-      "last_online": "2026-11-11T23:14:20Z",
+      "last_online": "2026-11-12T23:31:59Z",
       "quests_completed": 1508,
       "stats": {
         "max_health": 12474,
@@ -1024,37 +1024,37 @@
       "class_name": "Mage",
       "faction": "Alliance",
       "level": 20,
-      "money_copper": 957198,
-      "zone_id": 1519,
+      "money_copper": 943003,
+      "zone_id": 44,
       "achievement_points": 120,
       "achievement_count": 12,
-      "played_time_seconds": 49589,
+      "played_time_seconds": 53181,
       "honor_points": 0,
-      "last_online": "2026-11-12T11:37:16Z",
-      "quests_completed": 111,
+      "last_online": "2026-11-12T23:53:09Z",
+      "quests_completed": 112,
       "stats": {
-        "max_health": 427,
+        "max_health": 402,
         "strength": 17,
         "agility": 28,
-        "stamina": 34,
-        "intellect": 65,
-        "spirit": 50,
-        "armor": 298,
-        "res_holy": 1,
-        "res_fire": 1,
-        "res_nature": 1,
-        "res_frost": 1,
-        "res_shadow": 1,
-        "res_arcane": 1,
+        "stamina": 32,
+        "intellect": 74,
+        "spirit": 48,
+        "armor": 427,
+        "res_holy": 0,
+        "res_fire": 0,
+        "res_nature": 0,
+        "res_frost": 0,
+        "res_shadow": 0,
+        "res_arcane": 0,
         "block_pct": 0.0,
         "dodge_pct": 5.0267,
         "parry_pct": 0.0,
         "crit_pct": 2.9372,
-        "ranged_crit_pct": 5.0172,
+        "ranged_crit_pct": 5.0572,
         "spell_crit_pct": 0.0,
         "attack_power": 7,
         "ranged_attack_power": 18,
-        "spell_power": 0,
+        "spell_power": 5,
         "resilience": 0
       },
       "achievements": [
@@ -1129,6 +1129,13 @@
       },
       "equipped_gear": [
         {
+          "slot": 2,
+          "id": 4698,
+          "name": "Seer's Mantle",
+          "quality": 1,
+          "item_level": 21
+        },
+        {
           "slot": 3,
           "id": 6096,
           "name": "Apprentice's Shirt",
@@ -1151,10 +1158,10 @@
         },
         {
           "slot": 6,
-          "id": 1832,
-          "name": "Lucky Trousers",
+          "id": 10047,
+          "name": "Simple Kilt",
           "quality": 2,
-          "item_level": 17
+          "item_level": 15
         },
         {
           "slot": 7,
@@ -1172,10 +1179,10 @@
         },
         {
           "slot": 9,
-          "id": 4307,
-          "name": "Heavy Linen Gloves",
+          "id": 4310,
+          "name": "Heavy Woolen Gloves",
           "quality": 2,
-          "item_level": 10
+          "item_level": 17
         },
         {
           "slot": 14,
@@ -1193,10 +1200,10 @@
         },
         {
           "slot": 17,
-          "id": 5240,
-          "name": "Torchlight Wand",
+          "id": 11288,
+          "name": "Greater Magic Wand",
           "quality": 2,
-          "item_level": 21
+          "item_level": 23
         },
         {
           "slot": 18,
